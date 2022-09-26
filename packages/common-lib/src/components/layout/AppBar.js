@@ -26,8 +26,11 @@ export default function AppBar({
   languages,
   onPressBackButton,
   rightIcon,
+  LeftIcon,
+  centerPlate,
   isShowNotificationButton,
   titleComponent,
+  isBackButtonShow,
   ...props
 }) {
   const [searchInput, setSearchInput] = useState(false)
@@ -112,7 +115,7 @@ export default function AppBar({
             <HStack space='4' alignItems='center'>
               {isEnableHamburgerMenuButton ? (
                 <IconByName size='sm' name='bars' color={color ? color : ''} />
-              ) : (
+              ) : isBackButtonShow ? (
                 <IconByName
                   size='sm'
                   name='ArrowLeftLineIcon'
@@ -125,9 +128,12 @@ export default function AppBar({
                     }
                   }}
                 />
+              ) : (
+                <React.Fragment />
               )}
+              {LeftIcon ? LeftIcon : <React.Fragment />}
             </HStack>
-            {titleComponent ? { titleComponent } : <React.Fragment />}
+            {titleComponent ? titleComponent : <React.Fragment />}
             <HStack alignItems={'center'}>
               {!searchInput && isEnableSearchBtn ? (
                 <IconByName

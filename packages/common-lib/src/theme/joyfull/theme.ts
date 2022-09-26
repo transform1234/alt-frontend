@@ -70,6 +70,11 @@ const theme = {
       cardBg: '#CDECF6',
       visitedCard: '#ECF7EB'
     },
+    selfassesment: {
+      ...colorTheme,
+      cardBg: '#CDECF6',
+      avatar: '#ffb926'
+    },
     widgetColor: {
       400: '#7F9DAC',
       500: '#DDD8F3',
