@@ -65,11 +65,12 @@ export default function LessonList({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Stack space="4">
+      <Stack space="4" py="4" mb="5">
         {lessonListData?.children?.map((item, index) => (
           <Collapsible
+            key={index}
             defaultCollapse={false}
-            _box={{ bg: "transperent", rounded: "lg" }}
+            _box={{ bg: "transperent", rounded: "lg", py: 0 }}
             _header={{ bg: "white" }}
             header={
               <VStack p="4" w="100%" space="4">
@@ -96,8 +97,9 @@ export default function LessonList({ footerLinks }) {
             fontSize="2px"
           >
             <VStack padding="4" space="4">
-              {item.children.map((element) => (
+              {item.children.map((element, index) => (
                 <Box
+                  key={index}
                   padding="5"
                   rounded="lg"
                   shadow="4"

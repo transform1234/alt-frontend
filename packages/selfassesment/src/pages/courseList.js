@@ -56,7 +56,7 @@ export default function CourseList({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Stack space="4">
+      <Stack space="4" p="4" mb="5">
         {courses?.content.map((item) => (
           <VStack p="4" bg="white" space="4">
             <HStack justifyContent="space-between">
