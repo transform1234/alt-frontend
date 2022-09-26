@@ -134,11 +134,11 @@ export const getAppshellData = async (routes = [], role = '') => {
     // const newRoutes = routes.filter((item) =>
     //   modules?.includes(item.moduleName)
     // )
-    const newRoutes = routes;
+    const newRoutes = routes
     // const newFooterLinks = footerLinks.filter((item) =>
     //   modules?.includes(item.moduleName)
     // )
-    const newFooterLinks = footerLinks;
+    const newFooterLinks = footerLinks
     const newTheme = await DEFAULT_THEME(themeName)
     return { newTheme, newRoutes, newFooterLinks, config }
   } catch (e) {
