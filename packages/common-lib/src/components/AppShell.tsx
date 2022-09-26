@@ -24,7 +24,7 @@ function AppShell({
   const [footerLinks, setFooterLinks] = React.useState<any>([])
   const [alert, setAlert] = React.useState<any>()
   const [allConfig, setAllConfig] = React.useState<any>()
-
+console.log({accessRoutes})
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
