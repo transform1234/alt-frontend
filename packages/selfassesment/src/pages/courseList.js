@@ -22,6 +22,8 @@ import {
   BodyLarge,
   Caption,
 } from "@shiksha/common-lib";
+import { useNavigate } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
 import { courses } from "../assets/mocCourses";
 import manifest from "../manifest.json";
@@ -29,6 +31,8 @@ import NameTag from "components/NameTag";
 export default function CourseList({ footerLinks }) {
   const { t } = useTranslation();
   const courseList = courses.content;
+  const navigate = useNavigate();
+
   return (
     <Layout
       _header={{
@@ -69,7 +73,13 @@ export default function CourseList({ footerLinks }) {
                   <Caption> course 1</Caption>
                 </VStack>
               </HStack>
-              <Button colorScheme="purple"> next</Button>
+              <Button
+                colorScheme="purple"
+                onPress={() => navigate("/selfassesment/Lessons")}
+              >
+                {" "}
+                next
+              </Button>
             </HStack>
             <ProgressBar
               isTextShow
