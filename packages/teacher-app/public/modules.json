@@ -37,5 +37,8 @@
   },
   "schools": {
     "url": "http://localhost:3012/modules/schools"
+  },
+  "selfassesment": {
+    "url": "http://localhost:3013/modules/selfassesment"
   }
 }
