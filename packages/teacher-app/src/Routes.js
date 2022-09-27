@@ -100,6 +100,10 @@ const Recommendedschools = React.lazy(() =>
   import("visits/Recommendedschools")
 );
 const Allocatedschools = React.lazy(() => import("visits/Allocatedschools"));
+const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
+const SelfassesmentLessonList = React.lazy(() =>
+  import("selfassesment/Lessons")
+);
 
 export const routes = [
   // worksheet
@@ -411,7 +415,6 @@ export const routes = [
     path: "/schools/:id",
     component: SchoolProfile,
   },
-  ,
   {
     moduleName: "schools",
     path: "/schools/teacher-details/:teacherId",
@@ -426,6 +429,17 @@ export const routes = [
     moduleName: "schools",
     path: "/schools/questionnaire",
     component: Question,
+  },
+  // selfAssessment Routes
+  {
+    moduleName: "selfassesment",
+    path: "/selfassesment",
+    component: Selfassesment,
+  },
+  {
+    moduleName: "selfassesment",
+    path: "/selfassesment/lessons",
+    component: SelfassesmentLessonList,
   },
   // Visits Routes
   {
