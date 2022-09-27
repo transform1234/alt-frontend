@@ -44,6 +44,20 @@ export default function CourseList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack>
+             <Avatar
+          size="40px"
+          {..."/assets/images/ssab.png"}
+          rounded="lg"
+        >
+          {item?.avatarUrl ? "" : item?.fullName?.toUpperCase().substr(0, 2)}
+        </Avatar>
+        <Avatar
+          size="40px"
+          {...(item?.avatarUrl ? { source: { uri: item.avatarUrl } } : {})}
+          rounded="lg"
+        >
+          {item?.avatarUrl ? "" : item?.fullName?.toUpperCase().substr(0, 2)}
+        </Avatar>
             <IconByName name="Notification2LineIcon" />
             <IconByName name="Notification2LineIcon" />
           </HStack>
