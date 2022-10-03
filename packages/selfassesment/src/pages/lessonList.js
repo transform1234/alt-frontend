@@ -85,8 +85,9 @@ export default function LessonList({ footerLinks }) {
                   </VStack>
                   <VStack space="2">
                     <BodyLarge>
-                      {item?.name.substring(0, 20)}{" "}
-                      {item?.name.length >= 20 && "..."}
+                      {item?.name}
+                      {/* {item?.name.substring(0, 20)}{" "}
+                      {item?.name.length >= 20 && "..."} */}
                     </BodyLarge>
 
                     <Caption> course 1</Caption>

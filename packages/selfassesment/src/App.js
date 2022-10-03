@@ -7,14 +7,6 @@ import { hotjar } from "react-hotjar";
 import LessonList from "pages/lessonList";
 
 function App() {
-  // console.log("Noooo");
-  // const hjid = 3178164;
-  // const hjsv = 6;
-  // hotjar.initialize(hjid, hjsv);
-
-  // if (hotjar.initialized()) {
-  //   hotjar.identify("USER_ID", { userProperty: "value" });
-  // }
   const routes = [
     {
       moduleName: "selfassesment",

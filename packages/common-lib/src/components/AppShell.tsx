@@ -29,7 +29,6 @@ function AppShell({
   const hjsv = 6
   hotjar.initialize(hjid, hjsv)
   if (hotjar.initialized()) {
-    console.log('yesssss')
     hotjar.identify('USER_ID', { userProperty: 'value' })
   }
   useEffect(() => {
