@@ -84,22 +84,22 @@ export default function CourseList({ footerLinks }) {
                 />
                 <VStack space="2">
                   <BodyLarge>
-                    {item?.name.substring(0, 20)}{" "}
-                    {item?.name.length >= 20 && "..."}
+                    {item?.name}
+                    {/* {item?.name.substring(0, 20)}{" "}
+                    {item?.name.length >= 20 && "..."} */}
                   </BodyLarge>
                   <Caption>
-                    {item?.description?.substring(0, 20)}{" "}
-                    {item?.description?.length >= 20 && "..."}
+                    {item?.description}
+                    {/* {item?.description?.substring(0, 20)}{" "}
+                    {item?.description?.length >= 20 && "..."} */}
                   </Caption>
                 </VStack>
               </HStack>
               <Button
                 colorScheme="purple"
-                // `/selfassesment/Lessons/${courseId}/${subject}`
                 onPress={() =>
                   navigate(`/selfassesment/Lessons/${item?.identifier}`)
                 }
-                // /assessment/given/${classId}/</HStack>
                 size="sm"
               >
                 <IconByName name="ArrowRightSLineIcon" size="sm" />
