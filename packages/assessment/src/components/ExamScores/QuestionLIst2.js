@@ -46,6 +46,7 @@ const QuestionList2 = ({ questionNumber }) => {
         iconComponent: (
           <Avatar
             size="48px"
+            bgColor={colors.white}
             borderRadius="md"
             source={{
               uri: "https://via.placeholder.com/50x50.png",

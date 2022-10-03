@@ -3,9 +3,18 @@ import React from "react";
 import "./App.css";
 import { AppShell } from "@shiksha/common-lib";
 import courseList from "pages/courseList";
+import { hotjar } from "react-hotjar";
 import LessonList from "pages/lessonList";
 
 function App() {
+  // console.log("Noooo");
+  // const hjid = 3178164;
+  // const hjsv = 6;
+  // hotjar.initialize(hjid, hjsv);
+
+  // if (hotjar.initialized()) {
+  //   hotjar.identify("USER_ID", { userProperty: "value" });
+  // }
   const routes = [
     {
       moduleName: "selfassesment",
@@ -14,7 +23,7 @@ function App() {
     },
     {
       moduleName: "selfassesment",
-      path: "/selfassesment/lessons",
+      path: "/selfassesment/lessons/:id",
       component: LessonList,
     },
   ];

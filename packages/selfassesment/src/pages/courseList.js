@@ -20,23 +20,30 @@ import {
   IconByName,
   ProgressBar,
   BodyLarge,
+  selfAssesmentService,
   Caption,
 } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { courses } from "../assets/mocCourses";
 import manifest from "../manifest.json";
 import NameTag from "components/NameTag";
+
 export default function CourseList({ footerLinks }) {
+  const [courseList, setCoursesList] = useState([]);
+  const coursesList = [];
   const { t } = useTranslation();
-  const courseList = courses.content;
+  useEffect(async () => {
+    const data = await selfAssesmentService.getCoursesRule();
+    setCoursesList(data);
+  }, []);
   const navigate = useNavigate();
 
   return (
     <Layout
       _header={{
-        title: "Welcome Shradha",
+        title: "Getting Started",
       }}
       _appBar={{
         languages: manifest.languages,
@@ -44,8 +51,16 @@ export default function CourseList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack>
-            <IconByName name="Notification2LineIcon" />
-            <IconByName name="Notification2LineIcon" />
+            <Avatar
+              style={{ borderRadius: "0px !important" }}
+              size="md"
+              source={require("./../assets/images/ssaicon.png")}
+            />
+            <Avatar
+              style={{ borderRadius: "0px !important" }}
+              size="md"
+              source={require("./../assets/images/tsIcon.png")}
+            />
           </HStack>
         ),
         rightIcon: (
@@ -57,28 +72,37 @@ export default function CourseList({ footerLinks }) {
       _footer={footerLinks}
     >
       <Stack space="4" p="4" mb="5">
-        {courses?.content.map((item) => (
+        {courseList?.map((item) => (
           <VStack p="4" bg="white" space="4">
             <HStack justifyContent="space-between">
               <HStack space="4">
-                <Avatar bg="selfassesment.avatar">
-                  <IconByName />
-                </Avatar>
+                <Avatar
+                  bg="transparent"
+                  source={{
+                    uri: item?.appIcon,
+                  }}
+                />
                 <VStack space="2">
                   <BodyLarge>
-                    {" "}
                     {item?.name.substring(0, 20)}{" "}
                     {item?.name.length >= 20 && "..."}
                   </BodyLarge>
-                  <Caption> course 1</Caption>
+                  <Caption>
+                    {item?.description?.substring(0, 20)}{" "}
+                    {item?.description?.length >= 20 && "..."}
+                  </Caption>
                 </VStack>
               </HStack>
               <Button
                 colorScheme="purple"
-                onPress={() => navigate("/selfassesment/Lessons")}
+                // `/selfassesment/Lessons/${courseId}/${subject}`
+                onPress={() =>
+                  navigate(`/selfassesment/Lessons/${item?.identifier}`)
+                }
+                // /assessment/given/${classId}/</HStack>
+                size="sm"
               >
-                {" "}
-                next
+                <IconByName name="ArrowRightSLineIcon" size="sm" />
               </Button>
             </HStack>
             <ProgressBar
@@ -87,8 +111,8 @@ export default function CourseList({ footerLinks }) {
               h="15px"
               _bar={{ rounded: "md", mb: "2" }}
               isLabelCountHide
-              data={[{ name: "test1", color: "green", value: "100" }]}
-            />
+              data={[{ name: "8/8", color: "green", value: "80" }]}
+            ></ProgressBar>
           </VStack>
         ))}
       </Stack>
