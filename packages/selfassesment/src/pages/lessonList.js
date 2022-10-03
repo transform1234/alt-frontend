@@ -25,17 +25,18 @@ import {
   selfAssesmentService,
   H1,
 } from "@shiksha/common-lib";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
-import { courses } from "./../assets/mocCourses";
+// import { courses } from "./../assets/mocCourses";
 import NameTag from "components/NameTag";
 export default function LessonList({ footerLinks }) {
   const { t } = useTranslation();
-
+  const { id } = useParams();
   const [lessonListData, setlessonList] = useState([]);
 
   useEffect(async () => {
-    const data = await selfAssesmentService.getLessons();
+    const data = await selfAssesmentService.getLessons(id);
     setlessonList(data);
   }, []);
   // useEffect(() => {
