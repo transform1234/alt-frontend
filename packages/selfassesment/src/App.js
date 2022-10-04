@@ -3,6 +3,7 @@ import React from "react";
 import "./App.css";
 import { AppShell } from "@shiksha/common-lib";
 import courseList from "pages/courseList";
+import { hotjar } from "react-hotjar";
 import LessonList from "pages/lessonList";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
     },
     {
       moduleName: "selfassesment",
-      path: "/selfassesment/lessons",
+      path: "/selfassesment/lessons/:id",
       component: LessonList,
     },
   ];

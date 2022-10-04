@@ -6,6 +6,7 @@ import { PushNotification } from './firebase/firebase'
 import AppRoutesContainer from './AppRoutesContainer'
 import { getAppshellData } from './helper'
 import NotFound from './NotFound'
+import { hotjar } from 'react-hotjar'
 
 function AppShell({
   colors,
@@ -24,7 +25,12 @@ function AppShell({
   const [footerLinks, setFooterLinks] = React.useState<any>([])
   const [alert, setAlert] = React.useState<any>()
   const [allConfig, setAllConfig] = React.useState<any>()
-console.log({accessRoutes})
+  const hjid = 3178164
+  const hjsv = 6
+  hotjar.initialize(hjid, hjsv)
+  if (hotjar.initialized()) {
+    hotjar.identify('USER_ID', { userProperty: 'value' })
+  }
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
