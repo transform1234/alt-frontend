@@ -40,6 +40,7 @@ import {
 import AppRoutesContainer from './components/AppRoutesContainer'
 import { useAuthFlow } from './hooks/useAuthFlow'
 import StarRating from './components/StarRating'
+import NameTag from './components/layout/NameTag'
 export {
   AppBar,
   Header,
@@ -81,7 +82,8 @@ export {
   schoolRegistryService,
   mentorRegisteryService,
   schoolRegisteryService,
-  StarRating
+  StarRating,
+  NameTag
 }
 
 export * from './services/Auth'

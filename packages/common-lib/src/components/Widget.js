@@ -28,7 +28,7 @@ const PressableNew = ({ route, children, ...prop }) => {
   )
 }
 
-function Widget({ data, title }) {
+function Widget({ data, title, _hstack }) {
   const newData = chunk(data ? data : [], 2)
   const rotate = {
     bottom: '-25px',
@@ -50,6 +50,7 @@ function Widget({ data, title }) {
             space={3}
             width={'100%'}
             justifyContent={'center'}
+            {..._hstack}
           >
             {subData.map((item, subIndex) => (
               <Box
@@ -75,7 +76,7 @@ function Widget({ data, title }) {
                     {item.label}
                   </Badge>
                 ) : (
-                  ''
+                  <React.Fragment />
                 )}
                 <PressableNew route={item.link}>
                   <Text
