@@ -27,6 +27,7 @@ export default function AppBar({
   onPressBackButton,
   rightIcon,
   LeftIcon,
+  CenterIcon,
   centerPlate,
   isShowNotificationButton,
   titleComponent,
@@ -56,7 +57,7 @@ export default function AppBar({
   }
 
   return (
-    <Box pt={7} px={5} {...props?._box}>
+    <Box pt={7} px={5} {...props?._box} width={'100%'}>
       <StatusBar bg='gray.600' barStyle='light-content' />
       <Box safeAreaTop bg='gray.600' />
 
@@ -98,12 +99,66 @@ export default function AppBar({
                   color='coolGray.500'
                   name='CloseCircleLineIcon'
                   p='0'
-                  onPress={(e) => handleSeachState(false)}
+                  onPress={(_e) => handleSeachState(false)}
                 />
               }
             />
           </InputGroup>
         </Stack>
+      ) : CenterIcon ? (
+        <React.Fragment>
+          <HStack
+            bg='transparent'
+            justifyContent='center'
+            alignItems='center'
+            minH='32px'
+          >
+            <HStack space='4' alignItems='center'>
+              {isEnableHamburgerMenuButton ? (
+                <IconByName size='sm' name='bars' color={color ? color : ''} />
+              ) : isBackButtonShow ? (
+                <IconByName
+                  size='sm'
+                  name='ArrowLeftLineIcon'
+                  color={color ? color : ''}
+                  onPress={() => {
+                    if (onPressBackButton) {
+                      onPressBackButton()
+                    } else {
+                      navigate(-1)
+                    }
+                  }}
+                />
+              ) : (
+                <React.Fragment />
+              )}
+              {LeftIcon ? LeftIcon : <React.Fragment />}
+            </HStack>
+            {titleComponent ? titleComponent : <React.Fragment />}
+            <HStack alignItems={'center'}>
+              {!searchInput && isEnableSearchBtn ? (
+                <IconByName
+                  color={color ? color : ''}
+                  size='sm'
+                  name='SearchLineIcon'
+                  onPress={(_e) => handleSeachState(true)}
+                />
+              ) : (
+                <React.Fragment />
+              )}
+              {rightIcon ? rightIcon : <React.Fragment />}
+              {isShowNotificationButton ? (
+                <IconByName
+                  name='Notification2LineIcon'
+                  color={color ? color : ''}
+                  onPress={(_e) => navigate('/notification')}
+                />
+              ) : (
+                <React.Fragment />
+              )}
+            </HStack>
+          </HStack>
+        </React.Fragment>
       ) : (
         <React.Fragment>
           <HStack
@@ -140,7 +195,7 @@ export default function AppBar({
                   color={color ? color : ''}
                   size='sm'
                   name='SearchLineIcon'
-                  onPress={(e) => handleSeachState(true)}
+                  onPress={(_e) => handleSeachState(true)}
                 />
               ) : (
                 <React.Fragment />
@@ -150,13 +205,13 @@ export default function AppBar({
                 <IconByName
                   name='Notification2LineIcon'
                   color={color ? color : ''}
-                  onPress={(e) => navigate('/notification')}
+                  onPress={(_e) => navigate('/notification')}
                 />
               ) : (
                 <React.Fragment />
               )}
               <Stack px='3'>
-                <Menu
+                {/* <Menu
                   right='100%'
                   w='190'
                   placement='bottom right'
@@ -189,7 +244,7 @@ export default function AppBar({
                   <Menu.Item onPress={(item) => setLang('logout')}>
                     Logout
                   </Menu.Item>
-                </Menu>
+                </Menu> */}
               </Stack>
             </HStack>
           </HStack>

@@ -14,7 +14,9 @@ export default function Layout({
   _appBar,
   _header,
   _subHeader,
-  _footer
+  _footer,
+  _height,
+  _width
 }) {
   const [width, Height] = useWindowSize()
   const [refFoot, serRefFoot] = React.useState({})
@@ -29,10 +31,13 @@ export default function Layout({
           style={{
             backgroundImage: imageUrl
               ? 'url(' + imageUrl + ')'
-              : 'url(' + window.location.origin + '/header.png)',
+              : 'url(' + window.location.origin + '/SubjectBg.png)',
             backgroundColor: 'transparent',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            justifyContent: 'center',
+            // backgroundRepeat: 'no-repeat',
+            backgroundSize: 'auto',
+            height: _height,
+            width: -_width
           }}
           {...(Layout?._layout ? Layout?._layout : {})}
           space={5}

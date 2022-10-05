@@ -41,7 +41,7 @@ const styles = {
 
 const colors = overrideColorTheme();
 
-export default function Login({ swPath }) {
+export default function StudentLogin({ swPath }) {
   const [credentials, setCredentials] = useState();
   const [errors, setErrors] = React.useState({});
   const { t } = useTranslation();
@@ -127,7 +127,8 @@ export default function Login({ swPath }) {
               token: token,
             },
           });
-          window.location.replace("/onboarding");
+          navigate("/onboardingimprove");
+          window.location.reload();
         } else {
           localStorage.removeItem("token");
           setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });
@@ -137,6 +138,10 @@ export default function Login({ swPath }) {
         setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });
       }
     }
+  };
+  const navigatePage = () => {
+    console.log("page");
+    window.location.href = "/";
   };
 
   return (
@@ -177,14 +182,20 @@ export default function Login({ swPath }) {
 
         rightIcon: (
           <HStack paddingBottom={"25px"}>
-            <CloseIcon
+            {/* <CloseIcon
               size="10px"
               style={{
                 borderRadius: "50px",
                 padding: "5px",
                 border: "1px solid black",
               }}
-              onChange={() => navigate("/flash")}
+              onPress={() => navigatePage()}
+            /> */}
+
+            <IconByName
+              name="CloseCircleLineIcon"
+              color={colors.cardCloseIcon}
+              onPress={() => navigatePage()}
             />
           </HStack>
         ),
