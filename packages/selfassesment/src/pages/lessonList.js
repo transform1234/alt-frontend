@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  HStack,
-  Text,
-  VStack,
-  Stack,
-  Box,
-  Button,
-  Actionsheet,
-  Pressable,
-  ScrollView,
-  Avatar,
-} from "native-base";
+import { HStack, Text, VStack, Stack, Box } from "native-base";
 import {
   Collapsible,
   Layout,
-  SubMenu,
-  Tab,
-  classRegistryService,
   H2,
   IconByName,
-  ProgressBar,
+  NameTag,
   BodyLarge,
   Caption,
   selfAssesmentService,
@@ -28,8 +14,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
-// import { courses } from "./../assets/mocCourses";
-import NameTag from "components/NameTag";
+
 export default function LessonList({ footerLinks }) {
   const { t } = useTranslation();
   const { id } = useParams();

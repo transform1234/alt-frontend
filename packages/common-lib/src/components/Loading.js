@@ -24,13 +24,13 @@ export default function Loading({ message = 'Loading', ...prop }) {
               prop.icon
             ) : (
               <Spinner
-                color={'button.500'}
+                color={'primary'}
                 accessibilityLabel='Loading posts'
                 size='lg'
               />
             )}
             <VStack alignItems='center' space={2}>
-              <Heading color='button.500' fontSize='22px'>
+              <Heading color='primary' fontSize='22px'>
                 {message}
               </Heading>
             </VStack>

@@ -1,10 +1,6 @@
-import {
-  schoolRegisteryService,
-  userRegistryService,
-  classRegistryService
-} from '..'
+import { schoolRegisteryService, userRegistryService } from '..'
 import mapInterfaceData from './mapInterfaceData'
-import { get, post, update as coreUpdate } from './RestClient'
+import { post } from './RestClient'
 
 const apiRoutes = {
   getAll: '/mentortracking/search'
