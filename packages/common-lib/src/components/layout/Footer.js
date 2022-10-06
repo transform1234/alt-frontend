@@ -27,6 +27,8 @@ export default function Footer({ menues, routeDynamics, ...props }) {
       setSelected('mylearning')
     } else if (path.startsWith('/visits') || path.startsWith('/schools')) {
       setSelected('visits')
+    } else if (path.startsWith('/selfassesment')) {
+      setSelected('selfassesment')
     } else {
       setSelected('app')
     }
@@ -61,21 +63,38 @@ export default function Footer({ menues, routeDynamics, ...props }) {
               item={item}
               key={index}
               cursor='pointer'
-              opacity={selected === item.moduleName ? 1 : 0.5}
               py='3'
               flex={1}
               onPress={() => setSelected(item.moduleName)}
+              alignItems='center'
             >
-              <Text
-                color={
-                  selected === item.moduleName ? 'button.500' : 'coolGray.400'
-                }
-              >
-                <Center>
-                  <IconByName name={item.icon} isDisabled p='2' />
-                  <Text fontSize='12'>{t(item.title)}</Text>
-                </Center>
-              </Text>
+              {selected === item.moduleName ? (
+                <HStack
+                  bg='primary'
+                  rounded={'full'}
+                  alignItems='center'
+                  p='2'
+                  pr='4'
+                  py='0'
+                >
+                  <IconByName
+                    name={item.icon}
+                    isDisabled
+                    p='2'
+                    color={'white'}
+                  />
+                  <Text fontSize='12' color={'white'}>
+                    {t(item.title)}
+                  </Text>
+                </HStack>
+              ) : (
+                <IconByName
+                  name={item.icon}
+                  isDisabled
+                  p='2'
+                  color={'primary'}
+                />
+              )}
             </PressableNew>
           ))}
         </HStack>

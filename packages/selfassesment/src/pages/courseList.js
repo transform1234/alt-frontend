@@ -1,34 +1,17 @@
-import {
-  HStack,
-  Text,
-  VStack,
-  Stack,
-  Box,
-  Button,
-  Actionsheet,
-  Pressable,
-  ScrollView,
-  Avatar,
-} from "native-base";
+import { HStack, VStack, Stack, Button, Avatar } from "native-base";
 import {
   Layout,
-  SubMenu,
-  Tab,
-  classRegistryService,
-  H2,
-  H1,
   IconByName,
   ProgressBar,
   BodyLarge,
   selfAssesmentService,
   Caption,
+  NameTag,
 } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { courses } from "../assets/mocCourses";
 import manifest from "../manifest.json";
-import NameTag from "components/NameTag";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);

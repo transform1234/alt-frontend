@@ -31,7 +31,7 @@ function App() {
       routes={routes}
       AuthComponent={LoginComponent}
       skipLogin={skipLogin}
-      _authComponent={{ swPath: "/modules/worksheet" }}
+      _authComponent={{ swPath: "/modules/selfassessment" }}
     />
   );
 }
