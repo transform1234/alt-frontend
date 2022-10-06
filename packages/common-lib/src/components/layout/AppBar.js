@@ -57,7 +57,7 @@ export default function AppBar({
   }
 
   return (
-    <Box pt={7} px={5} {...props?._box} width={'100%'}>
+    <Box pt={7} px={5} {...props?._box}>
       <StatusBar bg='gray.600' barStyle='light-content' />
       <Box safeAreaTop bg='gray.600' />
 
@@ -88,7 +88,7 @@ export default function AppBar({
               bg='transparent'
               size={'full'}
               placeholder='search'
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={() => setSearch(e.target.value)}
             />
             <InputRightAddon
               p='0'
@@ -99,7 +99,7 @@ export default function AppBar({
                   color='coolGray.500'
                   name='CloseCircleLineIcon'
                   p='0'
-                  onPress={(_e) => handleSeachState(false)}
+                  onPress={() => handleSeachState(false)}
                 />
               }
             />
@@ -151,7 +151,7 @@ export default function AppBar({
                 <IconByName
                   name='Notification2LineIcon'
                   color={color ? color : ''}
-                  onPress={(_e) => navigate('/notification')}
+                  onPress={() => navigate('/notification')}
                 />
               ) : (
                 <React.Fragment />
@@ -210,42 +210,6 @@ export default function AppBar({
               ) : (
                 <React.Fragment />
               )}
-              <Stack px='3'>
-                {/* <Menu
-                  right='100%'
-                  w='190'
-                  placement='bottom right'
-                  trigger={(triggerProps) => {
-                    return (
-                      <Pressable
-                        accessibilityLabel='More options menu'
-                        {...triggerProps}
-                      >
-                        <IconByName
-                          size='sm'
-                          name='More2LineIcon'
-                          isDisabled={true}
-                          color={color ? color : ''}
-                        />
-                      </Pressable>
-                    )
-                  }}
-                >
-                  {languages?.map((e, index) => (
-                    <Menu.Item
-                      key={index}
-                      label={e.title}
-                      textValue={e.code}
-                      onPress={(item) => setLang(e.code)}
-                    >
-                      {e.title}
-                    </Menu.Item>
-                  ))}
-                  <Menu.Item onPress={(item) => setLang('logout')}>
-                    Logout
-                  </Menu.Item>
-                </Menu> */}
-              </Stack>
             </HStack>
           </HStack>
         </React.Fragment>

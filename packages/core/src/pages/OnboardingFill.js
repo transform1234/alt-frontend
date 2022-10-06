@@ -4,33 +4,19 @@ import {
   Button,
   Box,
   VStack,
-  Alert,
-  IconButton,
-  CloseIcon,
   Center,
   Avatar,
   Divider,
   CircleIcon,
+  Text,
 } from "native-base";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import manifest from "../manifest";
-import {
-  useWindowSize,
-  Heading,
-  overrideColorTheme,
-  Layout,
-} from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-  },
-};
+import { useWindowSize, Heading, Layout } from "@shiksha/common-lib";
 
-const colors = overrideColorTheme();
-
-export default function OnboardingFill({ swPath }) {
+export default function OnboardingFill() {
   const { t } = useTranslation();
   const [width, Height] = useWindowSize();
   const navigate = useNavigate();
@@ -58,15 +44,11 @@ export default function OnboardingFill({ swPath }) {
               source={require("../../src/assets/image2.png")}
             />
             <Divider
-              style={{
-                width: "1.62px",
-                height: "35.75px",
-
-                background: "#41C88E",
-
-                order: "0",
-                marginLeft: "5px",
-              }}
+              width={"1.62px"}
+              height={"35.75px"}
+              bg={"#41C88E"}
+              order={"0"}
+              ml={"5px"}
             />
             <Avatar
               bg=""
@@ -80,23 +62,11 @@ export default function OnboardingFill({ swPath }) {
       }}
       _height="130px"
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={width}>
           <VStack space="" w="300px">
-            <Box>
-              <Heading
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "300",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "44px",
-                  lineSpacing: "0.03em",
-                  margin: "auto",
-                }}
-              >
-                {t("Welcome Vishal!")}
-              </Heading>
+            <Box alignItems={"center"}>
+              <Heading>{t("Welcome Vishal!")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               <Center>
@@ -120,76 +90,25 @@ export default function OnboardingFill({ swPath }) {
             </VStack>
             <VStack>
               <Center>
-                <div>
-                  <CircleIcon size="2" mr="15px" color="#6461D2" />
-                  <span
-                    style={{
-                      fontFamily: "Montserrat",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                      lineHeight: "17px",
-                      letterSpacing: "-0.01em",
-                      textAlign: "left",
-                      color: "#6461D2",
-                    }}
-                  >
-                    Improve
-                  </span>
-                </div>
+                <HStack space={"2"}>
+                  <CircleIcon
+                    size="3"
+                    color="#6461D2"
+                    style={{ marginTop: "5px" }}
+                  />
 
-                <div
-                  style={{
-                    fontFamily: "Montserrat",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "17px",
-                    letterSpacing: "-0.01em",
-                    textAlign: "left",
-                    marginTop: "30px",
-                  }}
-                >
+                  <Text color={"#6461D2"}>Improve</Text>
+                </HStack>
+
+                <Text fontFamily={"Montserrat"} mt={"30px"}>
                   Improve On The Go.
-                </div>
+                </Text>
               </Center>
             </VStack>
-            <Button
-              style={{
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "8px 28px",
-                gap: "10px",
-                width: "317px",
-                height: "45px",
-                // background: "#6461D2",
-                border: "1px solid #C1C1C1",
-                borderRadius: "20px",
-                marginTop: "35px",
-              }}
-              backgroundColor={"#6461D2"}
-              p="3"
-              _text={{ color: colors?.white }}
-              onPress={handleLogin}
-            >
+            <Button p="3" onPress={handleLogin} variant={"rounded"} mt={"20px"}>
               {t("Lets Go! ->")}
             </Button>
           </VStack>
-          <HStack mt="30px">
-            {/* {circleArray.map((item) => {
-              return item == 3 ? (
-                <Box
-                  bg={"#6461D2"}
-                  width="90px"
-                  borderRadius={"40px"}
-                  height={"20px"}
-                />
-              ) : (
-                <CircleIcon color={"#FFB902"} size={"25"} key={item} />
-              );
-            })} */}
-          </HStack>
         </Center>
       </Box>
     </Layout>

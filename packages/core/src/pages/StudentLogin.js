@@ -12,7 +12,6 @@ import {
   Center,
   Avatar,
   Divider,
-  MaterialIcons,
 } from "native-base";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -29,15 +28,8 @@ import {
   getUserToken,
   overrideColorTheme,
   Layout,
-  Icon,
   IconByName,
-  calender,
 } from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-  },
-};
 
 const colors = overrideColorTheme();
 
@@ -140,7 +132,6 @@ export default function StudentLogin({ swPath }) {
     }
   };
   const navigatePage = () => {
-    console.log("page");
     window.location.href = "/";
   };
 
@@ -160,14 +151,12 @@ export default function StudentLogin({ swPath }) {
               source={require("../../src/assets/image2.png")}
             />
             <Divider
+              width={"1.62px"}
+              height={"35.75px"}
+              bg={"#41C88E"}
+              ml={"5px"}
               style={{
-                width: "1.62px",
-                height: "35.75px",
-
-                background: "#41C88E",
-
-                order: "0",
-                marginLeft: "5px",
+                border: "0",
               }}
             />
             <Avatar
@@ -182,16 +171,6 @@ export default function StudentLogin({ swPath }) {
 
         rightIcon: (
           <HStack paddingBottom={"25px"}>
-            {/* <CloseIcon
-              size="10px"
-              style={{
-                borderRadius: "50px",
-                padding: "5px",
-                border: "1px solid black",
-              }}
-              onPress={() => navigatePage()}
-            /> */}
-
             <IconByName
               name="CloseCircleLineIcon"
               color={colors.cardCloseIcon}
@@ -202,35 +181,11 @@ export default function StudentLogin({ swPath }) {
       }}
       _height="150px"
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
-              <Heading
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "300",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "44px",
-                  lineSpacing: "0.03em",
-                }}
-              >
-                {t("Welcome!")}
-              </Heading>
-              <BodyMedium
-                textTransform="inherit"
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "400",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "22px",
-                  lineSpacing: "0.03em",
-                }}
-              >
-                {/* {t("Login using your Mobile Number")} */}
-              </BodyMedium>
+              <Heading>{t("Welcome!")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               {"alert" in errors ? (
@@ -261,11 +216,8 @@ export default function StudentLogin({ swPath }) {
                   <FormControl.Label
                     _text={{
                       fontSize: "14px",
-                      fontWeight: "600",
-                      fontFamily: "Fredoka",
+                      fontWeight: "400",
                       color: "#6461D2",
-                      lineHeight: "19px",
-                      lineSpacing: "0.025em",
                     }}
                     mb="10px"
                   >
@@ -305,11 +257,8 @@ export default function StudentLogin({ swPath }) {
                   <FormControl.Label
                     _text={{
                       fontSize: "14px",
-                      fontWeight: "600",
-                      fontFamily: "Fredoka",
+                      fontWeight: "400",
                       color: "#6461D2",
-                      lineHeight: "19px",
-                      lineSpacing: "0.025em",
                     }}
                     mb="10px"
                   >
@@ -347,32 +296,7 @@ export default function StudentLogin({ swPath }) {
                 </FormControl>
               </VStack>
             </VStack>
-            <Button
-              style={{
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "8px 28px",
-                gap: "10px",
-                // width: "317px",
-                marginLeft: "20px",
-                marginRight: "20px",
-                height: "45px",
-                border: "1px solid #C1C1C1",
-                borderRadius: "20px",
-              }}
-              backgroundColor={
-                credentials &&
-                Object.keys(credentials).length === fieldsName.length
-                  ? "#6461D2"
-                  : "#C1C1C1"
-              }
-              p="3"
-              _text={{ color: colors?.white }}
-              onPress={handleLogin}
-            >
+            <Button p="3" onPress={handleLogin} variant={"rounded"}>
               {t("Login >")}
             </Button>
           </VStack>

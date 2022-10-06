@@ -58,15 +58,11 @@ export default function Onboarding({ swPath }) {
               source={require("../../src/assets/image2.png")}
             />
             <Divider
-              style={{
-                width: "1.62px",
-                height: "35.75px",
-
-                background: "#41C88E",
-
-                order: "0",
-                marginLeft: "5px",
-              }}
+              width={"1.62px"}
+              height={"35.75px"}
+              bg={"#41C88E"}
+              order={"0"}
+              ml={"5px"}
             />
             <Avatar
               bg=""
@@ -84,32 +80,7 @@ export default function Onboarding({ swPath }) {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box>
-              <Heading
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "300",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "44px",
-                  lineSpacing: "0.03em",
-                  margin: "auto",
-                }}
-              >
-                {t("Welcome Vishal!")}
-              </Heading>
-              {/* <BodyMedium
-                    textTransform="inherit"
-                    style={{
-                    fontSize: "18px",
-                    fontWeight: "400",
-                    fontFamily: "Fredoka",
-                    color: "#545454",
-                    lineHeight: "22px",
-                    lineSpacing: "0.03em",
-                    }}
-                >
-                    {t("Login using your Mobile Number")}
-                </BodyMedium> */}
+              <Heading>{t("Welcome Vishal!")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               <Center>
@@ -133,36 +104,19 @@ export default function Onboarding({ swPath }) {
             </VStack>
             <VStack>
               <Center>
-                <div>
-                  <CircleIcon size="2" mr="15px" color="#6461D2" />
-                  <span
-                    style={{
-                      fontFamily: "Montserrat",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                      lineHeight: "17px",
-                      letterSpacing: "-0.01em",
-                      textAlign: "left",
-                      color: "#6461D2",
-                    }}
-                  >
-                    Learn
-                  </span>
-                </div>
+                <HStack space={"2"}>
+                  <CircleIcon
+                    size="3"
+                    color="#6461D2"
+                    style={{ marginTop: "5px" }}
+                  />
 
-                <div
-                  style={{
-                    fontFamily: "Montserrat",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "17px",
-                    letterSpacing: "-0.01em",
-                    textAlign: "left",
-                    marginTop: "30px",
-                  }}
-                >
+                  <Text color={"#6461D2"}>Learn</Text>
+                </HStack>
+
+                <Text fontFamily={"Montserrat"} mt={"30px"}>
                   Learn Anytime,Anywhere
-                </div>
+                </Text>
               </Center>
             </VStack>
           </VStack>

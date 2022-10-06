@@ -122,7 +122,24 @@ function AppShell({
               </Routes>
             </Router>
           ) : (
-            <AuthComponent {...{ colors }} {..._authComponent} />
+            <Router basename={basename}>
+              <Routes>
+                <Route
+                  path={'*'}
+                  element={
+                    <AuthComponent
+                      {...{
+                        footerLinks,
+                        appName,
+                        setAlert,
+                        ...otherProps,
+                        ..._authComponent
+                      }}
+                    />
+                  }
+                />
+              </Routes>
+            </Router>
           )}
         </React.Suspense>
       </NativeBaseProvider>

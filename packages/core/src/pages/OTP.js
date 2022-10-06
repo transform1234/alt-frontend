@@ -12,7 +12,6 @@ import {
   Center,
   Avatar,
   Divider,
-  MaterialIcons,
 } from "native-base";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -29,15 +28,7 @@ import {
   getUserToken,
   overrideColorTheme,
   Layout,
-  Icon,
-  IconByName,
-  calender,
 } from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-  },
-};
 
 const colors = overrideColorTheme();
 
@@ -73,9 +64,7 @@ export default function OTP({ swPath }) {
   };
 
   const handleLogin = () => {
-    // if (validate()) {
     navigate("/onboarding");
-    // }
   };
   const setCredentialForText = (e, item) => {
     const data = {
@@ -83,8 +72,6 @@ export default function OTP({ swPath }) {
       [item]: e.target.value,
     };
     setCredentials(data);
-
-    // validate();
   };
 
   return (
@@ -138,7 +125,7 @@ export default function OTP({ swPath }) {
         ),
       }}
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={width}>
           <VStack space="" w="300px">
             <Box>
@@ -201,21 +188,7 @@ export default function OTP({ swPath }) {
                     name={item?.attribute}
                     width={"15%"}
                   >
-                    {/* <FormControl.Label
-                      _text={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        fontFamily: "Fredoka",
-                        color: "#6461D2",
-                        lineHeight: "19px",
-                        lineSpacing: "0.025em",
-                      }}
-                      mb="10px"
-                    >
-                      {t(item?.label)}
-                    </FormControl.Label> */}
                     <Input
-                      // height="35px"
                       key={item?.attribute}
                       name={item?.attribute}
                       bg="white"
@@ -262,7 +235,6 @@ export default function OTP({ swPath }) {
                 gap: "10px",
                 width: "317px",
                 height: "45px",
-                // background: "#6461D2",
                 border: "1px solid #C1C1C1",
                 borderRadius: "20px",
               }}

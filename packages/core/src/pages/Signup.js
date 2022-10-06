@@ -28,12 +28,6 @@ import {
   Icon,
   IconByName,
 } from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-    width: "100%",
-  },
-};
 
 const colors = overrideColorTheme();
 
@@ -41,7 +35,6 @@ export default function Login({ swPath }) {
   const [credentials, setCredentials] = useState();
   const [errors, setErrors] = React.useState({});
   const { t } = useTranslation();
-  const [width, Height] = useWindowSize();
   const navigate = useNavigate();
 
   const fieldsName = [
@@ -224,9 +217,8 @@ export default function Login({ swPath }) {
         ),
       }}
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={"100%"}>
-          {/* w="300px" */}
           <VStack space="">
             <Box style={{ marginLeft: "25px" }}>
               <Heading
@@ -271,7 +263,7 @@ export default function Login({ swPath }) {
                       <IconButton
                         variant="unstyled"
                         icon={<CloseIcon size="3" color={colors?.gray} />}
-                        onPress={(e) => setErrors({})}
+                        onPress={() => setErrors({})}
                       />
                     </HStack>
                   </VStack>
@@ -279,12 +271,7 @@ export default function Login({ swPath }) {
               ) : (
                 <></>
               )}
-              <VStack
-                space="30px"
-                // height={"315px"}
-                p={"20px"}
-                style={{ overflowY: "auto" }}
-              >
+              <VStack space="30px" p={"20px"} style={{ overflowY: "auto" }}>
                 {fieldsName?.map((item, index) => (
                   <FormControl
                     isRequired
@@ -295,11 +282,8 @@ export default function Login({ swPath }) {
                     <FormControl.Label
                       _text={{
                         fontSize: "14px",
-                        fontWeight: "600",
-                        fontFamily: "Fredoka",
+                        fontWeight: "400",
                         color: "#6461D2",
-                        lineHeight: "19px",
-                        lineSpacing: "0.025em",
                       }}
                       mb="10px"
                     >
@@ -312,8 +296,6 @@ export default function Login({ swPath }) {
                         variant="rounded"
                         key={item?.attribute}
                         name={item?.attribute}
-                        // selectedValue={item?.value}
-                        // onValueChange={item.onChange}
                         borderColor={
                           credentials?.[item?.attribute]
                             ? "orange.500"
@@ -323,18 +305,14 @@ export default function Login({ swPath }) {
                           setCredentialForText(e, item?.attribute)
                         }
                       >
-                        {/* {item?.data &&
-                          item?.data.map((e, index) => ( */}
                         <Select.Item
                           key={item?.attribute}
                           label={"Maharashtra"}
                           value={"Maharashtra"}
                         />
-                        {/* ))} */}
                       </Select>
                     ) : (
                       <Input
-                        // height="35px"
                         key={item?.attribute}
                         name={item?.attribute}
                         bg="white"
@@ -385,35 +363,7 @@ export default function Login({ swPath }) {
                 ))}
               </VStack>
             </VStack>
-            <Button
-              style={{
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "8px 28px",
-                gap: "10px",
-                // width: "317px",
-                height: "45px",
-                marginLeft: "20px",
-                marginRight: "20px",
-                // background: "#6461D2",
-                border: "1px solid #C1C1C1",
-                borderRadius: "20px",
-              }}
-              backgroundColor={
-                credentials &&
-                Object.keys(credentials).length === fieldsName.length
-                  ? "#6461D2"
-                  : "#C1C1C1"
-              }
-              // isDisabled={onValidate}
-              p="3"
-              _text={{ color: colors?.white }}
-              onPress={handleLogin}
-            >
-              {console.log(credentials && Object.keys(credentials).length)}
+            <Button variant={"rounded"} p="3" onPress={handleLogin}>
               {t("Get OTP >")}
             </Button>
           </VStack>
@@ -422,7 +372,3 @@ export default function Login({ swPath }) {
     </Layout>
   );
 }
-
-const MobileScreen = () => {
-  return <Stack>nam</Stack>;
-};

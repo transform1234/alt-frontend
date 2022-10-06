@@ -25,7 +25,7 @@ export default function Layout({
 
   return (
     <Center>
-      <HeightWidth _scollView={Layout?._scollView}>
+      <HeightWidth _scollView={Layout?._scollView} _width={_width}>
         <Stack
           width={'100%'}
           style={{

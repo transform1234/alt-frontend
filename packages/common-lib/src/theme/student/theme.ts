@@ -43,6 +43,7 @@ const theme = {
       cardBg: '#D9F0FC',
       notificationBg: '#FDDFD8'
     },
+    core: { ...colorTheme },
     worksheet: {
       ...colorTheme,
       primaryLight: '#FFF8F7',
@@ -90,14 +91,17 @@ const theme = {
       900: '#7c8dbc',
       1000: '#ea5fff'
     },
-    button: {
-      50: '#fcf1ee',
-      100: '#fae2dd',
-      200: '#f5c8bc',
-      300: '#f2ab99',
-      400: '#ee8e78',
-      500: '#F87558',
-      600: '#d9654c'
+    primaryButton: {
+      50: '#ecebf9',
+      100: '#c5c3ee',
+      200: '#9e9ce3',
+      300: '#7774d7',
+      400: '#504ccc',
+      500: '#6461D2',
+      600: '#2a288b',
+      700: '#1e1c63',
+      800: '#12113c',
+      900: '#060614'
     }
   },
   fonts: {
@@ -124,9 +128,8 @@ const theme = {
         rounded: 'lg'
       },
       defaultProps: {
-        colorScheme: 'button',
+        colorScheme: 'primaryButton',
         _text: {
-          textTransform: 'uppercase',
           fontSize: '12px',
           fontWeight: '600'
         }
@@ -136,6 +139,17 @@ const theme = {
           return {
             _text: {
               color: 'white'
+            }
+          }
+        },
+        rounded: (e: any) => {
+          return {
+            rounded: 'full',
+            colorScheme: 'primaryButton',
+            bg: 'primaryButton.500',
+            _text: {
+              fontSize: '12px',
+              fontWeight: '600'
             }
           }
         }
