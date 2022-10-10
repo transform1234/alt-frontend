@@ -1,6 +1,7 @@
-import { Caption, H2, IconByName } from '@shiksha/common-lib'
 import { Box, HStack } from 'native-base'
 import React from 'react'
+import IconByName from '../IconByName'
+import { Caption, H2 } from './HeaderTags'
 
 export default function NameTag() {
   return (

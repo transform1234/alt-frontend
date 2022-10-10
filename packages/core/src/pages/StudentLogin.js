@@ -28,11 +28,12 @@ import {
   getUserToken,
   overrideColorTheme,
   Layout,
+  IconByName,
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
 
-export default function Login({ swPath }) {
+export default function StudentLogin({ swPath }) {
   const [credentials, setCredentials] = useState();
   const [errors, setErrors] = React.useState({});
   const { t } = useTranslation();
@@ -110,6 +111,7 @@ export default function Login({ swPath }) {
             localStorage.setItem("fcmToken", fcmToken);
           } catch (e) {
             localStorage.setItem("fcmToken", "");
+            console.log({ e });
           }
           eventBus.publish("AUTH", {
             eventType: "LOGIN_SUCCESS",
@@ -117,7 +119,7 @@ export default function Login({ swPath }) {
               token: token,
             },
           });
-          window.location.href("/onboardingimprove");
+          navigate("/onboardingimprove");
           window.location.reload();
         } else {
           localStorage.removeItem("token");
@@ -128,6 +130,9 @@ export default function Login({ swPath }) {
         setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });
       }
     }
+  };
+  const navigatePage = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -149,14 +154,16 @@ export default function Login({ swPath }) {
               width={"1.62px"}
               height={"35.75px"}
               bg={"#41C88E"}
-              order={"0"}
               ml={"5px"}
+              style={{
+                border: "0",
+              }}
             />
             <Avatar
               bg=""
               size="37"
               rounded="md"
-              borderRadius={"0px"}
+              style={{ borderRadius: "0px" }}
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
@@ -165,8 +172,9 @@ export default function Login({ swPath }) {
         rightIcon: (
           <HStack paddingBottom={"25px"}>
             <IconByName
-              name="CloseCircleFillIcon"
-              onPress={() => navigate("/flash")}
+              name="CloseCircleLineIcon"
+              color={colors.cardCloseIcon}
+              onPress={() => navigatePage()}
             />
           </HStack>
         ),
