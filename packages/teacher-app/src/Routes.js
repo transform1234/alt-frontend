@@ -438,7 +438,7 @@ export const routes = [
   },
   {
     moduleName: "selfassesment",
-    path: "/selfassesment/lessons/:id",
+    path: "/selfassesment/lessons/:id/:type",
     component: SelfassesmentLessonList,
   },
   // Visits Routes

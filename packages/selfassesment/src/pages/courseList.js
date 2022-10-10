@@ -1,4 +1,12 @@
-import { HStack, VStack, Stack, Button, Avatar } from "native-base";
+import {
+  HStack,
+  VStack,
+  Stack,
+  Button,
+  Avatar,
+  Pressable,
+  Box,
+} from "native-base";
 import {
   Layout,
   IconByName,
@@ -17,11 +25,11 @@ export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
   const coursesList = [];
   const { t } = useTranslation();
+  const navigate = useNavigate();
   useEffect(async () => {
     const data = await selfAssesmentService.getCoursesRule();
     setCoursesList(data);
   }, []);
-  const navigate = useNavigate();
 
   return (
     <Layout
@@ -33,16 +41,20 @@ export default function CourseList({ footerLinks }) {
         isBackButtonShow: false,
         titleComponent: <NameTag />,
         LeftIcon: (
-          <HStack>
+          <HStack space={2} alignItems="center">
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
               source={require("./../assets/images/ssaicon.png")}
+              w="37px"
+              h="21px"
             />
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
               source={require("./../assets/images/tsIcon.png")}
+              w="20px"
+              h="20px"
             />
           </HStack>
         ),
@@ -55,49 +67,69 @@ export default function CourseList({ footerLinks }) {
       _footer={footerLinks}
     >
       <Stack space="4" p="4" mb="5">
-        {courseList?.map((item) => (
-          <VStack p="4" bg="white" space="4">
-            <HStack justifyContent="space-between">
-              <HStack space="4">
-                <Avatar
-                  bg="transparent"
-                  source={{
-                    uri: item?.appIcon,
+        {courseList?.map((item) => {
+          return (
+            <Pressable
+              onPress={() =>
+                navigate(
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                )
+              }
+              position="relative"
+            >
+              <VStack p="4" bg="white" space="4" roundedLeft="20">
+                <HStack space="4">
+                  <Avatar
+                    bg="yellow.500"
+                    size="30"
+                    {...(item?.appIcon
+                      ? {
+                          source: {
+                            uri: item?.appIcon,
+                          },
+                        }
+                      : {})}
+                  >
+                    <IconByName name="UserLineIcon" isDisabled color="white" />
+                  </Avatar>
+                  <VStack space="2" flex={1}>
+                    <BodyLarge>{item?.name}</BodyLarge>
+                    <Caption>{item?.description}</Caption>
+                  </VStack>
+                </HStack>
+
+                <ProgressBar
+                  isTextRight={<BodyLarge color="success">8/8</BodyLarge>}
+                  h="15px"
+                  _bar={{
+                    overflow: "visible",
+                    space: "2",
+                    alignItems: "center",
                   }}
+                  data={[{ name: "8/8", color: "green", value: "80" }]}
+                  isLabelCountHide
                 />
-                <VStack space="2">
-                  <BodyLarge>
-                    {item?.name}
-                    {/* {item?.name.substring(0, 20)}{" "}
-                    {item?.name.length >= 20 && "..."} */}
-                  </BodyLarge>
-                  <Caption>
-                    {item?.description}
-                    {/* {item?.description?.substring(0, 20)}{" "}
-                    {item?.description?.length >= 20 && "..."} */}
-                  </Caption>
-                </VStack>
-              </HStack>
-              <Button
-                colorScheme="purple"
-                onPress={() =>
-                  navigate(`/selfassesment/Lessons/${item?.identifier}`)
-                }
-                size="sm"
+              </VStack>
+              <Box
+                bg="purple.500"
+                position="absolute"
+                right="0"
+                minW="60px"
+                minH="40px"
+                roundedLeft="full"
+                alignItems="center"
+                justifyContent="center"
               >
-                <IconByName name="ArrowRightSLineIcon" size="sm" />
-              </Button>
-            </HStack>
-            <ProgressBar
-              isTextShow
-              legendType="separated"
-              h="15px"
-              _bar={{ rounded: "md", mb: "2" }}
-              isLabelCountHide
-              data={[{ name: "8/8", color: "green", value: "80" }]}
-            ></ProgressBar>
-          </VStack>
-        ))}
+                <IconByName
+                  isDisabled
+                  name="ArrowRightLineIcon"
+                  color="white"
+                  size="sm"
+                />
+              </Box>
+            </Pressable>
+          );
+        })}
       </Stack>
     </Layout>
   );

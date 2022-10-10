@@ -3,7 +3,7 @@ import { Text } from 'native-base'
 
 const Caption = ({ children, ...props }) => {
   return (
-    <Text {...props} fontSize='10px' fontWeight='500'>
+    <Text {...props} fontSize='10px' fontWeight='400'>
       {children}
     </Text>
   )

@@ -33,6 +33,7 @@ import * as schoolRegisteryService from './services/schoolRegisteryService'
 import { getApiConfig } from './services/configApiRegistryService'
 import * as workHistoryRegistryService from './services/workHistoryRegistryService'
 import * as schoolRegistryService from './services/schoolRegistryService'
+import * as courseRegistryService from './services/courseRegistryService'
 import {
   getAllForUser,
   sendReadReceipt
@@ -41,6 +42,7 @@ import AppRoutesContainer from './components/AppRoutesContainer'
 import { useAuthFlow } from './hooks/useAuthFlow'
 import StarRating from './components/StarRating'
 import NameTag from './components/layout/NameTag'
+import SunbirdPlayer from './components/SunbirdPlayer'
 export {
   AppBar,
   Header,
@@ -80,10 +82,12 @@ export {
   roleRegistryService,
   workHistoryRegistryService,
   schoolRegistryService,
+  courseRegistryService,
   mentorRegisteryService,
   schoolRegisteryService,
   StarRating,
-  NameTag
+  NameTag,
+  SunbirdPlayer
 }
 
 export * from './services/Auth'

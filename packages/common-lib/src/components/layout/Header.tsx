@@ -30,7 +30,7 @@ export default function Header({
             {headingComponent ? (
               headingComponent
             ) : (
-              <Text bold fontSize='24px' {..._heading}>
+              <Text fontSize='18px' fontWeight='600' {..._heading}>
                 {title}
               </Text>
             )}
