@@ -1,6 +1,6 @@
 import { get, post, update as coreUpdate } from './RestClient'
 import mapInterfaceData from './mapInterfaceData'
-
+import configapimoc from '../configapimock.json'
 const interfaceData = {
   id: 'configId',
   module: 'module',
@@ -12,7 +12,8 @@ const interfaceData = {
 }
 
 export const getApiConfig = async (modules = []) => {
-  const arr = await getAll()
+  //const arr = await getAll()
+  const arr = configapimoc
   let object = {}
   arr.forEach((e) => {
     if (modules.length === 0) {

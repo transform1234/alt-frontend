@@ -52,7 +52,7 @@ function AppShell({
         setFooterLinks({ menues: newFooterLinks })
       }
       setAccessRoutes([
-        ...newRoutes,
+        ...routes,
         {
           path: '*',
           component: NotFound
