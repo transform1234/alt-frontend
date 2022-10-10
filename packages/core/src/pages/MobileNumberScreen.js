@@ -33,11 +33,6 @@ import {
   IconByName,
   calender,
 } from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-  },
-};
 
 const colors = overrideColorTheme();
 
@@ -97,25 +92,21 @@ export default function MobileNumberScreen({ swPath }) {
               size="37"
               width={"100%"}
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/image2.png")}
             />
             <Divider
-              style={{
-                width: "1.62px",
-                height: "35.75px",
-
-                background: "#41C88E",
-
-                order: "0",
-                marginLeft: "5px",
-              }}
+              width={"1.62px"}
+              height={"35.75px"}
+              bg={"#41C88E"}
+              order={"0"}
+              ml={"5px"}
             />
             <Avatar
               bg=""
               size="37"
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
@@ -123,46 +114,18 @@ export default function MobileNumberScreen({ swPath }) {
 
         rightIcon: (
           <HStack paddingBottom={"25px"}>
-            <CloseIcon
-              size="10px"
-              style={{
-                borderRadius: "50px",
-                padding: "5px",
-                border: "1px solid black",
-              }}
-            />
+            <IconByName name="CloseCircleFillIcon" />
           </HStack>
         ),
       }}
       _height="150px"
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={width}>
           <VStack space="" w="300px">
-            <Box style={{ marginLeft: "25px" }}>
-              <Heading
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "300",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "44px",
-                  lineSpacing: "0.03em",
-                }}
-              >
-                {t("Welcome!")}
-              </Heading>
-              <BodyMedium
-                textTransform="inherit"
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "400",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "22px",
-                  lineSpacing: "0.03em",
-                }}
-              >
+            <Box ml={"25px"}>
+              <Heading>{t("Welcome!")}</Heading>
+              <BodyMedium textTransform="inherit" fontSize={"18px"}>
                 {t("Login using your Mobile Number")}
               </BodyMedium>
             </Box>
@@ -244,32 +207,7 @@ export default function MobileNumberScreen({ swPath }) {
                 ))}
               </VStack>
             </VStack>
-            <Button
-              style={{
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "8px 28px",
-                gap: "10px",
-                // width: "317px",
-                marginLeft: "20px",
-                marginRight: "20px",
-                height: "45px",
-                border: "1px solid #C1C1C1",
-                borderRadius: "20px",
-              }}
-              backgroundColor={
-                credentials &&
-                Object.values(credentials).toString().length === 10
-                  ? "#6461D2"
-                  : "#C1C1C1"
-              }
-              p="3"
-              _text={{ color: colors?.white }}
-              onPress={handleLogin}
-            >
+            <Button variant={"rounded"} p="3" onPress={handleLogin}>
               {t("Get OTP >")}
             </Button>
           </VStack>

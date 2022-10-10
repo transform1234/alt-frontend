@@ -88,7 +88,7 @@ export default function AppBar({
               bg='transparent'
               size={'full'}
               placeholder='search'
-              onChange={() => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <InputRightAddon
               p='0'
@@ -141,7 +141,7 @@ export default function AppBar({
                   color={color ? color : ''}
                   size='sm'
                   name='SearchLineIcon'
-                  onPress={(_e) => handleSeachState(true)}
+                  onPress={() => handleSeachState(true)}
                 />
               ) : (
                 <React.Fragment />
@@ -195,7 +195,7 @@ export default function AppBar({
                   color={color ? color : ''}
                   size='sm'
                   name='SearchLineIcon'
-                  onPress={(_e) => handleSeachState(true)}
+                  onPress={() => handleSeachState(true)}
                 />
               ) : (
                 <React.Fragment />
@@ -205,7 +205,7 @@ export default function AppBar({
                 <IconByName
                   name='Notification2LineIcon'
                   color={color ? color : ''}
-                  onPress={(_e) => navigate('/notification')}
+                  onPress={() => navigate('/notification')}
                 />
               ) : (
                 <React.Fragment />

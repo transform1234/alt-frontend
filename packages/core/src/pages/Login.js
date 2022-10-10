@@ -156,7 +156,7 @@ export default function Login({ swPath }) {
               bg=""
               size="37"
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
@@ -164,14 +164,9 @@ export default function Login({ swPath }) {
 
         rightIcon: (
           <HStack paddingBottom={"25px"}>
-            <CloseIcon
-              size="10px"
-              style={{
-                borderRadius: "50px",
-                padding: "5px",
-                border: "1px solid black",
-              }}
-              onChange={() => navigate("/flash")}
+            <IconByName
+              name="CloseCircleFillIcon"
+              onPress={() => navigate("/flash")}
             />
           </HStack>
         ),
@@ -182,7 +177,7 @@ export default function Login({ swPath }) {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
-              <Heading>{t("Welcome!")}</Heading>
+              <Heading>{t("WELCOME")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               {"alert" in errors ? (
@@ -227,7 +222,7 @@ export default function Login({ swPath }) {
                       credentials?.["username"] ? "orange.500" : "#C1C1C1"
                     }
                     p={"10px"}
-                    placeholder={t("ENTER") + " " + t("USERNAME")}
+                    placeholder={t("ENTER_USERNAME")}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
@@ -269,7 +264,7 @@ export default function Login({ swPath }) {
                       credentials?.["password"] ? "orange.500" : "#C1C1C1"
                     }
                     p={"10px"}
-                    placeholder={t("ENTER") + " " + t("password")}
+                    placeholder={t("ENTER_PASSWORD")}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
@@ -294,7 +289,7 @@ export default function Login({ swPath }) {
               </VStack>
             </VStack>
             <Button p="3" onPress={handleLogin} variant={"rounded"}>
-              {t("Login >")}
+              {t("LOGIN")}
             </Button>
           </VStack>
         </Center>

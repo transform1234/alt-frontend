@@ -3,9 +3,6 @@ import {
   HStack,
   Box,
   VStack,
-  Alert,
-  IconButton,
-  CloseIcon,
   Center,
   Avatar,
   Divider,
@@ -18,18 +15,9 @@ import manifest from "../manifest";
 import {
   useWindowSize,
   Heading,
-  Subtitle,
   overrideColorTheme,
   Layout,
-  Icon,
 } from "@shiksha/common-lib";
-const styles = {
-  box: {
-    // background: "white",
-  },
-};
-
-const colors = overrideColorTheme();
 
 export default function Onboarding({ swPath }) {
   const { t } = useTranslation();
@@ -54,7 +42,7 @@ export default function Onboarding({ swPath }) {
               size="37"
               width={"100%"}
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/image2.png")}
             />
             <Divider
@@ -68,7 +56,7 @@ export default function Onboarding({ swPath }) {
               bg=""
               size="37"
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
@@ -76,7 +64,7 @@ export default function Onboarding({ swPath }) {
       }}
       _height="130px"
     >
-      <Box style={styles.box}>
+      <Box>
         <Center width={width}>
           <VStack space="" w="300px">
             <Box>

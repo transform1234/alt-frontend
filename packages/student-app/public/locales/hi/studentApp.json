@@ -387,5 +387,54 @@
   "START_VISIT": "विज़िट शुरू करें",
   "SCHOOL_OVERVIEW": "स्कूल अवलोकन",
   "ASSESSMENT_REPORTS": "आकलन रिपोर्ट",
-  "WELCOME_BACK": "वापसी पर स्वागत है"
+  "WELCOME_BACK": "वापसी पर स्वागत है",
+
+  "GET_OTP": "ओटीपी प्राप्त करें >",
+  "SUBMIT_OTP": "ओटीपी जमा करें",
+  "LETS_GO": "Lets Go! ->",
+  "WELCOME": "स्वागत!",
+  "SIGNUP": "साइन अप करें",
+  "SUBTITLE": "अपने मोबाइल नंबर का उपयोग करके लॉगिन करें",
+  "LEARN": "सीखना",
+  "IMPROVE": "सुधारें",
+  "LEARN_SUBTITLE": "कभी भी, कहीं भी सीखें.",
+  "IMPROVE_SUBTITLE": "चलते-फिरते सुधार करें.",
+  "MOBILENUMBER": "मोबाइल नंबर",
+  "NAME": "नाम",
+
+  "DATEOFBIRTH": "जन्म की तारीख",
+
+  "EMAILID": "ईमेल आईडी",
+
+  "STATE": "राज्य",
+
+  "DISTRICT": "ज़िला",
+
+  "BLOCK": "Block",
+
+  "SCHOOL": "स्कूल",
+
+  "UDISE": "UDISE",
+  "CLASS": "कक्षा",
+  "ENTER_MOBILE_NUMBER": "मोबाइल नंबर दर्ज करें",
+  "ENTER_NAME": "नाम दर्ज",
+
+  "ENTER_DATEOFBIRTH": "जन्म तिथि दर्ज करें नाम",
+
+  "ENTER_EMAILID": "ईमेल आईडी नाम दर्ज करें",
+
+  "ENTER_STATE": "राज्य का नाम दर्ज करें",
+
+  "ENTER_DISTRICT": "जिले का नाम दर्ज करें",
+
+  "ENTER_BLOCK": "ब्लॉक नाम दर्ज करें",
+
+  "ENTER_SCHOOL": "स्कूल का नाम दर्ज करें",
+
+  "ENTER_UDISE": "यूडीआईएसई दर्ज करें",
+
+  "ENTER_CLASS": "कक्षा का नाम दर्ज करें",
+
+  "ENTER_USERNAME": "उपयोगकर्ता नाम दर्ज करें",
+  "ENTER_PASSWORD": "पास वर्ड दर्ज करें"
 }

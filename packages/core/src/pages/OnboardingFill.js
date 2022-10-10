@@ -97,16 +97,16 @@ export default function OnboardingFill() {
                     style={{ marginTop: "5px" }}
                   />
 
-                  <Text color={"#6461D2"}>Improve</Text>
+                  <Text color={"#6461D2"}>{t("IMPROVE")}</Text>
                 </HStack>
 
                 <Text fontFamily={"Montserrat"} mt={"30px"}>
-                  Improve On The Go.
+                  {t("IMPROVE_SUBTITLE")}
                 </Text>
               </Center>
             </VStack>
             <Button p="3" onPress={handleLogin} variant={"rounded"} mt={"20px"}>
-              {t("Lets Go! ->")}
+              {t("LETS_GO")}
             </Button>
           </VStack>
         </Center>

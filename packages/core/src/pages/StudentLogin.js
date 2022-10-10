@@ -185,7 +185,7 @@ export default function StudentLogin({ swPath }) {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
-              <Heading>{t("Welcome!")}</Heading>
+              <Heading>{t("WELCOME")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               {"alert" in errors ? (
@@ -230,7 +230,7 @@ export default function StudentLogin({ swPath }) {
                       credentials?.["username"] ? "orange.500" : "#C1C1C1"
                     }
                     p={"10px"}
-                    placeholder={t("ENTER") + " " + t("USERNAME")}
+                    placeholder={t("ENTER_USERNAME")}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
@@ -272,7 +272,7 @@ export default function StudentLogin({ swPath }) {
                       credentials?.["password"] ? "orange.500" : "#C1C1C1"
                     }
                     p={"10px"}
-                    placeholder={t("ENTER") + " " + t("password")}
+                    placeholder={t("ENTER_PASSWORD")}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
@@ -297,7 +297,7 @@ export default function StudentLogin({ swPath }) {
               </VStack>
             </VStack>
             <Button p="3" onPress={handleLogin} variant={"rounded"}>
-              {t("Login >")}
+              {t("LOGIN")}
             </Button>
           </VStack>
         </Center>

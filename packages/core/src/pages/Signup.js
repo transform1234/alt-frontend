@@ -179,25 +179,21 @@ export default function Login({ swPath }) {
               size="37"
               width={"100%"}
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/image2.png")}
             />
             <Divider
-              style={{
-                width: "1.62px",
-                height: "35.75px",
-
-                background: "#41C88E",
-
-                order: "0",
-                marginLeft: "5px",
-              }}
+              width={"1.62px"}
+              height={"35.75px"}
+              bg={"#41C88E"}
+              order={"0"}
+              ml={"5px"}
             />
             <Avatar
               bg=""
               size="37"
               rounded="md"
-              style={{ borderRadius: "0px" }}
+              borderRadius={"0px"}
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
@@ -205,14 +201,7 @@ export default function Login({ swPath }) {
 
         rightIcon: (
           <HStack paddingBottom={"25px"}>
-            <CloseIcon
-              size="10px"
-              style={{
-                borderRadius: "50px",
-                padding: "5px",
-                border: "1px solid black",
-              }}
-            />
+            <IconByName name="CloseCircleFillIcon" />
           </HStack>
         ),
       }}
@@ -220,32 +209,9 @@ export default function Login({ swPath }) {
       <Box>
         <Center width={"100%"}>
           <VStack space="">
-            <Box style={{ marginLeft: "25px" }}>
-              <Heading
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "300",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "44px",
-                  lineSpacing: "0.03em",
-                }}
-              >
-                {t("Welcome!")}
-              </Heading>
-              <BodyMedium
-                textTransform="inherit"
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "400",
-                  fontFamily: "Fredoka",
-                  color: "#545454",
-                  lineHeight: "22px",
-                  lineSpacing: "0.03em",
-                }}
-              >
-                {t("Sign Up")}
-              </BodyMedium>
+            <Box ml={"25px"}>
+              <Heading>{t("Welcome!")}</Heading>
+              <BodyMedium textTransform="inherit">{t("Sign Up")}</BodyMedium>
             </Box>
             <VStack space={2} pt={"25px"} pb={"10px"}>
               {"alert" in errors ? (
@@ -271,7 +237,7 @@ export default function Login({ swPath }) {
               ) : (
                 <></>
               )}
-              <VStack space="30px" p={"20px"} style={{ overflowY: "auto" }}>
+              <VStack space="30px" p={"20px"} overflowY={"auto"}>
                 {fieldsName?.map((item, index) => (
                   <FormControl
                     isRequired

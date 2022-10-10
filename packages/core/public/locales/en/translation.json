@@ -1,4 +1,55 @@
 {
   "MY_CLASSES": "My Classes",
-  "WELCOME_BACK": "Hello, welcome back to our your account !"
+  "WELCOME_BACK": "Hello, welcome back to our your account !",
+  "LOGIN": "Login",
+  "GET_OTP": "Get OTP >",
+  "SUBMIT_OTP": "Submit OTP",
+  "LETS_GO": "Lets Go! ->",
+  "WELCOME": "Welcome!",
+  "SIGNUP": "Sign Up",
+  "SUBTITLE": "Login using your Mobile Number",
+  "LEARN": "Learn",
+  "IMPROVE": "Improve",
+  "LEARN_SUBTITLE": "Learn Anytime, anywhere.",
+  "IMPROVE_SUBTITLE": "Improve on the go.",
+  "MOBILENUMBER": "Mobile Number",
+  "NAME": "Name",
+
+  "DATEOFBIRTH": "Date of Birth",
+
+  "EMAILID": "Email ID",
+
+  "STATE": "State",
+
+  "DISTRICT": "District",
+
+  "BLOCK": "Block",
+
+  "SCHOOL": "School",
+
+  "UDISE": "UDISE",
+  "CLASS": "Class",
+  "ENTER_MOBILE_NUMBER": "Enter Mobile Number",
+  "ENTER_NAME": "Enter Name",
+
+  "ENTER_DATEOFBIRTH": "Enter Date of Birth",
+
+  "ENTER_EMAILID": "Enter Email ID",
+
+  "ENTER_STATE": "Enter State",
+
+  "ENTER_DISTRICT": "Enter District",
+
+  "ENTER_BLOCK": "Enter Block",
+
+  "ENTER_SCHOOL": "Enter School",
+
+  "ENTER_UDISE": "Enter UDISE",
+
+  "ENTER_CLASS": "Enter Class",
+
+  "ENTER_USERNAME": "Enter Username",
+  "ENTER_PASSWORD": "ENTER Password",
+  "USERNAME": "USERNAME",
+  "PASSWORD": "PASSWORD"
 }
