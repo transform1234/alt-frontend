@@ -30,7 +30,7 @@ export default function CourseList({ footerLinks }) {
     const data = await selfAssesmentService.getCoursesRule();
     setCoursesList(data);
   }, []);
-
+  console.log("hello");
   return (
     <Layout
       _header={{
@@ -38,6 +38,7 @@ export default function CourseList({ footerLinks }) {
       }}
       _appBar={{
         languages: manifest.languages,
+        isShowNotificationButton: true,
         isBackButtonShow: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -56,11 +57,6 @@ export default function CourseList({ footerLinks }) {
               w="20px"
               h="20px"
             />
-          </HStack>
-        ),
-        rightIcon: (
-          <HStack>
-            <IconByName name="Notification2LineIcon" />
           </HStack>
         ),
       }}

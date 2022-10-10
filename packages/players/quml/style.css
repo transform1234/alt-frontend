@@ -1,0 +1,83 @@
+body {
+  background: #f7f9fb !important;
+}
+p {
+  margin: 0 !important;
+}
+.lanscape-mode-right {
+  justify-content: center !important;
+}
+.notVisible {
+  display: none;
+}
+.quml-header__container {
+  background: transparent !important;
+}
+.quml-question {
+  margin-top: 10px;
+  padding: 0 !important;
+}
+.landscape-content {
+  padding-top: 55px !important;
+}
+@media only screen and (max-width: 480px) {
+  .landscape-content {
+    padding: 100px !important;
+    padding-bottom: 10px !important;
+  }
+}
+.quml-mcq--question.mb-24 {
+  margin-bottom: 10px !important;
+}
+.player-grid {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  padding-top: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .player-grid {
+    grid-template-columns: 100%;
+    gap: 0px;
+  }
+}
+.quml-question,
+.question-container {
+  background-color: transparent;
+  padding: 10px !important;
+}
+.quml-mcq-options {
+  content: "";
+  display: table;
+  clear: both;
+  width: 100%;
+}
+.quml-option {
+  min-height: 155px;
+}
+.option {
+  flex: none;
+}
+.quml-option-card {
+  float: left;
+  width: 50%;
+  padding: 8px;
+  position: relative;
+  text-align: center;
+}
+.quml-option-card .quml-option:first-child {
+  background: #41c88e !important;
+  border-radius: 20px;
+}
+.checkmark {
+  background: white;
+}
+.quml-option .option p {
+  color: white;
+}
+.quml-option label.container {
+  position: absolute;
+  bottom: -10px;
+  left: 52px;
+}

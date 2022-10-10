@@ -80,8 +80,14 @@ export default function StudentLogin({ swPath }) {
       if (result?.data) {
         let token = result.data.access_token;
         localStorage.setItem("token", token);
+        let resultTeacher = {};
+        try {
+          resultTeacher = await userRegistryService.getOne();
+        } catch (e) {
+          localStorage.removeItem("token");
+          console.log({ e });
+        }
 
-        const resultTeacher = await userRegistryService.getOne();
         if (resultTeacher?.id) {
           try {
             let { id } = resultTeacher;
@@ -131,6 +137,7 @@ export default function StudentLogin({ swPath }) {
       }
     }
   };
+
   const navigatePage = () => {
     window.location.href = "/";
   };
@@ -140,6 +147,7 @@ export default function StudentLogin({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         LeftIcon: (
           <HStack width={"65px"}>

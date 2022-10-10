@@ -28,6 +28,7 @@ import {
   getUserToken,
   overrideColorTheme,
   Layout,
+  IconByName,
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -135,6 +136,7 @@ export default function Login({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         LeftIcon: (
           <HStack width={"65px"}>

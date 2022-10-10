@@ -45,16 +45,8 @@ function App() {
     process.env.REACT_APP_OAUTH_PROXY_ENABLED == undefined ||
     JSON.parse(process.env.REACT_APP_OAUTH_PROXY_ENABLED) == false
   );
-  console.log(routes);
+
   return (
-    // <AppShell
-    //   basename={process.env.PUBLIC_URL}
-    //   routes={routes}
-    //   AuthComponent={LoginComponent}
-    //   isShowFooterLink={true}
-    //   appName="Teacher App"
-    //   skipLogin={skipLogin}
-    // />
     <AppShell
       basename={process.env.PUBLIC_URL}
       routes={routes}

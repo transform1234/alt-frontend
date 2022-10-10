@@ -3,10 +3,11 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/student-app",
       "packages/common-lib",
       "packages/core",
-      "packages/selfassesment"
+      "packages/selfassesment",
+      "packages/players",
+      "packages/student-app"
     ]
   },
   "scripts": {

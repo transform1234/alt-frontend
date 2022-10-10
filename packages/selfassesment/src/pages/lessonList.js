@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HStack, Text, VStack, Stack, Box, Pressable } from "native-base";
+import { HStack, VStack, Stack, Pressable } from "native-base";
 import {
   Collapsible,
   Layout,
@@ -83,7 +83,7 @@ export default function LessonList({ footerLinks }) {
               p="0"
               rounded="full"
             />
-            <SunbirdPlayer {...lesson} public_url={"http://localhost:5000"} />
+            <SunbirdPlayer {...lesson} />
           </VStack>
         }
       />
@@ -95,13 +95,8 @@ export default function LessonList({ footerLinks }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: true,
+        isShowNotificationButton: true,
         LeftIcon: <HStack>English</HStack>,
-
-        rightIcon: (
-          <HStack>
-            <IconByName name="Notification2LineIcon" />
-          </HStack>
-        ),
       }}
       _footer={footerLinks}
     >
