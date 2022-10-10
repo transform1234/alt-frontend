@@ -26,6 +26,10 @@ function App() {
       path: navigationRoute.fourOfour,
       component: Student,
     },
+    {
+      path: "/onboardingimprove",
+      component: OnboardingFill,
+    },
   ];
   const LoginComponent = React.lazy(() => import("core/Login"));
   const skipLogin = !(
