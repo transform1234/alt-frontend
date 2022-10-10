@@ -32,6 +32,7 @@ export default function OnboardingFill() {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         CenterIcon: true,
         LeftIcon: (

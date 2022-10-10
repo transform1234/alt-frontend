@@ -30,7 +30,7 @@ export default function AppBar({
   CenterIcon,
   centerPlate,
   isShowNotificationButton,
-  isShowMenuButton,
+  isHideMenuButton,
   titleComponent,
   isBackButtonShow,
   ...props
@@ -212,7 +212,7 @@ export default function AppBar({
               ) : (
                 <React.Fragment />
               )}
-              {isShowMenuButton ? (
+              {!isHideMenuButton ? (
                 <Stack px='3'>
                   <Menu
                     right='100%'

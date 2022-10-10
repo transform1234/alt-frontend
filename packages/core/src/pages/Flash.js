@@ -35,6 +35,7 @@ export default function Flash() {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         LeftIcon: (
           <HStack width={"65px"}>

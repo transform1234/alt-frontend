@@ -173,6 +173,7 @@ export default function Login({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         LeftIcon: (
           <HStack width={"65px"}>
             <Avatar

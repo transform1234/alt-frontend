@@ -34,6 +34,7 @@ export default function Onboarding({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         CenterIcon: true,
         LeftIcon: (

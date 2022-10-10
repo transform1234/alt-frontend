@@ -79,6 +79,7 @@ export default function OTP({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
 
         LeftIcon: (

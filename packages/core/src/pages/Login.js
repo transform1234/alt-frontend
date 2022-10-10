@@ -136,7 +136,7 @@ export default function Login({ swPath }) {
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
-        isShowMenuButton: false,
+        isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
         LeftIcon: (
           <HStack width={"65px"}>
