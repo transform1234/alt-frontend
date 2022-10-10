@@ -83,7 +83,7 @@ export default function LessonList({ footerLinks }) {
               p="0"
               rounded="full"
             />
-            <SunbirdPlayer {...lesson} public_url={"http://localhost:5000"} />
+            <SunbirdPlayer {...lesson} />
           </VStack>
         }
       />

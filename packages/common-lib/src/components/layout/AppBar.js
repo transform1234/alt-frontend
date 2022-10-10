@@ -30,6 +30,7 @@ export default function AppBar({
   CenterIcon,
   centerPlate,
   isShowNotificationButton,
+  isShowMenuButton,
   titleComponent,
   isBackButtonShow,
   ...props
@@ -211,42 +212,46 @@ export default function AppBar({
               ) : (
                 <React.Fragment />
               )}
-              <Stack px='3'>
-                <Menu
-                  right='100%'
-                  w='190'
-                  placement='bottom right'
-                  trigger={(triggerProps) => {
-                    return (
-                      <Pressable
-                        accessibilityLabel='More options menu'
-                        {...triggerProps}
+              {isShowMenuButton ? (
+                <Stack px='3'>
+                  <Menu
+                    right='100%'
+                    w='190'
+                    placement='bottom right'
+                    trigger={(triggerProps) => {
+                      return (
+                        <Pressable
+                          accessibilityLabel='More options menu'
+                          {...triggerProps}
+                        >
+                          <IconByName
+                            size='sm'
+                            name='MenuFillIcon'
+                            isDisabled={true}
+                            color={color ? color : ''}
+                          />
+                        </Pressable>
+                      )
+                    }}
+                  >
+                    {languages?.map((e, index) => (
+                      <Menu.Item
+                        key={index}
+                        label={e.title}
+                        textValue={e.code}
+                        onPress={(item) => setLang(e.code)}
                       >
-                        <IconByName
-                          size='sm'
-                          name='MenuFillIcon'
-                          isDisabled={true}
-                          color={color ? color : ''}
-                        />
-                      </Pressable>
-                    )
-                  }}
-                >
-                  {languages?.map((e, index) => (
-                    <Menu.Item
-                      key={index}
-                      label={e.title}
-                      textValue={e.code}
-                      onPress={(item) => setLang(e.code)}
-                    >
-                      {e.title}
+                        {e.title}
+                      </Menu.Item>
+                    ))}
+                    <Menu.Item onPress={(item) => setLang('logout')}>
+                      Logout
                     </Menu.Item>
-                  ))}
-                  <Menu.Item onPress={(item) => setLang('logout')}>
-                    Logout
-                  </Menu.Item>
-                </Menu>
-              </Stack>
+                  </Menu>
+                </Stack>
+              ) : (
+                <React.Fragment />
+              )}
             </HStack>
           </HStack>
         </React.Fragment>
