@@ -19,7 +19,6 @@ export const useAuthFlow = () => {
       localStorage.setItem('lastName', resultTeacher.lastName)
       localStorage.setItem('schoolId', resultTeacher.schoolId)
       setLoggedInUser(resultTeacher)
-      //window.location.reload();
     }
   }, [])
 
