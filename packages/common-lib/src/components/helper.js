@@ -3,7 +3,7 @@ import { getApiConfig } from '../services/configApiRegistryService'
 import * as roleRegistryService from '../services/roleRegistryService'
 import * as joyfull from '../theme/joyfull'
 import * as monochrome from '../theme/monochrome'
-import * as studentTheme from '../theme/student'
+import * as ALTTheme from '../theme/ALT'
 import { extendTheme } from 'native-base'
 import footerLinks from '../config/footerLinks'
 import jwt_decode from 'jwt-decode'
@@ -119,10 +119,10 @@ export const DEFAULT_THEME = async (theme) => {
   }
   if (theme === 'monochrome') {
     return extendTheme(monochrome.theme)
-  } else if (theme === 'student') {
-    return extendTheme(studentTheme.theme)
+  } else if (theme === 'alt') {
+    return extendTheme(ALTTheme.theme)
   }
-  return extendTheme(studentTheme.theme)
+  return extendTheme(ALTTheme.theme)
 }
 
 export const getAppshellData = async (routes = [], role = '') => {

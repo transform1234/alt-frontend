@@ -14,6 +14,7 @@ import BookOpenLineIcon from 'remixicon-react/BookOpenLineIcon'
 import UserLineIcon from 'remixicon-react/UserLineIcon'
 import ArrowLeftSLineIcon from 'remixicon-react/ArrowLeftSLineIcon'
 import ArrowRightSLineIcon from 'remixicon-react/ArrowRightSLineIcon'
+import ArrowRightLineIcon from 'remixicon-react/ArrowRightLineIcon'
 import ArrowUpSLineIcon from 'remixicon-react/ArrowUpSLineIcon'
 import ArrowDownSLineIcon from 'remixicon-react/ArrowDownSLineIcon'
 import CalendarCheckLineIcon from 'remixicon-react/CalendarCheckLineIcon'
@@ -103,6 +104,7 @@ import DragMove2LineIcon from 'remixicon-react/DragMove2LineIcon'
 import PictureInPictureExitLineIcon from 'remixicon-react/PictureInPictureExitLineIcon'
 import PictureInPicture2LineIcon from 'remixicon-react/PictureInPicture2LineIcon'
 import DashboardLineIcon from 'remixicon-react/DashboardLineIcon'
+import MenuFillIcon from 'remixicon-react/MenuFillIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -217,6 +219,15 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<ArrowRightSLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
+    case 'ArrowRightLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<ArrowRightLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break
@@ -817,6 +828,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<DeleteBinFillIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'MenuFillIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<MenuFillIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

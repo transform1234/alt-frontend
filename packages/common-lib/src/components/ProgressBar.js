@@ -7,6 +7,7 @@ export default function ProgressBar({
   sufix,
   isTextShow,
   isTextInBar,
+  isTextRight,
   isLabelCountHide,
   _bar,
   _labelCount,
@@ -145,8 +146,19 @@ export default function ProgressBar({
         ) : (
           <React.Fragment />
         )}
-        <HStack overflow='hidden' rounded='xl' {..._bar}>
-          {!bars || bars === '' ? <Text>Progress Data Empty</Text> : bars}
+        <HStack overflow='hidden' {..._bar}>
+          {!bars || bars === '' ? (
+            <Text>Progress Data Empty</Text>
+          ) : (
+            <Box
+              {...(isTextRight ? { flex: 1 } : {})}
+              overflow='hidden'
+              rounded='full'
+            >
+              {bars}
+            </Box>
+          )}
+          {isTextRight ? isTextRight : <React.Fragment />}
         </HStack>
         {!isTextInBar && isTextShow ? <GetLegendPattern /> : <React.Fragment />}
       </VStack>

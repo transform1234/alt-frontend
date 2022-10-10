@@ -1,9 +1,9 @@
 const { dependencies } = require("./package.json");
 
 module.exports = {
-  name: "samplemodule",
+  name: "studentapp",
   exposes: {
-    "./SampleComponent": "./src/components/SampleComponent",
+    "./App": "./src/App",
   },
   remotes: {
     core: `core@[window.appModules.core.url]/moduleEntry.js`,

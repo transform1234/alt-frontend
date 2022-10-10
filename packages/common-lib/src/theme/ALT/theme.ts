@@ -1,5 +1,6 @@
 const maxWidth = '1080'
-const fontFamily = localStorage.getItem('lang') === 'hi' ? "'Baloo 2'" : 'Inter'
+const fontFamily =
+  localStorage.getItem('lang') === 'hi' ? "'Baloo 2'" : 'Fredoka'
 const fontSize = localStorage.getItem('lang') === 'hi' ? '20px' : ''
 import colorTheme from './colorTheme'
 

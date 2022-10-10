@@ -15,7 +15,7 @@ function App() {
     },
     {
       moduleName: "selfassesment",
-      path: "/selfassesment/lessons/:id",
+      path: "/selfassesment/lessons/:id/:type",
       component: LessonList,
     },
   ];

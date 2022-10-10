@@ -3,17 +3,18 @@ import React from 'react'
 import IconByName from '../IconByName'
 import { Caption, H2 } from './HeaderTags'
 
-export default function NameTag() {
+export default function NameTag({ height = '55', parentBgColor = '#f8f8f9' }) {
   return (
     <HStack
       alignItems='center'
-      bg='green'
-      rounded={'full'}
+      bg='nameTag'
+      roundedLeft={'full'}
       p='2'
       pl='3'
       pr='5'
       space={2}
       flex='1'
+      position={'relative'}
     >
       <IconByName
         borderWidth='1'
@@ -29,6 +30,17 @@ export default function NameTag() {
         <H2 color='white'> Hi Vishal</H2>
         <Caption color='white'> Hi Vishal</Caption>
       </Box>
+      <Box
+        position='absolute'
+        right='-1'
+        style={{
+          'border-top': `${(height ? height : 55) / 2}px solid transparent`,
+          'border-right': `${
+            (height ? height : 55) / 2
+          }px solid ${parentBgColor}`,
+          'border-bottom': `${(height ? height : 55) / 2}px solid transparent`
+        }}
+      />
     </HStack>
   )
 }
