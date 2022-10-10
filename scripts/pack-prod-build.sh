@@ -11,7 +11,6 @@ for f  do
     fi
 done 
 ' sh {} +
-cp -r  packages/teacher-app/build/* prod-build/
 cp -r  packages/student-app/build/* prod-build/
 find  prod-build -name  'modules.json' | xargs sed -i 's|http://localhost:[0-9]*||g'
 cd prod-build && tar -cf ../shiksha-ui.tar . && cd ../
