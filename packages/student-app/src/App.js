@@ -45,6 +45,7 @@ function App() {
     process.env.REACT_APP_OAUTH_PROXY_ENABLED == undefined ||
     JSON.parse(process.env.REACT_APP_OAUTH_PROXY_ENABLED) == false
   );
+  console.log(routes);
   return (
     // <AppShell
     //   basename={process.env.PUBLIC_URL}
