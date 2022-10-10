@@ -96,10 +96,15 @@ const TeacherVisitReport = React.lazy(() =>
 );
 const Question = React.lazy(() => import("schools/Question"));
 const Myvisits = React.lazy(() => import("visits/Myvisits"));
+const Onboarding = React.lazy(() => import("core/OnboardingFill"));
+
 const Recommendedschools = React.lazy(() =>
   import("visits/Recommendedschools")
 );
 const Allocatedschools = React.lazy(() => import("visits/Allocatedschools"));
+
+const Signup = React.lazy(() => import("core/signup"));
+
 const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
@@ -457,6 +462,12 @@ export const routes = [
     path: "/visits",
     component: Myvisits,
   },
+  {
+    moduleName: "onboarding",
+    path: "/onboardingimprove",
+    component: Onboarding,
+  },
+
   {
     moduleName: "app",
     path: "/",

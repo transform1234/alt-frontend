@@ -4,6 +4,10 @@ import "./App.css";
 import { AppShell, initializeI18n } from "@shiksha/common-lib";
 import Home from "pages/Home";
 
+const OnboardingFill = React.lazy(() => import("core/OnboardingFill"));
+const StudentLogin = React.lazy(() => import("core/StudentLogin"));
+const Flash = React.lazy(() => import("core/Flash"));
+
 const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
@@ -27,6 +31,10 @@ function App() {
       component: SelfassesmentLessonList,
     },
     {
+      path: "/onboardingimprove",
+      component: OnboardingFill,
+    },
+    {
       moduleName: "student-app",
       path: "/",
       component: Home,
@@ -37,11 +45,45 @@ function App() {
     process.env.REACT_APP_OAUTH_PROXY_ENABLED == undefined ||
     JSON.parse(process.env.REACT_APP_OAUTH_PROXY_ENABLED) == false
   );
+  console.log(routes);
   return (
+    // <AppShell
+    //   basename={process.env.PUBLIC_URL}
+    //   routes={routes}
+    //   AuthComponent={LoginComponent}
+    //   isShowFooterLink={true}
+    //   appName="Teacher App"
+    //   skipLogin={skipLogin}
+    // />
     <AppShell
       basename={process.env.PUBLIC_URL}
       routes={routes}
       AuthComponent={LoginComponent}
+      guestRoutes={[
+        {
+          path: "/login",
+          component: StudentLogin,
+        },
+        {
+          path: "/",
+          component: Flash,
+        },
+        {
+          moduleName: "selfassesment",
+          path: "/selfassesment",
+          component: Selfassesment,
+        },
+        {
+          moduleName: "selfassesment",
+          path: "/selfassesment/lessons",
+          component: SelfassesmentLessonList,
+        },
+        {
+          moduleName: "student-app",
+          path: "/student",
+          component: Home,
+        },
+      ]}
       isShowFooterLink={true}
       appName="Teacher App"
       skipLogin={skipLogin}

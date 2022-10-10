@@ -7,6 +7,7 @@ import AppRoutesContainer from './AppRoutesContainer'
 import { getAppshellData } from './helper'
 import NotFound from './NotFound'
 import { hotjar } from 'react-hotjar'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function AppShell({
   colors,
@@ -17,6 +18,7 @@ function AppShell({
   appName,
   _authComponent,
   skipLogin = false,
+  guestRoutes,
   ...otherProps
 }: any) {
   const [token, setToken] = useState(localStorage.getItem('token'))
@@ -31,6 +33,7 @@ function AppShell({
   if (hotjar.initialized()) {
     hotjar.identify('USER_ID', { userProperty: 'value' })
   }
+  console.log({ accessRoutes })
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
@@ -49,7 +52,7 @@ function AppShell({
         setFooterLinks({ menues: newFooterLinks })
       }
       setAccessRoutes([
-        ...newRoutes,
+        ...routes,
         {
           path: '*',
           component: NotFound
@@ -70,7 +73,7 @@ function AppShell({
           }, 1)
         } else {
           setTimeout(() => {
-            window.location.href = ''
+            window.location.href = '/'
           }, 1)
         }
       }
@@ -83,14 +86,61 @@ function AppShell({
   if (!Object.keys(theme).length) {
     return <React.Fragment />
   }
-
   if (!token && !skipLogin) {
     return (
       <NativeBaseProvider {...(Object.keys(theme).length ? { theme } : {})}>
         <PushNotification />
-        {/* <FloatingVideoPlayer /> */}
         <React.Suspense fallback={<Loading />}>
-          <AuthComponent {...{ colors }} {..._authComponent} />
+          {guestRoutes?.length > 0 ? (
+            <Router basename={basename}>
+              <Routes>
+                {guestRoutes.map((item: any, index: number) => (
+                  <Route
+                    key={index}
+                    path={item.path}
+                    element={
+                      <item.component
+                        {...{ footerLinks, appName, setAlert, ...otherProps }}
+                      />
+                    }
+                  />
+                ))}
+                <Route
+                  path={'*'}
+                  element={
+                    <AuthComponent
+                      {...{
+                        footerLinks,
+                        appName,
+                        setAlert,
+                        ...otherProps,
+                        ..._authComponent
+                      }}
+                    />
+                  }
+                />
+              </Routes>
+            </Router>
+          ) : (
+            <Router basename={basename}>
+              <Routes>
+                <Route
+                  path={'*'}
+                  element={
+                    <AuthComponent
+                      {...{
+                        footerLinks,
+                        appName,
+                        setAlert,
+                        ...otherProps,
+                        ..._authComponent
+                      }}
+                    />
+                  }
+                />
+              </Routes>
+            </Router>
+          )}
         </React.Suspense>
       </NativeBaseProvider>
     )
