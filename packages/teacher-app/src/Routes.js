@@ -102,9 +102,6 @@ const Recommendedschools = React.lazy(() =>
   import("visits/Recommendedschools")
 );
 const Allocatedschools = React.lazy(() => import("visits/Allocatedschools"));
-
-const Signup = React.lazy(() => import("core/signup"));
-
 const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
