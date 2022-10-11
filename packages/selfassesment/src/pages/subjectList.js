@@ -86,81 +86,50 @@ export default function SubjectList({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Stack
-        onPress={() => {
-          navigate(`/selfassesment`);
-        }}
-        space="10"
-        p="10"
-        mb="20"
-      >
+      <Stack space="10" p="10" mb="20">
         {SubjectList?.map((item, index) => (
-          <VStack
-            onPress={() => {
-              navigate(`/selfassesment`);
-            }}
-            alignItems="center"
-            p="10"
-            bg={index ? "#fffbfa" : "#e5fcf5"}
-            space="10"
-            borderColor={index ? "#fff" : "success"}
-            borderWidth="1"
-            rounded="20px"
+          //  return (
+          <Pressable
+            onPress={() => navigate(`/selfassesment`)}
             position="relative"
           >
-            <HStack
-              onPress={() => {
-                navigate(`/selfassesment`);
-              }}
-              space="10"
+            <VStack
               alignItems="center"
+              p="10"
+              bg={index ? "#fffbfa" : "#e5fcf5"}
+              space="10"
+              borderColor={index ? "#fff" : "success"}
+              borderWidth="1"
+              rounded="20px"
+              position="relative"
             >
-              <Avatar
-                onPress={() => {
-                  navigate(`/selfassesment`);
-                }}
-                bg="transparent"
-                style={{ borderRadius: "0px !important" }}
-                size="lg"
-                source={{
-                  uri: item?.icon,
-                }}
-              />
+              <HStack space="10" alignItems="center">
+                <Avatar
+                  bg="transparent"
+                  style={{ borderRadius: "0px !important" }}
+                  size="lg"
+                  source={{
+                    uri: item?.icon,
+                  }}
+                />
 
-              <Text
-                onPress={() => {
-                  navigate(`/selfassesment`);
-                }}
-                alignItems="center"
-                fontSize="24px"
-                bold
-              >
-                {item?.subject}
-              </Text>
-            </HStack>
+                <Text alignItems="center" fontSize="24px" bold>
+                  {item?.subject}
+                </Text>
+              </HStack>
 
-            <Button
-              onPress={() => {
-                console.log("hereeee");
-                navigate(`/selfassesment`);
-              }}
-              colorScheme="purple"
-              rounded="full"
-              position="absolute"
-              bottom="-25"
-              minW="30%"
-            >
-              <H2
-                onPress={() => {
-                  navigate(`/selfassesment`);
-                }}
-                color="white"
+              <Button
+                colorScheme="purple"
+                rounded="full"
+                position="absolute"
+                bottom="-25"
+                minW="30%"
               >
-                {" "}
-                {item?.status}
-              </H2>
-            </Button>
-          </VStack>
+                <H2 color="white"> {item?.status}</H2>
+              </Button>
+            </VStack>
+          </Pressable>
+          // );
         ))}
       </Stack>
     </Layout>
