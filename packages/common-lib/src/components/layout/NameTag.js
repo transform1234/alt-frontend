@@ -27,8 +27,13 @@ export default function NameTag({ height = '55', parentBgColor = '#f8f8f9' }) {
         color='white'
       />
       <Box>
-        <H2 color='white'> Hi Vishal</H2>
-        <Caption color='white'> Hi Vishal</Caption>
+        <H2 color='white'> Hi {localStorage.getItem('name')}</H2>
+        <Caption color='white'>
+          Class :
+          {localStorage.getItem('class') +
+            ' ' +
+            localStorage.getItem('section')}
+        </Caption>
       </Box>
       <Box
         position='absolute'

@@ -77,6 +77,7 @@ export default function StudentLogin({ swPath }) {
         credentials?.username,
         credentials?.password
       );
+
       if (result?.data) {
         let token = result.data.access_token;
         localStorage.setItem("token", token);
@@ -102,8 +103,10 @@ export default function StudentLogin({ swPath }) {
                 ? resultTeacher.fullName
                 : `${resultTeacher.firstName} ${resultTeacher.lastName}`
             );
-            localStorage.setItem("firstName", resultTeacher.firstName);
-            localStorage.setItem("lastName", resultTeacher.lastName);
+            localStorage.setItem("name", resultTeacher.firstName);
+            localStorage.setItem("class", resultTeacher.class);
+            localStorage.setItem("section", resultTeacher.section);
+
             localStorage.setItem("schoolId", resultTeacher.schoolId);
             localStorage.setItem("phoneNumber", resultTeacher.phoneNumber);
           } catch (e) {
