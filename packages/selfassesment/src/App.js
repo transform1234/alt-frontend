@@ -4,10 +4,16 @@ import "./App.css";
 import { AppShell } from "@shiksha/common-lib";
 import courseList from "pages/courseList";
 import { hotjar } from "react-hotjar";
+import SubjectList from "pages/subjectList";
 import LessonList from "pages/lessonList";
 
 function App() {
   const routes = [
+    {
+      moduleName: "selfassesment",
+      path: "/selfassesment/subjects",
+      component: SubjectList,
+    },
     {
       moduleName: "selfassesment",
       path: "/selfassesment",

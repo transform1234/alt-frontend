@@ -12,6 +12,9 @@ const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
 );
+const SelfassesmentSubjectList = React.lazy(() =>
+  import("selfassesment/subjects")
+);
 
 function App() {
   initializeI18n(
@@ -20,6 +23,11 @@ function App() {
   );
   const routes = [
     // selfAssessment Routes
+    {
+      moduleName: "selfassesment",
+      path: "/selfassesment/subjects",
+      component: SelfassesmentSubjectList,
+    },
     {
       moduleName: "selfassesment",
       path: "/selfassesment",
@@ -69,6 +77,11 @@ function App() {
           moduleName: "selfassesment",
           path: "/selfassesment/lessons",
           component: SelfassesmentLessonList,
+        },
+        {
+          moduleName: "selfassesment",
+          path: "/selfassesment/subjects",
+          component: SelfassesmentSubjectList,
         },
         {
           moduleName: "student-app",
