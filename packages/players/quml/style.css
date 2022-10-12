@@ -22,8 +22,11 @@ p {
 }
 @media only screen and (max-width: 480px) {
   .landscape-content {
-    padding: 100px !important;
+    padding: 100px 20px !important;
     padding-bottom: 10px !important;
+  }
+  .quml-option label.container {
+    left: 40% !important;
   }
 }
 .quml-mcq--question.mb-24 {
@@ -66,18 +69,44 @@ p {
   position: relative;
   text-align: center;
 }
-.quml-option-card .quml-option:first-child {
+
+.quml-option-card .quml-option {
+  border-radius: 20px !important;
+}
+
+.quml-option-card:nth-child(1) .quml-option,
+.quml-option-card:nth-child(1) .quml-option .checkmark {
   background: #41c88e !important;
-  border-radius: 20px;
 }
+
+.quml-option-card:nth-child(2) .quml-option,
+.quml-option-card:nth-child(2) .quml-option .checkmark {
+  background: #d97167 !important;
+}
+
+.quml-option-card:nth-child(3) .quml-option,
+.quml-option-card:nth-child(3) .quml-option .checkmark {
+  background: #e99b41 !important;
+}
+
+.quml-option-card:nth-child(4) .quml-option,
+.quml-option-card:nth-child(4) .quml-option .checkmark {
+  background: #6461d2 !important;
+}
+
 .checkmark {
-  background: white;
+  border: 2px solid #ffffff !important;
 }
+
 .quml-option .option p {
   color: white;
 }
 .quml-option label.container {
   position: absolute;
-  bottom: -10px;
-  left: 52px;
+  bottom: -20px;
+  left: 43%;
+}
+.checkmark {
+  height: 40px !important;
+  width: 40px !important;
 }

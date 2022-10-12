@@ -105,6 +105,9 @@ import PictureInPictureExitLineIcon from 'remixicon-react/PictureInPictureExitLi
 import PictureInPicture2LineIcon from 'remixicon-react/PictureInPicture2LineIcon'
 import DashboardLineIcon from 'remixicon-react/DashboardLineIcon'
 import MenuFillIcon from 'remixicon-react/MenuFillIcon'
+import FilePaper2LineIcon from 'remixicon-react/FilePaper2LineIcon'
+import FileTextLineIcon from 'remixicon-react/FileTextLineIcon'
+import TimerLineIcon from 'remixicon-react/TimerLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -949,6 +952,30 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<DashboardLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'FilePaper2LineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FilePaper2LineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'FileTextLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FileTextLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'TimerLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<TimerLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

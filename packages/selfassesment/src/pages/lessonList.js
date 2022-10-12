@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { HStack, VStack, Stack, Pressable } from "native-base";
+import React from "react";
+import { HStack, VStack, Stack, Pressable, Box, Button } from "native-base";
 import {
   Collapsible,
   Layout,
   H2,
   IconByName,
   BodyLarge,
+  BodySmall,
   Caption,
   courseRegistryService,
   H1,
@@ -13,33 +14,44 @@ import {
   SunbirdPlayer,
   useWindowSize,
   H3,
+  RoundedProgressBar,
 } from "@shiksha/common-lib";
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 import manifest from "../manifest.json";
 
-export default function LessonList({ footerLinks }) {
-  const { t } = useTranslation();
-  const { id, type } = useParams();
-  const [lessons, setLessons] = useState({});
-  const [lessonId, setLessonId] = useState();
-  const [lesson, setLesson] = useState();
-  const [width, height] = useWindowSize();
+const demoData = [
+  {
+    index: 1,
+    pass: "No",
+    score: 1,
+    duration: 2,
+  },
+  {
+    index: 2,
+    pass: "Yes",
+    score: 0,
+    duration: 3,
+  },
+];
 
-  useEffect(async () => {
+export default function LessonList({ footerLinks }) {
+  const { id, type } = useParams();
+  const [lessons, setLessons] = React.useState({});
+  const [lessonLandingPage, setLessonLandingPage] = React.useState(true);
+  const [lessonId, setLessonId] = React.useState();
+  const [lesson, setLesson] = React.useState();
+  const [width, height] = useWindowSize();
+  const navigate = useNavigate();
+  const [trackData, setTrackData] = React.useState();
+
+  React.useEffect(async () => {
     if (["assessment", "SelfAssess"].includes(type)) {
-      setLessons({
-        children: [
-          {
-            children: [
-              await courseRegistryService.getContent({
-                id: id,
-                adapter: "diksha",
-              }),
-            ],
-          },
-        ],
-      });
+      setLesson(
+        await courseRegistryService.getContent({
+          id: id,
+          adapter: "diksha",
+        })
+      );
     } else if (["course", "Course"].includes(type)) {
       setLessons(
         await courseRegistryService.getOne({
@@ -50,8 +62,6 @@ export default function LessonList({ footerLinks }) {
       );
     }
   }, []);
-
-  console.log({ lessons, lesson });
 
   React.useEffect(async () => {
     if (lessonId) {
@@ -68,23 +78,47 @@ export default function LessonList({ footerLinks }) {
       <Loading
         _center={{ alignItems: "center", width: "100%" }}
         customComponent={
-          <VStack {...{ width, height }}>
-            <IconByName
-              name="CloseCircleLineIcon"
-              onPress={() => {
-                setLesson();
-              }}
-              position="absolute"
-              zIndex="10"
-              right="4px"
-              top="4px"
-              _icon={{ size: 40 }}
-              bg="white"
-              p="0"
-              rounded="full"
+          lessonLandingPage ? (
+            <LessonLandingPage
+              subject={"English"}
+              data={lesson}
+              setLessonLandingPage={setLessonLandingPage}
             />
-            <SunbirdPlayer {...lesson} />
-          </VStack>
+          ) : trackData ? (
+            <LessonResultPage
+              type={type}
+              setLesson={setLesson}
+              trackData={trackData}
+              subject={"English"}
+              data={lesson}
+            />
+          ) : (
+            <VStack {...{ width, height }}>
+              <IconByName
+                name="CloseCircleLineIcon"
+                onPress={() => {
+                  setLesson();
+                  if (["assessment", "SelfAssess"].includes(type)) {
+                    navigate(-1);
+                  }
+                }}
+                position="absolute"
+                zIndex="10"
+                right="4px"
+                top="4px"
+                _icon={{ size: 40 }}
+                bg="white"
+                p="0"
+                rounded="full"
+              />
+              <SunbirdPlayer
+                {...lesson}
+                setTrackData={setTrackData}
+                public_url="http://localhost:5000"
+                // public_url="https://alt-shiksha.uniteframework.io/"
+              />
+            </VStack>
+          )
         }
       />
     );
@@ -182,3 +216,144 @@ export default function LessonList({ footerLinks }) {
     </Layout>
   );
 }
+
+const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
+  // console.log(data);
+  const navigate = useNavigate();
+  const score = trackData.reduce((old, newData) => old + newData?.score, 0);
+  const average = (score * 100) / data?.totalScore;
+  return (
+    <VStack space="42px" alignItems="center">
+      <VStack alignItems="center" space={"26px"}>
+        <H1 color="selfassesment.darkGray5">Your Score for {subject}</H1>
+        <Box rounded="full">
+          <RoundedProgressBar
+            values={[average, 100 - average]}
+            colors={["#B6EC78", "#E9E9E9"]}
+            title={{
+              text: `${score}/${data?.totalScore}`,
+              fontSize: "21px",
+              _text: {
+                style: { transform: "translate(-50%, -50%)" },
+                color: "selfassesment.cloverGreen",
+              },
+            }}
+            cutout={"70%"}
+            size="107px"
+          />
+        </Box>
+        <Button
+          variant="secondary"
+          flex={1}
+          width="100%"
+          minH={"57px"}
+          _text={{ fontSize: "18px" }}
+        >
+          Good !
+        </Button>
+      </VStack>
+      <BodySmall>
+        You’re doing great! Start learning and improve your skills.{" "}
+      </BodySmall>
+      <Button
+        variant="rounded"
+        flex={1}
+        width="100%"
+        size={"lg"}
+        onPress={() => {
+          setLesson();
+          if (["assessment", "SelfAssess"].includes(type)) {
+            navigate(-1);
+          }
+        }}
+      >
+        Start Learning
+      </Button>
+      <Button
+        variant="link"
+        flex={1}
+        width="100%"
+        onPress={() => {
+          setLesson();
+          if (["assessment", "SelfAssess"].includes(type)) {
+            navigate(-1);
+          }
+        }}
+      >
+        Back to Home
+      </Button>
+    </VStack>
+  );
+};
+const LessonLandingPage = ({ subject, data, setLessonLandingPage }) => {
+  return (
+    <VStack space="4" alignItems="center">
+      <HStack alignItems="center" space={2}>
+        <IconByName
+          isDisabled
+          p="2"
+          _icon={{ size: 25 }}
+          color="selfassesment.primary"
+          name="FilePaper2LineIcon"
+        />
+        <H1 color="selfassesment.darkGray5">{subject}</H1>
+      </HStack>
+      <Box
+        bg="selfassesment.landingLight"
+        rounded="full"
+        p="50px"
+        borderWidth={2}
+        borderStyle="dashed"
+        borderColor={"selfassesment.primary"}
+      >
+        <IconByName
+          isDisabled
+          p="2"
+          _icon={{ size: 100 }}
+          color="selfassesment.landingIcon"
+          name="BookLineIcon"
+        />
+      </Box>
+      <HStack alignItems="center" space={2}>
+        <HStack alignItems="center">
+          <IconByName
+            isDisabled
+            p="2"
+            _icon={{ size: 25 }}
+            color="selfassesment.warning"
+            name="FileTextLineIcon"
+          />
+          <BodyLarge>{`${data?.totalQuestions} Questions`}</BodyLarge>
+        </HStack>
+        <HStack alignItems="center">
+          <IconByName
+            isDisabled
+            p="2"
+            _icon={{ size: 25 }}
+            color="selfassesment.warning"
+            name="TimerLineIcon"
+          />
+          <BodyLarge>{`${data?.totalQuestions} Minutes`}</BodyLarge>
+        </HStack>
+      </HStack>
+      <BodySmall>Lets assess your English Skills</BodySmall>
+      <Button
+        variant="rounded"
+        flex={1}
+        width="100%"
+        rightIcon={
+          <IconByName
+            isDisabled
+            p="2"
+            _icon={{ size: 25 }}
+            color="selfassesment.white"
+            name="ArrowRightLineIcon"
+          />
+        }
+        onPress={(e) => setLessonLandingPage(false)}
+      >
+        Begin Assessment
+      </Button>
+    </VStack>
+  );
+};
