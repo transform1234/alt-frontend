@@ -8,15 +8,11 @@ export const useAuthFlow = () => {
     if (resultTeacher) {
       let id = resultTeacher.id.replace('1-', '')
       localStorage.setItem('id', id)
-      localStorage.setItem(
-        'fullName',
-        resultTeacher.fullName
-          ? resultTeacher.fullName
-          : `${resultTeacher.firstName} ${resultTeacher.lastName}`
-      )
-      localStorage.setItem('firstName', resultTeacher.firstName)
-      localStorage.setItem('lastName', resultTeacher.lastName)
-      localStorage.setItem('schoolId', resultTeacher.schoolId)
+      localStorage.setItem('name', resultTeacher.name)
+      localStorage.setItem('name', resultTeacher.name)
+      localStorage.setItem('grade', resultTeacher.grade)
+      localStorage.setItem('medium', resultTeacher.medium)
+      localStorage.setItem('board', resultTeacher.board)
       setLoggedInUser(resultTeacher)
     }
   }, [])
