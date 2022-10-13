@@ -60,7 +60,14 @@ function CommingSoon({ footerLinks }) {
                     borderRadius: "100px",
                   }}
                 >
-                  <IconByName name="ToolsFillIcon" />
+                  <IconByName
+                    name="ToolsFillIcon"
+                    isDisabled={true}
+                    _icon={{
+                      size: 70,
+                    }}
+                    rounded="full"
+                  />
                 </div>
               </Center>
             </VStack>

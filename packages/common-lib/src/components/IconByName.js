@@ -147,7 +147,6 @@ export default function IconByName({ _icon, ...props }) {
       icon = (
         <IconButton
           {...props}
-          ToolsFillIcon
           icon={<UserFollowLineIcon {...(_icon ? _icon : {})} />}
         />
       )

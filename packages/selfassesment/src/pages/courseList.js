@@ -90,14 +90,14 @@ export default function CourseList({ footerLinks }) {
                   </Avatar>
                   <VStack space="2" flex={1}>
                     <BodyLarge>{item?.name}</BodyLarge>
-                    <Caption>{item?.description}</Caption>
+                    {/* <Caption>{item?.description}</Caption> */}
                   </VStack>
                 </HStack>
 
                 <ProgressBar
-                  isTextRight={
-                    <BodyLarge color="success">Not started</BodyLarge>
-                  }
+                  // isTextRight={
+                  //   <BodyLarge color="success">Not started</BodyLarge>
+                  // }
                   h="15px"
                   _bar={{
                     overflow: "visible",
@@ -135,7 +135,6 @@ export default function CourseList({ footerLinks }) {
                 )
               }
               position="relative"
-              background={"#f1f1f1"}
             >
               <VStack p="4" bg="#f1f1f1" space="4" roundedLeft="20">
                 <HStack space="4">
@@ -154,7 +153,7 @@ export default function CourseList({ footerLinks }) {
                   </Avatar>
                   <VStack space="2" flex={1}>
                     <BodyLarge>{item?.name}</BodyLarge>
-                    <Caption>{item?.description}</Caption>
+                    {/* <Caption>{item?.description}</Caption> */}
                   </VStack>
                 </HStack>
 
