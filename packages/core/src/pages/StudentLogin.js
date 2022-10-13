@@ -77,6 +77,7 @@ export default function StudentLogin({ swPath }) {
         credentials?.username,
         credentials?.password
       );
+
       if (result?.data) {
         let token = result.data.access_token;
         localStorage.setItem("token", token);
@@ -102,8 +103,10 @@ export default function StudentLogin({ swPath }) {
                 ? resultTeacher.fullName
                 : `${resultTeacher.firstName} ${resultTeacher.lastName}`
             );
-            localStorage.setItem("firstName", resultTeacher.firstName);
-            localStorage.setItem("lastName", resultTeacher.lastName);
+            localStorage.setItem("name", resultTeacher.firstName);
+            localStorage.setItem("class", resultTeacher.class);
+            localStorage.setItem("section", resultTeacher.section);
+
             localStorage.setItem("schoolId", resultTeacher.schoolId);
             localStorage.setItem("phoneNumber", resultTeacher.phoneNumber);
           } catch (e) {
@@ -125,7 +128,7 @@ export default function StudentLogin({ swPath }) {
               token: token,
             },
           });
-          navigate("/onboardingimprove");
+          navigate("/");
           window.location.reload();
         } else {
           localStorage.removeItem("token");
@@ -149,7 +152,14 @@ export default function StudentLogin({ swPath }) {
         isBackButtonShow: false,
         isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
-        LeftIcon: (
+        LeftIcon: false,
+
+        rightIcon: false,
+      }}
+      _height="150px"
+    >
+      <Box>
+        <Center width={width}>
           <HStack width={"65px"}>
             <Avatar
               size="37"
@@ -175,22 +185,6 @@ export default function StudentLogin({ swPath }) {
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
-        ),
-
-        rightIcon: (
-          <HStack paddingBottom={"25px"}>
-            <IconByName
-              name="CloseCircleLineIcon"
-              color={colors.cardCloseIcon}
-              onPress={() => navigatePage()}
-            />
-          </HStack>
-        ),
-      }}
-      _height="150px"
-    >
-      <Box>
-        <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
               <Heading>{t("WELCOME")}</Heading>

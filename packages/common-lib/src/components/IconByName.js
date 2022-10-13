@@ -108,6 +108,7 @@ import MenuFillIcon from 'remixicon-react/MenuFillIcon'
 import FilePaper2LineIcon from 'remixicon-react/FilePaper2LineIcon'
 import FileTextLineIcon from 'remixicon-react/FileTextLineIcon'
 import TimerLineIcon from 'remixicon-react/TimerLineIcon'
+import ToolsFillIcon from 'remixicon-react/ToolsFillIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -150,6 +151,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<UserFollowLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'ToolsFillIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<ToolsFillIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

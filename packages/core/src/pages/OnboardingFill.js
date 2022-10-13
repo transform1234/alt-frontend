@@ -14,7 +14,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import manifest from "../manifest";
-import { useWindowSize, Heading, Layout } from "@shiksha/common-lib";
+import {
+  useWindowSize,
+  Heading,
+  Layout,
+  BodyMedium,
+} from "@shiksha/common-lib";
 
 export default function OnboardingFill() {
   const { t } = useTranslation();
@@ -67,7 +72,15 @@ export default function OnboardingFill() {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box alignItems={"center"}>
-              <Heading>{t("Welcome Vishal!")}</Heading>
+              <Heading>
+                {t("Welcome") + " " + localStorage.getItem("name") + "!"}
+              </Heading>
+              <BodyMedium textTransform="inherit">
+                Class :{" "}
+                {localStorage.getItem("class") +
+                  " " +
+                  localStorage.getItem("section")}
+              </BodyMedium>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               <Center>

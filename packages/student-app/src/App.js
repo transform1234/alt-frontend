@@ -12,9 +12,11 @@ const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
 );
+
 const SelfassesmentSubjectList = React.lazy(() =>
-  import("selfassesment/subjects")
+  import("selfassesment/subjectList")
 );
+const CommingSoon = React.lazy(() => import("core/CommingSoon"));
 
 function App() {
   initializeI18n(
@@ -23,11 +25,6 @@ function App() {
   );
   const routes = [
     // selfAssessment Routes
-    {
-      moduleName: "selfassesment",
-      path: "/selfassesment/subjects",
-      component: SelfassesmentSubjectList,
-    },
     {
       moduleName: "selfassesment",
       path: "/selfassesment",
@@ -39,8 +36,13 @@ function App() {
       component: SelfassesmentLessonList,
     },
     {
-      path: "/onboardingimprove",
-      component: OnboardingFill,
+      moduleName: "commingsoon",
+      path: "/commingsoon",
+      component: CommingSoon,
+    },
+    {
+      path: "/selfassesment/subjects",
+      component: SelfassesmentSubjectList,
     },
     {
       moduleName: "student-app",
@@ -61,13 +63,10 @@ function App() {
       AuthComponent={LoginComponent}
       guestRoutes={[
         {
-          path: "/login",
+          path: "/",
           component: StudentLogin,
         },
-        {
-          path: "/",
-          component: Flash,
-        },
+
         {
           moduleName: "selfassesment",
           path: "/selfassesment",
@@ -79,7 +78,7 @@ function App() {
           component: SelfassesmentLessonList,
         },
         {
-          moduleName: "selfassesment",
+          moduleName: "subjectList",
           path: "/selfassesment/subjects",
           component: SelfassesmentSubjectList,
         },
