@@ -66,11 +66,12 @@ export default function CourseList({ footerLinks }) {
         {courseList?.map((item) => {
           return item?.name === "QuestionSet 1" ? (
             <Pressable
-              onPress={() =>
+              onPress={() => {
+                console.log(item);
                 navigate(
-                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
-                )
-              }
+                  `/mathamatics/courses/${item?.identifier}/lessons/${item?.contentType}`
+                );
+              }}
               position="relative"
             >
               <VStack p="4" bg="white" space="4" roundedLeft="20">

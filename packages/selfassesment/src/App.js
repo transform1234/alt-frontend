@@ -11,17 +11,17 @@ function App() {
   const routes = [
     {
       moduleName: "selfassesment",
-      path: "/selfassesment/subjects",
+      path: "",
       component: SubjectList,
     },
     {
       moduleName: "selfassesment",
-      path: "/selfassesment",
+      path: ":name/courses",
       component: courseList,
     },
     {
       moduleName: "selfassesment",
-      path: "/selfassesment/lessons/:id/:type",
+      path: ":name/courses/:id/lessons/:type",
       component: LessonList,
     },
   ];
