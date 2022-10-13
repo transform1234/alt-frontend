@@ -70,7 +70,7 @@ const theme = {
       cardBg: '#CDECF6',
       visitedCard: '#ECF7EB'
     },
-    selfassesment: {
+    studentprogram: {
       ...colorTheme,
       cardBg: '#CDECF6',
       avatar: '#ffb926'

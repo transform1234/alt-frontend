@@ -12,7 +12,7 @@ import {
   IconByName,
   ProgressBar,
   BodyLarge,
-  selfAssesmentService,
+  studentProgramService,
   Caption,
   NameTag,
 } from "@shiksha/common-lib";
@@ -27,10 +27,10 @@ export default function CourseList({ footerLinks }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(async () => {
-    const data = await selfAssesmentService.getCoursesRule();
+    const data = await studentProgramService.getCoursesRule();
     setCoursesList(data);
   }, []);
-  console.log("hello");
+
   return (
     <Layout
       _header={{
@@ -46,14 +46,14 @@ export default function CourseList({ footerLinks }) {
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
-              source={require("./../assets/images/ssaicon.png")}
+              source={require("../assets/images/ssaicon.png")}
               w="37px"
               h="21px"
             />
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
-              source={require("./../assets/images/tsIcon.png")}
+              source={require("../assets/images/tsIcon.png")}
               w="20px"
               h="20px"
             />
@@ -132,7 +132,7 @@ export default function CourseList({ footerLinks }) {
               disabled={true}
               onPress={() =>
                 navigate(
-                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                  `/studentprogram/lessons/${item?.identifier}/${item?.contentType}`
                 )
               }
               position="relative"

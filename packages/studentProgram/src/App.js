@@ -10,17 +10,17 @@ import LessonList from "pages/lessonList";
 function App() {
   const routes = [
     {
-      moduleName: "selfassesment",
+      moduleName: "studentprogram",
       path: "",
       component: SubjectList,
     },
     {
-      moduleName: "selfassesment",
+      moduleName: "studentprogram",
       path: ":name/courses",
       component: courseList,
     },
     {
-      moduleName: "selfassesment",
+      moduleName: "studentprogram",
       path: ":name/courses/:id/lessons/:type",
       component: LessonList,
     },

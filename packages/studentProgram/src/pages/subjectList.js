@@ -20,7 +20,7 @@ import {
   IconByName,
   ProgressBar,
   BodyLarge,
-  selfAssesmentService,
+  studentProgramService,
   Caption,
   NameTag,
 } from "@shiksha/common-lib";

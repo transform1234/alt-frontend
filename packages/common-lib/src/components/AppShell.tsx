@@ -33,7 +33,7 @@ function AppShell({
   if (hotjar.initialized()) {
     hotjar.identify('USER_ID', { userProperty: 'value' })
   }
-  console.log({ accessRoutes })
+
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
