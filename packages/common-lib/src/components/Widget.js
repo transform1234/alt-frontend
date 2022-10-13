@@ -49,7 +49,7 @@ function Widget({ data, title, _hstack }) {
             key={index}
             space={3}
             width={'100%'}
-            justifyContent={'center'}
+            justifyContent={'start'}
             {..._hstack}
           >
             {subData.map((item, subIndex) => (

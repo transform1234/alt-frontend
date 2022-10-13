@@ -37,16 +37,16 @@ export const getAll = async ({ adapter, ...params } = {}, header = {}) => {
   }
 }
 
-export const getOne = async ({ id, adapter, coreData }, header = {}) => {
+export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
   try {
     const result = await get(
-      baseUrl + '/course/' + adapter + '/hierarchy/courseid',
+      baseUrl + '/course/' + adapter + '/hierarchy/contentid',
       {
-        params: { courseId: id },
+        params: { courseId: id, type: type },
         headers
       }
     )
@@ -57,7 +57,7 @@ export const getOne = async ({ id, adapter, coreData }, header = {}) => {
       return {}
     }
   } catch (e) {
-    console.log('course/hierarchy/courseid', e.message)
+    console.log('course/hierarchy/contentid', e.message)
     return {}
   }
 }

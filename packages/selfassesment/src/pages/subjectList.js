@@ -61,7 +61,7 @@ export default function SubjectList({ footerLinks }) {
         title: "Getting Started",
       }}
       _appBar={{
-        languages: manifest.languages,
+        languages: [],
         isBackButtonShow: false,
         titleComponent: <NameTag />,
         LeftIcon: (
