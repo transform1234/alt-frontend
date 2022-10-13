@@ -13,6 +13,7 @@ module.exports = {
     "./OnboardingFill": "./src/pages/OnboardingFill",
     "./StudentLogin": "./src/pages/StudentLogin",
     "./Flash": "./src/pages/Flash",
+    "./CommingSoon": "./src/pages/CommingSoon",
   },
   filename: "moduleEntry.js",
   shared: {

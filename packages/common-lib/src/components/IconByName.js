@@ -105,6 +105,7 @@ import PictureInPictureExitLineIcon from 'remixicon-react/PictureInPictureExitLi
 import PictureInPicture2LineIcon from 'remixicon-react/PictureInPicture2LineIcon'
 import DashboardLineIcon from 'remixicon-react/DashboardLineIcon'
 import MenuFillIcon from 'remixicon-react/MenuFillIcon'
+import ToolsFillIcon from 'remixicon-react/ToolsFillIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -147,6 +148,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<UserFollowLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'ToolsFillIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<ToolsFillIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

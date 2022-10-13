@@ -128,7 +128,7 @@ export default function StudentLogin({ swPath }) {
               token: token,
             },
           });
-          navigate("/onboardingimprove");
+          navigate("/");
           window.location.reload();
         } else {
           localStorage.removeItem("token");
@@ -152,7 +152,14 @@ export default function StudentLogin({ swPath }) {
         isBackButtonShow: false,
         isHideMenuButton: true,
         imageUrl: "../../src/assets/SubjectBg.png",
-        LeftIcon: (
+        LeftIcon: false,
+
+        rightIcon: false,
+      }}
+      _height="150px"
+    >
+      <Box>
+        <Center width={width}>
           <HStack width={"65px"}>
             <Avatar
               size="37"
@@ -178,22 +185,6 @@ export default function StudentLogin({ swPath }) {
               source={require("../../src/assets/Ellipse.png")}
             />
           </HStack>
-        ),
-
-        rightIcon: (
-          <HStack paddingBottom={"25px"}>
-            <IconByName
-              name="CloseCircleLineIcon"
-              color={colors.cardCloseIcon}
-              onPress={() => navigatePage()}
-            />
-          </HStack>
-        ),
-      }}
-      _height="150px"
-    >
-      <Box>
-        <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
               <Heading>{t("WELCOME")}</Heading>

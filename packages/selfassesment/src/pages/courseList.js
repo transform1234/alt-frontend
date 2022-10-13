@@ -34,11 +34,11 @@ export default function CourseList({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Getting Started",
+        title: "Get Started",
       }}
       _appBar={{
-        languages: manifest.languages,
-        isShowNotificationButton: true,
+        languages: [],
+        isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -64,7 +64,7 @@ export default function CourseList({ footerLinks }) {
     >
       <Stack space="4" p="4" mb="5">
         {courseList?.map((item) => {
-          return (
+          return item?.name === "QuestionSet 1" ? (
             <Pressable
               onPress={() =>
                 navigate(
@@ -90,24 +90,87 @@ export default function CourseList({ footerLinks }) {
                   </Avatar>
                   <VStack space="2" flex={1}>
                     <BodyLarge>{item?.name}</BodyLarge>
-                    <Caption>{item?.description}</Caption>
+                    {/* <Caption>{item?.description}</Caption> */}
                   </VStack>
                 </HStack>
 
                 <ProgressBar
-                  isTextRight={<BodyLarge color="success">8/8</BodyLarge>}
+                  // isTextRight={
+                  //   <BodyLarge color="success">Not started</BodyLarge>
+                  // }
                   h="15px"
                   _bar={{
                     overflow: "visible",
                     space: "2",
                     alignItems: "center",
                   }}
-                  data={[{ name: "8/8", color: "green", value: "80" }]}
+                  data={[{ name: "0/8", color: "#EAA95A", value: "0" }]}
                   isLabelCountHide
                 />
               </VStack>
               <Box
-                bg="purple.500"
+                bg="blue.700"
+                position="absolute"
+                right="0"
+                minW="60px"
+                minH="40px"
+                roundedLeft="full"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <IconByName
+                  isDisabled
+                  name="ArrowRightLineIcon"
+                  color="white"
+                  size="sm"
+                />
+              </Box>
+            </Pressable>
+          ) : (
+            <Pressable
+              disabled={true}
+              onPress={() =>
+                navigate(
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                )
+              }
+              position="relative"
+            >
+              <VStack p="4" bg="#f1f1f1" space="4" roundedLeft="20">
+                <HStack space="4">
+                  <Avatar
+                    bg="grey.500"
+                    size="30"
+                    {...(item?.appIcon
+                      ? {
+                          source: {
+                            uri: item?.appIcon,
+                          },
+                        }
+                      : {})}
+                  >
+                    <IconByName name="UserLineIcon" isDisabled color="white" />
+                  </Avatar>
+                  <VStack space="2" flex={1}>
+                    <BodyLarge>{item?.name}</BodyLarge>
+                    {/* <Caption>{item?.description}</Caption> */}
+                  </VStack>
+                </HStack>
+
+                <ProgressBar
+                  isTextRight={<BodyLarge color="success"></BodyLarge>}
+                  h="15px"
+                  _bar={{
+                    overflow: "visible",
+                    space: "2",
+                    alignItems: "center",
+                  }}
+                  data={[{ name: "8/8", color: "green", value: "0" }]}
+                  isLabelCountHide
+                />
+              </VStack>
+              <Box
+                bg="#f1f1f1"
                 position="absolute"
                 right="0"
                 minW="60px"

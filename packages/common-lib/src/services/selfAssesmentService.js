@@ -15,9 +15,9 @@ export const getLessons = async (id) => {
 
 export const getCoursesRule = async () => {
   const courseIdList = await post(
-    'https://alt-shiksha.uniteframework.io/api/v1/self-assessment/fbmgs',
+    'https://alt-shiksha.uniteframework.io/api/v1/selfassessment/fbmgs',
     {
-      framework: 'ALT Fw',
+      framework: 'ALT new',
       board: 'Haryana',
       medium: 'English',
       grade: '10',
@@ -37,15 +37,17 @@ const getCourseArray = async (programm) => {
   const pdata = courseRule?.prog
     .map(async (el, index) => {
       if (el?.contentId && el?.contentType === 'assessment') {
-        return await courseRegistryService.getContent({
-          id: el.contentId,
-          adapter: 'diksha'
-        })
-      } else if (el?.courseId && el?.contentType === 'course') {
         return await courseRegistryService.getOne({
-          id: el.courseId,
+          id: el.contentId,
           adapter: 'diksha',
-          coreData: true
+          type: 'assessment'
+        })
+      } else if (el?.contentId && el?.contentType === 'course') {
+        return await courseRegistryService.getOne({
+          id: el.contentId,
+          adapter: 'diksha',
+          coreData: true,
+          type: 'course'
         })
       }
     })

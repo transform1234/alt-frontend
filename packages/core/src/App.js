@@ -6,6 +6,7 @@ import MobileNumberScreen from "pages/MobileNumberScreen";
 import OTP from "pages/OTP";
 import Onboarding from "pages/Onboarding";
 import OnboardingFill from "pages/OnboardingFill";
+import CommingSoon from "pages/CommingSoon";
 import StudentLogin from "pages/StudentLogin";
 import Flash from "pages/Flash";
 import { extendTheme, NativeBaseProvider } from "native-base";
@@ -22,14 +23,13 @@ function App() {
     <NativeBaseProvider theme={theme}>
       <Router basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/flash" element={<Flash />} />
-
-          <Route path="/login" element={<StudentLogin />} />
+          <Route path="/" element={<StudentLogin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/mobilenumberscreen" element={<MobileNumberScreen />} />
           <Route path="/otp" element={<OTP />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/commingsoon" element={<CommingSoon />} />
+
           <Route path="/onboardingimprove" element={<OnboardingFill />} />
         </Routes>
       </Router>

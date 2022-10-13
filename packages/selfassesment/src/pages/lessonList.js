@@ -93,8 +93,8 @@ export default function LessonList({ footerLinks }) {
   return (
     <Layout
       _appBar={{
-        languages: manifest.languages,
-        isBackButtonShow: true,
+        languages: [],
+        isBackButtonShow: false,
         isShowNotificationButton: true,
         LeftIcon: <HStack>English</HStack>,
       }}
