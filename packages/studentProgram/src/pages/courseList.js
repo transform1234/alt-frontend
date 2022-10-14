@@ -20,10 +20,12 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
+import { useParams } from "react-router-dom";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
   const coursesList = [];
+  const { subjectName } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(async () => {
@@ -69,7 +71,7 @@ export default function CourseList({ footerLinks }) {
               onPress={() => {
                 console.log(item);
                 navigate(
-                  `/mathamatics/courses/${item?.identifier}/lessons/${item?.contentType}`
+                  `/${subjectName}/courses/${item?.identifier}/lessons/${item?.contentType}`
                 );
               }}
               position="relative"
