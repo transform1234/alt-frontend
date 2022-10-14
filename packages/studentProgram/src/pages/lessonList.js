@@ -112,7 +112,7 @@ export default function LessonList({ footerLinks }) {
                 <HStack alignItems="center" space="4">
                   <VStack space="1">
                     <H2 color="blue.500">Day</H2>
-                    <H1 color="selfassesment.warning">
+                    <H1 color="studentprogram.warning">
                       {`${index + 1}`.padStart(2, 0)}
                     </H1>
                   </VStack>

@@ -7,7 +7,7 @@ module.exports = {
   },
   remotes: {
     core: `core@[window.appModules.core.url]/moduleEntry.js`,
-    selfassesment: `selfassesment@[window.appModules.selfassesment.url]/moduleEntry.js`,
+    studentprogram: `studentprogram@[window.appModules.studentprogram.url]/moduleEntry.js`,
   },
   filename: "moduleEntry.js",
   shared: {

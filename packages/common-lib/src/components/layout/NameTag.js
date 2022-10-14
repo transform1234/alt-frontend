@@ -39,11 +39,9 @@ export default function NameTag({ height = '55', parentBgColor = '#f8f8f9' }) {
         position='absolute'
         right='-1'
         style={{
-          'border-top': `${(height ? height : 55) / 2}px solid transparent`,
-          'border-right': `${
-            (height ? height : 55) / 2
-          }px solid ${parentBgColor}`,
-          'border-bottom': `${(height ? height : 55) / 2}px solid transparent`
+          borderTop: `${(height ? height : 55) / 2}px solid transparent`,
+          borderRight: `${(height ? height : 55) / 2}px solid ${parentBgColor}`,
+          borderBottom: `${(height ? height : 55) / 2}px solid transparent`
         }}
       />
     </HStack>

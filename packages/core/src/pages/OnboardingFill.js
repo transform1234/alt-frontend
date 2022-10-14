@@ -28,7 +28,7 @@ export default function OnboardingFill() {
   const circleArray = [1, 2, 3, 4];
 
   const handleLogin = () => {
-    navigate("/selfassesment");
+    navigate("/studentprogram");
     window.location.reload();
   };
 

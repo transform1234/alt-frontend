@@ -18,7 +18,7 @@ import * as userRegistryService from './services/userRegistryService'
 import * as classRegistryService from './services/classRegistryService'
 import * as attendanceRegistryService from './services/attendanceRegistryService'
 import * as studentRegistryService from './services/studentRegistryService'
-import * as selfAssesmentService from './services/selfAssesmentService'
+import * as studentProgramService from './services/studentProgramService'
 import * as worksheetRegistryService from './services/worksheetRegistryService'
 import * as questionRegistryService from './services/questionRegistryService'
 import * as likeRegistryService from './services/likeRegistryService'
@@ -66,7 +66,7 @@ export {
   classRegistryService,
   attendanceRegistryService,
   studentRegistryService,
-  selfAssesmentService,
+  studentProgramService,
   worksheetRegistryService,
   questionRegistryService,
   likeRegistryService,

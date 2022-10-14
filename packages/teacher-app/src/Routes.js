@@ -102,9 +102,11 @@ const Recommendedschools = React.lazy(() =>
   import("visits/Recommendedschools")
 );
 const Allocatedschools = React.lazy(() => import("visits/Allocatedschools"));
-const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
-const SelfassesmentLessonList = React.lazy(() =>
-  import("selfassesment/Lessons")
+const Studentprogram = React.lazy(() =>
+  import("studentprogram/StudentProgram")
+);
+const StudentprogramLessonList = React.lazy(() =>
+  import("studentprogram/Lessons")
 );
 
 export const routes = [
@@ -434,14 +436,14 @@ export const routes = [
   },
   // selfAssessment Routes
   {
-    moduleName: "selfassesment",
-    path: "/selfassesment",
-    component: Selfassesment,
+    moduleName: "studentprogram",
+    path: "/studentprogram",
+    component: Studentprogram,
   },
   {
-    moduleName: "selfassesment",
-    path: "/selfassesment/lessons/:id/:type",
-    component: SelfassesmentLessonList,
+    moduleName: "studentprogram",
+    path: "/studentprogram/lessons/:id/:type",
+    component: StudentprogramLessonList,
   },
   // Visits Routes
   {
