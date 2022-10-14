@@ -4,9 +4,7 @@ import "./App.css";
 import { AppShell, initializeI18n } from "@shiksha/common-lib";
 import Home from "pages/Home";
 
-const OnboardingFill = React.lazy(() => import("core/OnboardingFill"));
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
-const Flash = React.lazy(() => import("core/Flash"));
 
 const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
@@ -65,27 +63,6 @@ function App() {
         {
           path: "/",
           component: StudentLogin,
-        },
-
-        {
-          moduleName: "selfassesment",
-          path: "/selfassesment",
-          component: Selfassesment,
-        },
-        {
-          moduleName: "selfassesment",
-          path: "/selfassesment/lessons",
-          component: SelfassesmentLessonList,
-        },
-        {
-          moduleName: "subjectList",
-          path: "/selfassesment/subjects",
-          component: SelfassesmentSubjectList,
-        },
-        {
-          moduleName: "student-app",
-          path: "/student",
-          component: Home,
         },
       ]}
       isShowFooterLink={true}

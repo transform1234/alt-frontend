@@ -20,7 +20,7 @@ function Home({ footerLinks }) {
           _box: {
             style: {
               background:
-                "linear-gradient(281.03deg, #6461d2 -21.15%, #8583f7 100.04%)",
+                "linear-gradient(281.03deg, #FC5858 -21.15%, #F8AF5A 100.04%)",
             },
           },
         },
@@ -31,7 +31,7 @@ function Home({ footerLinks }) {
           _box: {
             style: {
               background:
-                "linear-gradient(281.03deg, #6461d2 -21.15%, #8583f7 100.04%)",
+                "linear-gradient(281.88deg, #D7BEE6 -21.15%, #B143F3 80.4%)",
             },
           },
         },
@@ -46,11 +46,9 @@ function Home({ footerLinks }) {
           title: "Baseline assessment",
           subTitle: "TBD",
           _box: {
-            style: {
-              background:
-                "linear-gradient(281.03deg, #6461d2 -21.15%, #8583f7 100.04%)",
-            },
+            bg: "widgetColor.800",
           },
+          _text: { color: "warmGray.700" },
         },
       ],
     },
