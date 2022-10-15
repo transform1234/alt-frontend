@@ -63,6 +63,30 @@ function App() {
           path: "/",
           component: StudentLogin,
         },
+<<<<<<< HEAD
+=======
+
+        {
+          moduleName: "selfassesment",
+          path: "/selfassesment",
+          component: Selfassesment,
+        },
+        {
+          moduleName: "selfassesment",
+          path: "/selfassesment/lessons",
+          component: SelfassesmentLessonList,
+        },
+        {
+          moduleName: "subjectList",
+          path: "/selfassesment/subjects",
+          component: SelfassesmentSubjectList,
+        },
+        {
+          moduleName: "student-app",
+          path: "/student",
+          component: Home,
+        },
+>>>>>>> e2e8cb9d003d5b559bb1aa35628960a3bb4094b6
       ]}
       isShowFooterLink={true}
       appName="Teacher App"

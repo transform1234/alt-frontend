@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
-import CommonCourseList from "components/CommonCourseList";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
@@ -64,15 +63,130 @@ export default function CourseList({ footerLinks }) {
       _footer={footerLinks}
     >
       <Stack space="4" p="4" mb="5">
-        {courseList?.map((item, key) => {
-          return (
-            <CommonCourseList
-              identifier={item?.identifier}
-              contentType={item?.contentType}
-              appIcon={item?.appIcon}
-              name={item?.name}
-              isDisabled={key === 0 ? false : true}
-            />
+        {courseList?.map((item) => {
+          return item?.name === "QuestionSet 1" ? (
+            <Pressable
+              onPress={() =>
+                navigate(
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                )
+              }
+              position="relative"
+            >
+              <VStack p="4" bg="white" space="4" roundedLeft="20">
+                <HStack space="4">
+                  <Avatar
+                    bg="yellow.500"
+                    size="30"
+                    {...(item?.appIcon
+                      ? {
+                          source: {
+                            uri: item?.appIcon,
+                          },
+                        }
+                      : {})}
+                  >
+                    <IconByName name="UserLineIcon" isDisabled color="white" />
+                  </Avatar>
+                  <VStack space="2" flex={1}>
+                    <BodyLarge>{item?.name}</BodyLarge>
+                    {/* <Caption>{item?.description}</Caption> */}
+                  </VStack>
+                </HStack>
+
+                <ProgressBar
+                  // isTextRight={
+                  //   <BodyLarge color="success">Not started</BodyLarge>
+                  // }
+                  h="15px"
+                  _bar={{
+                    overflow: "visible",
+                    space: "2",
+                    alignItems: "center",
+                  }}
+                  data={[{ name: "0/8", color: "#EAA95A", value: "0" }]}
+                  isLabelCountHide
+                />
+              </VStack>
+              <Box
+                bg="blue.700"
+                position="absolute"
+                right="0"
+                minW="60px"
+                minH="40px"
+                roundedLeft="full"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <IconByName
+                  isDisabled
+                  name="ArrowRightLineIcon"
+                  color="white"
+                  size="sm"
+                />
+              </Box>
+            </Pressable>
+          ) : (
+            <Pressable
+              disabled={true}
+              onPress={() =>
+                navigate(
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                )
+              }
+              position="relative"
+            >
+              <VStack p="4" bg="#f1f1f1" space="4" roundedLeft="20">
+                <HStack space="4">
+                  <Avatar
+                    bg="grey.500"
+                    size="30"
+                    {...(item?.appIcon
+                      ? {
+                          source: {
+                            uri: item?.appIcon,
+                          },
+                        }
+                      : {})}
+                  >
+                    <IconByName name="UserLineIcon" isDisabled color="white" />
+                  </Avatar>
+                  <VStack space="2" flex={1}>
+                    <BodyLarge>{item?.name}</BodyLarge>
+                    {/* <Caption>{item?.description}</Caption> */}
+                  </VStack>
+                </HStack>
+
+                <ProgressBar
+                  isTextRight={<BodyLarge color="success"></BodyLarge>}
+                  h="15px"
+                  _bar={{
+                    overflow: "visible",
+                    space: "2",
+                    alignItems: "center",
+                  }}
+                  data={[{ name: "8/8", color: "green", value: "0" }]}
+                  isLabelCountHide
+                />
+              </VStack>
+              <Box
+                bg="#f1f1f1"
+                position="absolute"
+                right="0"
+                minW="60px"
+                minH="40px"
+                roundedLeft="full"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <IconByName
+                  isDisabled
+                  name="ArrowRightLineIcon"
+                  color="white"
+                  size="sm"
+                />
+              </Box>
+            </Pressable>
           );
         })}
       </Stack>
