@@ -30,7 +30,7 @@ export default function CourseList({ footerLinks }) {
     const data = await selfAssesmentService.getCoursesRule();
     setCoursesList(data);
   }, []);
-  console.log("hello");
+
   return (
     <Layout
       _header={{
@@ -64,11 +64,14 @@ export default function CourseList({ footerLinks }) {
     >
       <Stack space="4" p="4" mb="5">
         {courseList?.map((item) => {
-          return item?.name === "QuestionSet 1" ? (
+          console.log({ item });
+          return ["assessment", "SelfAssess", "QuestionSet"].includes(
+            item?.objectType
+          ) ? (
             <Pressable
               onPress={() =>
                 navigate(
-                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                  `/selfassesment/lessons/${item?.identifier}/${item?.objectType}`
                 )
               }
               position="relative"

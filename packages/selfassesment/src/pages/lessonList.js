@@ -45,19 +45,21 @@ export default function LessonList({ footerLinks }) {
   const [trackData, setTrackData] = React.useState();
 
   React.useEffect(async () => {
-    if (["assessment", "SelfAssess"].includes(type)) {
-      setLesson(
-        await courseRegistryService.getContent({
-          id: id,
-          adapter: "diksha",
-        })
-      );
+    if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
+      let resultData = await courseRegistryService.getOne({
+        id: id,
+        adapter: "diksha",
+        coreData: true,
+        type: "assessment",
+      });
+      setLesson(resultData);
     } else if (["course", "Course"].includes(type)) {
       setLessons(
         await courseRegistryService.getOne({
           id: id,
           adapter: "diksha",
           coreData: true,
+          type: "course",
         })
       );
     }
@@ -78,13 +80,15 @@ export default function LessonList({ footerLinks }) {
       <Loading
         _center={{ alignItems: "center", width: "100%" }}
         customComponent={
-          lessonLandingPage ? (
+          lessonLandingPage &&
+          !["assessment", "SelfAssess", "QuestionSet"].includes(type) ? (
             <LessonLandingPage
               subject={"English"}
               data={lesson}
               setLessonLandingPage={setLessonLandingPage}
             />
-          ) : trackData ? (
+          ) : trackData &&
+            !["assessment", "SelfAssess", "QuestionSet"].includes(type) ? (
             <LessonResultPage
               type={type}
               setLesson={setLesson}
@@ -98,7 +102,9 @@ export default function LessonList({ footerLinks }) {
                 name="CloseCircleLineIcon"
                 onPress={() => {
                   setLesson();
-                  if (["assessment", "SelfAssess"].includes(type)) {
+                  if (
+                    ["assessment", "SelfAssess", "QuestionSet"].includes(type)
+                  ) {
                     navigate(-1);
                   }
                 }}
@@ -262,7 +268,7 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         size={"lg"}
         onPress={() => {
           setLesson();
-          if (["assessment", "SelfAssess"].includes(type)) {
+          if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
             navigate(-1);
           }
         }}
@@ -275,7 +281,7 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         width="100%"
         onPress={() => {
           setLesson();
-          if (["assessment", "SelfAssess"].includes(type)) {
+          if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
             navigate(-1);
           }
         }}

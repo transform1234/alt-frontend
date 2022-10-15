@@ -11,7 +11,7 @@ const interfaceData = {
 }
 
 let only = Object.keys(interfaceData)
-let baseUrl = 'https://alt-shiksha.uniteframework.io/api/v1' //process.env.REACT_APP_API_URL
+let baseUrl = process.env.REACT_APP_API_URL
 
 export const getAll = async ({ adapter, ...params } = {}, header = {}) => {
   let headers = {
@@ -67,22 +67,19 @@ export const getContent = async ({ id, adapter }, header = {}) => {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
-  console.log(id)
+
   try {
     const result = await get(
-      // baseUrl + '/course/' + adapter + '/content/courseid',
-      'https://dhruva.shikshalokam.org/api/content/v1/read/' + id,
+      baseUrl + '/course/' + adapter + '/content/courseid',
       {
         params: {
-          courseId: id,
-          fields:
-            'ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url'
+          courseId: id
         },
         headers
       }
     )
-    if (result?.data?.result) {
-      return result.data?.result?.content
+    if (result?.data?.data) {
+      return result.data?.data
     } else {
       return {}
     }
