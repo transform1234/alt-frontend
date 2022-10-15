@@ -3,7 +3,7 @@ import { Text } from 'native-base'
 
 const H1 = ({ children, ...props }) => {
   return (
-    <Text {...props} fontSize='24px' fontWeight='700'>
+    <Text {...props} fontSize='24px' fontWeight='600'>
       {children}
     </Text>
   )

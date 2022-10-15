@@ -45,7 +45,13 @@ function Widget({ data, title, _hstack }) {
       <H3 pb='4px'>{title}</H3>
       <VStack space={3}>
         {newData.map((subData, index) => (
-          <HStack key={index} space={3} width={'100%'} {..._hstack}>
+          <HStack
+            key={index}
+            space={3}
+            width={'100%'}
+            justifyContent={'center'}
+            {..._hstack}
+          >
             {subData.map((item, subIndex) => (
               <Box
                 key={subIndex}

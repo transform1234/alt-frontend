@@ -11,6 +11,8 @@ import More2LineIcon from 'remixicon-react/More2LineIcon'
 import TeamLineIcon from 'remixicon-react/TeamLineIcon'
 import GovernmentLineIcon from 'remixicon-react/GovernmentLineIcon'
 import BookOpenLineIcon from 'remixicon-react/BookOpenLineIcon'
+import ListCheckIcon from 'remixicon-react/ListCheckIcon'
+
 import UserLineIcon from 'remixicon-react/UserLineIcon'
 import ArrowLeftSLineIcon from 'remixicon-react/ArrowLeftSLineIcon'
 import ArrowRightSLineIcon from 'remixicon-react/ArrowRightSLineIcon'
@@ -106,6 +108,10 @@ import PictureInPicture2LineIcon from 'remixicon-react/PictureInPicture2LineIcon
 import DashboardLineIcon from 'remixicon-react/DashboardLineIcon'
 import MenuFillIcon from 'remixicon-react/MenuFillIcon'
 import ToolsFillIcon from 'remixicon-react/ToolsFillIcon'
+import CodeLineIcon from 'remixicon-react/CodeLineIcon'
+import FilePaper2LineIcon from 'remixicon-react/FilePaper2LineIcon'
+import FlaskLineIcon from 'remixicon-react/FlaskLineIcon'
+import QuillPenLineIcon from 'remixicon-react/QuillPenLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -159,6 +165,41 @@ export default function IconByName({ _icon, ...props }) {
         />
       )
       break
+    case 'CodeLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<CodeLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
+    case 'FilePaper2LineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FilePaper2LineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
+    case 'FlaskLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FlaskLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'QuillPenLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<QuillPenLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
     case 'Medal2LineIcon':
       icon = (
         <IconButton
@@ -204,6 +245,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<BookOpenLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'ListCheckIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<ListCheckIcon {...(_icon ? _icon : {})} />}
         />
       )
       break
