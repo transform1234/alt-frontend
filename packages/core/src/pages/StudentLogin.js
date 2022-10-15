@@ -156,40 +156,23 @@ export default function StudentLogin({ swPath }) {
 
         rightIcon: false,
       }}
-      _height="150px"
+      // _height="150px"
     >
       <Box>
         <Center width={width}>
-          <HStack width={"65px"}>
-            <Avatar
-              size="37"
-              width={"100%"}
-              rounded="md"
-              style={{ borderRadius: "0px" }}
-              source={require("../../src/assets/image2.png")}
-            />
-            <Divider
-              width={"1.62px"}
-              height={"35.75px"}
-              bg={"#41C88E"}
-              ml={"5px"}
-              style={{
-                border: "0",
-              }}
-            />
+          <HStack>
             <Avatar
               bg=""
-              size="37"
-              rounded="md"
+              size={"2xl"}
               style={{ borderRadius: "0px" }}
-              source={require("../../src/assets/Ellipse.png")}
+              source={require("../../src/assets/Transform Schools _PFA.png")}
             />
           </HStack>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
               <Heading>{t("WELCOME")}</Heading>
             </Box>
-            <VStack space={2} pt={"25px"} pb={"25px"}>
+            <VStack space={2} pb={"25px"}>
               {"alert" in errors ? (
                 <Alert w="100%" status={"error"}>
                   <VStack space={2} flexShrink={1} w="100%">
@@ -296,11 +279,11 @@ export default function StudentLogin({ swPath }) {
                     <></>
                   )}
                 </FormControl>
+                <Button p="3" onPress={handleLogin} variant={"rounded"}>
+                  {t("LOGIN")}
+                </Button>
               </VStack>
             </VStack>
-            <Button p="3" onPress={handleLogin} variant={"rounded"}>
-              {t("LOGIN")}
-            </Button>
           </VStack>
         </Center>
       </Box>
