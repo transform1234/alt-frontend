@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./App.css";
 import { AppShell, initializeI18n } from "@shiksha/common-lib";
 import Home from "pages/Home";
