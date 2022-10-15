@@ -5,24 +5,19 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
 
-export default function CommonCourseList({
+export default function CourseCard({
   identifier,
   contentType,
   appIcon,
   name,
   isDisabled,
+  onPress,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <Pressable
-      isDisabled={isDisabled}
-      onPress={() =>
-        navigate(`/selfassesment/lessons/${identifier}/${contentType}`)
-      }
-      position="relative"
-    >
+    <Pressable isDisabled={isDisabled} onPress={onPress} position="relative">
       <VStack
         p="4"
         bg={isDisabled ? "#f1f1f1" : "white"}

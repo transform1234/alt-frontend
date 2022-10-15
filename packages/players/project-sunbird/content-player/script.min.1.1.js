@@ -71482,6 +71482,10 @@
           if (this.event) {
             if ("undefined" != typeof telemetry) {
               var t = JSON.stringify(this.event);
+              window?.parent?.postMessage(
+                { version: "2", data: this.event },
+                "*"
+              );
               return (
                 console.log("V2 Telemetry event - ", t),
                 TelemetryService.eventDispatcher("telemetryEvent", t),
@@ -73811,6 +73815,7 @@
       (telemetry_web = {
         tList: [],
         send: function (e) {
+          window?.parent?.postMessage({ version: "3", data: e }, "*");
           return (
             console.log("V3 Telemetry Event - ", e),
             new Promise(function (t, n) {

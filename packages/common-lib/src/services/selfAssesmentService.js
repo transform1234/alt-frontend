@@ -4,8 +4,7 @@ import * as courseRegistryService from './courseRegistryService'
 
 export const getLessons = async (id) => {
   const lessonList = await get(
-    'https://alt-shiksha.uniteframework.io/api/v1/course/diksha/hierarchy/courseid?courseId=' +
-      id,
+    `${process.env.REACT_APP_API_URL}/course/diksha/hierarchy/courseid?courseId=${id}`,
     {}
   )
   if (lessonList.data) {
@@ -15,7 +14,7 @@ export const getLessons = async (id) => {
 
 export const getCoursesRule = async () => {
   const courseIdList = await post(
-    'https://alt-shiksha.uniteframework.io/api/v1/selfassessment/fbmgs',
+    `${process.env.REACT_APP_API_URL}/selfassessment/fbmgs`,
     {
       framework: 'ALT new',
       board: 'Haryana',
@@ -28,6 +27,8 @@ export const getCoursesRule = async () => {
     return await getCourseArray(courseIdList.data.data[0].AssessProgram.rules)
     // return courseIdList.data
     // return Promise.all(lessonList.data).then((values) => values)
+  } else {
+    return []
   }
   // return 'lessonList.data'
 }
@@ -40,6 +41,7 @@ const getCourseArray = async (programm) => {
         return await courseRegistryService.getOne({
           id: el.contentId,
           adapter: 'diksha',
+          coreData: true,
           type: 'assessment'
         })
       } else if (el?.contentId && el?.contentType === 'course') {
@@ -57,8 +59,7 @@ const getCourseArray = async (programm) => {
 
 const getCourse = async (IdArray) => {
   const courseList = await get(
-    'https://alt-shiksha.uniteframework.io/api/v1/course/diksha/courseIds?' +
-      IdArray,
+    `${process.env.REACT_APP_API_URL}/course/diksha/courseIds?${IdArray}`,
     {}
   )
   if (courseList.data) {

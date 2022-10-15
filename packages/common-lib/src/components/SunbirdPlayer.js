@@ -1,17 +1,17 @@
 import React from 'react'
 import { H2 } from './layout/HeaderTags'
 
-const SunbirdPlayer = ({ public_url, ...props }) => {
+const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
   const { mimeType } = props
-  console.log({ props })
+  let trackData = []
   const [url, setUrl] = React.useState()
   React.useEffect(() => {
     if (mimeType === 'application/pdf') {
-      setUrl(`${public_url ? public_url : process.env.PUBLIC_URL}/pdf`)
+      setUrl(`/pdf`)
     } else if (mimeType === 'video/mp4') {
-      setUrl(`${public_url ? public_url : process.env.PUBLIC_URL}/video`)
+      setUrl(`/video`)
     } else if (['application/vnd.sunbird.questionset'].includes(mimeType)) {
-      setUrl(`${public_url ? public_url : process.env.PUBLIC_URL}/quml`)
+      setUrl(`/quml`)
     } else if (
       [
         'application/vnd.ekstep.ecml-archive',
@@ -19,13 +19,45 @@ const SunbirdPlayer = ({ public_url, ...props }) => {
         'application/vnd.ekstep.content-collection'
       ].includes(mimeType)
     ) {
-      setUrl(
-        `${
-          public_url ? public_url : process.env.PUBLIC_URL
-        }/project-sunbird/content-player`
-      )
+      setUrl(`/project-sunbird/content-player`)
     }
   }, [mimeType])
+
+  React.useEffect(() => {
+    if (url === `/project-sunbird/content-player`) {
+      window.addEventListener(
+        'message',
+        (event) => {
+          handleEvent(event)
+        },
+        false
+      )
+    }
+
+    return () => {
+      if (url === `/project-sunbird/content-player`) {
+        window.removeEventListener('message', (val) => {})
+      }
+    }
+  }, [url])
+
+  const handleEvent = (event) => {
+    const data = event?.data?.data
+    if (data) {
+      if (typeof data === 'string') {
+        let telemetry = JSON.parse(data)
+        if (telemetry?.eid === 'ASSESS') {
+          const edata = telemetry?.edata
+          if (!trackData.find((e) => e.index === edata.index)) {
+            trackData = [...trackData, edata]
+            if (setTrackData && props.totalQuestions === edata.index) {
+              setTrackData(trackData)
+            }
+          }
+        }
+      }
+    }
+  }
 
   if (url) {
     return (
@@ -33,8 +65,13 @@ const SunbirdPlayer = ({ public_url, ...props }) => {
         id='preview'
         height={'100%'}
         width='100%'
-        name={JSON.stringify(props)}
-        src={`${url}`}
+        name={JSON.stringify({
+          ...props,
+          questionListUrl:
+            'https://dhruva.shikshalokam.org/api/question/v1/list'
+          // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
+        })}
+        src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}
       />
     )
   } else {

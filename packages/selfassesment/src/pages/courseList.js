@@ -1,37 +1,17 @@
-import {
-  HStack,
-  VStack,
-  Stack,
-  Button,
-  Avatar,
-  Pressable,
-  Box,
-} from "native-base";
-import {
-  Layout,
-  IconByName,
-  ProgressBar,
-  BodyLarge,
-  selfAssesmentService,
-  Caption,
-  NameTag,
-} from "@shiksha/common-lib";
+import { HStack, Stack, Avatar } from "native-base";
+import { Layout, selfAssesmentService, NameTag } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import manifest from "../manifest.json";
-import CommonCourseList from "components/CommonCourseList";
+import CourseCard from "components/CourseCard";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
-  const coursesList = [];
-  const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(async () => {
     const data = await selfAssesmentService.getCoursesRule();
     setCoursesList(data);
   }, []);
-  console.log("hello");
+
   return (
     <Layout
       _header={{
@@ -45,11 +25,10 @@ export default function CourseList({ footerLinks }) {
         LeftIcon: (
           <HStack space={2} alignItems="center">
             <Avatar
-              // style={{ borderRadius: "0px !important" }}
+              bg="transparent"
               size="md"
+              borderRadius="10"
               source={require("./../assets/images/Transform Schools _PFA.png")}
-              // w="37px"
-              // h="21px"
             />
           </HStack>
         ),
@@ -59,12 +38,27 @@ export default function CourseList({ footerLinks }) {
       <Stack space="4" p="4" mb="5">
         {courseList?.map((item, key) => {
           return (
-            <CommonCourseList
+            <CourseCard
               identifier={item?.identifier}
               contentType={item?.contentType}
               appIcon={item?.appIcon}
               name={item?.name}
               isDisabled={key === 0 ? false : true}
+              {...(["assessment", "SelfAssess", "QuestionSet"].includes(
+                item?.objectType
+              )
+                ? {
+                    onPress: () =>
+                      navigate(
+                        `/selfassesment/lessons/${item?.identifier}/${item?.objectType}`
+                      ),
+                  }
+                : {
+                    onPress: () =>
+                      navigate(
+                        `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                      ),
+                  })}
             />
           );
         })}

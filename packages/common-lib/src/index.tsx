@@ -43,6 +43,7 @@ import { useAuthFlow } from './hooks/useAuthFlow'
 import StarRating from './components/StarRating'
 import NameTag from './components/layout/NameTag'
 import SunbirdPlayer from './components/SunbirdPlayer'
+import RoundedProgressBar from './components/RoundedProgressBar'
 export {
   AppBar,
   Header,
@@ -87,7 +88,8 @@ export {
   schoolRegisteryService,
   StarRating,
   NameTag,
-  SunbirdPlayer
+  SunbirdPlayer,
+  RoundedProgressBar
 }
 
 export * from './services/Auth'

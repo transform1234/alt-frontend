@@ -73,7 +73,11 @@ const theme = {
     selfassesment: {
       ...colorTheme,
       cardBg: '#CDECF6',
-      avatar: '#ffb926'
+      avatar: '#ffb926',
+      landingIcon: '#5CE5F8',
+      landingWarningIcon: '#E99B41',
+      landingLight: '#E5FCF5',
+      cloverGreen: '#41C88E'
     },
     widgetColor: {
       400: '#7F9DAC',
@@ -149,6 +153,20 @@ const theme = {
             colorScheme: 'primaryButton',
             bg: 'primaryButton.500',
             _text: {
+              fontSize: '12px',
+              fontWeight: '600'
+            }
+          }
+        },
+        secondary: (e: any) => {
+          return {
+            rounded: 'full',
+            style: {
+              background:
+                'linear-gradient(90deg, #B6EC78 0.16%, #3DCE3A 103.79%)'
+            },
+            _text: {
+              color: 'white',
               fontSize: '12px',
               fontWeight: '600'
             }

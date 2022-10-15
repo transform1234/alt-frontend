@@ -1,17 +1,17 @@
-import { HStack, VStack, Pressable, Button } from "native-base";
-import { IconByName, H1, H2 } from "@shiksha/common-lib";
-import { useNavigate } from "react-router-dom";
+import { HStack, VStack, Pressable, Button, Box } from "native-base";
+import { IconByName, H1, BodyLarge } from "@shiksha/common-lib";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import manifest from "../manifest.json";
 
-export default function CommonCourseList({ subject, iconName, status, index }) {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-
+export default function SubjectCard({
+  subject,
+  iconName,
+  status,
+  index,
+  onPress,
+}) {
   return (
     <Pressable
-      onPress={() => navigate(`/selfassesment`)}
+      onPress={onPress}
       position="relative"
       isDisabled={index === 0 ? false : true}
     >
@@ -38,16 +38,17 @@ export default function CommonCourseList({ subject, iconName, status, index }) {
           </H1>
         </HStack>
 
-        <Button
+        <Box
           bg={index === 0 ? "blue.700" : "#C1C1C1"}
           rounded="full"
           position="absolute"
           bottom="-20"
           minW="15%"
-          onPress={() => navigate(`/selfassesment`)}
+          py="10px"
+          px="20px"
         >
-          <H2 color="white"> {status}</H2>
-        </Button>
+          <BodyLarge color="white"> {status}</BodyLarge>
+        </Box>
       </VStack>
       {/* {index !== 0 && (
               <Box
