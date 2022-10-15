@@ -8,15 +8,13 @@ const OnboardingFill = React.lazy(() => import("core/OnboardingFill"));
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
 const Flash = React.lazy(() => import("core/Flash"));
 
-const Studentprogram = React.lazy(() =>
-  import("studentprogram/StudentProgram")
-);
-const StudentprogramLessonList = React.lazy(() =>
-  import("studentprogram/Lessons")
+const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
+const SelfassesmentLessonList = React.lazy(() =>
+  import("selfassesment/Lessons")
 );
 
-const StudentprogramSubjectList = React.lazy(() =>
-  import("studentprogram/subjectList")
+const SelfassesmentSubjectList = React.lazy(() =>
+  import("selfassesment/subjectList")
 );
 const CommingSoon = React.lazy(() => import("core/CommingSoon"));
 
@@ -28,14 +26,14 @@ function App() {
   const routes = [
     // selfAssessment Routes
     {
-      moduleName: "studentprogram",
-      path: "/studentprogram",
-      component: Studentprogram,
+      moduleName: "selfassesment",
+      path: "/selfassesment",
+      component: Selfassesment,
     },
     {
-      moduleName: "studentprogram",
-      path: "/studentprogram/lessons/:id/:type",
-      component: StudentprogramLessonList,
+      moduleName: "selfassesment",
+      path: "/selfassesment/lessons/:id/:type",
+      component: SelfassesmentLessonList,
     },
     {
       moduleName: "commingsoon",
@@ -43,8 +41,8 @@ function App() {
       component: CommingSoon,
     },
     {
-      path: "/studentprogram/subjects",
-      component: StudentprogramSubjectList,
+      path: "/selfassesment/subjects",
+      component: SelfassesmentSubjectList,
     },
     {
       moduleName: "student-app",
@@ -70,19 +68,19 @@ function App() {
         },
 
         {
-          moduleName: "studentprogram",
-          path: "/studentprogram",
-          component: Studentprogram,
+          moduleName: "selfassesment",
+          path: "/selfassesment",
+          component: Selfassesment,
         },
         {
-          moduleName: "studentprogram",
-          path: "/studentprogram/lessons",
-          component: StudentprogramLessonList,
+          moduleName: "selfassesment",
+          path: "/selfassesment/lessons",
+          component: SelfassesmentLessonList,
         },
         {
           moduleName: "subjectList",
-          path: "/studentprogram/subjects",
-          component: StudentprogramSubjectList,
+          path: "/selfassesment/subjects",
+          component: SelfassesmentSubjectList,
         },
         {
           moduleName: "student-app",

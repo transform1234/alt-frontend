@@ -11,10 +11,10 @@ function Home({ footerLinks }) {
   const widgetData = [
     {
       title: t("QUICK_CHECK"),
-      link: "/studentprogram",
+      link: "/selfassesment",
       data: [
         {
-          link: "/studentprogram/subjects",
+          link: "/selfassesment/subjects",
           title: "Subjects",
           subTitle: "TBD",
           _box: {
@@ -39,10 +39,10 @@ function Home({ footerLinks }) {
     },
     {
       title: t("TODAY_TASK"),
-      link: "/studentprogram",
+      link: "/selfassesment",
       data: [
         {
-          link: "/studentprogram",
+          link: "/selfassesment",
           title: "Baseline assessment",
           subTitle: "TBD",
           _box: {

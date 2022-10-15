@@ -38,7 +38,7 @@
   "schools": {
     "url": "http://localhost:3012/modules/schools"
   },
-  "studentprogram": {
-    "url": "http://localhost:3013/modules/studentprogram"
+  "selfassesment": {
+    "url": "http://localhost:3013/modules/selfassesment"
   }
 }
