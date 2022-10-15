@@ -1,5 +1,5 @@
 {
-  "name": "studentprogram",
+  "name": "selfassesment",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -41,7 +41,7 @@
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
   },
-  "homepage": "modules/studentprogram",
+  "homepage": "modules/selfassesment",
   "scripts": {
     "start": "craco start",
     "build": "craco build",

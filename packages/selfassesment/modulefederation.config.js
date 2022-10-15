@@ -1,10 +1,11 @@
 const { dependencies } = require("./package.json");
 
 module.exports = {
-  name: "studentprogram",
+  name: "selfassesment",
   exposes: {
+    // "./selfAssesment": "./src/components/selfAssesment",
     "./App": "./src/App",
-    "./StudentProgram": "./src/pages/courseList",
+    "./SelfAssesment": "./src/pages/courseList",
     "./Lessons": "./src/pages/lessonList",
     "./subjectList": "./src/pages/subjectList",
   },

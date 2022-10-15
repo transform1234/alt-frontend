@@ -12,7 +12,7 @@ import {
   IconByName,
   ProgressBar,
   BodyLarge,
-  studentProgramService,
+  selfAssesmentService,
   Caption,
   NameTag,
 } from "@shiksha/common-lib";
@@ -20,19 +20,17 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import manifest from "../manifest.json";
-import { useParams } from "react-router-dom";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
   const coursesList = [];
-  const { subjectName } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(async () => {
-    const data = await studentProgramService.getCoursesRule();
+    const data = await selfAssesmentService.getCoursesRule();
     setCoursesList(data);
   }, []);
-
+  console.log("hello");
   return (
     <Layout
       _header={{
@@ -48,14 +46,14 @@ export default function CourseList({ footerLinks }) {
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
-              source={require("../assets/images/ssaicon.png")}
+              source={require("./../assets/images/ssaicon.png")}
               w="37px"
               h="21px"
             />
             <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
-              source={require("../assets/images/tsIcon.png")}
+              source={require("./../assets/images/tsIcon.png")}
               w="20px"
               h="20px"
             />
@@ -68,12 +66,11 @@ export default function CourseList({ footerLinks }) {
         {courseList?.map((item) => {
           return item?.name === "QuestionSet 1" ? (
             <Pressable
-              onPress={() => {
-                console.log(item);
+              onPress={() =>
                 navigate(
-                  `/${subjectName}/courses/${item?.identifier}/lessons/${item?.contentType}`
-                );
-              }}
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                )
+              }
               position="relative"
             >
               <VStack p="4" bg="white" space="4" roundedLeft="20">
@@ -134,7 +131,7 @@ export default function CourseList({ footerLinks }) {
               disabled={true}
               onPress={() =>
                 navigate(
-                  `/studentprogram/lessons/${item?.identifier}/${item?.contentType}`
+                  `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
                 )
               }
               position="relative"
