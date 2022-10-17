@@ -44,9 +44,12 @@ export default function CourseList({ footerLinks }) {
               appIcon={item?.appIcon}
               name={item?.name}
               isDisabled={key === 0 ? false : true}
-              {...(["assessment", "SelfAssess", "QuestionSet"].includes(
-                item?.objectType
-              )
+              {...([
+                "assessment",
+                "SelfAssess",
+                "QuestionSet",
+                "QuestionSetImage",
+              ].includes(item?.objectType)
                 ? {
                     onPress: () =>
                       navigate(

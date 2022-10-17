@@ -10,24 +10,23 @@
       integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="./style.css" />
+    <!-- <link rel="stylesheet" href="./style.css" /> -->
   </head>
   <body>
     <div class="player-grid" id="my-player"></div>
     <script type="text/javascript" src="sunbird-quml-player.js"></script>
     <script type="text/javascript" src="demoData.js"></script>
     <script type="text/javascript">
-
       // Need to pass the API URL to fetch the question set
       window.questionListUrl = "https://vdn.diksha.gov.in/api/question/v1/list";
-      if(window?.name) {
+      if (window?.name) {
         const data = JSON.parse(window?.name);
-        if(data?.questionListUrl) {
+        if (data?.questionListUrl) {
           window.questionListUrl = data?.questionListUrl;
         }
       }
       // window.questionListUrl = "https://alt-shiksha.uniteframework.io/api/v1/list";
-      
+
       const qumlPlayerElement = document.createElement("sunbird-quml-player");
       qumlPlayerElement.setAttribute(
         "player-config",
