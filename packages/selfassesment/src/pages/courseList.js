@@ -28,7 +28,7 @@ export default function CourseList({ footerLinks }) {
               bg="transparent"
               size="md"
               borderRadius="10"
-              source={require("./../assets/images/Transform Schools _PFA.png")}
+              source={require("./../assets/images/TSHeader.jpg")}
             />
           </HStack>
         ),
