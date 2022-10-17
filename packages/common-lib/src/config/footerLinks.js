@@ -17,14 +17,14 @@ export default [
     title: 'Certificate',
     icon: 'AwardLineIcon',
     moduleName: 'certificate',
-    route: '/#',
+    route: '/commingsoon',
     routeparameters: {}
   },
   {
     title: 'Dashboard',
     icon: 'DashboardLineIcon',
     moduleName: 'dashboard',
-    route: '/#',
+    route: '/commingsoon',
     routeparameters: {}
   }
   // {

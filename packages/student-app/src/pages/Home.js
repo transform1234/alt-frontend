@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Stack, VStack, HStack, Avatar } from "native-base";
 import { capture, Layout, Widget, NameTag } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
-import manifest from "../manifest.json";
 import moment from "moment";
 
 function Home({ footerLinks }) {
@@ -31,7 +30,7 @@ function Home({ footerLinks }) {
           _box: {
             style: {
               background:
-                "linear-gradient(281.88deg, #D7BEE6 -21.15%, #B143F3 80.4%)",
+                "linear-gradient(102.88deg, #D7BEE6 -5.88%, #B143F3 116.6%)",
             },
           },
         },
@@ -46,9 +45,11 @@ function Home({ footerLinks }) {
           title: "Baseline assessment",
           subTitle: "TBD",
           _box: {
-            bg: "widgetColor.800",
+            style: {
+              background:
+                "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+            },
           },
-          _text: { color: "warmGray.700" },
         },
       ],
     },
@@ -73,14 +74,8 @@ function Home({ footerLinks }) {
           <HStack>
             <Avatar
               style={{ borderRadius: "0px !important" }}
-              // size="md"
               source={require("./../assets/images/TSHeader.jpg")}
             />
-            {/* <Avatar
-              style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("./../assets/images/tsIcon.png")}
-            /> */}
           </HStack>
         ),
       }}

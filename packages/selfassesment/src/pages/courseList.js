@@ -15,7 +15,7 @@ export default function CourseList({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Get Started",
+        title: "English",
       }}
       _appBar={{
         languages: [],

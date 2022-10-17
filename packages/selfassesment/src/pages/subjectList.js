@@ -32,10 +32,11 @@ export default function SubjectList({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Baseline Assessments",
+        title: "Subjetcs",
       }}
       _appBar={{
         languages: [],
+        isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -45,11 +46,6 @@ export default function SubjectList({ footerLinks }) {
               // size="md"
               source={require("./../assets/images/TSHeader.jpg")}
             />
-          </HStack>
-        ),
-        rightIcon: (
-          <HStack>
-            <IconByName name="Notification2LineIcon" />
           </HStack>
         ),
       }}
