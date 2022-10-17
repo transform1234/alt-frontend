@@ -73,14 +73,14 @@ function Home({ footerLinks }) {
           <HStack>
             <Avatar
               style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("./../assets/images/ssaicon.png")}
+              // size="md"
+              source={require("./../assets/images/TSHeader.jpg")}
             />
-            <Avatar
+            {/* <Avatar
               style={{ borderRadius: "0px !important" }}
               size="md"
               source={require("./../assets/images/tsIcon.png")}
-            />
+            /> */}
           </HStack>
         ),
       }}

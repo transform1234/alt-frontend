@@ -32,13 +32,7 @@ function CommingSoon({ footerLinks }) {
           <HStack>
             <Avatar
               style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("../../src/assets/image2.png")}
-            />
-            <Avatar
-              style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("../../src/assets/Ellipse.png")}
+              source={require("../../src/assets/TSHeader.jpg")}
             />
           </HStack>
         ),

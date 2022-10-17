@@ -42,13 +42,8 @@ export default function SubjectList({ footerLinks }) {
           <HStack>
             <Avatar
               style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("../assets/images/ssaicon.png")}
-            />
-            <Avatar
-              style={{ borderRadius: "0px !important" }}
-              size="md"
-              source={require("../assets/images/tsIcon.png")}
+              // size="md"
+              source={require("./../assets/images/TSHeader.jpg")}
             />
           </HStack>
         ),
