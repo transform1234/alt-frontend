@@ -163,15 +163,17 @@ export default function StudentLogin({ swPath }) {
           <HStack>
             <Avatar
               bg=""
-              size={"2xl"}
+              size={"xl"}
               style={{ borderRadius: "0px" }}
               source={require("../../src/assets/Transform Schools _PFA.png")}
             />
           </HStack>
           <VStack space="" w="300px">
-            <Box style={{ marginLeft: "25px" }}>
-              <Heading>{t("WELCOME")}</Heading>
-            </Box>
+            <Center>
+              <Box mt={"10px"}>
+                <Heading>{t("WELCOME")}</Heading>
+              </Box>
+            </Center>
             <VStack space={2} pb={"25px"}>
               {"alert" in errors ? (
                 <Alert w="100%" status={"error"}>
