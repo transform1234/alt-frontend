@@ -10,7 +10,13 @@
       integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
       crossorigin="anonymous"
     ></script>
-    <!-- <link rel="stylesheet" href="./style.css" /> -->
+    <!-- <link rel="stylesheet" href="./carousel.css" /> -->
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* body {
+        background: transparent !important;
+      } */
+    </style>
   </head>
   <body>
     <div class="player-grid" id="my-player"></div>
@@ -22,6 +28,7 @@
       if (window?.name) {
         const data = JSON.parse(window?.name);
         if (data?.questionListUrl) {
+          console.log("asd", data?.questionListUrl);
           window.questionListUrl = data?.questionListUrl;
         }
       }
@@ -32,16 +39,30 @@
         "player-config",
         JSON.stringify(playerConfig)
       );
-      qumlPlayerElement.addEventListener("playerEvent", (event) => {
-        console.log("On playerEvent", event);
-      });
+      // qumlPlayerElement.addEventListener("playerEvent", (event) => {
+      // console.log("On playerEvent", event);
+      // });
 
       qumlPlayerElement.addEventListener("telemetryEvent", (event) => {
         console.log("On telemetryEvent", event);
+        window?.parent?.postMessage(event?.detail, "*");
       });
 
       var myPlayer = document.getElementById("my-player");
       myPlayer.appendChild(qumlPlayerElement);
+      const landscape = document.getElementsByClassName("main-container");
+      const landscapeElement = landscape?.[0] ? landscape?.[0] : landscape;
+
+      function reportWindowSize() {
+        landscapeElement.setAttribute(
+          "style",
+          `height: ${window.innerHeight}px`
+        );
+        // landscapeElement.setAttribute("width", window.innerWidth - "40");
+        console.log("hello");
+      }
+      reportWindowSize();
+      window.onresize = reportWindowSize;
     </script>
   </body>
 </html>

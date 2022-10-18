@@ -24,7 +24,7 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
   }, [mimeType])
 
   React.useEffect(() => {
-    if (url === `/project-sunbird/content-player`) {
+    if ([`/project-sunbird/content-player`, `/quml`].includes(url)) {
       window.addEventListener(
         'message',
         (event) => {
@@ -42,20 +42,20 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
   }, [url])
 
   const handleEvent = (event) => {
-    const data = event?.data?.data
-    if (data) {
-      if (typeof data === 'string') {
-        let telemetry = JSON.parse(data)
-        if (telemetry?.eid === 'ASSESS') {
-          const edata = telemetry?.edata
-          if (!trackData.find((e) => e.index === edata.index)) {
-            trackData = [...trackData, edata]
-            if (setTrackData && props.totalQuestions === edata.index) {
-              setTrackData(trackData)
-            }
+    const data = event?.data
+    console.log(data)
+    if (data && typeof data?.data === 'string') {
+      let telemetry = JSON.parse(data)
+      if (telemetry?.eid === 'ASSESS') {
+        const edata = telemetry?.edata
+        if (!trackData.find((e) => e.index === edata.index)) {
+          trackData = [...trackData, edata]
+          if (setTrackData && props.totalQuestions === edata.index) {
+            setTrackData(trackData)
           }
         }
       }
+    } else {
     }
   }
 

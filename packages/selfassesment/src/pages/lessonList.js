@@ -138,6 +138,11 @@ export default function LessonList({ footerLinks }) {
               /> */}
               <SunbirdPlayer
                 {...lesson}
+                userData={{
+                  firstName: localStorage.getItem("name"),
+                  lastName: "",
+                  // lastName: localStorage.getItem("lastName"),
+                }}
                 setTrackData={setTrackData}
                 // public_url="http://localhost:5000"
                 // public_url="https://alt-shiksha.uniteframework.io/"

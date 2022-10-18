@@ -99,16 +99,18 @@ export default function StudentLogin({ swPath }) {
             });
             localStorage.setItem(
               "fullName",
-              resultTeacher.fullName
+              resultTeacher?.fullName
                 ? resultTeacher.fullName
-                : `${resultTeacher.firstName} ${resultTeacher.lastName}`
+                : `${resultTeacher?.firstName} ${resultTeacher?.lastName}`
             );
-            localStorage.setItem("name", resultTeacher.firstName);
-            localStorage.setItem("class", resultTeacher.class);
-            localStorage.setItem("section", resultTeacher.section);
+            localStorage.setItem("firstName", resultTeacher?.firstName);
+            localStorage.setItem("lastName", resultTeacher?.lastName);
+            localStorage.setItem("name", resultTeacher?.firstName);
+            localStorage.setItem("class", resultTeacher?.class);
+            localStorage.setItem("section", resultTeacher?.section);
 
-            localStorage.setItem("schoolId", resultTeacher.schoolId);
-            localStorage.setItem("phoneNumber", resultTeacher.phoneNumber);
+            localStorage.setItem("schoolId", resultTeacher?.schoolId);
+            localStorage.setItem("phoneNumber", resultTeacher?.phoneNumber);
           } catch (e) {
             localStorage.removeItem("token");
             console.log({ e });
