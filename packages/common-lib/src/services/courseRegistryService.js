@@ -87,3 +87,29 @@ export const getContent = async ({ id, adapter }, header = {}) => {
     return {}
   }
 }
+
+export const coursetracking = async ({ id, adapter }, header = {}) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await get(
+      baseUrl + '/v1/altlessontracking/altcreatecoursetracking/',
+      {
+        params: {
+          courseId: id
+        },
+        headers
+      }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return {}
+    }
+  } catch {
+    return {}
+  }
+}

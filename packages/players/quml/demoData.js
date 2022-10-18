@@ -246,6 +246,7 @@ const sectionContent = {
   },
   pkgVersion: 1,
 };
+let metadata = window.name ? JSON.parse(window.name) : sectionContent;
 const playerConfig = {
   context: {
     threshold: 3,
@@ -285,20 +286,18 @@ const playerConfig = {
       l4: "string",
     },
     host: "",
-    endpoint: "/data/v3/telemetry",
-    userData: {
-      firstName: "Diptesh",
-      lastName: "Mukherjee",
-    },
+    // endpoint: "/data/v3/telemetry",
+    userData: metadata?.userData ? metadata?.userData : {},
   },
-  metadata: window.name ? JSON.parse(window.name) : sectionContent,
+  metadata: metadata,
   config: {
-    // traceId: "1234",
-    // sideMenu: {
-    //   showShare: true,
-    //   showDownload: true,
-    //   showReplay: true,
-    //   showExit: true,
-    // },
+    traceId: "1234",
+    sideMenu: {
+      enable: false,
+      showShare: true,
+      showDownload: true,
+      showReplay: true,
+      showExit: true,
+    },
   },
 };
