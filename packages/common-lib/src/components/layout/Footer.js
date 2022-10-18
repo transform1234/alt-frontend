@@ -57,7 +57,13 @@ export default function Footer({ menues, routeDynamics, ...props }) {
     <Stack>
       <Box width={width} flex={1} safeAreaTop position='fixed' bottom='0'>
         <Center flex={1}></Center>
-        <HStack bg='white' alignItems='center' safeAreaBottom shadow={6}>
+        <HStack
+          pl={'20px'}
+          bg='white'
+          alignItems='center'
+          safeAreaBottom
+          shadow={6}
+        >
           {footerMenus?.map((item, index) => (
             <PressableNew
               item={item}
