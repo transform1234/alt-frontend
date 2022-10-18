@@ -45,7 +45,11 @@ export default function LessonList({ footerLinks }) {
   const [trackData, setTrackData] = React.useState();
 
   React.useEffect(async () => {
-    if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
+    if (
+      ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
+        type
+      )
+    ) {
       let resultData = await courseRegistryService.getOne({
         id: id,
         adapter: "diksha",
@@ -81,14 +85,24 @@ export default function LessonList({ footerLinks }) {
         _center={{ alignItems: "center", width: "100%" }}
         customComponent={
           lessonLandingPage &&
-          !["assessment", "SelfAssess", "QuestionSet"].includes(type) ? (
+          ![
+            "assessment",
+            "SelfAssess",
+            "QuestionSet",
+            "QuestionSetImage",
+          ].includes(type) ? (
             <LessonLandingPage
               subject={"English"}
               data={lesson}
               setLessonLandingPage={setLessonLandingPage}
             />
           ) : trackData &&
-            !["assessment", "SelfAssess", "QuestionSet"].includes(type) ? (
+            ![
+              "assessment",
+              "SelfAssess",
+              "QuestionSet",
+              "QuestionSetImage",
+            ].includes(type) ? (
             <LessonResultPage
               type={type}
               setLesson={setLesson}
@@ -98,12 +112,17 @@ export default function LessonList({ footerLinks }) {
             />
           ) : (
             <VStack {...{ width, height }}>
-              <IconByName
+              {/* <IconByName
                 name="CloseCircleLineIcon"
                 onPress={() => {
                   setLesson();
                   if (
-                    ["assessment", "SelfAssess", "QuestionSet"].includes(type)
+                    [
+                      "assessment",
+                      "SelfAssess",
+                      "QuestionSet",
+                      "QuestionSetImage",
+                    ].includes(type)
                   ) {
                     navigate(-1);
                   }
@@ -116,7 +135,7 @@ export default function LessonList({ footerLinks }) {
                 bg="white"
                 p="0"
                 rounded="full"
-              />
+              /> */}
               <SunbirdPlayer
                 {...lesson}
                 setTrackData={setTrackData}
