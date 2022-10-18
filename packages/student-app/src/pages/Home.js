@@ -15,7 +15,7 @@ function Home({ footerLinks }) {
         {
           link: "/selfassesment/subjects",
           title: "Subjects",
-          subTitle: "TBD",
+          subTitle: "English,Mathematics,Science,Languages",
           _box: {
             style: {
               background:
@@ -26,7 +26,7 @@ function Home({ footerLinks }) {
         {
           link: "/commingsoon",
           title: "Score Card",
-          subTitle: "TBD",
+          subTitle: "Coming Soon",
           _box: {
             style: {
               background:
@@ -43,7 +43,7 @@ function Home({ footerLinks }) {
         {
           link: "/selfassesment",
           title: "Baseline assessment",
-          subTitle: "TBD",
+          subTitle: "English,Grade 9,Medium Odiya",
           _box: {
             style: {
               background:
@@ -84,12 +84,7 @@ function Home({ footerLinks }) {
       <Box bg="white" rounded={"2xl"} py={6} px={4} mb={5} shadow={3}>
         <Stack>
           <VStack space={6}>
-            <Box>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </Box>
+            <Box>{t("HOME_SUBTITLE")}</Box>
             {widgetData.map((item, index) => {
               return <Widget {...item} key={index} />;
             })}
