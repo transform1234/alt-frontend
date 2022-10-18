@@ -43,7 +43,7 @@ function CommingSoon({ footerLinks }) {
         <Center width={width}>
           <VStack space="">
             <Box>
-              <Heading>{t("Comming Soon...")}</Heading>
+              <Heading>{t("Coming Soon")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               <Center>

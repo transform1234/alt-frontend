@@ -25,7 +25,7 @@ export default function SubjectCard({
         rounded="20px"
         position="relative"
       >
-        <HStack space="10" alignItems="center">
+        <HStack space="4" alignItems="center">
           <IconByName
             isDisabled
             name={iconName}
@@ -46,6 +46,7 @@ export default function SubjectCard({
           minW="15%"
           py="10px"
           px="20px"
+          alignItems={"center"}
         >
           <BodyLarge color="white"> {status}</BodyLarge>
         </Box>
