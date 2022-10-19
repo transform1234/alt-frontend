@@ -17,7 +17,6 @@ import {
   RoundedProgressBar,
 } from "@shiksha/common-lib";
 import { useNavigate, useParams } from "react-router-dom";
-import manifest from "../manifest.json";
 
 const demoData = [
   {
@@ -68,6 +67,19 @@ export default function LessonList({ footerLinks }) {
       );
     }
   }, []);
+
+  const handleTrackData = async (data) => {
+    console.log({ data });
+    courseRegistryService.coursetracking({
+      userId: localStorage.getItem("id"),
+      courseId: id,
+      lessonId: id,
+      status: "complete",
+      attempts: data?.attempts ? data?.attempts : 1,
+      score: data?.score,
+      scoreDetails: JSON.stringify(data?.trackData),
+    });
+  };
 
   React.useEffect(async () => {
     if (lessonId) {
@@ -143,7 +155,20 @@ export default function LessonList({ footerLinks }) {
                   lastName: "",
                   // lastName: localStorage.getItem("lastName"),
                 }}
-                setTrackData={setTrackData}
+                setTrackData={(data) => {
+                  if (
+                    [
+                      "assessment",
+                      "SelfAssess",
+                      "QuestionSet",
+                      "QuestionSetImage",
+                    ].includes(type)
+                  ) {
+                    handleTrackData(data);
+                  } else {
+                    setTrackData(data);
+                  }
+                }}
                 // public_url="http://localhost:5000"
                 // public_url="https://alt-shiksha.uniteframework.io/"
               />

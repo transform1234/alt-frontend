@@ -43,19 +43,30 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
 
   const handleEvent = (event) => {
     const data = event?.data
-    console.log(data)
+    let telemetry = {}
     if (data && typeof data?.data === 'string') {
-      let telemetry = JSON.parse(data)
-      if (telemetry?.eid === 'ASSESS') {
-        const edata = telemetry?.edata
-        if (!trackData.find((e) => e.index === edata.index)) {
-          trackData = [...trackData, edata]
-          if (setTrackData && props.totalQuestions === edata.index) {
-            setTrackData(trackData)
-          }
+      telemetry = JSON.parse(data)
+    } else if (data?.eid) {
+      telemetry = data
+    }
+    if (telemetry?.eid === 'ASSESS') {
+      const edata = telemetry?.edata
+      if (!trackData.find((e) => e.index === edata.index)) {
+        trackData = [...trackData, edata]
+        if (setTrackData && props.totalQuestions === edata.index) {
+          setTrackData(trackData)
         }
       }
-    } else {
+    } else if (telemetry?.eid === 'SUMMARY') {
+      const summaryData = telemetry?.edata
+      if (summaryData?.extra) {
+        const { value } = summaryData.extra.find((e) => e['id'] === 'score')
+        setTrackData({ score: value, trackData })
+      } else {
+        console.log('summary is not found', telemetry)
+      }
+    } else if (telemetry?.eid === 'SUMMARY') {
+      console.log(telemetry)
     }
   }
 
