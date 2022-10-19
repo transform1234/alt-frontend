@@ -24,7 +24,7 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
   }, [mimeType])
 
   React.useEffect(() => {
-    if (url === `/project-sunbird/content-player`) {
+    if ([`/project-sunbird/content-player`, `/quml`].includes(url)) {
       window.addEventListener(
         'message',
         (event) => {
@@ -42,20 +42,31 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
   }, [url])
 
   const handleEvent = (event) => {
-    const data = event?.data?.data
-    if (data) {
-      if (typeof data === 'string') {
-        let telemetry = JSON.parse(data)
-        if (telemetry?.eid === 'ASSESS') {
-          const edata = telemetry?.edata
-          if (!trackData.find((e) => e.index === edata.index)) {
-            trackData = [...trackData, edata]
-            if (setTrackData && props.totalQuestions === edata.index) {
-              setTrackData(trackData)
-            }
-          }
+    const data = event?.data
+    let telemetry = {}
+    if (data && typeof data?.data === 'string') {
+      telemetry = JSON.parse(data)
+    } else if (data?.eid) {
+      telemetry = data
+    }
+    if (telemetry?.eid === 'ASSESS') {
+      const edata = telemetry?.edata
+      if (!trackData.find((e) => e.index === edata.index)) {
+        trackData = [...trackData, edata]
+        if (setTrackData && props.totalQuestions === edata.index) {
+          setTrackData(trackData)
         }
       }
+    } else if (telemetry?.eid === 'SUMMARY') {
+      const summaryData = telemetry?.edata
+      if (summaryData?.extra) {
+        const { value } = summaryData.extra.find((e) => e['id'] === 'score')
+        setTrackData({ score: value, trackData })
+      } else {
+        console.log('summary is not found', telemetry)
+      }
+    } else if (telemetry?.eid === 'SUMMARY') {
+      console.log(telemetry)
     }
   }
 
