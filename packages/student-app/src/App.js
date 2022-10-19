@@ -37,7 +37,7 @@ function App() {
     },
     {
       moduleName: "student-app",
-      path: "/comingsoon",
+      path: "/comingsoon/:title",
       component: ComingSoon,
     },
     {
@@ -48,12 +48,12 @@ function App() {
 
     {
       moduleName: "student-app",
-      path: "/dashboard",
+      path: "/Dashboard",
       component: Dashboard,
     },
     {
       moduleName: "student-app",
-      path: "/certificate",
+      path: "/Certificate",
       component: Certificate,
     },
     {
