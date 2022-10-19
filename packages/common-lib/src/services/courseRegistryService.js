@@ -152,14 +152,10 @@ export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
   }
 
   try {
-    const result = await get(
-      // baseUrl + '/altlessontracking/search',
-      `https://dhruva.shikshalokam.org/api/questionset/v1/read/${id}?fields=instructions`,
-      params,
-      {
-        headers
-      }
-    )
+    const result = await get(baseUrl + '/course/{questionset}/questionsetid', {
+      params: { questionsetId: id },
+      headers
+    })
     if (result?.data?.data) {
       return result.data?.data
     } else {
