@@ -117,7 +117,7 @@ const theme = {
   components: {
     Text: {
       baseStyle: {
-        textTransform: 'capitalize',
+        textTransform: 'none',
         fontFamily: fontFamily,
         fontSize: fontSize
       }

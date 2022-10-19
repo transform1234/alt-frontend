@@ -29,6 +29,8 @@ export default function Footer({ menues, routeDynamics, ...props }) {
       setSelected('visits')
     } else if (path.startsWith('/selfassesment')) {
       setSelected('selfassesment')
+    } else if (path.startsWith('/dashboard')) {
+      setSelected('dashboard')
     } else {
       setSelected('app')
     }
