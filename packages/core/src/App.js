@@ -28,7 +28,7 @@ function App() {
           <Route path="/mobilenumberscreen" element={<MobileNumberScreen />} />
           <Route path="/otp" element={<OTP />} />
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/comingsoon" element={<ComingSoon />} />
+          <Route path="/comingsoon/:title" element={<ComingSoon />} />
 
           <Route path="/onboardingimprove" element={<OnboardingFill />} />
         </Routes>

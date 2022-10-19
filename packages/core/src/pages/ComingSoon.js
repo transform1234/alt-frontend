@@ -9,10 +9,12 @@ import {
   IconByName,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
+import { useParams, useLocation } from "react-router-dom";
 
 function CommingSoon({ footerLinks }) {
   const [width, Height] = useWindowSize();
-
+  const params = useParams();
+  let location = useLocation();
   const { t } = useTranslation();
 
   React.useEffect(() => {
@@ -22,7 +24,10 @@ function CommingSoon({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: t(""),
+        title:
+          params["title"] == "ScoreCard"
+            ? "Score Card"
+            : location.pathname.split("/")[1],
       }}
       _appBar={{
         languages: [],
