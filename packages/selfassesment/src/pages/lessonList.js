@@ -56,20 +56,15 @@ export default function LessonList({ footerLinks }) {
         type: "assessment",
       });
 
-      // let instructionData = await courseRegistryService.getOne({
-      //   id: id,
-      //   adapter: "diksha",
-      //   coreData: true,
-      //   type: "assessment",
-      // });
-
-      // const indtr = {
-      //   instructions: {
-      //     default:
-      //       '<p><span style="background-color:rgb(255,255,255);color:rgb(32,33,36);">ପ୍ରିୟ ଛାତ୍ରଛାତ୍ରୀମାନେ, ଏହା ହେଉଛି ଇଂରାଜୀ ବିଷୟର ବେସ୍ ଲାଇନ୍ ମୂଲ୍ୟାଙ୍କନ | ଏଥିରେ&nbsp;ସମୁଦାୟ 15 ଗୋଟି ପ୍ରଶ୍ନ ଅଛି | ସମସ୍ତ ପ୍ରଶ୍ନ ବାଧ୍ୟତାମୂଳକ | ପ୍ରତ୍ୟେକ ପ୍ରଶ୍ନର ଚାରୋଟି ବିକଳ୍ପ ଅଛି | ଉତ୍ତର ଦେବା ପୂର୍ବରୁ ଦୟାକରି ପ୍ରଶ୍ନଗୁଡିକ ସଠିକ୍ ଭାବରେ ପଢ | ସବୁଠାରୁ &nbsp;ସଠିକ୍ ଉତ୍ତର ପାଖ ବଟନ୍ କ୍ଲିକ୍ କର |</span></p>',
-      //   },
-      // };
-      setLesson(resultData);
+      let instructionData = await courseRegistryService.courseTrackingRead({
+        id,
+      });
+      setLesson({
+        ...resultData,
+        instructions: instructionData?.instructions
+          ? instructionData?.instructions
+          : {},
+      });
     } else if (["course", "Course"].includes(type)) {
       setLessons(
         await courseRegistryService.getOne({
