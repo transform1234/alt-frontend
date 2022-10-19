@@ -1,21 +1,14 @@
-import { HStack, VStack, Stack, Avatar, Pressable, Box } from "native-base";
-import { IconByName, ProgressBar, BodyLarge } from "@shiksha/common-lib";
-import { useNavigate } from "react-router-dom";
+import { HStack, VStack, Avatar, Pressable, Box } from "native-base";
+import {
+  IconByName,
+  ProgressBar,
+  BodyLarge,
+  Caption,
+} from "@shiksha/common-lib";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import manifest from "../manifest.json";
 
-export default function CourseCard({
-  identifier,
-  contentType,
-  appIcon,
-  name,
-  isDisabled,
-  onPress,
-}) {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-
+export default function CourseCard({ item, isDisabled, onPress }) {
+  const { trakingData, name, appIcon } = item;
   return (
     <Pressable isDisabled={isDisabled} onPress={onPress} position="relative">
       <VStack
@@ -24,9 +17,9 @@ export default function CourseCard({
         space="4"
         roundedLeft="20"
       >
-        <HStack space="4">
+        <HStack space="4" alignItems="center">
           <Avatar
-            bg={isDisabled ? "#C1C1C1" : "yellow.500"}
+            bg={isDisabled ? "selfassesment.lightGray1" : "yellow.500"}
             size="30"
             {...(appIcon?.appIcon
               ? {
@@ -41,8 +34,13 @@ export default function CourseCard({
               color="white"
             />
           </Avatar>
-          <VStack space="2" flex={1}>
+          <VStack space="1" flex={1}>
             <BodyLarge>{name}</BodyLarge>
+            {trakingData?.length > 0 ? (
+              <Caption>Great work! You've completed the assessment.</Caption>
+            ) : (
+              <React.Fragment />
+            )}
           </VStack>
         </HStack>
 
@@ -58,7 +56,13 @@ export default function CourseCard({
         /> */}
       </VStack>
       <Box
-        bg={isDisabled ? "#C1C1C1" : "blue.700"}
+        bg={
+          isDisabled
+            ? "selfassesment.lightGray1"
+            : trakingData?.length > 0
+            ? "selfassesment.cloverGreen"
+            : "blue.500"
+        }
         position="absolute"
         right="0"
         minW="60px"
@@ -69,7 +73,11 @@ export default function CourseCard({
       >
         <IconByName
           isDisabled
-          name="ArrowRightLineIcon"
+          name={
+            trakingData?.length > 0
+              ? "CheckboxCircleLineIcon"
+              : "ArrowRightLineIcon"
+          }
           color="white"
           size="sm"
         />

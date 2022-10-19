@@ -55,6 +55,20 @@ export default function LessonList({ footerLinks }) {
         coreData: true,
         type: "assessment",
       });
+
+      // let instructionData = await courseRegistryService.getOne({
+      //   id: id,
+      //   adapter: "diksha",
+      //   coreData: true,
+      //   type: "assessment",
+      // });
+
+      // const indtr = {
+      //   instructions: {
+      //     default:
+      //       '<p><span style="background-color:rgb(255,255,255);color:rgb(32,33,36);">ପ୍ରିୟ ଛାତ୍ରଛାତ୍ରୀମାନେ, ଏହା ହେଉଛି ଇଂରାଜୀ ବିଷୟର ବେସ୍ ଲାଇନ୍ ମୂଲ୍ୟାଙ୍କନ | ଏଥିରେ&nbsp;ସମୁଦାୟ 15 ଗୋଟି ପ୍ରଶ୍ନ ଅଛି | ସମସ୍ତ ପ୍ରଶ୍ନ ବାଧ୍ୟତାମୂଳକ | ପ୍ରତ୍ୟେକ ପ୍ରଶ୍ନର ଚାରୋଟି ବିକଳ୍ପ ଅଛି | ଉତ୍ତର ଦେବା ପୂର୍ବରୁ ଦୟାକରି ପ୍ରଶ୍ନଗୁଡିକ ସଠିକ୍ ଭାବରେ ପଢ | ସବୁଠାରୁ &nbsp;ସଠିକ୍ ଉତ୍ତର ପାଖ ବଟନ୍ କ୍ଲିକ୍ କର |</span></p>',
+      //   },
+      // };
       setLesson(resultData);
     } else if (["course", "Course"].includes(type)) {
       setLessons(
@@ -67,6 +81,17 @@ export default function LessonList({ footerLinks }) {
       );
     }
   }, []);
+
+  const handleEditButton = () => {
+    setLesson();
+    if (
+      ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
+        type
+      )
+    ) {
+      navigate(-1);
+    }
+  };
 
   const handleTrackData = async (data) => {
     console.log({ data });
@@ -90,6 +115,15 @@ export default function LessonList({ footerLinks }) {
       setLesson(resultData);
     }
   }, [lessonId]);
+
+  if (lesson?.trakingData?.length > 0) {
+    return (
+      <Loading
+        _center={{ alignItems: "center", width: "100%" }}
+        customComponent={<H1>Great work! You've completed the assessment.</H1>}
+      />
+    );
+  }
 
   if (lesson) {
     return (
@@ -149,6 +183,7 @@ export default function LessonList({ footerLinks }) {
                 rounded="full"
               /> */}
               <SunbirdPlayer
+                handleEditButton={handleEditButton}
                 {...lesson}
                 userData={{
                   firstName: localStorage.getItem("name"),
@@ -317,7 +352,14 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         size={"lg"}
         onPress={() => {
           setLesson();
-          if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
+          if (
+            [
+              "assessment",
+              "SelfAssess",
+              "QuestionSet",
+              "QuestionSetImage",
+            ].includes(type)
+          ) {
             navigate(-1);
           }
         }}
@@ -330,7 +372,14 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         width="100%"
         onPress={() => {
           setLesson();
-          if (["assessment", "SelfAssess", "QuestionSet"].includes(type)) {
+          if (
+            [
+              "assessment",
+              "SelfAssess",
+              "QuestionSet",
+              "QuestionSetImage",
+            ].includes(type)
+          ) {
             navigate(-1);
           }
         }}
