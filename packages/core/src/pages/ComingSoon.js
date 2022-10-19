@@ -33,6 +33,7 @@ function CommingSoon({ footerLinks }) {
             <Avatar
               rounded={0}
               _image={{ rounded: 0 }}
+              style={{ borderRadius: 0 }}
               source={require("../../src/assets/TSHeader.jpg")}
             />
           </HStack>
