@@ -14,7 +14,6 @@ const SelfassesmentSubjectList = React.lazy(() =>
   import("selfassesment/subjectList")
 );
 const ComingSoon = React.lazy(() => import("core/ComingSoon"));
-const Dashboard = React.lazy(() => import("dashboard/Dashboard"));
 
 function App() {
   initializeI18n(
