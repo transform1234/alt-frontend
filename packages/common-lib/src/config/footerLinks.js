@@ -16,15 +16,15 @@ export default [
   {
     title: 'Certificate',
     icon: 'AwardLineIcon',
-    moduleName: 'certificate',
-    route: '/certificate',
+    moduleName: 'Certificate',
+    route: '/Certificate',
     routeparameters: {}
   },
   {
-    title: 'Dashboard',
+    title: 'Settings',
     icon: 'DashboardLineIcon',
-    moduleName: 'dashboard',
-    route: '/dashboard',
+    moduleName: 'Settings',
+    route: '/Settings',
     routeparameters: {}
   }
   // {

@@ -24,7 +24,7 @@ function Home({ footerLinks }) {
           },
         },
         {
-          link: "/comingsoon",
+          link: "/comingsoon/ScoreCard",
           title: "Score Card",
           subTitle: "Coming Soon",
           _box: {

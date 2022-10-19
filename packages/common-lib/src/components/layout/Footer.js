@@ -29,10 +29,10 @@ export default function Footer({ menues, routeDynamics, ...props }) {
       setSelected('visits')
     } else if (path.startsWith('/selfassesment')) {
       setSelected('selfassesment')
-    } else if (path.startsWith('/dashboard')) {
-      setSelected('dashboard')
-    } else if (path.startsWith('/certificate')) {
-      setSelected('certificate')
+    } else if (path.startsWith('/Settings')) {
+      setSelected('Settings')
+    } else if (path.startsWith('/Certificate')) {
+      setSelected('Certificate')
     } else {
       setSelected('app')
     }
