@@ -48,7 +48,7 @@ function App() {
 
     {
       moduleName: "student-app",
-      path: "/Dashboard",
+      path: "/Settings",
       component: Dashboard,
     },
     {

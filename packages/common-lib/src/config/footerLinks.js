@@ -21,10 +21,10 @@ export default [
     routeparameters: {}
   },
   {
-    title: 'Dashboard',
+    title: 'Settings',
     icon: 'DashboardLineIcon',
-    moduleName: 'Dashboard',
-    route: '/Dashboard',
+    moduleName: 'Settings',
+    route: '/Settings',
     routeparameters: {}
   }
   // {
