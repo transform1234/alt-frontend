@@ -88,19 +88,17 @@ export const getContent = async ({ id, adapter }, header = {}) => {
   }
 }
 
-export const coursetracking = async ({ id, adapter }, header = {}) => {
+export const coursetracking = async (params, header = {}) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
 
   try {
-    const result = await get(
-      baseUrl + '/v1/altlessontracking/altcreatecoursetracking/',
+    const result = await post(
+      baseUrl + '/altlessontracking/altcreatecoursetracking/',
+      params,
       {
-        params: {
-          courseId: id
-        },
         headers
       }
     )
