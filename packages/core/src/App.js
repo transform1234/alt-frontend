@@ -6,7 +6,7 @@ import MobileNumberScreen from "pages/MobileNumberScreen";
 import OTP from "pages/OTP";
 import Onboarding from "pages/Onboarding";
 import OnboardingFill from "pages/OnboardingFill";
-import CommingSoon from "pages/CommingSoon";
+import ComingSoon from "pages/ComingSoon";
 import StudentLogin from "pages/StudentLogin";
 import Flash from "pages/Flash";
 import { extendTheme, NativeBaseProvider } from "native-base";
@@ -28,7 +28,7 @@ function App() {
           <Route path="/mobilenumberscreen" element={<MobileNumberScreen />} />
           <Route path="/otp" element={<OTP />} />
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/commingsoon" element={<CommingSoon />} />
+          <Route path="/comingsoon" element={<ComingSoon />} />
 
           <Route path="/onboardingimprove" element={<OnboardingFill />} />
         </Routes>

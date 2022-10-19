@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, VStack, HStack, Avatar } from "native-base";
+import { Box, Stack, VStack, HStack, Avatar, Link } from "native-base";
 import { capture, Layout, Widget, NameTag } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -15,7 +15,7 @@ function Home({ footerLinks }) {
         {
           link: "/selfassesment/subjects",
           title: "Subjects",
-          subTitle: "English,Mathematics,Science,Languages",
+          subTitle: "English, Mathematics, Science, Languages",
           _box: {
             style: {
               background:
@@ -24,7 +24,7 @@ function Home({ footerLinks }) {
           },
         },
         {
-          link: "/commingsoon",
+          link: "/comingsoon",
           title: "Score Card",
           subTitle: "Coming Soon",
           _box: {
@@ -43,7 +43,7 @@ function Home({ footerLinks }) {
         {
           link: "/selfassesment",
           title: "Baseline assessment",
-          subTitle: "English,Grade 9,Medium Odiya",
+          subTitle: "English, Grade 9, Medium Odiya",
           _box: {
             style: {
               background:
@@ -84,7 +84,17 @@ function Home({ footerLinks }) {
       <Box bg="white" rounded={"2xl"} py={6} px={4} mb={5} shadow={3}>
         <Stack>
           <VStack space={6}>
-            <Box>{t("HOME_SUBTITLE")}</Box>
+            <Box display={"inline"}>
+              Thank you for participating in this pilot. You are among the first
+              students to use this platform! If you have any trouble using this
+              or feedback, please let our team know at{" "}
+              <a
+                href="mailto:contact@peopleforaction.org"
+                style={{ fontSize: "12px", whiteSpace: "nowrap" }}
+              >
+                contact@peopleforaction.org
+              </a>
+            </Box>
             {widgetData.map((item, index) => {
               return <Widget {...item} key={index} />;
             })}
