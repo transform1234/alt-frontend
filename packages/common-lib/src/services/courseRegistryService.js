@@ -51,7 +51,13 @@ export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
       }
     )
     if (result?.data?.data) {
-      if (coreData) return result?.data?.data
+      if (coreData) {
+        const trakingData = await courseTrackingSearch({
+          courseId: id,
+          userId: localStorage.getItem('id')
+        })
+        return { ...result?.data?.data, trakingData }
+      }
       return mapInterfaceData(result.data.data, interfaceData)
     } else {
       return {}
@@ -97,6 +103,58 @@ export const coursetracking = async (params, header = {}) => {
   try {
     const result = await post(
       baseUrl + '/altlessontracking/altcreatecoursetracking/',
+      params,
+      {
+        headers
+      }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return {}
+    }
+  } catch {
+    return {}
+  }
+}
+
+export const courseTrackingSearch = async (
+  { limit, ...params },
+  header = {}
+) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await post(
+      baseUrl + '/altlessontracking/search',
+      { filters: params, limit },
+      {
+        headers
+      }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return []
+    }
+  } catch {
+    return []
+  }
+}
+
+export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await get(
+      // baseUrl + '/altlessontracking/search',
+      `https://dhruva.shikshalokam.org/api/questionset/v1/read/${id}?fields=instructions`,
       params,
       {
         headers

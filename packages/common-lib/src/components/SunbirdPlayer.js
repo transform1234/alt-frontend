@@ -1,7 +1,12 @@
 import React from 'react'
 import { H2 } from './layout/HeaderTags'
 
-const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
+const SunbirdPlayer = ({
+  public_url,
+  setTrackData,
+  handleEditButton,
+  ...props
+}) => {
   const { mimeType } = props
   let trackData = []
   const [url, setUrl] = React.useState()
@@ -57,17 +62,20 @@ const SunbirdPlayer = ({ public_url, setTrackData, ...props }) => {
           setTrackData(trackData)
         }
       }
-    } else if (telemetry?.eid === 'SUMMARY') {
+    } else if (telemetry?.eid === 'END') {
       const summaryData = telemetry?.edata
-      if (summaryData?.extra) {
-        const { value } = summaryData.extra.find((e) => e['id'] === 'score')
-        setTrackData({ score: value, trackData })
+      if (summaryData?.summary) {
+        const { score } = summaryData.summary.find((e) => e['score'])
+        setTrackData({ score, trackData })
       } else {
         console.log('summary is not found', telemetry)
       }
-    } else if (telemetry?.eid === 'SUMMARY') {
-      console.log(telemetry)
+    } else if (telemetry?.eid === 'INTERACT') {
+      if (telemetry?.edata?.id === 'exit') {
+        handleEditButton()
+      }
     }
+    console.log(telemetry)
   }
 
   if (url) {
