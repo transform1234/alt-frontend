@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, VStack, HStack, Avatar, Link } from "native-base";
+import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
 import { capture, Layout, Widget, NameTag } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -15,7 +15,7 @@ function Home({ footerLinks }) {
         {
           link: "/selfassesment/subjects",
           title: "Subjects",
-          subTitle: "English, Mathematics, Science, Languages",
+          subTitle: "English, Mathematics, Science, Hindi",
           _box: {
             style: {
               background:
@@ -42,8 +42,8 @@ function Home({ footerLinks }) {
       data: [
         {
           link: "/selfassesment",
-          title: "Baseline assessment",
-          subTitle: "English, Grade 9, Medium Odiya",
+          title: "Baseline Assessment",
+          subTitle: "English, Class 9, Odiya Medium",
           _box: {
             style: {
               background:
@@ -73,7 +73,8 @@ function Home({ footerLinks }) {
         LeftIcon: (
           <HStack>
             <Avatar
-              style={{ borderRadius: "0px !important" }}
+              rounded={0}
+              _image={{ rounded: 0 }}
               source={require("./../assets/images/TSHeader.jpg")}
             />
           </HStack>
@@ -87,13 +88,8 @@ function Home({ footerLinks }) {
             <Box display={"inline"}>
               Thank you for participating in this pilot. You are among the first
               students to use this platform! If you have any trouble using this
-              or feedback, please let our team know at{" "}
-              <a
-                href="mailto:contact@peopleforaction.org"
-                style={{ fontSize: "12px", whiteSpace: "nowrap" }}
-              >
-                contact@peopleforaction.org
-              </a>
+              or feedback, please let our team know by clicking on the smiley
+              icon on the bottom right.
             </Box>
             {widgetData.map((item, index) => {
               return <Widget {...item} key={index} />;

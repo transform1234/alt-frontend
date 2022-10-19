@@ -31,7 +31,8 @@ function CommingSoon({ footerLinks }) {
         LeftIcon: (
           <HStack>
             <Avatar
-              style={{ borderRadius: "0px !important" }}
+              rounded={0}
+              _image={{ rounded: 0 }}
               source={require("../../src/assets/TSHeader.jpg")}
             />
           </HStack>

@@ -32,7 +32,7 @@ export default function SubjectList({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Subjetcs",
+        title: "Subjects",
       }}
       _appBar={{
         languages: [],
@@ -42,8 +42,8 @@ export default function SubjectList({ footerLinks }) {
         LeftIcon: (
           <HStack>
             <Avatar
-              style={{ borderRadius: "0px !important" }}
-              // size="md"
+              rounded={0}
+              _image={{ rounded: 0 }}
               source={require("./../assets/images/TSHeader.jpg")}
             />
           </HStack>

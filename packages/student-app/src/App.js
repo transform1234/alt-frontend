@@ -13,7 +13,10 @@ const SelfassesmentLessonList = React.lazy(() =>
 const SelfassesmentSubjectList = React.lazy(() =>
   import("selfassesment/subjectList")
 );
+
 const ComingSoon = React.lazy(() => import("core/ComingSoon"));
+const Dashboard = React.lazy(() => import("core/ComingSoon"));
+const Certificate = React.lazy(() => import("core/ComingSoon"));
 
 function App() {
   initializeI18n(
@@ -33,13 +36,25 @@ function App() {
       component: SelfassesmentLessonList,
     },
     {
-      moduleName: "comingsoon",
+      moduleName: "student-app",
       path: "/comingsoon",
       component: ComingSoon,
     },
     {
+      moduleName: "selfassesment",
       path: "/selfassesment/subjects",
       component: SelfassesmentSubjectList,
+    },
+
+    {
+      moduleName: "student-app",
+      path: "/dashboard",
+      component: Dashboard,
+    },
+    {
+      moduleName: "student-app",
+      path: "/certificate",
+      component: Certificate,
     },
     {
       moduleName: "student-app",

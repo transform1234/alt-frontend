@@ -31,6 +31,8 @@ export default function Footer({ menues, routeDynamics, ...props }) {
       setSelected('selfassesment')
     } else if (path.startsWith('/dashboard')) {
       setSelected('dashboard')
+    } else if (path.startsWith('/certificate')) {
+      setSelected('certificate')
     } else {
       setSelected('app')
     }
@@ -61,6 +63,7 @@ export default function Footer({ menues, routeDynamics, ...props }) {
         <Center flex={1}></Center>
         <HStack
           pl={'20px'}
+          pr={'20px'}
           bg='white'
           alignItems='center'
           safeAreaBottom
