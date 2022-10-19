@@ -6,7 +6,7 @@ export const useAuthFlow = () => {
   useEffect(async () => {
     const resultTeacher = await userRegistryService.getOne({}, {})
     if (resultTeacher) {
-      let id = resultTeacher.id.replace('1-', '')
+      let id = resultTeacher.id
       localStorage.setItem('id', id)
       localStorage.setItem('name', resultTeacher.name)
       localStorage.setItem('name', resultTeacher.name)

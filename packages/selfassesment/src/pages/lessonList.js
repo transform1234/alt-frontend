@@ -177,6 +177,21 @@ export default function LessonList({ footerLinks }) {
                 p="0"
                 rounded="full"
               /> */}
+              {lesson ? (
+                <Box p="5" bg="#024f9d">
+                  <H2 color="white">{lesson?.name}</H2>
+                  <HStack space={1}>
+                    <BodyLarge color="white">
+                      {lesson?.subject?.join(", ")}
+                    </BodyLarge>
+                    <BodyLarge color="white">
+                      {lesson?.gradeLevel?.join(", ")}
+                    </BodyLarge>
+                  </HStack>
+                </Box>
+              ) : (
+                <React.Fragment />
+              )}
               <SunbirdPlayer
                 handleEditButton={handleEditButton}
                 {...lesson}
