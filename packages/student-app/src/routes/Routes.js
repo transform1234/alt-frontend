@@ -5,7 +5,7 @@ const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
 const SelfassesmentLessonList = React.lazy(() =>
   import("selfassesment/Lessons")
 );
-const CommingSoon = React.lazy(() => import("core/CommingSoon"));
+const ComingSoon = React.lazy(() => import("core/ComingSoon"));
 
 export const routes = [
   // selfAssessment Routes
@@ -20,9 +20,9 @@ export const routes = [
     component: SelfassesmentLessonList,
   },
   {
-    moduleName: "commingsoon",
-    path: "/commingsoon",
-    component: CommingSoon,
+    moduleName: "comingsoon",
+    path: "/comingsoon",
+    component: ComingSoon,
   },
   {
     path: "/selfassesment/subjects",

@@ -13,7 +13,7 @@ const SelfassesmentLessonList = React.lazy(() =>
 const SelfassesmentSubjectList = React.lazy(() =>
   import("selfassesment/subjectList")
 );
-const CommingSoon = React.lazy(() => import("core/CommingSoon"));
+const ComingSoon = React.lazy(() => import("core/ComingSoon"));
 
 function App() {
   initializeI18n(
@@ -33,9 +33,9 @@ function App() {
       component: SelfassesmentLessonList,
     },
     {
-      moduleName: "commingsoon",
-      path: "/commingsoon",
-      component: CommingSoon,
+      moduleName: "comingsoon",
+      path: "/comingsoon",
+      component: ComingSoon,
     },
     {
       path: "/selfassesment/subjects",

@@ -10,21 +10,21 @@ export default [
     title: 'Learn',
     icon: 'BookLineIcon',
     moduleName: 'selfassesment',
-    route: '/selfassesment',
+    route: '/selfassesment/subjects',
     routeparameters: {}
   },
   {
     title: 'Certificate',
     icon: 'AwardLineIcon',
     moduleName: 'certificate',
-    route: '/commingsoon',
+    route: '/comingsoon',
     routeparameters: {}
   },
   {
     title: 'Dashboard',
     icon: 'DashboardLineIcon',
     moduleName: 'dashboard',
-    route: '/commingsoon',
+    route: '/comingsoon',
     routeparameters: {}
   }
   // {
