@@ -38,10 +38,7 @@ export default function CourseList({ footerLinks }) {
         {courseList?.map((item, key) => {
           return (
             <CourseCard
-              identifier={item?.identifier}
-              contentType={item?.contentType}
-              appIcon={item?.appIcon}
-              name={item?.name}
+              item={item}
               isDisabled={key === 0 ? false : true}
               {...([
                 "assessment",
@@ -49,12 +46,14 @@ export default function CourseList({ footerLinks }) {
                 "QuestionSet",
                 "QuestionSetImage",
               ].includes(item?.objectType)
-                ? {
-                    onPress: () =>
-                      navigate(
-                        `/selfassesment/lessons/${item?.identifier}/${item?.objectType}`
-                      ),
-                  }
+                ? item?.trakingData?.length > 0
+                  ? {}
+                  : {
+                      onPress: () =>
+                        navigate(
+                          `/selfassesment/lessons/${item?.identifier}/${item?.objectType}`
+                        ),
+                    }
                 : {
                     onPress: () =>
                       navigate(
