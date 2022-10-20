@@ -56,12 +56,16 @@ const SunbirdPlayer = ({
     }
     if (telemetry?.eid === 'ASSESS') {
       const edata = telemetry?.edata
-      if (!trackData.find((e) => e.index === edata.index)) {
+      if (trackData.find((e) => e?.item?.id === edata?.item?.id)) {
+        const filterData = trackData.filter((e) => {
+          console.log(e?.item?.id, '===', edata?.item?.id)
+          return e?.item?.id !== edata?.item?.id
+        })
+        trackData = [...filterData, edata]
+      } else {
         trackData = [...trackData, edata]
-        if (setTrackData && props.totalQuestions === edata.index) {
-          setTrackData(trackData)
-        }
       }
+      // console.log(telemetry, trackData)
     } else if (telemetry?.eid === 'END') {
       const summaryData = telemetry?.edata
       if (summaryData?.summary) {
@@ -75,12 +79,12 @@ const SunbirdPlayer = ({
         handleEditButton()
       }
     }
-    console.log(telemetry)
   }
 
   if (url) {
     return (
       <iframe
+        style={{ border: 'none' }}
         id='preview'
         height={'100%'}
         width='100%'
