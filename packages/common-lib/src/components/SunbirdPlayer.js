@@ -57,10 +57,9 @@ const SunbirdPlayer = ({
     if (telemetry?.eid === 'ASSESS') {
       const edata = telemetry?.edata
       if (trackData.find((e) => e?.item?.id === edata?.item?.id)) {
-        const filterData = trackData.filter((e) => {
-          console.log(e?.item?.id, '===', edata?.item?.id)
-          return e?.item?.id !== edata?.item?.id
-        })
+        const filterData = trackData.filter(
+          (e) => e?.item?.id !== edata?.item?.id
+        )
         trackData = [...filterData, edata]
       } else {
         trackData = [...trackData, edata]

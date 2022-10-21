@@ -88,16 +88,29 @@ export default function LessonList({ footerLinks }) {
     }
   };
 
-  const handleTrackData = async (data) => {
-    console.log({ data });
+  const handleTrackData = async ({ score, trackData, attempts }) => {
+    const newFormatData = trackData.reduce((oldData, newObj) => {
+      const dataExist = oldData.findIndex(
+        (e) => e.sectionId === newObj["item"]["sectionId"]
+      );
+      if (dataExist >= 0) {
+        oldData[dataExist]["data"].push(newObj);
+      } else {
+        oldData = [
+          ...oldData,
+          { sectionId: newObj["item"]["sectionId"], data: [newObj] },
+        ];
+      }
+      return oldData;
+    }, []);
     courseRegistryService.coursetracking({
       userId: localStorage.getItem("id"),
       courseId: id,
       lessonId: id,
       status: "complete",
-      attempts: data?.attempts ? data?.attempts : 1,
-      score: data?.score,
-      scoreDetails: JSON.stringify(data?.trackData),
+      attempts: attempts ? attempts : 1,
+      score: score,
+      scoreDetails: JSON.stringify(newFormatData),
     });
   };
 
