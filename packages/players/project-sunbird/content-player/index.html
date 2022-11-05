@@ -7,7 +7,11 @@
     <title>Document</title>
   </head>
   <body>
-    <iframe id="content-player" src="./preview.html?webview=true"></iframe>
+    <iframe
+      id="content-player"
+      src="./preview.html?webview=true"
+      style="border: none"
+    ></iframe>
     <script src="./demoData.js"></script>
 
     <script type="text/javascript">
@@ -25,8 +29,8 @@
       };
 
       function reportWindowSize() {
-        previewElement.setAttribute("height", window.innerHeight - "40");
-        previewElement.setAttribute("width", window.innerWidth - "40");
+        previewElement.setAttribute("height", window.innerHeight - "20");
+        previewElement.setAttribute("width", window.innerWidth - "20");
       }
 
       function passData(data) {
