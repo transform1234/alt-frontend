@@ -479,5 +479,6 @@
   "ENTER_USERNAME": "Enter Username",
   "ENTER_PASSWORD": "Enter Password",
   "HOME_SUBTITLE": "Thank you for participating in this pilot. You are among the first students to use this platform! If you have any trouble using this or feedback, please let our team know at",
-  "MAIL_TO": "contact@peopleforaction.org"
+  "MAIL_TO": "contact@peopleforaction.org",
+  "VIEW_PASSWORD": "View password"
 }

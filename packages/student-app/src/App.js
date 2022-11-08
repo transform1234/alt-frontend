@@ -5,16 +5,18 @@ import Home from "pages/Home";
 
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
 
-const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
-const SelfassesmentLessonList = React.lazy(() =>
-  import("selfassesment/Lessons")
+const Studentprogram = React.lazy(() => import("studentprogram/courseList"));
+const StudentprogramLessonList = React.lazy(() =>
+  import("studentprogram/Lessons")
 );
 
-const SelfassesmentSubjectList = React.lazy(() =>
-  import("selfassesment/subjectList")
+const StudentprogramSubjectList = React.lazy(() =>
+  import("studentprogram/subjectList")
 );
 
 const ComingSoon = React.lazy(() => import("core/ComingSoon"));
+const ScorecardReport = React.lazy(() => import("reports/ScoreCard"));
+
 const Dashboard = React.lazy(() => import("core/ComingSoon"));
 const Certificate = React.lazy(() => import("core/ComingSoon"));
 
@@ -24,16 +26,26 @@ function App() {
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
   );
   const routes = [
-    // selfAssessment Routes
+    // studentprogram Routes
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment",
-      component: Selfassesment,
+      moduleName: "studentprogram",
+      path: "/studentprogram/:subjectname",
+      component: Studentprogram,
     },
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment/lessons/:id/:type",
-      component: SelfassesmentLessonList,
+      moduleName: "studentprogram",
+      path: "/studentprogram",
+      component: Studentprogram,
+    },
+    {
+      moduleName: "studentprogram",
+      path: "/studentprogram/lessons/:id/:type",
+      component: StudentprogramLessonList,
+    },
+    {
+      moduleName: "reports",
+      path: "/scorecard",
+      component: ScorecardReport,
     },
     {
       moduleName: "student-app",
@@ -41,9 +53,9 @@ function App() {
       component: ComingSoon,
     },
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment/subjects",
-      component: SelfassesmentSubjectList,
+      moduleName: "studentprogram",
+      path: "/studentprogram/subjects",
+      component: StudentprogramSubjectList,
     },
 
     {

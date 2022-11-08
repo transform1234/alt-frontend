@@ -9,8 +9,11 @@ import {
   Alert,
   IconButton,
   CloseIcon,
+  Icon,
   Center,
   Avatar,
+  Pressable,
+  Tooltip,
   Divider,
 } from "native-base";
 import { useTranslation } from "react-i18next";
@@ -36,6 +39,7 @@ const colors = overrideColorTheme();
 export default function StudentLogin({ swPath }) {
   const [credentials, setCredentials] = useState();
   const [errors, setErrors] = React.useState({});
+  const [show, setShow] = React.useState(false);
   const { t } = useTranslation();
   const [width, Height] = useWindowSize();
   const navigate = useNavigate();
@@ -103,11 +107,13 @@ export default function StudentLogin({ swPath }) {
                 ? resultTeacher.fullName
                 : `${resultTeacher?.firstName} ${resultTeacher?.lastName}`
             );
+            console.log(resultTeacher);
             localStorage.setItem("firstName", resultTeacher?.firstName);
             localStorage.setItem("lastName", resultTeacher?.lastName);
-            localStorage.setItem("name", resultTeacher?.firstName);
+            localStorage.setItem("name", resultTeacher?.name);
             localStorage.setItem("class", resultTeacher?.class);
             localStorage.setItem("section", resultTeacher?.section);
+            localStorage.setItem("medium", resultTeacher?.medium);
 
             localStorage.setItem("schoolId", resultTeacher?.schoolId);
             localStorage.setItem("phoneNumber", resultTeacher?.phoneNumber);
@@ -130,8 +136,8 @@ export default function StudentLogin({ swPath }) {
               token: token,
             },
           });
-          navigate("/");
-          window.location.reload();
+          // navigate("/");
+          // window.location.reload();
         } else {
           localStorage.removeItem("token");
           setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });
@@ -216,7 +222,7 @@ export default function StudentLogin({ swPath }) {
                     bg="white"
                     variant="rounded"
                     borderColor={
-                      credentials?.["username"] ? "orange.500" : "#C1C1C1"
+                      credentials?.["username"] ? "yellow.500" : "#C1C1C1"
                     }
                     p={"10px"}
                     placeholder={t("ENTER_USERNAME")}
@@ -241,7 +247,6 @@ export default function StudentLogin({ swPath }) {
                     <></>
                   )}
                 </FormControl>
-
                 <FormControl isRequired isInvalid={"password" in errors}>
                   <FormControl.Label
                     _text={{
@@ -256,9 +261,9 @@ export default function StudentLogin({ swPath }) {
                   <Input
                     bg="white"
                     variant="rounded"
-                    type="password"
+                    type={show ? "text" : "password"}
                     borderColor={
-                      credentials?.["password"] ? "orange.500" : "#C1C1C1"
+                      credentials?.["password"] ? "yellow.500" : "#C1C1C1"
                     }
                     p={"10px"}
                     placeholder={t("ENTER_PASSWORD")}
@@ -268,7 +273,16 @@ export default function StudentLogin({ swPath }) {
                         password: e.target.value,
                       })
                     }
+                    InputRightElement={
+                      <IconByName
+                        name={show ? "EyeLineIcon" : "EyeOffLineIcon"}
+                        _icon={{ size: 15 }}
+                        rounded="full"
+                        onPress={() => setShow(!show)}
+                      />
+                    }
                   />
+
                   {"password" in errors ? (
                     <FormControl.ErrorMessage
                       _text={{
@@ -283,6 +297,7 @@ export default function StudentLogin({ swPath }) {
                     <></>
                   )}
                 </FormControl>
+
                 <Button p="3" onPress={handleLogin} variant={"rounded"}>
                   {t("LOGIN")}
                 </Button>

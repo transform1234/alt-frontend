@@ -1,19 +1,28 @@
 import React from "react";
 import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
-import { capture, Layout, Widget, NameTag } from "@shiksha/common-lib";
+import {
+  capture,
+  Layout,
+  Widget,
+  NameTag,
+  convertFirstLetterCapital,
+} from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 
 function Home({ footerLinks }) {
   const { t } = useTranslation();
+  let medium = localStorage.getItem("medium");
+  const section = localStorage.getItem("class");
+  const Medium = medium ? convertFirstLetterCapital(medium) : "English";
 
   const widgetData = [
     {
       title: t("QUICK_CHECK"),
-      link: "/selfassesment",
+      link: "/studentprogram",
       data: [
         {
-          link: "/selfassesment/subjects",
+          link: "/studentprogram/subjects",
           title: "Subjects",
           subTitle: "English, Mathematics, Science, Hindi",
           _box: {
@@ -24,7 +33,7 @@ function Home({ footerLinks }) {
           },
         },
         {
-          link: "/comingsoon/ScoreCard",
+          link: "/scorecard",
           title: "Score Card",
           subTitle: "Coming Soon",
           _box: {
@@ -38,12 +47,12 @@ function Home({ footerLinks }) {
     },
     {
       title: t("TODAY_TASK"),
-      link: "/selfassesment",
+      link: "/studentprogram",
       data: [
         {
-          link: "/selfassesment",
+          link: "/studentprogram",
           title: "Baseline Assessment",
-          subTitle: "English, Class 9, Odiya Medium",
+          subTitle: `English, Class ${section}, ${Medium} Medium`,
           _box: {
             style: {
               background:

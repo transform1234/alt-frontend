@@ -2,7 +2,10 @@
   "core": {
     "url": "http://localhost:3001/modules/core"
   },
-  "selfassesment": {
-    "url": "http://localhost:3013/modules/selfassesment"
+  "studentprogram": {
+    "url": "http://localhost:3013/modules/studentprogram"
+  },
+  "reports": {
+    "url": "http://localhost:3014/modules/reports"
   }
 }

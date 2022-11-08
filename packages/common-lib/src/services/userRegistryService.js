@@ -27,6 +27,7 @@ const interfaceData = {
   joiningDate: 'joiningDate',
   maritalStatus: 'maritalStatus',
   middleName: 'middleName',
+  medium: 'medium',
   phoneNumber: 'phoneNumber',
   pincode: 'pincode',
   profQualification: 'profQualification',

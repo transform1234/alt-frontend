@@ -1,7 +1,8 @@
 import mapInterfaceData from './mapInterfaceData'
 import { get, post, update as coreUpdate } from './RestClient'
 import * as courseRegistryService from './courseRegistryService'
-
+import moment from 'moment'
+const dateFor = moment().format('YYYY-MM-DD')
 export const getLessons = async (id) => {
   const lessonList = await get(
     `${process.env.REACT_APP_API_URL}/course/diksha/hierarchy/courseid?courseId=${id}`,
@@ -33,7 +34,6 @@ export const getCoursesRule = async () => {
   }
   // return 'lessonList.data'
 }
-
 const getCourseArray = async (programm) => {
   const courseRule = JSON.parse(programm)
   const pdata = courseRule?.prog

@@ -10,18 +10,18 @@ import LessonList from "pages/lessonList";
 function App() {
   const routes = [
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment/subjects",
+      moduleName: "studentprogram",
+      path: "/studentprogram/subjects",
       component: SubjectList,
     },
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment",
+      moduleName: "studentprogram",
+      path: "/studentprogram",
       component: courseList,
     },
     {
-      moduleName: "selfassesment",
-      path: "/selfassesment/lessons/:id/:type",
+      moduleName: "studentprogram",
+      path: "/studentprogram/lessons/:id/:type",
       component: LessonList,
     },
   ];
@@ -37,7 +37,7 @@ function App() {
       routes={routes}
       AuthComponent={LoginComponent}
       skipLogin={skipLogin}
-      _authComponent={{ swPath: "/modules/selfassessment" }}
+      _authComponent={{ swPath: "/modules/studentprogram" }}
     />
   );
 }
