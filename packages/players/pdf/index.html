@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sunbird PDF player</title>
+    <link rel="stylesheet" href="./styles.css" />
     <style>
       .player-grid {
         height: 90vh;
@@ -20,12 +21,20 @@
         }
       }
     </style>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
       integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.13/Reflect.min.js"
+      integrity="sha512-jvbPH2TH5BSZumEfOJZn9IV+5bSwwN+qG4dvthYe3KCGC3/9HmxZ4phADbt9Pfcp+XSyyfc2vGZ/RMsSUZ9tbQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
+
   <body>
     <div class="player-grid" id="my-player"></div>
     <script type="text/javascript" src="sunbird-pdf-player.js"></script>
@@ -77,6 +86,7 @@
           description: "For details see below:",
         },
       };
+      const metadata = window.name ? JSON.parse(window.name) : metadataDemo;
       const playerConfig = {
         context: {
           mode: "play",
@@ -97,27 +107,29 @@
           objectRollup: {},
           host: "",
           endpoint: "",
-          userData: {
-            firstName: "Vivek",
-            lastName: "Kasture",
-          },
+          userData: metadata?.userData ? metadata?.userData : {},
         },
         config: {
           traceId: "afhjgh",
           sideMenu: {
+            enable: false,
             showShare: true,
             showDownload: true,
             showReplay: true,
             showExit: true,
           },
         },
-        metadata: window.name ? JSON.parse(window.name) : metadataDemo,
+        metadata,
         data: {},
       };
       const pdfElement = document.createElement("sunbird-pdf-player");
       pdfElement.setAttribute("player-config", JSON.stringify(playerConfig));
       const myPlayer = document.getElementById("my-player");
       myPlayer.appendChild(pdfElement);
+      pdfElement.addEventListener("playerEvent", (event) => {
+        console.log("On playerEvent", event);
+        window?.parent?.postMessage(event?.detail, "*");
+      });
     </script>
   </body>
 </html>

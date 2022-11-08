@@ -92,14 +92,14 @@ const metadataDefault = {
   },
 };
 
-const metadata = window.name ? JSON.parse(window.name) : metadataDefault;
+const metadata = window?.name ? JSON.parse(window.name) : metadataDefault;
 // let metadata = { ...dynamicData, body: metadataDefault.body };
 
 const playerConfig = {
   context: {
     mode: "preview/edit/play", // to identify preview used by the user to play/edit/preview
     authToken: "", // Auth key to make V3 api calls
-    contentId: "do_201734893", // ContentId used to get body data from content API call
+    contentId: metadata?.identifier, // ContentId used to get body data from content API call
     sid: "7283cf2e-d215-9944-b0c5-269489c6fa56", // User sessionid on portal or mobile
     did: "3c0a3724311fe944dec5df559cc4e006", // Unique id to identify the device or browser
     uid: "anonymous", // Current logged in user id
@@ -119,10 +119,7 @@ const playerConfig = {
     objectRollup: {},
     host: "",
     endpoint: "",
-    userData: {
-      firstName: "Vivek",
-      lastName: "Kasture",
-    },
+    userData: metadata?.userData ? metadata?.userData : {},
     app: [""], // Genie tags
     partner: [""], // Partner tags
     dims: [""], // Encrypted dimension tags passed by respective channels
@@ -137,6 +134,7 @@ const playerConfig = {
   config: {
     traceId: "afhjgh",
     sideMenu: {
+      enable: false,
       showShare: true,
       showDownload: true,
       showReplay: true,
@@ -181,5 +179,5 @@ const playerConfig = {
     ],
   },
   metadata: metadata,
-  data: metadata?.body, // content body json object (from API response take -> response.result.content.body)
+  data: metadata?.body ? metadata?.body : {}, // content body json object (from API response take -> response.result.content.body)
 };
