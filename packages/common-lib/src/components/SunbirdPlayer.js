@@ -4,7 +4,7 @@ import { H2 } from './layout/HeaderTags'
 const SunbirdPlayer = ({
   public_url,
   setTrackData,
-  handleEditButton,
+  handleExitButton,
   ...props
 }) => {
   const { mimeType } = props
@@ -13,7 +13,7 @@ const SunbirdPlayer = ({
   React.useEffect(() => {
     if (mimeType === 'application/pdf') {
       setUrl(`/pdf`)
-    } else if (mimeType === 'video/mp4') {
+    } else if (['video/mp4', 'video/webm'].includes(mimeType)) {
       setUrl(`/video`)
     } else if (['application/vnd.sunbird.questionset'].includes(mimeType)) {
       setUrl(`/quml`)
@@ -21,7 +21,9 @@ const SunbirdPlayer = ({
       [
         'application/vnd.ekstep.ecml-archive',
         'application/vnd.ekstep.html-archive',
-        'application/vnd.ekstep.content-collection'
+        'application/vnd.ekstep.content-collection',
+        'application/vnd.ekstep.h5p-archive',
+        'video/x-youtube'
       ].includes(mimeType)
     ) {
       setUrl(`/project-sunbird/content-player`)
@@ -29,7 +31,11 @@ const SunbirdPlayer = ({
   }, [mimeType])
 
   React.useEffect(() => {
-    if ([`/project-sunbird/content-player`, `/quml`].includes(url)) {
+    if (
+      [`/project-sunbird/content-player`, `/quml`, `/pdf`, `/video`].includes(
+        url
+      )
+    ) {
       window.addEventListener(
         'message',
         (event) => {
@@ -40,7 +46,11 @@ const SunbirdPlayer = ({
     }
 
     return () => {
-      if (url === `/project-sunbird/content-player`) {
+      if (
+        [`/project-sunbird/content-player`, `/quml`, `/pdf`, `/video`].includes(
+          url
+        )
+      ) {
         window.removeEventListener('message', (val) => {})
       }
     }
@@ -50,37 +60,53 @@ const SunbirdPlayer = ({
     const data = event?.data
     let telemetry = {}
     if (data && typeof data?.data === 'string') {
+      telemetry = JSON.parse(data.data)
+    } else if (data && typeof data === 'string') {
       telemetry = JSON.parse(data)
     } else if (data?.eid) {
       telemetry = data
     }
     if (telemetry?.eid === 'ASSESS') {
       const edata = telemetry?.edata
-      if (!trackData.find((e) => e.index === edata.index)) {
+      if (trackData.find((e) => e?.item?.id === edata?.item?.id)) {
+        const filterData = trackData.filter(
+          (e) => e?.item?.id !== edata?.item?.id
+        )
+        trackData = [...filterData, edata]
+      } else {
         trackData = [...trackData, edata]
-        if (setTrackData && props.totalQuestions === edata.index) {
-          setTrackData(trackData)
-        }
       }
+      // console.log(telemetry, trackData)
     } else if (telemetry?.eid === 'END') {
       const summaryData = telemetry?.edata
-      if (summaryData?.summary) {
-        const { score } = summaryData.summary.find((e) => e['score'])
-        setTrackData({ score, trackData })
+      if (summaryData?.summary && Array.isArray(summaryData?.summary)) {
+        const score = summaryData.summary.find((e) => e['score'])
+        if (score?.score) {
+          setTrackData({ score: score?.score, trackData })
+        }
       } else {
+        setTrackData(telemetry?.edata)
         console.log('summary is not found', telemetry)
       }
-    } else if (telemetry?.eid === 'INTERACT') {
-      if (telemetry?.edata?.id === 'exit') {
-        handleEditButton()
+    } else if (
+      telemetry?.eid === 'IMPRESSION' &&
+      telemetry?.edata?.pageid === 'summary_stage_id'
+    ) {
+      setTrackData(trackData)
+    } else if (['INTERACT', 'HEARTBEAT'].includes(telemetry?.eid)) {
+      if (
+        telemetry?.edata?.id === 'exit' ||
+        telemetry?.edata?.type === 'EXIT'
+      ) {
+        handleExitButton()
       }
     }
-    console.log(telemetry)
   }
 
   if (url) {
     return (
       <iframe
+        style={{ border: 'none' }}
         id='preview'
         height={'100%'}
         width='100%'

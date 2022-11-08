@@ -76,11 +76,38 @@ export const getContent = async ({ id, adapter }, header = {}) => {
 
   try {
     const result = await get(
-      baseUrl + '/course/' + adapter + '/content/courseid',
+      // baseUrl + '/course/' + adapter + '/content/courseid',
+      `https://dhruva.shikshalokam.org/api/content/v1/read/${id}?fields=ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&licenseDetails=name,description,url`,
       {
         params: {
           courseId: id
         },
+        headers
+      }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else if (result?.data?.result) {
+      return result.data?.result?.content
+    } else {
+      return {}
+    }
+  } catch {
+    return {}
+  }
+}
+
+export const lessontracking = async (params, header = {}) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await post(
+      baseUrl + '/altlessontracking/altcheckandaddlessontracking',
+      params,
+      {
         headers
       }
     )
@@ -102,7 +129,7 @@ export const coursetracking = async (params, header = {}) => {
 
   try {
     const result = await post(
-      baseUrl + '/altlessontracking/altcreatecoursetracking/',
+      baseUrl + '/alt-course-tracking/altcreatecoursetracking',
       params,
       {
         headers

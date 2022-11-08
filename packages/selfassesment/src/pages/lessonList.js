@@ -1,5 +1,13 @@
 import React from "react";
-import { HStack, VStack, Stack, Pressable, Box, Button } from "native-base";
+import {
+  HStack,
+  VStack,
+  Stack,
+  Pressable,
+  Box,
+  Button,
+  Avatar,
+} from "native-base";
 import {
   Collapsible,
   Layout,
@@ -77,7 +85,7 @@ export default function LessonList({ footerLinks }) {
     }
   }, []);
 
-  const handleEditButton = () => {
+  const handleExitButton = () => {
     setLesson();
     if (
       ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
@@ -88,17 +96,48 @@ export default function LessonList({ footerLinks }) {
     }
   };
 
-  const handleTrackData = async (data) => {
-    console.log({ data });
-    courseRegistryService.coursetracking({
-      userId: localStorage.getItem("id"),
-      courseId: id,
-      lessonId: id,
-      status: "complete",
-      attempts: data?.attempts ? data?.attempts : 1,
-      score: data?.score,
-      scoreDetails: JSON.stringify(data?.trackData),
-    });
+  const handleTrackData = async (
+    { score, trackData, attempts, ...props },
+    playerType = "quml"
+  ) => {
+    let data = {};
+    if (playerType === "quml") {
+      const newFormatData = trackData.reduce((oldData, newObj) => {
+        const dataExist = oldData.findIndex(
+          (e) => e.sectionId === newObj["item"]["sectionId"]
+        );
+        if (dataExist >= 0) {
+          oldData[dataExist]["data"].push(newObj);
+        } else {
+          oldData = [
+            ...oldData,
+            { sectionId: newObj["item"]["sectionId"], data: [newObj] },
+          ];
+        }
+        return oldData;
+      }, []);
+      data = {
+        userId: localStorage.getItem("id"),
+        courseId: id,
+        nextCourse: "",
+        status: "complete",
+        attempts: attempts ? attempts : 1,
+        score: score,
+        scoreDetails: JSON.stringify(newFormatData),
+      };
+      courseRegistryService.coursetracking(data);
+    } else {
+      data = {
+        userId: localStorage.getItem("id"),
+        courseId: id,
+        lessonId: lessonId?.identifier,
+        status: "complete",
+        attempts: attempts ? attempts : 1,
+        score: score ? score : "",
+        scoreDetails: JSON.stringify(props),
+      };
+      courseRegistryService.lessontracking(data);
+    }
   };
 
   React.useEffect(async () => {
@@ -150,10 +189,11 @@ export default function LessonList({ footerLinks }) {
               trackData={trackData}
               subject={"English"}
               data={lesson}
+              setTrackData={setTrackData}
             />
           ) : (
             <VStack {...{ width, height }}>
-              {/* <IconByName
+              <IconByName
                 name="CloseCircleLineIcon"
                 onPress={() => {
                   setLesson();
@@ -176,7 +216,7 @@ export default function LessonList({ footerLinks }) {
                 bg="white"
                 p="0"
                 rounded="full"
-              /> */}
+              />
               {lesson ? (
                 <Box p="5" bg="#024f9d">
                   <H2 color="white">{lesson?.name}</H2>
@@ -193,7 +233,7 @@ export default function LessonList({ footerLinks }) {
                 <React.Fragment />
               )}
               <SunbirdPlayer
-                handleEditButton={handleEditButton}
+                handleExitButton={handleExitButton}
                 {...lesson}
                 userData={{
                   firstName: localStorage.getItem("name"),
@@ -210,6 +250,12 @@ export default function LessonList({ footerLinks }) {
                     ].includes(type)
                   ) {
                     handleTrackData(data);
+                  } else if (
+                    ["application/pdf", "video/mp4", "video/webm"].includes(
+                      lesson?.mimeType
+                    )
+                  ) {
+                    handleTrackData(data, "pdf-video");
                   } else {
                     setTrackData(data);
                   }
@@ -229,7 +275,7 @@ export default function LessonList({ footerLinks }) {
       _appBar={{
         languages: [],
         isBackButtonShow: false,
-        isShowNotificationButton: true,
+        isShowNotificationButton: false,
         LeftIcon: <HStack>English</HStack>,
       }}
       _footer={footerLinks}
@@ -292,7 +338,9 @@ export default function LessonList({ footerLinks }) {
                     <H3>
                       {subItem?.mimeType === "application/pdf"
                         ? "PDF"
-                        : subItem?.mimeType === "video/mp4"
+                        : ["video/mp4", "video/webm"].includes(
+                            subItem?.mimeType
+                          )
                         ? "Video"
                         : [
                             "application/vnd.sunbird.question",
@@ -302,6 +350,9 @@ export default function LessonList({ footerLinks }) {
                         : [
                             "application/vnd.ekstep.ecml-archive",
                             "application/vnd.ekstep.html-archive",
+                            "application/vnd.ekstep.content-collection",
+                            "application/vnd.ekstep.h5p-archive",
+                            "video/x-youtube",
                           ].includes(subItem?.mimeType)
                         ? "Content"
                         : ""}
@@ -317,7 +368,14 @@ export default function LessonList({ footerLinks }) {
   );
 }
 
-const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
+const LessonResultPage = ({
+  subject,
+  data,
+  trackData,
+  setLesson,
+  type,
+  setTrackData,
+}) => {
   // console.log(data);
   const navigate = useNavigate();
   const score = trackData.reduce((old, newData) => old + newData?.score, 0);
@@ -353,7 +411,7 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         </Button>
       </VStack>
       <BodySmall>
-        You’re doing great! Start learning and improve your skills.{" "}
+        You’re doing great! Start learning and improve your skills.
       </BodySmall>
       <Button
         variant="rounded"
@@ -362,6 +420,7 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         size={"lg"}
         onPress={() => {
           setLesson();
+          setTrackData();
           if (
             [
               "assessment",
@@ -382,6 +441,7 @@ const LessonResultPage = ({ subject, data, trackData, setLesson, type }) => {
         width="100%"
         onPress={() => {
           setLesson();
+          setTrackData();
           if (
             [
               "assessment",
@@ -429,26 +489,35 @@ const LessonLandingPage = ({ subject, data, setLessonLandingPage }) => {
         />
       </Box>
       <HStack alignItems="center" space={2}>
-        <HStack alignItems="center">
-          <IconByName
-            isDisabled
-            p="2"
-            _icon={{ size: 25 }}
-            color="selfassesment.warning"
-            name="FileTextLineIcon"
-          />
-          <BodyLarge>{`${data?.totalQuestions} Questions`}</BodyLarge>
-        </HStack>
-        <HStack alignItems="center">
-          <IconByName
-            isDisabled
-            p="2"
-            _icon={{ size: 25 }}
-            color="selfassesment.warning"
-            name="TimerLineIcon"
-          />
-          <BodyLarge>{`${data?.totalQuestions} Minutes`}</BodyLarge>
-        </HStack>
+        {data?.totalQuestions ? (
+          <HStack alignItems="center">
+            <IconByName
+              isDisabled
+              p="2"
+              _icon={{ size: 25 }}
+              color="selfassesment.warning"
+              name="FileTextLineIcon"
+            />
+            <BodyLarge>{`${data?.totalQuestions} Questions`}</BodyLarge>
+          </HStack>
+        ) : (
+          <React.Fragment />
+        )}
+
+        {data?.totalQuestions ? (
+          <HStack alignItems="center">
+            <IconByName
+              isDisabled
+              p="2"
+              _icon={{ size: 25 }}
+              color="selfassesment.warning"
+              name="TimerLineIcon"
+            />
+            <BodyLarge>{`${data?.totalQuestions} Minutes`}</BodyLarge>
+          </HStack>
+        ) : (
+          <React.Fragment />
+        )}
       </HStack>
       <BodySmall>Lets assess your English Skills</BodySmall>
       <Button
