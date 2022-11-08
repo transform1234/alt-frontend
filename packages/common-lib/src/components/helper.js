@@ -186,3 +186,7 @@ export const chunk = (array, chunk) => {
     })
   )
 }
+
+export const convertFirstLetterCapital = (item) => {
+  return item.substr(0, 1).toUpperCase() + item.substr(1)
+}

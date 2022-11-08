@@ -52,13 +52,13 @@ export default function CourseList({ footerLinks }) {
                   : {
                       onPress: () =>
                         navigate(
-                          `/selfassesment/lessons/${item?.identifier}/${item?.objectType}`
+                          `/studentprogram/lessons/${item?.identifier}/${item?.objectType}`
                         ),
                     }
                 : {
                     onPress: () =>
                       navigate(
-                        `/selfassesment/lessons/${item?.identifier}/${item?.contentType}`
+                        `/studentprogram/lessons/${item?.identifier}/${item?.contentType}`
                       ),
                   })}
             />

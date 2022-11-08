@@ -1,23 +1,25 @@
 import Home from "../pages/Home";
 import React from "react";
 
-const Selfassesment = React.lazy(() => import("selfassesment/SelfAssesment"));
-const SelfassesmentLessonList = React.lazy(() =>
-  import("selfassesment/Lessons")
+const Studentprogram = React.lazy(() =>
+  import("studentprogram/studentProgram")
+);
+const StudentprogramLessonList = React.lazy(() =>
+  import("studentprogram/Lessons")
 );
 const ComingSoon = React.lazy(() => import("core/ComingSoon"));
 
 export const routes = [
-  // selfAssessment Routes
+  // studentprogram Routes
   {
-    moduleName: "selfassesment",
-    path: "/selfassesment",
-    component: Selfassesment,
+    moduleName: "studentprogram",
+    path: "/studentprogram",
+    component: Studentprogram,
   },
   {
-    moduleName: "selfassesment",
-    path: "/selfassesment/lessons/:id/:type",
-    component: SelfassesmentLessonList,
+    moduleName: "studentprogram",
+    path: "/studentprogram/lessons/:id/:type",
+    component: StudentprogramLessonList,
   },
   {
     moduleName: "comingsoon",
@@ -25,8 +27,8 @@ export const routes = [
     component: ComingSoon,
   },
   {
-    path: "/selfassesment/subjects",
-    component: SelfassesmentSubjectList,
+    path: "/studentprogram/subjects",
+    component: StudentprogramSubjectList,
   },
   {
     moduleName: "student-app",

@@ -38,6 +38,8 @@ import {
   getAllForUser,
   sendReadReceipt
 } from './services/firebaseHistoryRegistryService'
+import * as subjectListRegistryService from './services/subjectListRegistryService'
+
 import AppRoutesContainer from './components/AppRoutesContainer'
 import { useAuthFlow } from './hooks/useAuthFlow'
 import StarRating from './components/StarRating'
@@ -89,7 +91,8 @@ export {
   StarRating,
   NameTag,
   SunbirdPlayer,
-  RoundedProgressBar
+  RoundedProgressBar,
+  subjectListRegistryService
 }
 
 export * from './services/Auth'

@@ -9,8 +9,8 @@ export default [
   {
     title: 'Learn',
     icon: 'BookLineIcon',
-    moduleName: 'selfassesment',
-    route: '/selfassesment/subjects',
+    moduleName: 'studentprogram',
+    route: '/studentprogram/subjects',
     routeparameters: {}
   },
   {

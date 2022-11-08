@@ -114,6 +114,8 @@ import ToolsFillIcon from 'remixicon-react/ToolsFillIcon'
 import CodeLineIcon from 'remixicon-react/CodeLineIcon'
 import FlaskLineIcon from 'remixicon-react/FlaskLineIcon'
 import QuillPenLineIcon from 'remixicon-react/QuillPenLineIcon'
+import EyeLineIcon from 'remixicon-react/EyeLineIcon'
+import EyeOffLineIcon from 'remixicon-react/EyeOffLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -185,6 +187,24 @@ export default function IconByName({ _icon, ...props }) {
       )
       break
 
+    case 'EyeLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<EyeLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
+    case 'EyeOffLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<EyeOffLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+
     case 'FlaskLineIcon':
       icon = (
         <IconButton
@@ -193,6 +213,7 @@ export default function IconByName({ _icon, ...props }) {
         />
       )
       break
+
     case 'QuillPenLineIcon':
       icon = (
         <IconButton

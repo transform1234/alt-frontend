@@ -27,8 +27,8 @@ export default function Footer({ menues, routeDynamics, ...props }) {
       setSelected('mylearning')
     } else if (path.startsWith('/visits') || path.startsWith('/schools')) {
       setSelected('visits')
-    } else if (path.startsWith('/selfassesment')) {
-      setSelected('selfassesment')
+    } else if (path.startsWith('/studentprogram')) {
+      setSelected('studentprogram')
     } else if (path.startsWith('/Settings')) {
       setSelected('Settings')
     } else if (path.startsWith('/Certificate')) {

@@ -1,13 +1,10 @@
 const { dependencies } = require("./package.json");
-
 module.exports = {
-  name: "selfassesment",
+  name: "reports",
   exposes: {
-    // "./selfAssesment": "./src/components/selfAssesment",
-    "./App": "./src/App",
-    "./SelfAssesment": "./src/pages/courseList",
-    "./Lessons": "./src/pages/lessonList",
-    "./subjectList": "./src/pages/subjectList",
+    // "./SampleComponent": "./src/components/SampleComponent",
+    // "./App": "./src/App",
+    "./ScoreCard": "./src/pages/ScoreCard",
   },
   remotes: {
     core: `core@[window.appModules.core.url]/moduleEntry.js`,
