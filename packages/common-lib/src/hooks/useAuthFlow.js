@@ -4,16 +4,16 @@ import { useState, useEffect } from 'react'
 export const useAuthFlow = () => {
   const [loggedInUser, setLoggedInUser] = useState()
   useEffect(async () => {
-    const resultTeacher = await userRegistryService.getOne({}, {})
-    if (resultTeacher) {
-      let id = resultTeacher.id
+    const resultUser = await userRegistryService.getOne({}, {})
+    if (resultUser) {
+      let id = resultUser.id
       localStorage.setItem('id', id)
-      localStorage.setItem('name', resultTeacher.name)
-      localStorage.setItem('name', resultTeacher.name)
-      localStorage.setItem('grade', resultTeacher.grade)
-      localStorage.setItem('medium', resultTeacher.medium)
-      localStorage.setItem('board', resultTeacher.board)
-      setLoggedInUser(resultTeacher)
+      localStorage.setItem('name', resultUser.name)
+      localStorage.setItem('name', resultUser.name)
+      localStorage.setItem('grade', resultUser.grade)
+      localStorage.setItem('medium', resultUser.medium)
+      localStorage.setItem('board', resultUser.board)
+      setLoggedInUser(resultUser)
     }
   }, [])
 

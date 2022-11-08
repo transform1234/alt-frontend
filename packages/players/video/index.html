@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>Document</title>
     <style>
       .player-grid {
@@ -31,6 +32,7 @@
     <div class="player-grid" id="my-player"></div>
     <script type="text/javascript" src="sunbird-video-player.js"></script>
     <script type="text/javascript">
+      const metadata = window.name ? JSON.parse(window.name) : {};
       const playerConfig = {
         context: {
           mode: "play",
@@ -51,21 +53,19 @@
           objectRollup: {},
           host: "",
           endpoint: "",
-          userData: {
-            firstName: "Harish Kumar",
-            lastName: "Gangula",
-          },
+          userData: metadata?.userData ? metadata?.userData : {},
         },
         config: {
           traceId: "afhjgh",
           sideMenu: {
+            enable: false,
             showShare: true,
             showDownload: true,
             showReplay: true,
             showExit: true,
           },
         },
-        metadata: window.name ? JSON.parse(window.name) : {},
+        metadata,
         data: {},
       };
 
@@ -76,6 +76,15 @@
         "https://staging.sunbirded.org/api/questionset";
       const videoElement = document.createElement("sunbird-video-player");
       videoElement.setAttribute("player-config", JSON.stringify(playerConfig));
+
+      videoElement.addEventListener("playerEvent", (event) => {
+        console.log("On playerEvent", event);
+        window?.parent?.postMessage(event?.detail, "*");
+      });
+
+      videoElement.addEventListener("telemetryEvent", (event) => {
+        console.log("On telemetryEvent", event);
+      });
 
       const myPlayer = document.getElementById("my-player");
       myPlayer.appendChild(videoElement);
