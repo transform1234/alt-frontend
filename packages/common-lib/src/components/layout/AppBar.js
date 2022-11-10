@@ -215,7 +215,7 @@ export default function AppBar({
               {!isHideMenuButton ? (
                 <Stack px='3'>
                   <Menu
-                    right='0%'
+                    right='8%'
                     w='170'
                     placement='bottom right'
                     trigger={(triggerProps) => {

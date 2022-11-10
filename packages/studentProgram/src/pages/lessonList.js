@@ -25,6 +25,7 @@ import {
   RoundedProgressBar,
 } from "@shiksha/common-lib";
 import { useNavigate, useParams } from "react-router-dom";
+import manifest from "../../src/manifest.json";
 
 const demoData = [
   {
@@ -273,7 +274,7 @@ export default function LessonList({ footerLinks }) {
   return (
     <Layout
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
         isBackButtonShow: false,
         isShowNotificationButton: false,
         LeftIcon: <HStack>English</HStack>,

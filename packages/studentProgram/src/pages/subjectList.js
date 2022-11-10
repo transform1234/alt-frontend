@@ -5,50 +5,33 @@ import {
   NameTag,
   subjectListRegistryService,
 } from "@shiksha/common-lib";
+import { useTranslation } from "react-i18next";
+
 import React from "react";
 import SubjectCard from "../components/SubjectCard";
 import { useNavigate } from "react-router-dom";
-
+import manifest from "../../src/manifest.json";
 export default function SubjectList({ footerLinks }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [SubjectList, setSubjectListData] = React.useState([]);
   React.useEffect(() => {
     const subjects = async () => {
       const data = await subjectListRegistryService.getSubjectList();
       setSubjectListData(data.data);
+      console.log(data.data);
     };
     subjects();
   }, []);
-  // const SubjectList = [
-  //   {
-  //     subject: "English",
-  //     status: "Start Learning",
-  //     iconName: "FilePaper2LineIcon",
-  //   },
-  //   {
-  //     subject: "Mathematics",
-  //     status: "Start Assesment",
-  //     iconName: "CodeLineIcon",
-  //   },
 
-  //   {
-  //     subject: "Science",
-  //     status: "Start Assesment",
-  //     iconName: "FlaskLineIcon",
-  //   },
-  //   {
-  //     subject: "Hindi",
-  //     status: "Start Assesment",
-  //     iconName: "QuillPenLineIcon",
-  //   },
-  // ];
   return (
     <Layout
       _header={{
-        title: "Subjects",
+        title: t("SUBJECTS"),
       }}
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
+
         isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,

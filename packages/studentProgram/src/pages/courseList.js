@@ -3,6 +3,7 @@ import { Layout, selfAssesmentService, NameTag } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import CourseCard from "components/CourseCard";
+import manifest from "../../src/manifest.json";
 
 export default function CourseList({ footerLinks }) {
   const [courseList, setCoursesList] = useState([]);
@@ -18,7 +19,7 @@ export default function CourseList({ footerLinks }) {
         title: "English",
       }}
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
         isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,
