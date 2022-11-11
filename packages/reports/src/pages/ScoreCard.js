@@ -37,6 +37,8 @@ function ScoreCard({ footerLinks }) {
       }}
       _appBar={{
         languages: manifest.languages,
+        isLanguageIcon: true,
+
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
         LeftIcon: (

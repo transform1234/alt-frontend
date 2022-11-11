@@ -23,6 +23,8 @@ export default function CourseList({ footerLinks }) {
       }}
       _appBar={{
         languages: manifest.languages,
+        isLanguageIcon: true,
+
         isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,

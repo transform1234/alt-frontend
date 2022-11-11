@@ -33,6 +33,7 @@ export default function AppBar({
   isHideMenuButton,
   titleComponent,
   isBackButtonShow,
+  isLanguageIcon,
   ...props
 }) {
   const [searchInput, setSearchInput] = useState(false)
@@ -148,6 +149,7 @@ export default function AppBar({
                 <React.Fragment />
               )}
               {rightIcon ? rightIcon : <React.Fragment />}
+
               {isShowNotificationButton ? (
                 <IconByName
                   name='Notification2LineIcon'
@@ -212,6 +214,45 @@ export default function AppBar({
               ) : (
                 <React.Fragment />
               )}
+
+              {isLanguageIcon ? (
+                <Stack px='3'>
+                  <Menu
+                    right='8%'
+                    w='170'
+                    placement='bottom right'
+                    trigger={(triggerProps) => {
+                      return (
+                        <Pressable
+                          accessibilityLabel='More options menu'
+                          {...triggerProps}
+                        >
+                          <IconByName
+                            size='sm'
+                            name='GlobalLineIcon'
+                            isDisabled={true}
+                            color={color ? color : ''}
+                          />
+                        </Pressable>
+                      )
+                    }}
+                  >
+                    {languages?.map((e, index) => (
+                      <Menu.Item
+                        key={index}
+                        label={e.title}
+                        textValue={e.code}
+                        onPress={(item) => setLang(e.code)}
+                      >
+                        {e.title}
+                      </Menu.Item>
+                    ))}
+                  </Menu>
+                </Stack>
+              ) : (
+                <React.Fragment />
+              )}
+
               {!isHideMenuButton ? (
                 <Stack px='3'>
                   <Menu
@@ -234,7 +275,7 @@ export default function AppBar({
                       )
                     }}
                   >
-                    {languages?.map((e, index) => (
+                    {/* {languages?.map((e, index) => (
                       <Menu.Item
                         key={index}
                         label={e.title}
@@ -243,7 +284,7 @@ export default function AppBar({
                       >
                         {e.title}
                       </Menu.Item>
-                    ))}
+                    ))} */}
                     <Menu.Item onPress={(item) => setLang('logout')}>
                       Logout
                     </Menu.Item>

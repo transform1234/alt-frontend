@@ -31,6 +31,7 @@ export default function SubjectList({ footerLinks }) {
       }}
       _appBar={{
         languages: manifest.languages,
+        isLanguageIcon: true,
 
         isShowNotificationButton: false,
         isBackButtonShow: false,
