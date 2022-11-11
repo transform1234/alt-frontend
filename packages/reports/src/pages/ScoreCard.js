@@ -30,7 +30,7 @@ function ScoreCard({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Score Cards",
+        title: t("SCORE_CARD"),
         // params["title"] == "Score Card"
         //   ? "Score Card"
         //   : location.pathname.split("/")[1],
@@ -63,7 +63,7 @@ function ScoreCard({ footerLinks }) {
           }}
           routes={[
             { title: t("BASELINE"), component: <BaselineScore /> },
-            { title: t("COURSE"), component: <ComingSoon /> },
+            { title: t("COURSES"), component: <ComingSoon /> },
             { title: t("ENDLINE"), component: <ComingSoon /> },
           ]}
         />
