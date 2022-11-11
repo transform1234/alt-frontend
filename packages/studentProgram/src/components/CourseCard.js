@@ -6,9 +6,12 @@ import {
   Caption,
 } from "@shiksha/common-lib";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function CourseCard({ item, isDisabled, onPress }) {
   const { trakingData, name, appIcon } = item;
+  const { t } = useTranslation();
+
   return (
     <Pressable isDisabled={isDisabled} onPress={onPress} position="relative">
       <VStack
@@ -37,7 +40,7 @@ export default function CourseCard({ item, isDisabled, onPress }) {
           <VStack space="1" flex={1}>
             <BodyLarge>{name}</BodyLarge>
             {trakingData?.length > 0 ? (
-              <Caption>Great work! You've completed the assessment.</Caption>
+              <Caption>{t("SUCCESS_MESSAGE")}</Caption>
             ) : (
               <React.Fragment />
             )}

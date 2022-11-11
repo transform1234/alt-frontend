@@ -116,6 +116,7 @@ import FlaskLineIcon from 'remixicon-react/FlaskLineIcon'
 import QuillPenLineIcon from 'remixicon-react/QuillPenLineIcon'
 import EyeLineIcon from 'remixicon-react/EyeLineIcon'
 import EyeOffLineIcon from 'remixicon-react/EyeOffLineIcon'
+import GlobalLineIcon from 'remixicon-react/GlobalLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -134,6 +135,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<ParentLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'GlobalLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<GlobalLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break
