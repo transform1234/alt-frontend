@@ -484,8 +484,5 @@
   "SCORE_CARD": "Score Card",
   "COMING_SOON": "Coming Soon",
   "BASELINE_ASSIGNMENT": "Baseline Assessment",
-  "SUBJECT_NAME": "English, Mathematics, Science, Hindi",
-  "BASELINE": "Baseline",
-  "ENDLINE": "Endline",
-  "SUCCESS_MESSAGE": "Great work! You've completed the assessment."
+  "SUBJECT_NAME": "English, Mathematics, Science, Hindi"
 }

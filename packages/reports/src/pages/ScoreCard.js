@@ -11,9 +11,10 @@ import {
 } from "@shiksha/common-lib";
 import colorTheme from "../colorTheme";
 import moment from "moment";
-
+import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 import { useParams, useLocation } from "react-router-dom";
+
 const BaselineScore = React.lazy(() => import("./BaselineScore"));
 const ComingSoon = React.lazy(() => import("./ComingSoon"));
 function ScoreCard({ footerLinks }) {
@@ -29,13 +30,15 @@ function ScoreCard({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "Score Cards",
+        title: t("SCORE_CARD"),
         // params["title"] == "Score Card"
         //   ? "Score Card"
         //   : location.pathname.split("/")[1],
       }}
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
+        isLanguageIcon: true,
+
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -61,9 +64,9 @@ function ScoreCard({ footerLinks }) {
             borderBottom: "5px solid #CCC",
           }}
           routes={[
-            { title: t("Baseline"), component: <BaselineScore /> },
-            { title: t("Course"), component: <ComingSoon /> },
-            { title: t("Endline"), component: <ComingSoon /> },
+            { title: t("BASELINE"), component: <BaselineScore /> },
+            { title: t("COURSES"), component: <ComingSoon /> },
+            { title: t("ENDLINE"), component: <ComingSoon /> },
           ]}
         />
       </Box>

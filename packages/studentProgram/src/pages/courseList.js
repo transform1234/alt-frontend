@@ -3,8 +3,12 @@ import { Layout, selfAssesmentService, NameTag } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import CourseCard from "components/CourseCard";
+import manifest from "../../src/manifest.json";
+import { useTranslation } from "react-i18next";
 
 export default function CourseList({ footerLinks }) {
+  const { t } = useTranslation();
+
   const [courseList, setCoursesList] = useState([]);
   const navigate = useNavigate();
   useEffect(async () => {
@@ -15,10 +19,12 @@ export default function CourseList({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title: "English",
+        title: t("ENGLISH"),
       }}
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
+        isLanguageIcon: true,
+
         isShowNotificationButton: false,
         isBackButtonShow: false,
         titleComponent: <NameTag />,

@@ -13,7 +13,7 @@ export default function ComingSoon() {
       <Center width={width}>
         <VStack space="">
           <Box>
-            <Heading>{t("Coming Soon")}</Heading>
+            <Heading>{t("COMING_SOON")}</Heading>
           </Box>
           <VStack space={2} pt={"25px"} pb={"25px"}>
             <Center>

@@ -8,6 +8,7 @@ import {
   convertFirstLetterCapital,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
+import manifest from "../../src/manifest.json";
 import moment from "moment";
 
 function Home({ footerLinks }) {
@@ -23,8 +24,8 @@ function Home({ footerLinks }) {
       data: [
         {
           link: "/studentprogram/subjects",
-          title: "Subjects",
-          subTitle: "English, Mathematics, Science, Hindi",
+          title: t("SUBJECTS"),
+          subTitle: t("SUBJECT_NAME"),
           _box: {
             style: {
               background:
@@ -34,8 +35,8 @@ function Home({ footerLinks }) {
         },
         {
           link: "/scorecard",
-          title: "Score Card",
-          subTitle: "Coming Soon",
+          title: t("SCORE_CARD"),
+          subTitle: t("COMING_SOON"),
           _box: {
             style: {
               background:
@@ -51,8 +52,10 @@ function Home({ footerLinks }) {
       data: [
         {
           link: "/studentprogram",
-          title: "Baseline Assessment",
-          subTitle: `English, Class ${section}, ${Medium} Medium`,
+          title: t("BASELINE_ASSIGNMENT"),
+          subTitle: `${t("ENGLISH")}, ${t("CLASS")} ${section}, ${Medium} ${t(
+            "MEDIUM"
+          )}`,
           _box: {
             style: {
               background:
@@ -75,8 +78,8 @@ function Home({ footerLinks }) {
         subHeading: moment().format("hh:mm A"),
       }}
       _appBar={{
-        languages: [],
-
+        languages: manifest.languages,
+        isLanguageIcon: true,
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -95,12 +98,7 @@ function Home({ footerLinks }) {
       <Box bg="white" rounded={"2xl"} py={6} px={4} mb={5} shadow={3}>
         <Stack>
           <VStack space={6}>
-            <Box display={"inline"}>
-              Thank you for participating in this pilot. You are among the first
-              students to use this platform! If you have any trouble using this
-              or feedback, please let our team know by clicking on the smiley
-              icon on the bottom right.
-            </Box>
+            <Box display={"inline"}>{t("SUBTITLE_HOME")}</Box>
             {widgetData.map((item, index) => {
               return <Widget {...item} key={index} />;
             })}
