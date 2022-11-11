@@ -128,7 +128,7 @@ export const DEFAULT_THEME = async (theme) => {
 export const getAppshellData = async (routes = [], role = '') => {
   try {
     if (role === '') {
-      role = await getRole()
+      // role = await getRole()
     }
     const config = await getApiConfig()
     const themeName = JSON.parse(config['theme.forModules'])

@@ -72,9 +72,25 @@ const SunbirdPlayer = ({
         const filterData = trackData.filter(
           (e) => e?.item?.id !== edata?.item?.id
         )
-        trackData = [...filterData, edata]
+        trackData = [
+          ...filterData,
+          {
+            ...edata,
+            sectionName: props?.children?.find(
+              (e) => e?.identifier === telemetry?.edata?.item?.sectionId
+            )?.name
+          }
+        ]
       } else {
-        trackData = [...trackData, edata]
+        trackData = [
+          ...trackData,
+          {
+            ...edata,
+            sectionName: props?.children?.find(
+              (e) => e?.identifier === telemetry?.edata?.item?.sectionId
+            )?.name
+          }
+        ]
       }
       // console.log(telemetry, trackData)
     } else if (telemetry?.eid === 'END') {

@@ -4,21 +4,15 @@ import { AppShell, initializeI18n } from "@shiksha/common-lib";
 import Home from "pages/Home";
 
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
-
 const Studentprogram = React.lazy(() => import("studentprogram/courseList"));
 const StudentprogramLessonList = React.lazy(() =>
   import("studentprogram/Lessons")
 );
-
 const StudentprogramSubjectList = React.lazy(() =>
   import("studentprogram/subjectList")
 );
-
 const ComingSoon = React.lazy(() => import("core/ComingSoon"));
 const ScorecardReport = React.lazy(() => import("reports/ScoreCard"));
-
-const Dashboard = React.lazy(() => import("core/ComingSoon"));
-const Certificate = React.lazy(() => import("core/ComingSoon"));
 
 function App() {
   initializeI18n(
@@ -61,12 +55,12 @@ function App() {
     {
       moduleName: "student-app",
       path: "/Settings",
-      component: Dashboard,
+      component: ComingSoon,
     },
     {
       moduleName: "student-app",
       path: "/Certificate",
-      component: Certificate,
+      component: ComingSoon,
     },
     {
       moduleName: "student-app",

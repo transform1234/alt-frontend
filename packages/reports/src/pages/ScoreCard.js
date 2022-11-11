@@ -57,8 +57,6 @@ function ScoreCard({ footerLinks }) {
             display: "flex",
             overflowX: "auto",
             p: "2",
-            // bg: "red.200",
-            borderBottom: "5px solid #CCC",
           }}
           routes={[
             { title: t("Baseline"), component: <BaselineScore /> },

@@ -78,7 +78,7 @@ export default function LessonList({ footerLinks }) {
         await courseRegistryService.getOne({
           id: id,
           adapter: "diksha",
-          coreData: true,
+          coreData: "withLesonFilter",
           type: "course",
         })
       );
@@ -111,7 +111,11 @@ export default function LessonList({ footerLinks }) {
         } else {
           oldData = [
             ...oldData,
-            { sectionId: newObj["item"]["sectionId"], data: [newObj] },
+            {
+              sectionId: newObj["item"]["sectionId"],
+              sectionName: newObj["sectionName"] ? newObj["sectionName"] : "",
+              data: [newObj],
+            },
           ];
         }
         return oldData;
@@ -119,25 +123,30 @@ export default function LessonList({ footerLinks }) {
       data = {
         userId: localStorage.getItem("id"),
         courseId: id,
-        nextCourse: "",
-        status: "complete",
-        attempts: attempts ? attempts : 1,
+        lessonId: id,
+        status: "Completed",
         score: score,
         scoreDetails: JSON.stringify(newFormatData),
+        createdBy: localStorage.getItem("id"),
+        updatedBy: localStorage.getItem("id"),
+        program: "c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef",
+        subject: "English",
       };
-      courseRegistryService.coursetracking(data);
     } else {
       data = {
         userId: localStorage.getItem("id"),
         courseId: id,
         lessonId: lessonId?.identifier,
-        status: "complete",
-        attempts: attempts ? attempts : 1,
+        status: "Completed",
         score: score ? score : "",
         scoreDetails: JSON.stringify(props),
+        createdBy: localStorage.getItem("id"),
+        updatedBy: localStorage.getItem("id"),
+        program: "c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef",
+        subject: "English",
       };
-      courseRegistryService.lessontracking(data);
     }
+    courseRegistryService.lessontracking(data);
   };
 
   React.useEffect(async () => {
@@ -257,6 +266,13 @@ export default function LessonList({ footerLinks }) {
                   ) {
                     handleTrackData(data, "pdf-video");
                   } else {
+                    if (
+                      ["application/vnd.ekstep.ecml-archive"].includes(
+                        lesson?.mimeType
+                      )
+                    ) {
+                      handleTrackData(data);
+                    }
                     setTrackData(data);
                   }
                 }}
@@ -311,16 +327,22 @@ export default function LessonList({ footerLinks }) {
                   bg={"mylearning.white"}
                   key={subIndex}
                   onPress={() => {
-                    setLessonId({
-                      mode: "false",
-                      ...subItem,
-                    });
+                    if (subItem?.trakingData?.length < 1) {
+                      setLessonId({
+                        mode: "false",
+                        ...subItem,
+                      });
+                    }
                   }}
-                  p="5"
                   rounded={"lg"}
                   shadow={4}
+                  position="relative"
                 >
-                  <HStack justifyContent={"space-between"} alignItems="center">
+                  <HStack
+                    justifyContent={"space-between"}
+                    alignItems="center"
+                    p="5"
+                  >
                     <HStack space={4} alignItems="center">
                       {subItem?.posterImage ? (
                         <Avatar
@@ -335,29 +357,54 @@ export default function LessonList({ footerLinks }) {
                       )}
                       <H2>{subItem?.name}</H2>
                     </HStack>
-                    <H3>
-                      {subItem?.mimeType === "application/pdf"
-                        ? "PDF"
-                        : ["video/mp4", "video/webm"].includes(
-                            subItem?.mimeType
-                          )
-                        ? "Video"
-                        : [
-                            "application/vnd.sunbird.question",
-                            "application/vnd.sunbird.questionset",
-                          ].includes(subItem?.mimeType)
-                        ? "QUML"
-                        : [
-                            "application/vnd.ekstep.ecml-archive",
-                            "application/vnd.ekstep.html-archive",
-                            "application/vnd.ekstep.content-collection",
-                            "application/vnd.ekstep.h5p-archive",
-                            "video/x-youtube",
-                          ].includes(subItem?.mimeType)
-                        ? "Content"
-                        : ""}
-                    </H3>
+                    {subItem?.trakingData?.length < 1 ? (
+                      <H3>
+                        {subItem?.mimeType === "application/pdf"
+                          ? "PDF"
+                          : ["video/mp4", "video/webm"].includes(
+                              subItem?.mimeType
+                            )
+                          ? "Video"
+                          : [
+                              "application/vnd.sunbird.question",
+                              "application/vnd.sunbird.questionset",
+                            ].includes(subItem?.mimeType)
+                          ? "QUML"
+                          : [
+                              "application/vnd.ekstep.ecml-archive",
+                              "application/vnd.ekstep.html-archive",
+                              "application/vnd.ekstep.content-collection",
+                              "application/vnd.ekstep.h5p-archive",
+                              "video/x-youtube",
+                            ].includes(subItem?.mimeType)
+                          ? "Content"
+                          : ""}
+                      </H3>
+                    ) : (
+                      <React.Fragment />
+                    )}
                   </HStack>
+                  {subItem?.trakingData?.length > 0 ? (
+                    <Box
+                      bg={"selfassesment.cloverGreen"}
+                      position="absolute"
+                      right="0"
+                      minW="60px"
+                      minH="40px"
+                      roundedLeft="full"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <IconByName
+                        isDisabled
+                        name={"CheckboxCircleLineIcon"}
+                        color="white"
+                        size="sm"
+                      />
+                    </Box>
+                  ) : (
+                    <React.Fragment />
+                  )}
                 </Pressable>
               ))}
             </VStack>

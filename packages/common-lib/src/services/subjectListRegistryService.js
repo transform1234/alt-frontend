@@ -14,7 +14,6 @@ export const getProgramId = async (data) => {
       currentDate: dateFor
     }
   )
-  console.log(programID.data)
   if (programID.data) {
     return programID.data
   }
@@ -22,16 +21,10 @@ export const getProgramId = async (data) => {
 
 export const getSubjectList = async (data) => {
   const getId = await getProgramId()
-  console.log(
-    getId.data?.map((val) => {
-      return val.programId
-    })
-  )
   const pid = getId.data?.map((val) => {
     return val.programId
   })
   const PId = [...pid]
-  console.log(PId)
   if (PId) {
     const subjectList = await post(
       `${process.env.REACT_APP_API_URL}/altprogramassociation/altsubjectlist`,
@@ -43,7 +36,6 @@ export const getSubjectList = async (data) => {
         programId: 'c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef'
       }
     )
-    console.log(subjectList.data)
     if (subjectList.data) {
       return subjectList.data
     }
