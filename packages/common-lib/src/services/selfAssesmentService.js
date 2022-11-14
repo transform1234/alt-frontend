@@ -20,9 +20,9 @@ export const getCoursesRule = async (
   const newParams = {
     programId: 'c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef',
     framework: 'ALT new',
-    board: 'Haryana',
-    medium: 'English',
-    grade: '10',
+    board: localStorage.getItem('board'),
+    medium: localStorage.getItem('medium'),
+    grade: localStorage.getItem('grade'),
     subject: 'English',
     ...params
   }

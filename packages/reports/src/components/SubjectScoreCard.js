@@ -27,19 +27,27 @@ const style = {
 export default function SubjectScoreCard({ subject }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
+  const [score, setScore] = React.useState(0);
+  const [totalScore, setTotalScore] = React.useState(0);
 
   React.useEffect(() => {
     const getTraking = async () => {
-      const programData = await subjectListRegistryService.getProgramId();
-      if (programData?.data?.[0]) {
+      const data = await subjectListRegistryService.getProgramId();
+      if (data?.programId) {
         const dataRuls = await selfAssesmentService.getCoursesRule({
-          ...programData?.data[0],
+          programId: data?.programId,
           subject,
         });
+        setTotalScore(dataRuls?.[0]?.maxScore);
+        setScore(
+          dataRuls?.[0]?.trakingData?.[0]?.score
+            ? dataRuls[0].trakingData[0].score
+            : 0
+        );
         setTrackData(
           dataRuls?.[0]?.trakingData?.[0]
             ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
-            : {}
+            : []
         );
       }
     };
@@ -68,10 +76,13 @@ export default function SubjectScoreCard({ subject }) {
           <HStack>
             <Box rounded="full">
               <RoundedProgressBar
-                values={[10, 100 - 10]}
-                colors={[colors.successBarColor, colors.circleProgressBarcolor]}
+                values={[score, totalScore - score]}
+                colors={[
+                  colors?.reports?.primaryGreen,
+                  colors?.reports?.barGray,
+                ]}
                 title={{
-                  text: "8/10",
+                  text: `${score} / ${totalScore}`,
                   fontSize: "21px",
                   _text: {
                     style: { transform: "translate(-50%, -50%)" },

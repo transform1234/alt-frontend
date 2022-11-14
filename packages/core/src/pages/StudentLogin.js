@@ -9,15 +9,10 @@ import {
   Alert,
   IconButton,
   CloseIcon,
-  Icon,
   Center,
   Avatar,
-  Pressable,
-  Tooltip,
-  Divider,
 } from "native-base";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 import manifest from "../manifest";
 import {
@@ -25,13 +20,13 @@ import {
   eventBus,
   useWindowSize,
   userRegistryService,
-  BodyMedium,
   Heading,
   Subtitle,
   getUserToken,
   overrideColorTheme,
   Layout,
   IconByName,
+  getAuthUser,
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -42,7 +37,6 @@ export default function StudentLogin({ swPath }) {
   const [show, setShow] = React.useState(false);
   const { t } = useTranslation();
   const [width, Height] = useWindowSize();
-  const navigate = useNavigate();
 
   const fieldsName = [
     { label: "User Name", attribute: "userName" },
@@ -74,8 +68,6 @@ export default function StudentLogin({ swPath }) {
 
   const handleLogin = async () => {
     if (validate()) {
-      const fcmToken = await getUserToken(swPath);
-
       const result = await fetchToken(
         manifest.auth_url,
         credentials?.username,
@@ -87,40 +79,13 @@ export default function StudentLogin({ swPath }) {
         localStorage.setItem("token", token);
         let resultTeacher = {};
         try {
-          resultTeacher = await userRegistryService.getOne();
+          resultTeacher = await getAuthUser();
         } catch (e) {
           localStorage.removeItem("token");
           console.log({ e });
         }
 
         if (resultTeacher?.id) {
-          try {
-            let { id } = resultTeacher;
-            localStorage.setItem("id", id);
-            const updateTokenTeacher = await userRegistryService.update({
-              id,
-              fcmToken,
-            });
-            localStorage.setItem(
-              "fullName",
-              resultTeacher?.fullName
-                ? resultTeacher.fullName
-                : `${resultTeacher?.firstName} ${resultTeacher?.lastName}`
-            );
-            console.log(resultTeacher);
-            localStorage.setItem("firstName", resultTeacher?.firstName);
-            localStorage.setItem("lastName", resultTeacher?.lastName);
-            localStorage.setItem("name", resultTeacher?.name);
-            localStorage.setItem("class", resultTeacher?.class);
-            localStorage.setItem("section", resultTeacher?.section);
-            localStorage.setItem("medium", resultTeacher?.medium);
-
-            localStorage.setItem("schoolId", resultTeacher?.schoolId);
-            localStorage.setItem("phoneNumber", resultTeacher?.phoneNumber);
-          } catch (e) {
-            localStorage.removeItem("token");
-            console.log({ e });
-          }
           try {
             const fcmToken = await getUserToken(swPath);
             let id = localStorage.getItem("id");
@@ -136,8 +101,7 @@ export default function StudentLogin({ swPath }) {
               token: token,
             },
           });
-          // navigate("/");
-          // window.location.reload();
+          window.location.reload();
         } else {
           localStorage.removeItem("token");
           setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });

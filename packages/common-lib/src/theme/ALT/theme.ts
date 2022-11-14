@@ -79,6 +79,10 @@ const theme = {
       landingLight: '#E5FCF5',
       cloverGreen: '#41C88E'
     },
+    reports: {
+      primaryGreen: '#B6EC78',
+      barGray: '#E9E9E9'
+    },
     widgetColor: {
       400: '#7F9DAC',
       500: '#DDD8F3',

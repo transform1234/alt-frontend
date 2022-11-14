@@ -10,7 +10,7 @@ export default function BaselineScore() {
   useEffect(() => {
     const programId = async () => {
       const data = await subjectListRegistryService.getProgramId();
-      setProgramID(data.data);
+      setProgramID(data?.programId);
     };
     programId();
     const subjects = async () => {

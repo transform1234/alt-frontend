@@ -18,6 +18,8 @@ const interfaceData = {
   block: 'block',
   bloodGroup: 'bloodGroup',
   class: 'grade',
+  grade: 'grade',
+  board: 'board',
   createdAt: 'createdAt',
   disability: 'disability',
   district: 'district',

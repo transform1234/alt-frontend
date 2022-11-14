@@ -19,7 +19,6 @@ export default function SubjectList({ footerLinks }) {
     const subjects = async () => {
       const data = await subjectListRegistryService.getSubjectList();
       setSubjectListData(data.data);
-      console.log(data.data);
     };
     subjects();
   }, []);
