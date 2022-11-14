@@ -52,11 +52,26 @@ export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
     )
     if (result?.data?.data) {
       if (coreData) {
-        const trakingData = await courseTrackingSearch({
-          courseId: id,
-          userId: localStorage.getItem('id')
-        })
-        return { ...result?.data?.data, trakingData }
+        if (coreData === 'withLesonFilter') {
+          const { children } = result?.data?.data
+          if (children) {
+            const childrenTracking = await Promise.all(
+              children.map(async (item) => {
+                const resultData = await getDataWithTracking(item?.children)
+                return { ...item, children: resultData }
+              })
+            )
+            return { ...result?.data?.data, children: childrenTracking }
+          }
+          return { ...result?.data?.data }
+        } else {
+          const trakingData = await courseTrackingSearch({
+            courseId: id,
+            lessonId: id,
+            userId: localStorage.getItem('id')
+          })
+          return { ...result?.data?.data, trakingData }
+        }
       }
       return mapInterfaceData(result.data.data, interfaceData)
     } else {
@@ -97,7 +112,10 @@ export const getContent = async ({ id, adapter }, header = {}) => {
   }
 }
 
-export const lessontracking = async (params, header = {}) => {
+export const lessontracking = async (
+  { program, subject, ...params },
+  header = {}
+) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -107,6 +125,28 @@ export const lessontracking = async (params, header = {}) => {
     const result = await post(
       baseUrl + '/altlessontracking/altcheckandaddlessontracking',
       params,
+      { params: { program, subject }, headers }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return {}
+    }
+  } catch {
+    return {}
+  }
+}
+
+export const getLessontracking = async (params, header = {}) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await post(
+      baseUrl + '/altlessontracking/search',
+      { filters: params },
       {
         headers
       }
@@ -143,6 +183,18 @@ export const coursetracking = async (params, header = {}) => {
   } catch {
     return {}
   }
+}
+
+export const getDataWithTracking = async (data) => {
+  return await Promise.all(
+    data.map(async (item) => {
+      const trakingData = await courseTrackingSearch({
+        lessonId: item?.identifier,
+        userId: localStorage.getItem('id')
+      })
+      return { ...item, trakingData }
+    })
+  )
 }
 
 export const courseTrackingSearch = async (

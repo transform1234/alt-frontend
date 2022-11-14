@@ -5,7 +5,8 @@
     "packages": [
       "packages/common-lib",
       "packages/core",
-      "packages/selfassesment",
+      "packages/studentProgram",
+      "packages/reports",
       "packages/players",
       "packages/student-app"
     ]

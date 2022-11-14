@@ -41,7 +41,7 @@ import {
 import * as subjectListRegistryService from './services/subjectListRegistryService'
 
 import AppRoutesContainer from './components/AppRoutesContainer'
-import { useAuthFlow } from './hooks/useAuthFlow'
+import { useAuthFlow, getAuthUser } from './hooks/useAuthFlow'
 import StarRating from './components/StarRating'
 import NameTag from './components/layout/NameTag'
 import SunbirdPlayer from './components/SunbirdPlayer'
@@ -82,6 +82,7 @@ export {
   templateRegistryService,
   notificationRegistryService,
   useAuthFlow,
+  getAuthUser,
   roleRegistryService,
   workHistoryRegistryService,
   schoolRegistryService,
