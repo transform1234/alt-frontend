@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import React from "react";
 import SubjectCard from "../components/SubjectCard";
 import { useNavigate } from "react-router-dom";
-import manifest from "../../src/manifest.json";
+import manifest from "../manifest.json";
 export default function SubjectList({ footerLinks }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function SubjectList({ footerLinks }) {
               rounded={0}
               _image={{ rounded: 0 }}
               style={{ borderRadius: 0 }}
-              source={require("./../assets/images/TSHeader.jpg")}
+              source={require("../assets/images/TSHeader.jpg")}
             />
           </HStack>
         ),

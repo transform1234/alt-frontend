@@ -117,6 +117,8 @@ import QuillPenLineIcon from 'remixicon-react/QuillPenLineIcon'
 import EyeLineIcon from 'remixicon-react/EyeLineIcon'
 import EyeOffLineIcon from 'remixicon-react/EyeOffLineIcon'
 import GlobalLineIcon from 'remixicon-react/GlobalLineIcon'
+import FilePdfLineIcon from 'remixicon-react/FilePdfLineIcon'
+import YoutubeLineIcon from 'remixicon-react/YoutubeLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -1055,6 +1057,22 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<TimerLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'FilePdfLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FilePdfLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'YoutubeLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<YoutubeLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

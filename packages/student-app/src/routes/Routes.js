@@ -2,7 +2,7 @@ import Home from "../pages/Home";
 import React from "react";
 
 const Studentprogram = React.lazy(() =>
-  import("studentprogram/studentProgram")
+  import("studentprogram/studentprogram")
 );
 const StudentprogramLessonList = React.lazy(() =>
   import("studentprogram/Lessons")

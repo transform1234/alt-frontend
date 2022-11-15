@@ -25,7 +25,7 @@ import {
   RoundedProgressBar,
 } from "@shiksha/common-lib";
 import { useNavigate, useParams } from "react-router-dom";
-import manifest from "../../src/manifest.json";
+import manifest from "../manifest.json";
 
 const demoData = [
   {
@@ -362,26 +362,32 @@ export default function LessonList({ footerLinks }) {
                     </HStack>
                     {subItem?.trakingData?.length < 1 ? (
                       <H3>
-                        {subItem?.mimeType === "application/pdf"
-                          ? "PDF"
-                          : ["video/mp4", "video/webm"].includes(
-                              subItem?.mimeType
-                            )
-                          ? "Video"
-                          : [
-                              "application/vnd.sunbird.question",
-                              "application/vnd.sunbird.questionset",
-                            ].includes(subItem?.mimeType)
-                          ? "QUML"
-                          : [
-                              "application/vnd.ekstep.ecml-archive",
-                              "application/vnd.ekstep.html-archive",
-                              "application/vnd.ekstep.content-collection",
-                              "application/vnd.ekstep.h5p-archive",
-                              "video/x-youtube",
-                            ].includes(subItem?.mimeType)
-                          ? "Content"
-                          : ""}
+                        {subItem?.mimeType === "application/pdf" ? (
+                          <IconByName name="FilePdfLineIcon" isDisabled />
+                        ) : ["video/mp4", "video/webm"].includes(
+                            subItem?.mimeType
+                          ) ? (
+                          <IconByName name="PlayFillIcon" isDisabled />
+                        ) : [
+                            "application/vnd.sunbird.question",
+                            "application/vnd.sunbird.questionset",
+                          ].includes(subItem?.mimeType) ? (
+                          "QUML"
+                        ) : ["application/vnd.ekstep.h5p-archive"].includes(
+                            subItem?.mimeType
+                          ) ? (
+                          <IconByName name="PlayFillIcon" isDisabled />
+                        ) : ["video/x-youtube"].includes(subItem?.mimeType) ? (
+                          <IconByName name="YoutubeLineIcon" isDisabled />
+                        ) : [
+                            "application/vnd.ekstep.ecml-archive",
+                            "application/vnd.ekstep.html-archive",
+                            "application/vnd.ekstep.content-collection",
+                          ].includes(subItem?.mimeType) ? (
+                          <IconByName name="PlayFillIcon" isDisabled />
+                        ) : (
+                          ""
+                        )}
                       </H3>
                     ) : (
                       <React.Fragment />

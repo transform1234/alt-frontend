@@ -101,7 +101,7 @@ export default function StudentLogin({ swPath }) {
               token: token,
             },
           });
-          window.location.reload();
+          // window.location.reload();
         } else {
           localStorage.removeItem("token");
           setErrors({ alert: t("PLEASE_ENTER_VALID_CREDENTIALS") });

@@ -19,6 +19,7 @@ export const getAuthUser = async () => {
     localStorage.setItem('grade', resultUser.grade)
     localStorage.setItem('medium', resultUser.medium)
     localStorage.setItem('board', resultUser.board)
+    localStorage.setItem('section', resultUser.section)
     return resultUser
   }
   return {}
