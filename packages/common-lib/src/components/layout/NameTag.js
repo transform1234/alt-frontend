@@ -30,7 +30,7 @@ export default function NameTag({ height = '55', parentBgColor = '#f8f8f9' }) {
         <H2 color='white'> Hi {localStorage.getItem('name')}</H2>
         <Caption color='white'>
           Class:{' '}
-          {localStorage.getItem('class') +
+          {localStorage.getItem('grade') +
             ' ' +
             localStorage.getItem('section')}
         </Caption>

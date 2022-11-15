@@ -3,7 +3,7 @@ import { Layout, selfAssesmentService, NameTag } from "@shiksha/common-lib";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import CourseCard from "components/CourseCard";
-import manifest from "../../src/manifest.json";
+import manifest from "../manifest.json";
 import { useTranslation } from "react-i18next";
 
 export default function CourseList({ footerLinks }) {
@@ -34,7 +34,7 @@ export default function CourseList({ footerLinks }) {
               rounded={0}
               _image={{ rounded: 0 }}
               style={{ borderRadius: 0 }}
-              source={require("./../assets/images/TSHeader.jpg")}
+              source={require("../assets/images/TSHeader.jpg")}
             />
           </HStack>
         ),

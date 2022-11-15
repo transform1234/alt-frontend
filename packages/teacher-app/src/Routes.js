@@ -103,7 +103,7 @@ const Recommendedschools = React.lazy(() =>
 );
 const Allocatedschools = React.lazy(() => import("visits/Allocatedschools"));
 const Studentprogram = React.lazy(() =>
-  import("studentprogram/studentProgram")
+  import("studentprogram/studentprogram")
 );
 const studentprogramLessonList = React.lazy(() =>
   import("studentprogram/Lessons")
