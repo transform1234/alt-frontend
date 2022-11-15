@@ -46,7 +46,9 @@ export default function CourseList({ footerLinks }) {
           return (
             <CourseCard
               item={item}
-              // isDisabled={key === 0 ? false : true}
+              isDisabled={
+                key === 0 ? false : courseList[0]?.trakingData?.length < 1
+              }
               {...([
                 "assessment",
                 "SelfAssess",
