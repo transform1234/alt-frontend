@@ -45,7 +45,8 @@ const colorTheme = {
   boys: '#a855f7',
   activeClass: '#10b981',
   black: '#000000',
-  nameTag: '#41C88E'
+  nameTag: '#41C88E',
+  successLight: '#e5fcf5'
 }
 
 export default colorTheme

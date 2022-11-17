@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, HStack, Avatar } from "native-base";
-import { capture, Layout, NameTag, Tab } from "@shiksha/common-lib";
+import { Box, HStack, Avatar, useTheme } from "native-base";
+import { Breadcrumb, capture, Layout, NameTag, Tab } from "@shiksha/common-lib";
 import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +8,7 @@ const BaselineScore = React.lazy(() => import("./BaselineScore"));
 const ComingSoon = React.lazy(() => import("./ComingSoon"));
 function ScoreCard({ footerLinks }) {
   const { t } = useTranslation();
+  const { colors } = useTheme();
   React.useEffect(() => {
     capture("PAGE");
   }, []);
@@ -16,6 +17,11 @@ function ScoreCard({ footerLinks }) {
     <Layout
       _header={{
         title: t("SCORE_CARD"),
+        subHeadingComponent: (
+          <Breadcrumb
+            data={[{ title: t("HOME"), link: "/" }, t("SCORE_CARD")]}
+          />
+        ),
       }}
       _appBar={{
         languages: manifest.languages,
@@ -36,17 +42,28 @@ function ScoreCard({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Box bg="#f1f1f1" p="5" mb="4" roundedBottom={"xl"} shadow={2}>
+      <Box px="5" mb="4">
         <Tab
-          _box={{
-            display: "flex",
-            overflowX: "auto",
-            p: "2",
+          _item={{
+            active: { bg: "primary", roundedTop: "20px" },
+          }}
+          _text={{
+            color: "primary",
+            active: { color: "white" },
+          }}
+          _itemBox={{
+            style: { boxShadow: `inset 0px -1px 0px ${colors?.primary}` },
           }}
           routes={[
             { title: t("BASELINE"), component: <BaselineScore /> },
-            { title: t("COURSES"), component: <ComingSoon /> },
-            { title: t("ENDLINE"), component: <ComingSoon /> },
+            {
+              title: t("COURSES"),
+              component: <ComingSoon _box={{ py: "5" }} />,
+            },
+            {
+              title: t("ENDLINE"),
+              component: <ComingSoon _box={{ py: "5" }} />,
+            },
           ]}
         />
       </Box>

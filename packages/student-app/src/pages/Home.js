@@ -5,7 +5,8 @@ import {
   Layout,
   Widget,
   NameTag,
-  convertFirstLetterCapital,
+  subjectListRegistryService,
+  selfAssesmentService,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
@@ -13,9 +14,9 @@ import moment from "moment";
 
 function Home({ footerLinks }) {
   const { t } = useTranslation();
-  let medium = localStorage.getItem("medium");
-  const section = localStorage.getItem("class");
-  const Medium = medium ? convertFirstLetterCapital(medium) : "English";
+  const [subjects, setSubjects] = React.useState([]);
+  const [course, setCourse] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
 
   const widgetData = [
     {
@@ -25,7 +26,7 @@ function Home({ footerLinks }) {
         {
           link: "/studentprogram/subjects",
           title: t("SUBJECTS"),
-          subTitle: t("SUBJECT_NAME"),
+          subTitle: subjects.join(", "),
           _box: {
             style: {
               background:
@@ -52,10 +53,10 @@ function Home({ footerLinks }) {
       data: [
         {
           link: "/studentprogram",
-          title: t("BASELINE_ASSIGNMENT"),
-          subTitle: `${t("ENGLISH")}, ${t("CLASS")} ${section}, ${Medium} ${t(
-            "MEDIUM"
-          )}`,
+          title: course?.name,
+          subTitle: `${course?.subject?.join(", ")}, ${course?.gradeLevel?.join(
+            ", "
+          )},  ${t("MEDIUM")} ${course?.medium?.join(", ")}`,
           _box: {
             style: {
               background:
@@ -69,10 +70,26 @@ function Home({ footerLinks }) {
 
   React.useEffect(() => {
     capture("PAGE");
+    const subjects = async () => {
+      try {
+        const data = await subjectListRegistryService.getSubjectList();
+        setSubjects(data?.map((item) => item.subject));
+        const courseData = await selfAssesmentService.getCoursesRule({
+          subject: "English",
+        });
+        setCourse(courseData[0]);
+        setLoading(false);
+      } catch (e) {
+        console.log({ e });
+        setLoading(false);
+      }
+    };
+    subjects();
   }, []);
 
   return (
     <Layout
+      loading={loading}
       _header={{
         title: t("HOME"),
         subHeading: moment().format("hh:mm A"),

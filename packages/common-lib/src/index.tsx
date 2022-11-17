@@ -46,6 +46,7 @@ import StarRating from './components/StarRating'
 import NameTag from './components/layout/NameTag'
 import SunbirdPlayer from './components/SunbirdPlayer'
 import RoundedProgressBar from './components/RoundedProgressBar'
+import Breadcrumb from './components/Breadcrumb'
 export {
   AppBar,
   Header,
@@ -93,7 +94,8 @@ export {
   NameTag,
   SunbirdPlayer,
   RoundedProgressBar,
-  subjectListRegistryService
+  subjectListRegistryService,
+  Breadcrumb
 }
 
 export * from './services/Auth'

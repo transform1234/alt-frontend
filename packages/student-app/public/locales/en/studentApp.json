@@ -109,7 +109,6 @@
   "EDIT": "Edit",
   "CLOSE": "Close",
   "HOME": "Home",
-  "SCHOOL": "School",
   "MATERIALS": "Materials",
   "CAREER": "Career",
   "QUICK_CHECK": "Quick links",
@@ -257,7 +256,6 @@
   "MY_TEACHING": "My Teaching",
   "TEACHING": "Teaching",
   "ACCESS_AND_PLAN_YOUR_TEACHING_MATERIAL": "Access and plan your teaching material",
-  "NAME": "Name",
   "SIGN_IN": "Sign In",
   "SIGN_UP": "Sign up",
   "TOPIC": "Topic",
@@ -416,8 +414,6 @@
   "DATE_OF_JOINING": "Date of Joining",
   "SCHOOL_NOT_ALLOCATED_FOR_VISIT": "This school is not allocated to you for visit",
   "SCHOOL_OVERVIEW": "School Overview",
-  "DISTRICT": "District",
-  "BLOCK": "Block",
   "CLUSTER": "Cluster",
   "HEADMASTER": "Headmaster",
   "CONTACT": "Contact",
@@ -429,7 +425,6 @@
   "START_VISIT": "Start a Visit",
   "ASSESSMENT_REPORTS": "Assessment Reports",
   "WELCOME_BACK": "Welcome back",
-
   "GET_OTP": "Get OTP >",
   "SUBMIT_OTP": "Submit OTP",
   "LETS_GO": "Lets Go! ->",
@@ -442,39 +437,23 @@
   "IMPROVE_SUBTITLE": "Improve on the go.",
   "MOBILENUMBER": "Mobile Number",
   "NAME": "Name",
-
   "DATEOFBIRTH": "Date of Birth",
-
   "EMAILID": "Email ID",
-
   "STATE": "State",
-
   "DISTRICT": "District",
-
   "BLOCK": "Block",
-
   "SCHOOL": "School",
-
   "UDISE": "UDISE",
   "ENTER_MOBILE_NUMBER": "Enter Mobile Number",
   "ENTER_NAME": "Enter Name",
-
   "ENTER_DATEOFBIRTH": "Enter Date of Birth",
-
   "ENTER_EMAILID": "Enter Email ID",
-
   "ENTER_STATE": "Enter State",
-
   "ENTER_DISTRICT": "Enter District",
-
   "ENTER_BLOCK": "Enter Block",
-
   "ENTER_SCHOOL": "Enter School",
-
   "ENTER_UDISE": "Enter UDISE",
-
   "ENTER_CLASS": "Enter Class",
-
   "ENTER_USERNAME": "Enter Username",
   "ENTER_PASSWORD": "Enter Password",
   "HOME_SUBTITLE": "Thank you for participating in this pilot. You are among the first students to use this platform! If you have any trouble using this or feedback, please let our team know at",
@@ -487,5 +466,8 @@
   "SUBJECT_NAME": "English, Mathematics, Science, Hindi",
   "BASELINE": "Baseline",
   "ENDLINE": "Endline",
-  "SUCCESS_MESSAGE": "Great work! You've completed the assessment."
+  "SUCCESS_MESSAGE": "Great work! You've completed the assessment.",
+  "SUBJECT_NOT_FOUND": "Subject not found",
+  "PROGRAM_NOT_FOUND": "Program not found",
+  "LESSON_NOT_FOUND": "Lesson not found"
 }

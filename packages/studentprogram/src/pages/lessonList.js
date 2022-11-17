@@ -23,9 +23,12 @@ import {
   useWindowSize,
   H3,
   RoundedProgressBar,
+  NameTag,
+  Breadcrumb,
 } from "@shiksha/common-lib";
 import { useNavigate, useParams } from "react-router-dom";
 import manifest from "../manifest.json";
+import { useTranslation } from "react-i18next";
 
 const demoData = [
   {
@@ -44,6 +47,7 @@ const demoData = [
 
 export default function LessonList({ footerLinks }) {
   const { id, type } = useParams();
+  const { t } = useTranslation();
   const [lessons, setLessons] = React.useState({});
   const [lessonLandingPage, setLessonLandingPage] = React.useState(true);
   const [lessonId, setLessonId] = React.useState();
@@ -51,38 +55,48 @@ export default function LessonList({ footerLinks }) {
   const [width, height] = useWindowSize();
   const navigate = useNavigate();
   const [trackData, setTrackData] = React.useState();
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(async () => {
-    if (
-      ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
-        type
-      )
-    ) {
-      let resultData = await courseRegistryService.getOne({
-        id: id,
-        adapter: "diksha",
-        coreData: true,
-        type: "assessment",
-      });
-
-      let instructionData = await courseRegistryService.courseTrackingRead({
-        id,
-      });
-      setLesson({
-        ...resultData,
-        instructions: instructionData?.instructions
-          ? instructionData?.instructions
-          : {},
-      });
-    } else if (["course", "Course"].includes(type)) {
-      setLessons(
-        await courseRegistryService.getOne({
+    try {
+      if (
+        [
+          "assessment",
+          "SelfAssess",
+          "QuestionSet",
+          "QuestionSetImage",
+        ].includes(type)
+      ) {
+        let resultData = await courseRegistryService.getOne({
           id: id,
           adapter: "diksha",
-          coreData: "withLesonFilter",
-          type: "course",
-        })
-      );
+          coreData: true,
+          type: "assessment",
+        });
+
+        let instructionData = await courseRegistryService.courseTrackingRead({
+          id,
+        });
+        setLesson({
+          ...resultData,
+          instructions: instructionData?.instructions
+            ? instructionData?.instructions
+            : {},
+        });
+      } else if (["course", "Course"].includes(type)) {
+        setLessons(
+          await courseRegistryService.getOne({
+            id: id,
+            adapter: "diksha",
+            coreData: "withLesonFilter",
+            type: "course",
+          })
+        );
+      }
+      setLoading(false);
+    } catch (e) {
+      console.log({ e });
+      setLoading(false);
     }
   }, []);
 
@@ -289,136 +303,169 @@ export default function LessonList({ footerLinks }) {
 
   return (
     <Layout
+      loading={loading}
+      _header={{
+        title: lessons?.subject?.join(","),
+        subHeadingComponent: (
+          <Breadcrumb
+            data={[
+              { title: t("HOME"), link: "/" },
+              { title: t("SUBJECTS"), link: "/studentprogram/subjects" },
+              {
+                title: lessons?.subject?.join(","),
+                link: "/studentprogram/subjects",
+              },
+              lessons?.name,
+            ]}
+          />
+        ),
+      }}
       _appBar={{
         languages: manifest.languages,
         isBackButtonShow: false,
         isLanguageIcon: true,
-
-        isShowNotificationButton: false,
-        LeftIcon: <HStack>English</HStack>,
+        titleComponent: <NameTag />,
+        LeftIcon: (
+          <HStack space={2} alignItems="center">
+            <Avatar
+              rounded={0}
+              _image={{ rounded: 0 }}
+              style={{ borderRadius: 0 }}
+              source={require("../assets/images/TSHeader.jpg")}
+            />
+          </HStack>
+        ),
       }}
       _footer={footerLinks}
     >
       <Stack space="4" py="4" mb="5">
-        {lessons?.children?.map((item, index) => (
-          <Collapsible
-            key={index}
-            defaultCollapse={false}
-            _box={{ bg: "transperent", py: 0 }}
-            _header={{ bg: "white", rounded: "8" }}
-            header={
-              <VStack p="4" w="100%" space="4">
-                <HStack alignItems="center" space="4">
-                  <VStack space="1">
-                    <H2 color="blue.500">Day</H2>
-                    <H1 color="selfassesment.warning">
-                      {`${index + 1}`.padStart(2, 0)}
-                    </H1>
-                  </VStack>
-                  <VStack space="2">
-                    <BodyLarge>{item?.name}</BodyLarge>
-                    <Caption> course 1</Caption>
-                  </VStack>
-                </HStack>
-              </VStack>
-            }
-            fontSize="2px"
-          >
-            <VStack padding="4" space="4">
-              {item?.children?.map((subItem, subIndex) => (
-                <Pressable
-                  bg={"mylearning.white"}
-                  key={subIndex}
-                  onPress={() => {
-                    if (subItem?.trakingData?.length < 1) {
+        {lessons?.children?.length > 0 ? (
+          lessons?.children?.map((item, index) => (
+            <Collapsible
+              key={index}
+              defaultCollapse={false}
+              _box={{ bg: "transperent", py: 0 }}
+              _header={{ bg: "white", rounded: "8" }}
+              header={
+                <VStack p="4" w="100%" space="4">
+                  <HStack alignItems="center" space="4">
+                    <VStack space="1">
+                      <H2 color="blue.500">Day</H2>
+                      <H1 color="selfassesment.warning">
+                        {`${index + 1}`.padStart(2, 0)}
+                      </H1>
+                    </VStack>
+                    <VStack space="2">
+                      <BodyLarge>{item?.name}</BodyLarge>
+                      <Caption>{item?.description}</Caption>
+                    </VStack>
+                  </HStack>
+                </VStack>
+              }
+              fontSize="2px"
+            >
+              <VStack padding="4" space="4">
+                {item?.children?.map((subItem, subIndex) => (
+                  <Pressable
+                    bg={"mylearning.white"}
+                    key={subIndex}
+                    onPress={() => {
+                      // if (subItem?.trakingData?.length < 1) {
                       setLessonId({
                         mode: "false",
                         ...subItem,
                       });
-                    }
-                  }}
-                  rounded={"lg"}
-                  shadow={4}
-                  position="relative"
-                >
-                  <HStack
-                    justifyContent={"space-between"}
-                    alignItems="center"
-                    p="5"
+                      // }
+                    }}
+                    rounded={"lg"}
+                    shadow={4}
+                    position="relative"
                   >
-                    <HStack space={4} alignItems="center">
-                      {subItem?.posterImage ? (
-                        <Avatar
-                          source={{ uri: subItem?.posterImage }}
-                          bg="transparent"
-                          style={{ borderRadius: 0 }}
-                          p="1"
-                          shadow={4}
-                        />
+                    <HStack
+                      justifyContent={"space-between"}
+                      alignItems="center"
+                      p="5"
+                    >
+                      <HStack space={4} alignItems="center">
+                        {subItem?.posterImage ? (
+                          <Avatar
+                            source={{ uri: subItem?.posterImage }}
+                            bg="transparent"
+                            style={{ borderRadius: 0 }}
+                            p="1"
+                            shadow={4}
+                          />
+                        ) : (
+                          <React.Fragment />
+                        )}
+                        <H2>{subItem?.name}</H2>
+                      </HStack>
+                      {subItem?.trakingData?.length < 1 ? (
+                        <H3>
+                          {subItem?.mimeType === "application/pdf" ? (
+                            <IconByName name="FilePdfLineIcon" isDisabled />
+                          ) : ["video/mp4", "video/webm"].includes(
+                              subItem?.mimeType
+                            ) ? (
+                            <IconByName name="PlayFillIcon" isDisabled />
+                          ) : [
+                              "application/vnd.sunbird.question",
+                              "application/vnd.sunbird.questionset",
+                            ].includes(subItem?.mimeType) ? (
+                            "QUML"
+                          ) : ["application/vnd.ekstep.h5p-archive"].includes(
+                              subItem?.mimeType
+                            ) ? (
+                            <IconByName name="PlayFillIcon" isDisabled />
+                          ) : ["video/x-youtube"].includes(
+                              subItem?.mimeType
+                            ) ? (
+                            <IconByName name="YoutubeLineIcon" isDisabled />
+                          ) : [
+                              "application/vnd.ekstep.ecml-archive",
+                              "application/vnd.ekstep.html-archive",
+                              "application/vnd.ekstep.content-collection",
+                            ].includes(subItem?.mimeType) ? (
+                            <IconByName name="PlayFillIcon" isDisabled />
+                          ) : (
+                            ""
+                          )}
+                        </H3>
                       ) : (
                         <React.Fragment />
                       )}
-                      <H2>{subItem?.name}</H2>
                     </HStack>
-                    {subItem?.trakingData?.length < 1 ? (
-                      <H3>
-                        {subItem?.mimeType === "application/pdf" ? (
-                          <IconByName name="FilePdfLineIcon" isDisabled />
-                        ) : ["video/mp4", "video/webm"].includes(
-                            subItem?.mimeType
-                          ) ? (
-                          <IconByName name="PlayFillIcon" isDisabled />
-                        ) : [
-                            "application/vnd.sunbird.question",
-                            "application/vnd.sunbird.questionset",
-                          ].includes(subItem?.mimeType) ? (
-                          "QUML"
-                        ) : ["application/vnd.ekstep.h5p-archive"].includes(
-                            subItem?.mimeType
-                          ) ? (
-                          <IconByName name="PlayFillIcon" isDisabled />
-                        ) : ["video/x-youtube"].includes(subItem?.mimeType) ? (
-                          <IconByName name="YoutubeLineIcon" isDisabled />
-                        ) : [
-                            "application/vnd.ekstep.ecml-archive",
-                            "application/vnd.ekstep.html-archive",
-                            "application/vnd.ekstep.content-collection",
-                          ].includes(subItem?.mimeType) ? (
-                          <IconByName name="PlayFillIcon" isDisabled />
-                        ) : (
-                          ""
-                        )}
-                      </H3>
+                    {subItem?.trakingData?.length > 0 ? (
+                      <Box
+                        bg={"selfassesment.cloverGreen"}
+                        position="absolute"
+                        right="0"
+                        minW="60px"
+                        minH="40px"
+                        roundedLeft="full"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <IconByName
+                          isDisabled
+                          name={"CheckboxCircleLineIcon"}
+                          color="white"
+                          size="sm"
+                        />
+                      </Box>
                     ) : (
                       <React.Fragment />
                     )}
-                  </HStack>
-                  {subItem?.trakingData?.length > 0 ? (
-                    <Box
-                      bg={"selfassesment.cloverGreen"}
-                      position="absolute"
-                      right="0"
-                      minW="60px"
-                      minH="40px"
-                      roundedLeft="full"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <IconByName
-                        isDisabled
-                        name={"CheckboxCircleLineIcon"}
-                        color="white"
-                        size="sm"
-                      />
-                    </Box>
-                  ) : (
-                    <React.Fragment />
-                  )}
-                </Pressable>
-              ))}
-            </VStack>
-          </Collapsible>
-        ))}
+                  </Pressable>
+                ))}
+              </VStack>
+            </Collapsible>
+          ))
+        ) : (
+          <H1 textAlign={"center"} p="5">
+            {t("LESSON_NOT_FOUND")}
+          </H1>
+        )}
       </Stack>
     </Layout>
   );

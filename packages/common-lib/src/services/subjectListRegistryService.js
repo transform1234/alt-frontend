@@ -5,7 +5,7 @@ const dateFor = moment().format('YYYY-MM-DD')
 
 export const getProgramId = async (data) => {
   const programID = await post(
-    `${process.env.REACT_APP_API_URL}/selfassessment/fbmgs`,
+    `${process.env.REACT_APP_API_URL}/altprogram/fbmgs`,
     {
       framework: 'ALT new',
       board: localStorage.getItem('board'),
@@ -32,8 +32,8 @@ export const getSubjectList = async () => {
         programId: data?.programId
       }
     )
-    if (subjectList.data) {
-      return subjectList.data
+    if (subjectList?.data?.data) {
+      return subjectList?.data?.data
     }
   } else {
     return []
