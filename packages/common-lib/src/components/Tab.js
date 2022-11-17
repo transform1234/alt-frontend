@@ -6,26 +6,38 @@ const styles = {
   shadow: { style: { boxShadow: 'inset 0px -1px 0px #dfdfe8' }, px: '3' }
 }
 
-export default function Tab({ routes, _box, _item }) {
+export default function Tab({ routes, _box, _item, _itemBox, _text }) {
   const [index, setIndex] = React.useState(0)
   return (
     <VStack>
       <HStack {..._box}>
         {routes.map((route, i) => {
           return (
-            <Pressable key={i} flex={1} onPress={() => setIndex(i)} {..._item}>
+            <Pressable
+              key={i}
+              flex={1}
+              onPress={() => setIndex(i)}
+              {..._item}
+              {...(index === i && _item?.active ? _item.active : {})}
+            >
               <Box alignItems='center' p='3' cursor='pointer'>
                 <Animated.Text>
                   <Text
                     {...{ color: index === i ? 'button.500' : 'blueGray.400' }}
                     fontWeight='500'
                     fontSize='14px'
+                    {..._text}
+                    {...(index === i && _text?.active ? _text.active : {})}
                   >
                     {route.title}
                   </Text>
                 </Animated.Text>
               </Box>
-              <Box {...styles.shadow}>
+              <Box
+                {...styles.shadow}
+                {..._itemBox}
+                {...(index === i && _itemBox?.active ? _itemBox.active : {})}
+              >
                 <Box
                   bg={index === i ? 'button.500' : ''}
                   roundedTopLeft='16px'

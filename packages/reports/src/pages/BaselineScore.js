@@ -15,7 +15,7 @@ export default function BaselineScore() {
     programId();
     const subjects = async () => {
       const data = await subjectListRegistryService.getSubjectList(programID);
-      setSubjectListData(data.data);
+      setSubjectListData(data);
     };
     subjects();
   }, []);

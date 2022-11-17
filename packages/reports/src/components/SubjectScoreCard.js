@@ -29,30 +29,41 @@ export default function SubjectScoreCard({ subject }) {
   const [trackData, setTrackData] = React.useState([]);
   const [score, setScore] = React.useState(0);
   const [totalScore, setTotalScore] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const getTraking = async () => {
-      const data = await subjectListRegistryService.getProgramId();
-      if (data?.programId) {
-        const dataRuls = await selfAssesmentService.getCoursesRule({
-          programId: data?.programId,
-          subject,
-        });
-        setTotalScore(dataRuls?.[0]?.maxScore);
-        setScore(
-          dataRuls?.[0]?.trakingData?.[0]?.score
-            ? dataRuls[0].trakingData[0].score
-            : 0
-        );
-        setTrackData(
-          dataRuls?.[0]?.trakingData?.[0]
-            ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
-            : []
-        );
+      try {
+        const data = await subjectListRegistryService.getProgramId();
+        if (data?.programId) {
+          const dataRuls = await selfAssesmentService.getCoursesRule({
+            programId: data?.programId,
+            subject,
+          });
+          setTotalScore(dataRuls?.[0]?.maxScore);
+          setScore(
+            dataRuls?.[0]?.trakingData?.[0]?.score
+              ? dataRuls[0].trakingData[0].score
+              : 0
+          );
+          setTrackData(
+            dataRuls?.[0]?.trakingData?.[0]
+              ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
+              : []
+          );
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log({ e });
+        setLoading(false);
       }
     };
     getTraking();
   }, []);
+
+  if (loading) {
+    return <React.Fragment />;
+  }
 
   return (
     <Box>
@@ -67,78 +78,29 @@ export default function SubjectScoreCard({ subject }) {
         >
           <HStack space="4" alignItems="center">
             <Avatar bg="white" size="30">
-              <IconByName name color="yellow.500" />
+              <IconByName
+                name
+                color={trackData.length > 0 ? "yellow.500" : "lightGray1"}
+              />
             </Avatar>
-            <H1 alignItems="center" color="primary">
+            <H1
+              alignItems="center"
+              color={trackData.length > 0 ? "primary" : "lightGray1"}
+            >
               {subject}
             </H1>
           </HStack>
-          <HStack>
-            <Box rounded="full">
-              <RoundedProgressBar
-                values={[score, totalScore - score]}
-                colors={[
-                  colors?.reports?.primaryGreen,
-                  colors?.reports?.barGray,
-                ]}
-                title={{
-                  text: `${score} / ${totalScore}`,
-                  fontSize: "21px",
-                  _text: {
-                    style: { transform: "translate(-50%, -50%)" },
-                    color: "selfassesment.cloverGreen",
-                  },
-                }}
-                cutout={"70%"}
-                size="125px"
-              />
-            </Box>
-
-            <Stack w={"70%"}>
-              {trackData?.map((val, idx) => {
-                const totalScore = val?.data?.reduce(
-                  (old, newData) =>
-                    old +
-                    (newData?.item?.maxscore ? newData?.item?.maxscore : 0),
-                  0
-                );
-                const score = val?.data?.reduce(
-                  (old, newData) => old + (newData?.score ? newData?.score : 0),
-                  0
-                );
-                const value = (score * 100) / totalScore;
-                return (
-                  <HStack ml={"8"} key={idx}>
-                    {val?.sectionName}
-                    <Box w="70%" mb={"4"}>
-                      <VStack space="md">
-                        <Progress
-                          bg="coolGray.100"
-                          _filledTrack={{ style: style.gradient }}
-                          size="xl"
-                          value={value}
-                          mx="4"
-                        />
-                      </VStack>
-                    </Box>
-                    {score}/{totalScore}
-                  </HStack>
-                );
-              })}
-            </Stack>
-          </HStack>
-
-          {/* {window.innerWidth < maxWidth && (
-            <Center>
+          {trackData.length > 0 ? (
+            <HStack>
               <Box rounded="full">
                 <RoundedProgressBar
-                  values={[10, 100 - 10]}
+                  values={[score, totalScore - score]}
                   colors={[
-                    colors.successBarColor,
-                    colors.circleProgressBarcolor,
+                    colors?.reports?.primaryGreen,
+                    colors?.reports?.barGray,
                   ]}
                   title={{
-                    text: "8/10",
+                    text: `${score} / ${totalScore}`,
                     fontSize: "21px",
                     _text: {
                       style: { transform: "translate(-50%, -50%)" },
@@ -149,24 +111,44 @@ export default function SubjectScoreCard({ subject }) {
                   size="125px"
                 />
               </Box>
-            </Center>
+
+              <Stack w={"70%"}>
+                {trackData?.map((val, idx) => {
+                  const totalScore = val?.data?.reduce(
+                    (old, newData) =>
+                      old +
+                      (newData?.item?.maxscore ? newData?.item?.maxscore : 0),
+                    0
+                  );
+                  const score = val?.data?.reduce(
+                    (old, newData) =>
+                      old + (newData?.score ? newData?.score : 0),
+                    0
+                  );
+                  const value = (score * 100) / totalScore;
+                  return (
+                    <HStack ml={"8"} key={idx}>
+                      {val?.sectionName}
+                      <Box w="70%" mb={"4"}>
+                        <VStack space="md">
+                          <Progress
+                            bg="coolGray.100"
+                            _filledTrack={{ style: style.gradient }}
+                            size="xl"
+                            value={value}
+                            mx="4"
+                          />
+                        </VStack>
+                      </Box>
+                      {score}/{totalScore}
+                    </HStack>
+                  );
+                })}
+              </Stack>
+            </HStack>
+          ) : (
+            <React.Fragment />
           )}
-          {window.innerWidth >= maxWidth && (
-            <Center w="100%">
-              <Box w="100%" maxW="600">
-                <Progress
-                  bg={colors.circleProgressBarcolor}
-                  _filledTrack={{
-                    bg: "lime.500",
-                  }}
-                  size="xl"
-                  value={10}
-                  mx="4"
-                />
-              </Box>
-              0/0
-            </Center>
-          )} */}
         </VStack>
       </Stack>
     </Box>

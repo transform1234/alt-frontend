@@ -4,12 +4,12 @@ import { Box, VStack, HStack, Center } from "native-base";
 import { Heading, IconByName, useWindowSize } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 
-export default function ComingSoon() {
+export default function ComingSoon({ _box }) {
   const [width, Height] = useWindowSize();
   const { t } = useTranslation();
 
   return (
-    <Box>
+    <Box {..._box}>
       <Center width={width}>
         <VStack space="">
           <Box>

@@ -5,12 +5,14 @@ import { Box, Center, Stack, useTheme } from 'native-base'
 import AppBar from './AppBar'
 import { useWindowSize } from '../helper'
 import HeightWidth from '../HeightWidth'
+import Loading from '../Loading'
 
 export default function Layout({
   isDisabledAppBar,
   subHeader,
   children,
   imageUrl,
+  loading,
   _appBar,
   _header,
   _subHeader,
@@ -22,6 +24,10 @@ export default function Layout({
   const [refFoot, serRefFoot] = React.useState({})
   const { components } = useTheme()
   const { Layout } = components
+
+  if (typeof loading !== 'undefined' && loading) {
+    return <Loading />
+  }
 
   return (
     <Center>
