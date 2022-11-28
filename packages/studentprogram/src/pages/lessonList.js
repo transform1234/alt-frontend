@@ -98,10 +98,11 @@ export default function LessonList({ footerLinks }) {
       console.log({ e });
       setLoading(false);
     }
-  }, []);
+  }, [lessonId]);
 
   const handleExitButton = () => {
     setLesson();
+    setLessonId();
     if (
       ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
         type
@@ -115,6 +116,7 @@ export default function LessonList({ footerLinks }) {
     { score, trackData, attempts, ...props },
     playerType = "quml"
   ) => {
+    console.log({ trackData });
     let data = {};
     if (playerType === "quml") {
       const newFormatData = trackData.reduce((oldData, newObj) => {
@@ -161,6 +163,7 @@ export default function LessonList({ footerLinks }) {
         subject: "English",
       };
     }
+    // console.log({ data });
     courseRegistryService.lessontracking(data);
   };
 
@@ -210,6 +213,7 @@ export default function LessonList({ footerLinks }) {
             <LessonResultPage
               type={type}
               setLesson={setLesson}
+              setLessonId={setLessonId}
               trackData={trackData}
               subject={"English"}
               data={lesson}
@@ -221,6 +225,7 @@ export default function LessonList({ footerLinks }) {
                 name="CloseCircleLineIcon"
                 onPress={() => {
                   setLesson();
+                  setLessonId();
                   if (
                     [
                       "assessment",
@@ -275,9 +280,12 @@ export default function LessonList({ footerLinks }) {
                   ) {
                     handleTrackData(data);
                   } else if (
-                    ["application/pdf", "video/mp4", "video/webm"].includes(
-                      lesson?.mimeType
-                    )
+                    [
+                      "application/pdf",
+                      "video/mp4",
+                      "video/webm",
+                      "video/x-youtube",
+                    ].includes(lesson?.mimeType)
                   ) {
                     handleTrackData(data, "pdf-video");
                   } else {
@@ -286,7 +294,11 @@ export default function LessonList({ footerLinks }) {
                         lesson?.mimeType
                       )
                     ) {
-                      handleTrackData(data);
+                      const score = data.reduce(
+                        (old, newData) => old + newData?.score,
+                        0
+                      );
+                      handleTrackData({ ...data, score: `${score}` }, "ecml");
                     }
                     setTrackData(data);
                   }
@@ -313,7 +325,7 @@ export default function LessonList({ footerLinks }) {
               { title: t("SUBJECTS"), link: "/studentprogram/subjects" },
               {
                 title: lessons?.subject?.join(","),
-                link: "/studentprogram/subjects",
+                link: `/studentprogram/${lessons?.subject?.[0]}`,
               },
               lessons?.name,
             ]}
@@ -476,6 +488,7 @@ const LessonResultPage = ({
   data,
   trackData,
   setLesson,
+  setLessonId,
   type,
   setTrackData,
 }) => {
@@ -523,6 +536,7 @@ const LessonResultPage = ({
         size={"lg"}
         onPress={() => {
           setLesson();
+          setLessonId();
           setTrackData();
           if (
             [
@@ -544,6 +558,7 @@ const LessonResultPage = ({
         width="100%"
         onPress={() => {
           setLesson();
+          setLessonId();
           setTrackData();
           if (
             [

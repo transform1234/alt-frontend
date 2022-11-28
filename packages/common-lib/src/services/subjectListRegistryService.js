@@ -5,7 +5,7 @@ const dateFor = moment().format('YYYY-MM-DD')
 
 export const getProgramId = async (data) => {
   const programID = await post(
-    `${process.env.REACT_APP_API_URL}/altprogram/fbmgs`,
+    `${process.env.REACT_APP_API_URL}/altprogram/bmgs`,
     {
       framework: 'ALT new',
       board: localStorage.getItem('board'),

@@ -26,16 +26,12 @@ const SunbirdPlayer = ({
         'video/x-youtube'
       ].includes(mimeType)
     ) {
-      setUrl(`/project-sunbird/content-player`)
+      setUrl(`/content-player`)
     }
   }, [mimeType])
 
   React.useEffect(() => {
-    if (
-      [`/project-sunbird/content-player`, `/quml`, `/pdf`, `/video`].includes(
-        url
-      )
-    ) {
+    if ([`/content-player`, `/quml`, `/pdf`, `/video`].includes(url)) {
       window.addEventListener(
         'message',
         (event) => {
@@ -46,11 +42,7 @@ const SunbirdPlayer = ({
     }
 
     return () => {
-      if (
-        [`/project-sunbird/content-player`, `/quml`, `/pdf`, `/video`].includes(
-          url
-        )
-      ) {
+      if ([`/content-player`, `/quml`, `/pdf`, `/video`].includes(url)) {
         window.removeEventListener('message', (val) => {})
       }
     }
@@ -66,6 +58,7 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
+    console.log(trackData)
     if (telemetry?.eid === 'ASSESS') {
       const edata = telemetry?.edata
       if (trackData.find((e) => e?.item?.id === edata?.item?.id)) {
@@ -93,12 +86,21 @@ const SunbirdPlayer = ({
         ]
       }
       // console.log(telemetry, trackData)
+    } else if (
+      telemetry?.eid === 'INTERACT' &&
+      mimeType === 'video/x-youtube'
+    ) {
+      // const edata = telemetry?.edata
+      // trackData = [...trackData, edata]
     } else if (telemetry?.eid === 'END') {
       const summaryData = telemetry?.edata
       if (summaryData?.summary && Array.isArray(summaryData?.summary)) {
         const score = summaryData.summary.find((e) => e['score'])
         if (score?.score) {
           setTrackData({ score: score?.score, trackData })
+        } else {
+          setTrackData(telemetry?.edata)
+          handleExitButton()
         }
       } else {
         setTrackData(telemetry?.edata)
