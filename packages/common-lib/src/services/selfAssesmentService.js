@@ -17,9 +17,12 @@ export const getCoursesRule = async (
   { limit, ...params } = {},
   header = {}
 ) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
   const newParams = {
     programId: 'c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef',
-    framework: 'ALT new',
     board: localStorage.getItem('board'),
     medium: localStorage.getItem('medium'),
     grade: localStorage.getItem('grade'),
@@ -29,7 +32,8 @@ export const getCoursesRule = async (
 
   const courseIdList = await post(
     `${process.env.REACT_APP_API_URL}/altprogramassociation/altrules`,
-    newParams
+    newParams,
+    { headers }
   )
   if (courseIdList.data) {
     return await getCourseArray(courseIdList.data.data[0].rules)

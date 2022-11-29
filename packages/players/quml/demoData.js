@@ -294,10 +294,11 @@ const playerConfig = {
     traceId: "1234",
     sideMenu: {
       enable: false,
-      showShare: true,
-      showDownload: true,
-      showReplay: true,
-      showExit: true,
+      showShare: false,
+      showDownload: false,
+      showReplay: false,
+      showPrint: false,
+      showExit: false,
     },
   },
 };

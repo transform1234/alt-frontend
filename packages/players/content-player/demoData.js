@@ -311,10 +311,11 @@ const playerConfig = {
     traceId: "afhjgh",
     sideMenu: {
       enable: false,
-      showShare: true,
-      showDownload: true,
-      showReplay: true,
-      showExit: true,
+      showShare: false,
+      showDownload: false,
+      showReplay: false,
+      showPrint: false,
+      showExit: false,
     },
     repos: ["s3path"], // plugins repo path where all the plugins are pushed s3 or absolute folder path
     plugins: [], //Inject external custom plugins into content (for externl telemetry sync)

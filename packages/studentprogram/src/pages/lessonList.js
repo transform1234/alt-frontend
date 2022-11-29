@@ -29,21 +29,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import manifest from "../manifest.json";
 import { useTranslation } from "react-i18next";
-
-const demoData = [
-  {
-    index: 1,
-    pass: "No",
-    score: 1,
-    duration: 2,
-  },
-  {
-    index: 2,
-    pass: "Yes",
-    score: 0,
-    duration: 3,
-  },
-];
+import { subjectListRegistryService } from "@shiksha/common-lib";
 
 export default function LessonList({ footerLinks }) {
   const { id, type } = useParams();
@@ -116,8 +102,8 @@ export default function LessonList({ footerLinks }) {
     { score, trackData, attempts, ...props },
     playerType = "quml"
   ) => {
-    console.log({ trackData });
     let data = {};
+    const programData = await subjectListRegistryService.getProgramId();
     if (playerType === "quml") {
       const newFormatData = trackData.reduce((oldData, newObj) => {
         const dataExist = oldData.findIndex(
@@ -138,29 +124,25 @@ export default function LessonList({ footerLinks }) {
         return oldData;
       }, []);
       data = {
-        userId: localStorage.getItem("id"),
         courseId: id,
+        moduleId: id,
         lessonId: id,
-        status: "Completed",
+        status: "completed",
         score: score,
         scoreDetails: JSON.stringify(newFormatData),
-        createdBy: localStorage.getItem("id"),
-        updatedBy: localStorage.getItem("id"),
-        program: "c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef",
-        subject: "English",
+        program: programData?.programId,
+        subject: lesson?.subject?.join(","),
       };
     } else {
       data = {
-        userId: localStorage.getItem("id"),
         courseId: id,
+        moduleId: lessonId?.parent,
         lessonId: lessonId?.identifier,
-        status: "Completed",
-        score: score ? score : "",
+        status: "completed",
+        score: score ? score : 0,
         scoreDetails: JSON.stringify(props),
-        createdBy: localStorage.getItem("id"),
-        updatedBy: localStorage.getItem("id"),
-        program: "c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef",
-        subject: "English",
+        program: programData?.programId,
+        subject: lessons?.subject?.join(","),
       };
     }
     // console.log({ data });
@@ -199,7 +181,7 @@ export default function LessonList({ footerLinks }) {
             "QuestionSetImage",
           ].includes(type) ? (
             <LessonLandingPage
-              subject={"English"}
+              subject={lessons?.subject?.join(",")}
               data={lesson}
               setLessonLandingPage={setLessonLandingPage}
             />
@@ -215,7 +197,7 @@ export default function LessonList({ footerLinks }) {
               setLesson={setLesson}
               setLessonId={setLessonId}
               trackData={trackData}
-              subject={"English"}
+              subject={lessons?.subject?.join(",")}
               data={lesson}
               setTrackData={setTrackData}
             />

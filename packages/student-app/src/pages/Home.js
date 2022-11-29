@@ -50,21 +50,27 @@ function Home({ footerLinks }) {
     {
       title: t("TODAY_TASK"),
       link: "/studentprogram",
-      data: [
-        {
-          link: "/studentprogram",
-          title: course?.name,
-          subTitle: `${course?.subject?.join(", ")}, ${course?.gradeLevel?.join(
-            ", "
-          )},  ${t("MEDIUM")} ${course?.medium?.join(", ")}`,
-          _box: {
-            style: {
-              background:
-                "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+      data: course?.name
+        ? [
+            {
+              link: "/studentprogram",
+              title: course?.name,
+              subTitle: `${
+                course?.subject ? course?.subject?.join(", ") + ", " : ""
+              } ${
+                course?.gradeLevel ? course?.gradeLevel?.join(", ") + ", " : ""
+              }  ${t("MEDIUM")} ${
+                course?.medium ? course?.medium?.join(", ") : ""
+              }`,
+              _box: {
+                style: {
+                  background:
+                    "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+                },
+              },
             },
-          },
-        },
-      ],
+          ]
+        : [],
     },
   ];
 
