@@ -12,7 +12,6 @@ import TeamLineIcon from 'remixicon-react/TeamLineIcon'
 import GovernmentLineIcon from 'remixicon-react/GovernmentLineIcon'
 import BookOpenLineIcon from 'remixicon-react/BookOpenLineIcon'
 import ListCheckIcon from 'remixicon-react/ListCheckIcon'
-
 import UserLineIcon from 'remixicon-react/UserLineIcon'
 import ArrowLeftSLineIcon from 'remixicon-react/ArrowLeftSLineIcon'
 import ArrowRightSLineIcon from 'remixicon-react/ArrowRightSLineIcon'
@@ -83,6 +82,9 @@ import RecordCircleFillIcon from 'remixicon-react/RecordCircleFillIcon'
 import ArrowRightUpLineIcon from 'remixicon-react/ArrowRightUpLineIcon'
 import ArrowRightDownLineIcon from 'remixicon-react/ArrowRightDownLineIcon'
 import EditBoxLineIcon from 'remixicon-react/EditBoxLineIcon'
+import FileEditLineIcon from 'remixicon-react/FileEditLineIcon'
+import FileCopyLineIcon from 'remixicon-react/FileCopyLineIcon'
+import FileUserLineIcon from 'remixicon-react/FileUserLineIcon'
 import ArrowRightSFillIcon from 'remixicon-react/ArrowRightSFillIcon'
 import AddFillIcon from 'remixicon-react/AddFillIcon'
 import StarHalfFillIcon from 'remixicon-react/StarHalfFillIcon'
@@ -119,6 +121,8 @@ import EyeOffLineIcon from 'remixicon-react/EyeOffLineIcon'
 import GlobalLineIcon from 'remixicon-react/GlobalLineIcon'
 import FilePdfLineIcon from 'remixicon-react/FilePdfLineIcon'
 import YoutubeLineIcon from 'remixicon-react/YoutubeLineIcon'
+import TranslateIcon from 'remixicon-react/TranslateIcon'
+import LogoutCircleLineIcon from 'remixicon-react/LogoutCircleLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -883,6 +887,30 @@ export default function IconByName({ _icon, ...props }) {
         />
       )
       break
+    case 'FileEditLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FileEditLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'FileCopyLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FileCopyLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'FileUserLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<FileUserLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
     case 'ArrowRightSFillIcon':
       icon = (
         <IconButton
@@ -1073,6 +1101,22 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<YoutubeLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'TranslateIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<TranslateIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'LogoutCircleLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<LogoutCircleLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

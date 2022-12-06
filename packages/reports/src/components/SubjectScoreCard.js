@@ -15,6 +15,7 @@ import {
   RoundedProgressBar,
   subjectListRegistryService,
   selfAssesmentService,
+  userRegistryService,
 } from "@shiksha/common-lib";
 export const maxWidth = "750";
 
@@ -24,7 +25,7 @@ const style = {
   },
 };
 
-export default function SubjectScoreCard({ subject }) {
+export default function SubjectScoreCard({ subject, userId }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
   const [score, setScore] = React.useState(0);
@@ -34,23 +35,38 @@ export default function SubjectScoreCard({ subject }) {
   React.useEffect(() => {
     const getTraking = async () => {
       try {
-        const data = await subjectListRegistryService.getProgramId();
+        let data = {};
+        if (userId) {
+          const user = await userRegistryService.getOne({ id: userId });
+          console.log({ user });
+          data = await subjectListRegistryService.getProgramId({
+            board: user?.board,
+            medium: user?.medium,
+            grade: user?.grade,
+          });
+        } else {
+          data = await subjectListRegistryService.getProgramId();
+        }
         if (data?.programId) {
           const dataRuls = await selfAssesmentService.getCoursesRule({
             programId: data?.programId,
             subject,
+            userId,
           });
-          setTotalScore(dataRuls?.[0]?.maxScore);
-          setScore(
-            dataRuls?.[0]?.trakingData?.[0]?.score
-              ? dataRuls[0].trakingData[0].score
-              : 0
-          );
-          setTrackData(
-            dataRuls?.[0]?.trakingData?.[0]
-              ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
-              : []
-          );
+
+          if (Array.isArray(dataRuls)) {
+            setTotalScore(dataRuls?.[0]?.maxScore);
+            setScore(
+              dataRuls?.[0]?.trakingData?.[0]?.score
+                ? dataRuls[0].trakingData[0].score
+                : 0
+            );
+            setTrackData(
+              dataRuls?.[0]?.trakingData?.[0]
+                ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
+                : []
+            );
+          }
           setLoading(false);
         }
       } catch (e) {

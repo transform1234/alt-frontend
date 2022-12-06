@@ -14,7 +14,7 @@ export const getLessons = async (id) => {
 }
 
 export const getCoursesRule = async (
-  { limit, ...params } = {},
+  { limit, userId, ...params } = {},
   header = {}
 ) => {
   let headers = {
@@ -36,7 +36,7 @@ export const getCoursesRule = async (
     { headers }
   )
   if (courseIdList.data) {
-    return await getCourseArray(courseIdList.data.data[0].rules)
+    return await getCourseArray(courseIdList.data.data[0].rules, userId)
     // return courseIdList.data
     // return Promise.all(lessonList.data).then((values) => values)
   } else {
@@ -44,28 +44,37 @@ export const getCoursesRule = async (
   }
   // return 'lessonList.data'
 }
-const getCourseArray = async (programm) => {
-  const courseRule = JSON.parse(programm)
-  const pdata = courseRule?.prog
-    .map(async (el, index) => {
-      if (el?.contentId && el?.contentType === 'assessment') {
-        return await courseRegistryService.getOne({
-          id: el.contentId,
-          adapter: 'diksha',
-          coreData: true,
-          type: 'assessment'
-        })
-      } else if (el?.contentId && el?.contentType === 'course') {
-        return await courseRegistryService.getOne({
-          id: el.contentId,
-          adapter: 'diksha',
-          coreData: true,
-          type: 'course'
-        })
-      }
-    })
-    .filter((e) => e)
-  return await Promise.all(pdata)
+const getCourseArray = async (programm, userId) => {
+  let courseRule = {}
+  try {
+    courseRule = JSON.parse(programm)
+
+    const pdata = courseRule?.prog
+      .map(async (el, index) => {
+        if (el?.contentId && el?.contentType === 'assessment') {
+          return await courseRegistryService.getOne({
+            id: el.contentId,
+            adapter: 'diksha',
+            coreData: true,
+            type: 'assessment',
+            userId
+          })
+        } else if (el?.contentId && el?.contentType === 'course') {
+          return await courseRegistryService.getOne({
+            id: el.contentId,
+            adapter: 'diksha',
+            coreData: true,
+            type: 'course',
+            userId
+          })
+        }
+      })
+      .filter((e) => e)
+    return await Promise.all(pdata)
+  } catch (e) {
+    console.log(e.message)
+    return []
+  }
 }
 
 const getCourse = async (IdArray) => {

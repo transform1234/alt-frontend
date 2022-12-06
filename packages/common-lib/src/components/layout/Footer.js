@@ -1,42 +1,25 @@
 import React, { useEffect } from 'react'
-import { Box, Text, HStack, Center, Stack, Pressable } from 'native-base'
+import {
+  Box,
+  Text,
+  HStack,
+  Center,
+  Stack,
+  Pressable,
+  VStack
+} from 'native-base'
 import IconByName from '../IconByName'
 import { useTranslation } from 'react-i18next'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { useWindowSize } from '../helper'
 
 export default function Footer({ menues, routeDynamics, ...props }) {
-  const [selected, setSelected] = React.useState(0)
+  const path = window?.location?.pathname.toString()
   const { t } = useTranslation()
   const navigate = useNavigate()
 
   const [width, Height] = useWindowSize()
   const footerMenus = menues
-
-  useEffect(() => {
-    let path = window?.location?.pathname.toString()
-    if (
-      path.startsWith('/attendance') ||
-      path.startsWith('/class') ||
-      path.startsWith('/assessment')
-    ) {
-      setSelected('classes')
-    } else if (path.startsWith('/worksheet')) {
-      setSelected('worksheet')
-    } else if (path.startsWith('/mylearning')) {
-      setSelected('mylearning')
-    } else if (path.startsWith('/visits') || path.startsWith('/schools')) {
-      setSelected('visits')
-    } else if (path.startsWith('/studentprogram')) {
-      setSelected('studentprogram')
-    } else if (path.startsWith('/Settings')) {
-      setSelected('Settings')
-    } else if (path.startsWith('/Certificate')) {
-      setSelected('Certificate')
-    } else {
-      setSelected('app')
-    }
-  }, [])
 
   const PressableNew = ({ item, children, ...prop }) => {
     return item?.route ? (
@@ -76,35 +59,36 @@ export default function Footer({ menues, routeDynamics, ...props }) {
               cursor='pointer'
               py='3'
               flex={1}
-              onPress={() => setSelected(item.moduleName)}
               alignItems='center'
             >
-              {selected === item.moduleName ? (
-                <HStack
-                  bg='primary'
-                  rounded={'full'}
-                  alignItems='center'
-                  p='2'
-                  pr='4'
-                  py='0'
-                >
+              {Array.isArray(item?.selected) &&
+              (item?.selected?.find((e) => path.startsWith(e) && e !== '/') ||
+                item.selected.includes(path)) ? (
+                <VStack alignItems='center'>
                   <IconByName
                     name={item.icon}
                     isDisabled
                     p='2'
-                    color={'white'}
+                    pb='1'
+                    color={'primary'}
                   />
-                  <Text fontSize='12' color={'white'}>
+                  <Text fontSize='12' color={'primary'}>
                     {t(item.title)}
                   </Text>
-                </HStack>
+                </VStack>
               ) : (
-                <IconByName
-                  name={item.icon}
-                  isDisabled
-                  p='2'
-                  color={'primary'}
-                />
+                <VStack alignItems={'center'}>
+                  <IconByName
+                    name={item.icon}
+                    isDisabled
+                    p='2'
+                    pb='1'
+                    color={'lightGray1'}
+                  />
+                  <Text fontSize='12' color={'lightGray1'}>
+                    {t(item.title)}
+                  </Text>
+                </VStack>
               )}
             </PressableNew>
           ))}

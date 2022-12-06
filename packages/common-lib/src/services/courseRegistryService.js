@@ -37,7 +37,10 @@ export const getAll = async ({ adapter, ...params } = {}, header = {}) => {
   }
 }
 
-export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
+export const getOne = async (
+  { id, adapter, coreData, type, userId },
+  header = {}
+) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -57,7 +60,10 @@ export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
           if (children) {
             const childrenTracking = await Promise.all(
               children.map(async (item) => {
-                const resultData = await getDataWithTracking(item?.children)
+                const resultData = await getDataWithTracking(
+                  item?.children,
+                  userId
+                )
                 return { ...item, children: resultData }
               })
             )
@@ -68,7 +74,7 @@ export const getOne = async ({ id, adapter, coreData, type }, header = {}) => {
           const trakingData = await courseTrackingSearch({
             courseId: id,
             lessonId: id,
-            userId: localStorage.getItem('id')
+            userId: userId ? userId : localStorage.getItem('id')
           })
           return { ...result?.data?.data, trakingData }
         }
@@ -185,12 +191,12 @@ export const coursetracking = async (params, header = {}) => {
   }
 }
 
-export const getDataWithTracking = async (data) => {
+export const getDataWithTracking = async (data, userId) => {
   return await Promise.all(
     data.map(async (item) => {
       const trakingData = await courseTrackingSearch({
         lessonId: item?.identifier,
-        userId: localStorage.getItem('id')
+        userId: userId ? userId : localStorage.getItem('id')
       })
       return { ...item, trakingData }
     })

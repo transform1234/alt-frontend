@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { subjectListRegistryService } from "@shiksha/common-lib";
 import SubjectScoreCard from "../components/SubjectScoreCard";
 
-export default function BaselineScore() {
+export default function BaselineScore({ userId }) {
   const [SubjectListData, setSubjectListData] = React.useState([]);
   const [programID, setProgramID] = React.useState([]);
 
@@ -23,7 +23,7 @@ export default function BaselineScore() {
   return (
     <VStack p="2">
       {SubjectListData?.map((item, index) => (
-        <SubjectScoreCard key={index} subject={item.subject} />
+        <SubjectScoreCard key={index} subject={item.subject} userId={userId} />
       ))}
     </VStack>
   );

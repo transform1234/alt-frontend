@@ -49,6 +49,7 @@ const interfaceData = {
   updatedAt: 'updatedAt',
   village: 'village',
   fcmToken: 'fcmToken',
+  role: 'role',
   mergeParameterWithValue: {
     title: 'fullName'
   }

@@ -21,20 +21,23 @@ const interfaceData = {
   }
 }
 
-export const getAll = async (params = {}, header = {}) => {
+export const getAll = async (
+  { coreData, teacherId, ...params } = {},
+  header = {}
+) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
   const result = await get(
-    `${process.env.REACT_APP_API_URL}/group/participant/${params.teacherId}?role=Teacher`,
+    `${process.env.REACT_APP_API_URL}/group/participant/${teacherId}`,
     {
-      ...params,
+      params,
       headers
     }
   )
   if (result.data) {
-    if (params.coreData === 'getCoreData') {
+    if (coreData === 'getCoreData') {
       return result.data.data
     }
     const data = result.data.data.map((e) => mapInterfaceData(e, interfaceData))
@@ -207,7 +210,7 @@ const getStudent = async (object, type = '') => {
     } else {
       studentData = await getChild({
         groupId: item.id,
-        role: 'Student'
+        role: 'student'
       })
     }
   }
