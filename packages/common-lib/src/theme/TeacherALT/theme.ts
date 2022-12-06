@@ -119,7 +119,8 @@ const theme = {
   },
   components: {
     Layout: {
-      _layout: { bg: '#6461D2', space: 0 }
+      _layout: { bg: '#6461D2', space: 0 },
+      _scollView: { bg: '#FFF7EE' }
     },
     Text: {
       baseStyle: {

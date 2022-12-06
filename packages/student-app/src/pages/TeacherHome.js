@@ -5,52 +5,58 @@ import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
 import Layout from "../components/Layout";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const menuBoxProp = {
   boxMinW: "150px",
 };
 
-const dashboard = [
-  {
-    id: 1,
-    title: "Dashboard",
-    icon: "DashboardLineIcon",
-    ...menuBoxProp,
-  },
-  {
-    id: 2,
-    title: "Teaching & Learning",
-    icon: "FileEditLineIcon",
-    _text: { maxW: "85px" },
-    ...menuBoxProp,
-  },
-  {
-    id: 3,
-    title: "Add Content",
-    icon: "FileCopyLineIcon",
-    ...menuBoxProp,
-  },
-  {
-    id: 4,
-    title: "Training",
-    icon: "FileUserLineIcon",
-    ...menuBoxProp,
-  },
-  {
-    id: 5,
-    title: "Reporting",
-    icon: "DashboardLineIcon",
-    _pressable: { flex: "0 0 50%" },
-    ...menuBoxProp,
-  },
-];
-
 function Home({ footerLinks }) {
   const { t } = useTranslation();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [dashboard, setDashboard] = React.useState([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    capture("PAGE");
+    setDashboard([
+      {
+        id: 1,
+        title: "Dashboard",
+        icon: "DashboardLineIcon",
+        route: "/students",
+        _pressable: {
+          flex: "0 0 50%",
+        },
+        ...menuBoxProp,
+      },
+      // {
+      //   id: 2,
+      //   title: "Teaching & Learning",
+      //   icon: "FileEditLineIcon",
+      //   _text: { maxW: "85px" },
+      //   ...menuBoxProp,
+      // },
+      // {
+      //   id: 3,
+      //   title: "Add Content",
+      //   icon: "FileCopyLineIcon",
+      //   ...menuBoxProp,
+      // },
+      // {
+      //   id: 4,
+      //   title: "Training",
+      //   icon: "FileUserLineIcon",
+      //   ...menuBoxProp,
+      // },
+      // {
+      //   id: 5,
+      //   title: "Reporting",
+      //   icon: "DashboardLineIcon",
+      //   _pressable: { flex: "0 0 50%" },
+      //   ...menuBoxProp,
+      // },
+    ]);
+    setLoading(false);
   }, []);
 
   return (
@@ -89,7 +95,7 @@ function Home({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Box p="5" bg={"red.50"}>
+      <Box p="5">
         <Menu
           gridCount="2"
           type="vertical"

@@ -43,8 +43,8 @@ export const teachers = [
     routeparameters: {},
   },
   {
-    title: "Students",
-    icon: "UserLineIcon",
+    title: "Dashboard",
+    icon: "DashboardLineIcon",
     moduleName: "teacher",
     selected: ["/students"],
     route: "/students",
