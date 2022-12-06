@@ -289,8 +289,8 @@ export default function LessonList({ footerLinks }) {
                     }
                   }
                 }}
-                public_url="http://localhost:5000"
-                // public_url="https://alt-shiksha.uniteframework.io/"
+                // public_url="http://localhost:5000"
+                public_url="https://alt-shiksha.uniteframework.io/"
               />
             </VStack>
           )
