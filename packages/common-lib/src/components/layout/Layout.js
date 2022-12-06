@@ -35,18 +35,19 @@ export default function Layout({
         <Stack
           width={'100%'}
           style={{
-            backgroundImage: imageUrl
-              ? 'url(' + imageUrl + ')'
-              : 'url(' + window.location.origin + '/SubjectBg.png)',
-            backgroundColor: 'transparent',
+            ...(imageUrl
+              ? {
+                  backgroundImage: 'url(' + imageUrl + ')',
+                  backgroundColor: 'transparent'
+                }
+              : {}),
             justifyContent: 'center',
-            // backgroundRepeat: 'no-repeat',
             backgroundSize: 'auto',
             height: _height,
             width: -_width
           }}
-          {...(Layout?._layout ? Layout?._layout : {})}
           space={5}
+          {...(Layout?._layout ? Layout?._layout : {})}
         >
           {!isDisabledAppBar ? (
             <AppBar

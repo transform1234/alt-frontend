@@ -48,7 +48,7 @@ function Home({ footerLinks }) {
       ],
     },
     {
-      title: t("TODAY_TASK"),
+      title: t("ONGOING"),
       link: "/studentprogram",
       data: course?.name
         ? [

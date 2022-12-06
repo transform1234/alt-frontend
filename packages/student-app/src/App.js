@@ -1,74 +1,36 @@
 import React from "react";
 import "./App.css";
-import { AppShell, initializeI18n } from "@shiksha/common-lib";
-import Home from "pages/Home";
-
+import { AppShell, getAuthUser, initializeI18n } from "@shiksha/common-lib";
+import studentRoutes from "./Routes/students";
+import teacherRoutes from "./Routes/teachers";
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
-const Studentprogram = React.lazy(() => import("studentprogram/courseList"));
-const StudentprogramLessonList = React.lazy(() =>
-  import("studentprogram/Lessons")
-);
-const StudentprogramSubjectList = React.lazy(() =>
-  import("studentprogram/subjectList")
-);
-const ComingSoon = React.lazy(() => import("core/ComingSoon"));
-const ScorecardReport = React.lazy(() => import("reports/ScoreCard"));
+import { teachers, students } from "./config/footerLinks";
 
 function App() {
+  const [routes, setRoutes] = React.useState([]);
+  const [footerLinks, setFooterLinks] = React.useState([]);
+  const [theme, setTheme] = React.useState("alt");
+
   initializeI18n(
     ["studentApp"],
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
   );
-  const routes = [
-    // studentprogram Routes
-    {
-      moduleName: "studentprogram",
-      path: "/studentprogram/:subjectname",
-      component: Studentprogram,
-    },
-    {
-      moduleName: "studentprogram",
-      path: "/studentprogram",
-      component: Studentprogram,
-    },
-    {
-      moduleName: "studentprogram",
-      path: "/studentprogram/lessons/:id/:type",
-      component: StudentprogramLessonList,
-    },
-    {
-      moduleName: "reports",
-      path: "/scorecard",
-      component: ScorecardReport,
-    },
-    {
-      moduleName: "student-app",
-      path: "/comingsoon/:title",
-      component: ComingSoon,
-    },
-    {
-      moduleName: "studentprogram",
-      path: "/studentprogram/subjects",
-      component: StudentprogramSubjectList,
-    },
 
-    {
-      moduleName: "student-app",
-      path: "/Settings",
-      component: ComingSoon,
-    },
-    {
-      moduleName: "student-app",
-      path: "/Certificate",
-      component: ComingSoon,
-    },
-    {
-      moduleName: "student-app",
-      path: "/",
-      component: Home,
-    },
-  ];
-  const LoginComponent = React.lazy(() => import("core/Login"));
+  React.useEffect(() => {
+    const getData = async () => {
+      const user = await getAuthUser();
+      if (user?.role === "teacher") {
+        setTheme("teacheralt");
+        setRoutes(teacherRoutes);
+        setFooterLinks(teachers);
+      } else if (user?.role === "student") {
+        setRoutes(studentRoutes);
+        setFooterLinks(students);
+      }
+    };
+    getData();
+  }, []);
+
   const skipLogin = !(
     process.env.REACT_APP_OAUTH_PROXY_ENABLED == undefined ||
     JSON.parse(process.env.REACT_APP_OAUTH_PROXY_ENABLED) == false
@@ -76,9 +38,10 @@ function App() {
 
   return (
     <AppShell
+      themeName={theme}
+      footerLinks={footerLinks}
       basename={process.env.PUBLIC_URL}
       routes={routes}
-      AuthComponent={LoginComponent}
       guestRoutes={[
         {
           path: "/",

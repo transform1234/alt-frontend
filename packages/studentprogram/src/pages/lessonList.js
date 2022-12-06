@@ -276,17 +276,21 @@ export default function LessonList({ footerLinks }) {
                         lesson?.mimeType
                       )
                     ) {
-                      const score = data.reduce(
-                        (old, newData) => old + newData?.score,
-                        0
-                      );
-                      handleTrackData({ ...data, score: `${score}` }, "ecml");
+                      if (Array.isArray(data)) {
+                        const score = data.reduce(
+                          (old, newData) => old + newData?.score,
+                          0
+                        );
+                        handleTrackData({ ...data, score: `${score}` }, "ecml");
+                        setTrackData(data);
+                      } else {
+                        handleTrackData({ ...data, score: `0` }, "ecml");
+                      }
                     }
-                    setTrackData(data);
                   }
                 }}
-                // public_url="http://localhost:5000"
-                public_url="https://alt-shiksha.uniteframework.io/"
+                public_url="http://localhost:5000"
+                // public_url="https://alt-shiksha.uniteframework.io/"
               />
             </VStack>
           )

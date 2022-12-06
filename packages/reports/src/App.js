@@ -2,7 +2,7 @@ import React from "react";
 
 import "./App.css";
 import { AppShell } from "@shiksha/common-lib";
-import ScoreCard from "pages/ScoreCard";
+import ScoreCard from "pages/Report";
 
 function App() {
   const routes = [

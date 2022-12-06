@@ -469,5 +469,6 @@
   "SUCCESS_MESSAGE": "Great work! You've completed the assessment.",
   "SUBJECT_NOT_FOUND": "Subject not found",
   "PROGRAM_NOT_FOUND": "Program not found",
-  "LESSON_NOT_FOUND": "Lesson not found"
+  "LESSON_NOT_FOUND": "Lesson not found",
+  "STUDENT_NOT_FOUND": "Student not found"
 }

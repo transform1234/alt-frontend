@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function AppShell({
   colors,
+  themeName,
   routes,
   AuthComponent,
   basename,
@@ -33,7 +34,9 @@ function AppShell({
   if (hotjar.initialized()) {
     hotjar.identify('USER_ID', { userProperty: 'value' })
   }
-  console.log({ accessRoutes })
+  if (localStorage.getItem('console')) {
+    console.log({ accessRoutes })
+  }
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
@@ -47,17 +50,31 @@ function AppShell({
   useEffect(() => {
     const getData = async () => {
       const { newTheme, newRoutes, newFooterLinks, config } =
-        await getAppshellData(routes)
+        await getAppshellData(routes, '', themeName)
       if (isShowFooterLink) {
-        setFooterLinks({ menues: newFooterLinks })
+        setFooterLinks({
+          menues: otherProps?.footerLinks
+            ? otherProps?.footerLinks
+            : newFooterLinks
+        })
       }
-      setAccessRoutes([
-        ...routes,
-        {
-          path: '*',
-          component: NotFound
-        }
-      ])
+      if (!token) {
+        setAccessRoutes([
+          ...guestRoutes,
+          {
+            path: '*',
+            component: AuthComponent
+          }
+        ])
+      } else {
+        setAccessRoutes([
+          ...routes,
+          {
+            path: '*',
+            component: NotFound
+          }
+        ])
+      }
       setTheme(newTheme)
       setAllConfig(config)
     }
@@ -81,84 +98,25 @@ function AppShell({
     return () => {
       eventBus.unsubscribe(subscription)
     }
-  }, [token])
+  }, [token, routes, otherProps?.footerLinks])
 
   if (!Object.keys(theme).length) {
     return <React.Fragment />
   }
-  if (!token && !skipLogin) {
-    return (
-      <NativeBaseProvider {...(Object.keys(theme).length ? { theme } : {})}>
-        <PushNotification />
-        <React.Suspense fallback={<Loading />}>
-          {guestRoutes?.length > 0 ? (
-            <Router basename={basename}>
-              <Routes>
-                {guestRoutes.map((item: any, index: number) => (
-                  <Route
-                    key={index}
-                    path={item.path}
-                    element={
-                      <item.component
-                        {...{ footerLinks, appName, setAlert, ...otherProps }}
-                      />
-                    }
-                  />
-                ))}
-                <Route
-                  path={'*'}
-                  element={
-                    <AuthComponent
-                      {...{
-                        footerLinks,
-                        appName,
-                        setAlert,
-                        ...otherProps,
-                        ..._authComponent
-                      }}
-                    />
-                  }
-                />
-              </Routes>
-            </Router>
-          ) : (
-            <Router basename={basename}>
-              <Routes>
-                <Route
-                  path={'*'}
-                  element={
-                    <AuthComponent
-                      {...{
-                        footerLinks,
-                        appName,
-                        setAlert,
-                        ...otherProps,
-                        ..._authComponent
-                      }}
-                    />
-                  }
-                />
-              </Routes>
-            </Router>
-          )}
-        </React.Suspense>
-      </NativeBaseProvider>
-    )
-  } else {
-    return (
-      <AppRoutesContainer
-        {...{
-          theme,
-          routes: accessRoutes,
-          basename,
-          footerLinks,
-          appName: 'Teacher App',
-          alert,
-          setAlert,
-          config: allConfig
-        }}
-      />
-    )
-  }
+
+  return (
+    <AppRoutesContainer
+      {...{
+        theme,
+        routes: accessRoutes,
+        basename,
+        footerLinks,
+        appName: 'Teacher App',
+        alert,
+        setAlert,
+        config: allConfig
+      }}
+    />
+  )
 }
 export default AppShell

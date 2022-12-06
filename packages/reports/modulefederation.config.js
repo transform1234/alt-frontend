@@ -2,9 +2,8 @@ const { dependencies } = require("./package.json");
 module.exports = {
   name: "reports",
   exposes: {
-    // "./SampleComponent": "./src/components/SampleComponent",
-    // "./App": "./src/App",
-    "./ScoreCard": "./src/pages/ScoreCard",
+    "./Report": "./src/pages/Report",
+    "./ScoreCard": "./src/components/ScoreCard",
   },
   remotes: {
     core: `core@[window.appModules.core.url]/moduleEntry.js`,

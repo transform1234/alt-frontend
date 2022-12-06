@@ -216,7 +216,7 @@ export default function AppBar({
               )}
 
               {isLanguageIcon ? (
-                <Stack px='3'>
+                <Stack px='3' {...props?._languageMenu}>
                   <Menu
                     right='8%'
                     w='170'
@@ -229,7 +229,7 @@ export default function AppBar({
                         >
                           <IconByName
                             size='sm'
-                            name='GlobalLineIcon'
+                            name='TranslateIcon'
                             isDisabled={true}
                             color={color ? color : ''}
                           />
@@ -254,41 +254,15 @@ export default function AppBar({
               )}
 
               {!isHideMenuButton ? (
-                <Stack px='3'>
-                  <Menu
-                    right='8%'
-                    w='170'
-                    placement='bottom right'
-                    trigger={(triggerProps) => {
-                      return (
-                        <Pressable
-                          accessibilityLabel='More options menu'
-                          {...triggerProps}
-                        >
-                          <IconByName
-                            size='sm'
-                            name='MenuFillIcon'
-                            isDisabled={true}
-                            color={color ? color : ''}
-                          />
-                        </Pressable>
-                      )
-                    }}
-                  >
-                    {/* {languages?.map((e, index) => (
-                      <Menu.Item
-                        key={index}
-                        label={e.title}
-                        textValue={e.code}
-                        onPress={(item) => setLang(e.code)}
-                      >
-                        {e.title}
-                      </Menu.Item>
-                    ))} */}
-                    <Menu.Item onPress={(item) => setLang('logout')}>
-                      Logout
-                    </Menu.Item>
-                  </Menu>
+                <Stack px='3' {...props?._menuButton}>
+                  <Pressable onPress={(item) => setLang('logout')}>
+                    <IconByName
+                      size='sm'
+                      name='LogoutCircleLineIcon'
+                      isDisabled={true}
+                      color={color ? color : ''}
+                    />
+                  </Pressable>
                 </Stack>
               ) : (
                 <React.Fragment />

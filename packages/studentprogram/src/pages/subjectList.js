@@ -68,9 +68,7 @@ export default function SubjectList({ footerLinks }) {
               isDisabled={index}
               key={index}
               subject={item?.subject}
-              status={
-                item.subject == "English" ? "Start Learning" : "Start Assesment"
-              }
+              status={"Start Learning"}
               iconName={
                 item.subject == "English"
                   ? "FilePaper2LineIcon"

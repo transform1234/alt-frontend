@@ -1,36 +1,62 @@
 import { get, post, update as coreUpdate } from './RestClient'
 import mapInterfaceData from './mapInterfaceData'
+import { classRegistryService } from '..'
 
 const interfaceData = {
-  id: 'studentId',
-  fullName: 'firstName',
+  id: 'userId',
+  fullName: 'fullName',
   firstName: 'firstName',
-  fathersName: 'fatherFirstName',
-  phoneNumber: 'studentPhoneNumber',
   lastName: 'lastName',
+  name: 'name',
+  email: 'email',
   aadhaar: 'aadhaar',
-  groupId: 'groupId',
-  schoolId: 'schoolId',
-  refId: 'studentRefId',
+  cadre: 'cadre',
+  compSkills: 'compSkills',
+  designation: 'designation',
+  image: 'image',
+  workingStatus: 'workingStatus',
   birthDate: 'birthDate',
+  block: 'block',
   bloodGroup: 'bloodGroup',
-  bpl: 'bpl',
-  height: 'height',
-  weight: 'weight',
-  homeless: 'homeless',
-  iscwsn: 'iscwsn',
-  migrant: 'migrant',
+  class: 'grade',
+  grade: 'grade',
+  board: 'board',
+  createdAt: 'createdAt',
+  disability: 'disability',
+  district: 'district',
+  employmentType: 'employmentType',
+  gender: 'gender',
+  homeDistance: 'homeDistance',
+  joiningDate: 'joiningDate',
+  maritalStatus: 'maritalStatus',
+  middleName: 'middleName',
+  medium: 'medium',
+  phoneNumber: 'phoneNumber',
+  pincode: 'pincode',
+  profQualification: 'profQualification',
+  refId1: 'refId1',
+  refId2: 'refId2',
+  refId3: 'refId3',
   religion: 'religion',
-  singleGirl: 'singleGirl',
+  reportsTo: 'reportsTo',
+  retirementDate: 'retirementDate',
+  schoolId: 'schoolId',
+  section: 'section',
   socialCategory: 'socialCategory',
-  admissionNo: 'refId1',
-  currentClassID: 'groupId',
-  email: 'studentEmail',
+  stateId: 'stateId',
+  status: 'status',
+  subjectIds: 'subjectIds',
   address: 'address',
-  gender: 'gender'
+  updatedAt: 'updatedAt',
+  village: 'village',
+  fcmToken: 'fcmToken',
+  role: 'role',
+  mergeParameterWithValue: {
+    title: 'fullName'
+  }
 }
 
-export const getAll = async ({ sortBy, ...params }, header = {}) => {
+export const getAll = async ({ sortBy, classId, ...params }, header = {}) => {
   let headers = {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     ContentType: 'application/json',
@@ -38,8 +64,9 @@ export const getAll = async ({ sortBy, ...params }, header = {}) => {
     ...header
   }
   const result = await get(
-    `${process.env.REACT_APP_API_URL}/group/${params?.classId}/participants?role=Student`,
+    `${process.env.REACT_APP_API_URL}/group/${classId}/participants`,
     {
+      params,
       headers
     }
   ).catch((e) => e)
@@ -133,4 +160,23 @@ export const getAllStudents = async (filters = {}, header = {}) => {
 
 export const setDefaultValue = async (data) => {
   return data.map((e) => mapInterfaceData(e, interfaceData))
+}
+
+export const getByTeacher = async () => {
+  try {
+    const classResult = await classRegistryService.getAll({
+      teacherId: localStorage.getItem('id'),
+      role: 'teacher'
+    })
+
+    if (classResult[0].id) {
+      return await getAll({
+        classId: classResult[0].id,
+        role: 'student'
+      })
+    }
+  } catch (e) {
+    console.log('error', e.message)
+  }
+  return []
 }

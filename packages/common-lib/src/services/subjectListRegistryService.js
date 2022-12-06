@@ -3,7 +3,7 @@ import { get, post, update as coreUpdate } from './RestClient'
 import moment from 'moment'
 const dateFor = moment().format('YYYY-MM-DD')
 
-export const getProgramId = async (data) => {
+export const getProgramId = async (props) => {
   let headers = {
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
@@ -13,7 +13,8 @@ export const getProgramId = async (data) => {
       board: localStorage.getItem('board'),
       medium: localStorage.getItem('medium'),
       grade: localStorage.getItem('grade'),
-      currentDate: dateFor
+      currentDate: dateFor,
+      ...props
     },
     { headers }
   )

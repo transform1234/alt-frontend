@@ -4,6 +4,7 @@ import * as roleRegistryService from '../services/roleRegistryService'
 import * as joyfull from '../theme/joyfull'
 import * as monochrome from '../theme/monochrome'
 import * as ALTTheme from '../theme/ALT'
+import * as TeacherALTTheme from '../theme/TeacherALT'
 import { extendTheme } from 'native-base'
 import footerLinks from '../config/footerLinks'
 import jwt_decode from 'jwt-decode'
@@ -121,17 +122,19 @@ export const DEFAULT_THEME = async (theme) => {
     return extendTheme(monochrome.theme)
   } else if (theme === 'alt') {
     return extendTheme(ALTTheme.theme)
+  } else if (theme === 'teacheralt') {
+    return extendTheme(TeacherALTTheme.theme)
   }
   return extendTheme(ALTTheme.theme)
 }
 
-export const getAppshellData = async (routes = [], role = '') => {
+export const getAppshellData = async (routes = [], role = '', theme = null) => {
   try {
     if (role === '') {
       // role = await getRole()
     }
     const config = await getApiConfig()
-    const themeName = JSON.parse(config['theme.forModules'])
+    const themeName = theme ? theme : JSON.parse(config['theme.forModules'])
     const modules = config[`roles.${role?.toLowerCase()}`]
     // const newRoutes = routes.filter((item) =>
     //   modules?.includes(item.moduleName)
@@ -179,10 +182,11 @@ export const getArray = (item) =>
   Array.isArray(item) ? item : item ? JSON.parse(item) : []
 
 export const chunk = (array, chunk) => {
+  let chunkCount = parseInt(chunk)
   return [].concat.apply(
     [],
     array.map(function (elem, i) {
-      return i % chunk ? [] : [array.slice(i, i + chunk)]
+      return i % chunkCount ? [] : [array.slice(i, i + chunkCount)]
     })
   )
 }

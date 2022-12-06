@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import IconByName from './IconByName'
 import { BodyLarge } from './layout/HeaderTags'
+import { chunk } from './helper'
 
 const PressableNew = ({ item, children, routeDynamics, ...prop }) => {
   return item?.route ? (
@@ -37,25 +38,23 @@ export default function Menu({
   bg,
   _box,
   _boxMenu,
-  _icon
+  _icon,
+  ...props
 }) {
   const { t } = useTranslation()
 
-  const chunk = (array, chunk) => {
-    return [].concat.apply(
-      [],
-      array.map(function (elem, i) {
-        return i % chunk ? [] : [array.slice(i, i + chunk)]
-      })
-    )
-  }
-
   if (type === 'vertical') {
-    const newItems = chunk(items, 3)
+    const newItems = chunk(items, props?.gridCount ? props.gridCount : 3)
+
     return (
-      <Box bg={bg} {..._box}>
+      <VStack bg={bg} {..._box}>
         {newItems.map((subItems, index) => (
-          <HStack key={index} justifyContent='center' space={4}>
+          <HStack
+            key={index}
+            justifyContent='center'
+            space={4}
+            {...props?._hstack}
+          >
             {subItems.map((item) => (
               <PressableNew
                 routeDynamics={routeDynamics}
@@ -65,6 +64,8 @@ export default function Menu({
                 rounded={'md'}
                 p='1'
                 minW={item?.boxMinW ? item?.boxMinW : '104px'}
+                {...props?._pressable}
+                {...item?._pressable}
               >
                 <VStack
                   space='2'
@@ -72,9 +73,11 @@ export default function Menu({
                   mx='1'
                   alignItems={'center'}
                   textAlign='center'
+                  {...props?._vstack}
                 >
                   {item.icon ? (
                     <IconByName
+                      isDisabled
                       name={item.icon}
                       p='0'
                       color='white'
@@ -92,6 +95,7 @@ export default function Menu({
                     color='white'
                     maxW={20}
                     lineHeight={14}
+                    {...props?._text}
                     {...item?._text}
                   >
                     {item.title}
@@ -101,7 +105,7 @@ export default function Menu({
             ))}
           </HStack>
         ))}
-      </Box>
+      </VStack>
     )
   } else {
     return (
