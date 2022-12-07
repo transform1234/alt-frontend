@@ -72852,6 +72852,11 @@
           return !0;
         }),
         (window.addWindowUnloadEvent = function () {
+          console.log("addWindowUnloadEvent");
+          window?.parent?.postMessage(
+            { version: "3", data: "{e:'addWindowUnloadEvent'}" },
+            "*"
+          );
           var e;
           (e = window.location.origin
             ? window.location.origin
@@ -73911,6 +73916,7 @@
         },
         sendTelemetry: function (e, t) {
           var n = this;
+          console.log({ e });
           return new Promise(function (r, i) {
             (t.dataType = "json"),
               n.callApi(
