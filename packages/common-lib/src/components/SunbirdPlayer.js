@@ -58,7 +58,16 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
-    console.log(trackData)
+    if (telemetry?.eid === 'EXDATA') {
+      try {
+        const edata = JSON.parse(telemetry.edata?.data)
+        if (edata?.statement?.result) {
+          trackData = [...trackData, edata?.statement]
+        }
+      } catch (e) {
+        console.log('telemetry format h5p is wrong', e.message)
+      }
+    }
     if (telemetry?.eid === 'ASSESS') {
       const edata = telemetry?.edata
       if (trackData.find((e) => e?.item?.id === edata?.item?.id)) {

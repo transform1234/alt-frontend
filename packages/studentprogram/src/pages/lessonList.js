@@ -174,24 +174,16 @@ export default function LessonList({ footerLinks }) {
         _center={{ alignItems: "center", width: "100%" }}
         customComponent={
           lessonLandingPage &&
-          ![
-            "assessment",
-            "SelfAssess",
-            "QuestionSet",
-            "QuestionSetImage",
-          ].includes(type) ? (
+          ["application/vnd.ekstep.ecml-archive"].includes(lesson?.mimeType) ? (
             <LessonLandingPage
               subject={lessons?.subject?.join(",")}
               data={lesson}
               setLessonLandingPage={setLessonLandingPage}
             />
           ) : trackData &&
-            ![
-              "assessment",
-              "SelfAssess",
-              "QuestionSet",
-              "QuestionSetImage",
-            ].includes(type) ? (
+            ["application/vnd.ekstep.ecml-archive"].includes(
+              lesson?.mimeType
+            ) ? (
             <LessonResultPage
               type={type}
               setLesson={setLesson}
@@ -369,10 +361,7 @@ export default function LessonList({ footerLinks }) {
                     key={subIndex}
                     onPress={() => {
                       // if (subItem?.trakingData?.length < 1) {
-                      setLessonId({
-                        mode: "false",
-                        ...subItem,
-                      });
+                      setLessonId(subItem);
                       // }
                     }}
                     rounded={"lg"}
