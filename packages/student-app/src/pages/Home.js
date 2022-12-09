@@ -7,6 +7,7 @@ import {
   NameTag,
   subjectListRegistryService,
   selfAssesmentService,
+  courseRegistryService,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
@@ -15,8 +16,41 @@ import moment from "moment";
 function Home({ footerLinks }) {
   const { t } = useTranslation();
   const [subjects, setSubjects] = React.useState([]);
-  const [course, setCourse] = React.useState({});
+  const [courses, setCourses] = React.useState();
   const [loading, setLoading] = React.useState(true);
+
+  const getData = () => {
+    const resultDate = courses
+      ? courses?.map((course) => {
+          return {
+            link: "/studentprogram",
+            title: course?.name,
+            subTitle: `${
+              course?.subject ? course?.subject?.join(", ") + "," : ""
+            } ${
+              course?.gradeLevel
+                ? course?.gradeLevel?.join(", ") + ","
+                : course?.se_gradeLevel
+                ? course?.se_gradeLevel?.join(", ") + ","
+                : ""
+            } ${t("MEDIUM")} ${
+              course?.medium
+                ? course?.medium?.join(", ")
+                : course?.se_mediums
+                ? course?.se_mediums?.join(", ")
+                : ""
+            }`,
+            _box: {
+              style: {
+                background:
+                  "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+              },
+            },
+          };
+        })
+      : [];
+    return resultDate;
+  };
 
   const widgetData = [
     {
@@ -50,27 +84,7 @@ function Home({ footerLinks }) {
     {
       title: t("ONGOING"),
       link: "/studentprogram",
-      data: course?.name
-        ? [
-            {
-              link: "/studentprogram",
-              title: course?.name,
-              subTitle: `${
-                course?.subject ? course?.subject?.join(", ") + ", " : ""
-              } ${
-                course?.gradeLevel ? course?.gradeLevel?.join(", ") + ", " : ""
-              }  ${t("MEDIUM")} ${
-                course?.medium ? course?.medium?.join(", ") : ""
-              }`,
-              _box: {
-                style: {
-                  background:
-                    "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
-                },
-              },
-            },
-          ]
-        : [],
+      data: getData(),
     },
   ];
 
@@ -78,12 +92,13 @@ function Home({ footerLinks }) {
     capture("PAGE");
     const subjects = async () => {
       try {
+        const pro = await subjectListRegistryService.getProgramId();
         const data = await subjectListRegistryService.getSubjectList();
         setSubjects(data?.map((item) => item.subject));
-        const courseData = await selfAssesmentService.getCoursesRule({
-          subject: "English",
+        const courseData = await subjectListRegistryService.getOngoingCourses({
+          programId: pro?.programId,
         });
-        setCourse(courseData[0]);
+        setCourses(courseData);
         setLoading(false);
       } catch (e) {
         console.log({ e });

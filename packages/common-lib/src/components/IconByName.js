@@ -123,6 +123,9 @@ import FilePdfLineIcon from 'remixicon-react/FilePdfLineIcon'
 import YoutubeLineIcon from 'remixicon-react/YoutubeLineIcon'
 import TranslateIcon from 'remixicon-react/TranslateIcon'
 import LogoutCircleLineIcon from 'remixicon-react/LogoutCircleLineIcon'
+import EnglishInputIcon from 'remixicon-react/EnglishInputIcon'
+import CalculatorLineIcon from 'remixicon-react/CalculatorLineIcon'
+import IncreaseDecreaseLineIcon from 'remixicon-react/IncreaseDecreaseLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -1117,6 +1120,30 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<LogoutCircleLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'EnglishInputIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<EnglishInputIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'CalculatorLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<CalculatorLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'IncreaseDecreaseLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<IncreaseDecreaseLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

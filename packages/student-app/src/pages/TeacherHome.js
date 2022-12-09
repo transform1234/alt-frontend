@@ -24,9 +24,9 @@ function Home({ footerLinks }) {
         title: "Dashboard",
         icon: "DashboardLineIcon",
         route: "/students",
-        _pressable: {
-          flex: "0 0 50%",
-        },
+        // _pressable: {
+        //   flex: "0 0 50%",
+        // },
         ...menuBoxProp,
       },
       // {
@@ -65,30 +65,30 @@ function Home({ footerLinks }) {
       _header={{
         title: t("HOME"),
         subHeading: moment().format("hh:mm A"),
-        customeComponent: (
-          <HStack p="5" space={5} alignItems="center">
-            <Box
-              bg="#FFF"
-              rounded="24px"
-              width="75px"
-              height="50px"
-              alignItems={"center"}
-            >
-              <Avatar
-                backgroundSize="contain"
-                rounded={0}
-                _image={{ rounded: 0 }}
-                style={{ borderRadius: 0 }}
-                source={require("./../assets/images/ssaicon.png")}
-              />
-            </Box>
-            <Avatar source={require("./../assets/images/tsIcon.png")} />
-            <Box>
-              <H3 color="white">{t("WELCOME")}</H3>
-              <H1 color="white">{localStorage.getItem("name")}</H1>
-            </Box>
-          </HStack>
-        ),
+        // customeComponent: (
+        //   <HStack p="5" space={5} alignItems="center">
+        //     <Box
+        //       bg="#FFF"
+        //       rounded="24px"
+        //       width="75px"
+        //       height="50px"
+        //       alignItems={"center"}
+        //     >
+        //       <Avatar
+        //         backgroundSize="contain"
+        //         rounded={0}
+        //         _image={{ rounded: 0 }}
+        //         style={{ borderRadius: 0 }}
+        //         source={require("./../assets/images/ssaicon.png")}
+        //       />
+        //     </Box>
+        //     <Avatar source={require("./../assets/images/tsIcon.png")} />
+        //     <Box>
+        //       <H3 color="white">{t("WELCOME")}</H3>
+        //       <H1 color="white">{localStorage.getItem("name")}</H1>
+        //     </Box>
+        //   </HStack>
+        // ),
       }}
       _appBar={{
         languages: manifest.languages,

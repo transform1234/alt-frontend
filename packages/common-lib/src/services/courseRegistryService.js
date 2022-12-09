@@ -143,7 +143,7 @@ export const lessontracking = async (
   }
 }
 
-export const getLessontracking = async (params, header = {}) => {
+export const getLessontracking = async ({ userId, ...params }, header = {}) => {
   let headers = {
     ...header,
     Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -151,7 +151,7 @@ export const getLessontracking = async (params, header = {}) => {
 
   try {
     const result = await post(
-      baseUrl + '/altlessontracking/search',
+      `${baseUrl}/altlessontracking/search/${userId}`,
       { filters: params },
       {
         headers
@@ -204,7 +204,7 @@ export const getDataWithTracking = async (data, userId) => {
 }
 
 export const courseTrackingSearch = async (
-  { limit, ...params },
+  { limit, userId, ...params },
   header = {}
 ) => {
   let headers = {
@@ -214,7 +214,34 @@ export const courseTrackingSearch = async (
 
   try {
     const result = await post(
-      baseUrl + '/altlessontracking/search',
+      `${baseUrl}/altlessontracking/search/${userId}`,
+      { filters: params, limit },
+      {
+        headers
+      }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return []
+    }
+  } catch {
+    return []
+  }
+}
+
+export const moduleTracking = async (
+  { limit, userId, ...params } = {},
+  header = {}
+) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await post(
+      `${baseUrl}/altmoduletracking/search/${userId}`,
       { filters: params, limit },
       {
         headers
@@ -241,6 +268,28 @@ export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
       params: { questionsetId: id },
       headers
     })
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return {}
+    }
+  } catch {
+    return {}
+  }
+}
+
+export const courseStatus = async (params, header = {}) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+
+  try {
+    const result = await post(
+      baseUrl + '/altusereligibility/altuserprogrameligibility',
+      params,
+      { params, headers }
+    )
     if (result?.data?.data) {
       return result.data?.data
     } else {

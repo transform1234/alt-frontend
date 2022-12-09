@@ -8,12 +8,15 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function CourseCard({ item, isDisabled, onPress }) {
-  const { trakingData, name, appIcon } = item;
+export default function CourseCard({ item, isDisabled, onPress, isDone }) {
+  const { name, posterImage } = item;
   const { t } = useTranslation();
-
   return (
-    <Pressable isDisabled={isDisabled} onPress={onPress} position="relative">
+    <Pressable
+      isDisabled={isDisabled || isDone}
+      onPress={onPress}
+      position="relative"
+    >
       <VStack
         p="4"
         bg={isDisabled ? "#f1f1f1" : "white"}
@@ -24,10 +27,10 @@ export default function CourseCard({ item, isDisabled, onPress }) {
           <Avatar
             bg={isDisabled ? "selfassesment.lightGray1" : "yellow.500"}
             size="30"
-            {...(appIcon?.appIcon
+            {...(posterImage
               ? {
                   source: {
-                    uri: appIcon,
+                    uri: posterImage,
                   },
                 }
               : {})}
@@ -39,7 +42,7 @@ export default function CourseCard({ item, isDisabled, onPress }) {
           </Avatar>
           <VStack space="1" flex={1}>
             <BodyLarge>{name}</BodyLarge>
-            {trakingData?.length > 0 ? (
+            {isDone ? (
               <Caption>{t("SUCCESS_MESSAGE")}</Caption>
             ) : (
               <React.Fragment />
@@ -62,7 +65,7 @@ export default function CourseCard({ item, isDisabled, onPress }) {
         bg={
           isDisabled
             ? "selfassesment.lightGray1"
-            : trakingData?.length > 0
+            : isDone
             ? "selfassesment.cloverGreen"
             : "blue.500"
         }
@@ -76,11 +79,7 @@ export default function CourseCard({ item, isDisabled, onPress }) {
       >
         <IconByName
           isDisabled
-          name={
-            trakingData?.length > 0
-              ? "CheckboxCircleLineIcon"
-              : "ArrowRightLineIcon"
-          }
+          name={isDone ? "CheckboxCircleLineIcon" : "ArrowRightLineIcon"}
           color="white"
           size="sm"
         />

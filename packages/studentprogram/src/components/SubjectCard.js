@@ -28,7 +28,6 @@ export default function SubjectCard({
           color={isDisabled ? "lightGray2" : "success"}
           size="lg"
         />
-
         <H1 alignItems="center" color={isDisabled ? "lightGray2" : ""}>
           {subject}
         </H1>
