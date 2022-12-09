@@ -1,6 +1,8 @@
 import mapInterfaceData from './mapInterfaceData'
 import { get, post, update as coreUpdate } from './RestClient'
 import moment from 'moment'
+import { courseRegistryService } from '..'
+import { async } from '@firebase/util'
 const dateFor = moment().format('YYYY-MM-DD')
 
 export const getProgramId = async (props) => {
@@ -42,6 +44,40 @@ export const getSubjectList = async () => {
     if (subjectList?.data?.data) {
       return subjectList?.data?.data
     }
+  } else {
+    return []
+  }
+}
+
+export const getOngoingCourses = async (
+  { programId, ...filters },
+  header = {}
+) => {
+  let headers = {
+    ...header,
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+  const result = await get(
+    `${process.env.REACT_APP_API_URL}/altcurrentphase/altgetcurrentphase/${programId}`,
+    {
+      headers
+    }
+  )
+  if (result?.data?.data) {
+    let couses = []
+    result?.data?.data.forEach(async (item) => {
+      couses = [
+        ...couses,
+        ...item?.ongoingCourses.map(async (subItem) => {
+          return await courseRegistryService.getOne({
+            id: subItem?.courseId,
+            adapter: 'diksha',
+            coreData: 'core'
+          })
+        })
+      ]
+    })
+    return await Promise.all(couses)
   } else {
     return []
   }

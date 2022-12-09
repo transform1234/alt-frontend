@@ -58,6 +58,7 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
+    console.log(telemetry)
     if (telemetry?.eid === 'EXDATA') {
       try {
         const edata = JSON.parse(telemetry.edata?.data)

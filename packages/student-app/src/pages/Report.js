@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, HStack, Avatar } from "native-base";
-import { H1, H3 } from "@shiksha/common-lib";
+import { Breadcrumb, H1, H3 } from "@shiksha/common-lib";
 import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
@@ -14,29 +14,15 @@ function Report({ footerLinks }) {
   return (
     <Layout
       _header={{
-        customeComponent: (
-          <HStack p="5" space={5} alignItems="center">
-            <Box
-              bg="#FFF"
-              rounded="24px"
-              width="75px"
-              height="50px"
-              alignItems={"center"}
-            >
-              <Avatar
-                backgroundSize="contain"
-                rounded={0}
-                _image={{ rounded: 0 }}
-                style={{ borderRadius: 0 }}
-                source={require("./../assets/images/ssaicon.png")}
-              />
-            </Box>
-            <Avatar source={require("./../assets/images/tsIcon.png")} />
-            <Box>
-              <H3 color="white">{t("WELCOME")}</H3>
-              <H1 color="white">{localStorage.getItem("name")}</H1>
-            </Box>
-          </HStack>
+        title: t("REPORT"),
+        subHeadingComponent: (
+          <Breadcrumb
+            data={[
+              { title: t("HOME"), link: "/" },
+              { title: t("STUDENTS"), link: "/students" },
+              { title: t("REPORT") },
+            ]}
+          />
         ),
       }}
       _appBar={{

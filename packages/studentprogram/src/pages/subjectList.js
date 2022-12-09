@@ -12,6 +12,7 @@ import React from "react";
 import SubjectCard from "../components/SubjectCard";
 import { useNavigate } from "react-router-dom";
 import manifest from "../manifest.json";
+import subjectIcons from "util/subjectIcons";
 export default function SubjectList({ footerLinks }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -30,6 +31,14 @@ export default function SubjectList({ footerLinks }) {
     };
     subjects();
   }, []);
+
+  const getRules = (rules) => {
+    try {
+      const data = JSON.parse(rules);
+      return !data?.prog;
+    } catch (e) {}
+    return true;
+  };
 
   return (
     <Layout
@@ -64,14 +73,16 @@ export default function SubjectList({ footerLinks }) {
         {SubjectList.length > 0 ? (
           SubjectList?.map((item, index) => (
             <SubjectCard
-              onPress={() => navigate(`/studentprogram/${item.subject}`)}
-              isDisabled={index}
+              onPress={() =>
+                navigate(`/studentprogram/${item?.subject.toLowerCase()}`)
+              }
+              isDisabled={getRules(item?.rules)}
               key={index}
               subject={item?.subject}
               status={"Start Learning"}
               iconName={
-                item.subject == "English"
-                  ? "FilePaper2LineIcon"
+                subjectIcons?.[item?.subject.toLowerCase()]
+                  ? subjectIcons[item?.subject.toLowerCase()]
                   : "CodeLineIcon"
               }
             />

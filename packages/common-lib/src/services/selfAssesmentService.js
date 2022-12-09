@@ -22,11 +22,9 @@ export const getCoursesRule = async (
     Authorization: 'Bearer ' + localStorage.getItem('token')
   }
   const newParams = {
-    programId: 'c0c5fdc0-b6cb-4130-8e0c-e5d9426d57ef',
     board: localStorage.getItem('board'),
     medium: localStorage.getItem('medium'),
     grade: localStorage.getItem('grade'),
-    subject: 'English',
     ...params
   }
 
@@ -48,29 +46,31 @@ const getCourseArray = async (programm, userId) => {
   let courseRule = {}
   try {
     courseRule = JSON.parse(programm)
-
-    const pdata = courseRule?.prog
-      .map(async (el, index) => {
-        if (el?.contentId && el?.contentType === 'assessment') {
-          return await courseRegistryService.getOne({
-            id: el.contentId,
-            adapter: 'diksha',
-            coreData: true,
-            type: 'assessment',
-            userId
-          })
-        } else if (el?.contentId && el?.contentType === 'course') {
-          return await courseRegistryService.getOne({
-            id: el.contentId,
-            adapter: 'diksha',
-            coreData: true,
-            type: 'course',
-            userId
-          })
-        }
-      })
-      .filter((e) => e)
-    return await Promise.all(pdata)
+    if (courseRule?.prog) {
+      const pdata = courseRule?.prog
+        .map(async (el, index) => {
+          if (el?.contentId && el?.contentType === 'assessment') {
+            return await courseRegistryService.getOne({
+              id: el.contentId,
+              adapter: 'diksha',
+              coreData: true,
+              type: 'assessment',
+              userId
+            })
+          } else if (el?.contentId && el?.contentType === 'course') {
+            return await courseRegistryService.getOne({
+              id: el.contentId,
+              adapter: 'diksha',
+              coreData: true,
+              type: 'course',
+              userId
+            })
+          }
+        })
+        .filter((e) => e)
+      return await Promise.all(pdata)
+    }
+    return []
   } catch (e) {
     console.log(e.message)
     return []
