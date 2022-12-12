@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { NativeBaseProvider } from 'native-base'
 import { eventBus } from '../services/EventBus'
-import Loading from './Loading'
-import { PushNotification } from './firebase/firebase'
 import AppRoutesContainer from './AppRoutesContainer'
 import { getAppshellData } from './helper'
 import NotFound from './NotFound'
 import { hotjar } from 'react-hotjar'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function AppShell({
   colors,

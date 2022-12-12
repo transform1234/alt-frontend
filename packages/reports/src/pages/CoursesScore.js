@@ -1,9 +1,9 @@
 import { Stack, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { subjectListRegistryService } from "@shiksha/common-lib";
-import BaselineScoreCard from "../components/BaselineScoreCard";
+import CoursesScoreCard from "../components/CoursesScoreCard";
 
-export default function BaselineScore({ userId }) {
+export default function CoursesScore({ userId }) {
   const [SubjectListData, setSubjectListData] = React.useState([]);
   const [programID, setProgramID] = React.useState([]);
 
@@ -21,9 +21,9 @@ export default function BaselineScore({ userId }) {
   }, []);
 
   return (
-    <VStack p="2">
+    <VStack py="5">
       {SubjectListData?.map((item, index) => (
-        <BaselineScoreCard key={index} subject={item.subject} userId={userId} />
+        <CoursesScoreCard key={index} subject={item.subject} userId={userId} />
       ))}
     </VStack>
   );

@@ -1,9 +1,9 @@
 import { Stack, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { subjectListRegistryService } from "@shiksha/common-lib";
-import BaselineScoreCard from "../components/BaselineScoreCard";
+import EndlineScoreCard from "../components/EndlineScoreCard";
 
-export default function BaselineScore({ userId }) {
+export default function EndlineScore({ userId }) {
   const [SubjectListData, setSubjectListData] = React.useState([]);
   const [programID, setProgramID] = React.useState([]);
 
@@ -23,7 +23,7 @@ export default function BaselineScore({ userId }) {
   return (
     <VStack p="2">
       {SubjectListData?.map((item, index) => (
-        <BaselineScoreCard key={index} subject={item.subject} userId={userId} />
+        <EndlineScoreCard key={index} subject={item.subject} userId={userId} />
       ))}
     </VStack>
   );

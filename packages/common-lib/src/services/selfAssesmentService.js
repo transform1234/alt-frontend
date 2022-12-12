@@ -14,7 +14,7 @@ export const getLessons = async (id) => {
 }
 
 export const getCoursesRule = async (
-  { limit, userId, ...params } = {},
+  { limit, filter, ...params } = {},
   header = {}
 ) => {
   let headers = {
@@ -34,15 +34,12 @@ export const getCoursesRule = async (
     { headers }
   )
   if (courseIdList.data) {
-    return await getCourseArray(courseIdList.data.data[0].rules, userId)
-    // return courseIdList.data
-    // return Promise.all(lessonList.data).then((values) => values)
+    return await getCourseArray(courseIdList.data.data[0].rules, filter)
   } else {
     return []
   }
-  // return 'lessonList.data'
 }
-const getCourseArray = async (programm, userId) => {
+const getCourseArray = async (programm, filter = {}) => {
   let courseRule = {}
   try {
     courseRule = JSON.parse(programm)
@@ -55,7 +52,8 @@ const getCourseArray = async (programm, userId) => {
               adapter: 'diksha',
               coreData: true,
               type: 'assessment',
-              userId
+              courseType: index === 0 ? 'baseline' : 'endline',
+              ...filter
             })
           } else if (el?.contentId && el?.contentType === 'course') {
             return await courseRegistryService.getOne({
@@ -63,7 +61,8 @@ const getCourseArray = async (programm, userId) => {
               adapter: 'diksha',
               coreData: true,
               type: 'course',
-              userId
+              courseType: 'course',
+              ...filter
             })
           }
         })

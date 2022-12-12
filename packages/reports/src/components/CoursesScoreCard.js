@@ -5,17 +5,17 @@ import {
   VStack,
   HStack,
   Avatar,
-  Center,
   Progress,
   useTheme,
 } from "native-base";
 import {
   IconByName,
   H1,
-  RoundedProgressBar,
   subjectListRegistryService,
   selfAssesmentService,
   userRegistryService,
+  H3,
+  ProgressBar,
 } from "@shiksha/common-lib";
 export const maxWidth = "750";
 
@@ -25,11 +25,9 @@ const style = {
   },
 };
 
-export default function SubjectScoreCard({ subject, userId }) {
+export default function CoursesScoreCard({ subject, userId }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
-  const [score, setScore] = React.useState(0);
-  const [totalScore, setTotalScore] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -51,20 +49,30 @@ export default function SubjectScoreCard({ subject, userId }) {
           const dataRuls = await selfAssesmentService.getCoursesRule({
             programId: data?.programId,
             subject,
-            userId,
+            filter: { userId, coreData: "withLesonFilter" },
           });
 
           if (Array.isArray(dataRuls)) {
-            setTotalScore(dataRuls?.[0]?.maxScore);
-            setScore(
-              dataRuls?.[0]?.trakingData?.[0]?.score
-                ? dataRuls[0].trakingData[0].score
-                : 0
-            );
             setTrackData(
-              dataRuls?.[0]?.trakingData?.[0]
-                ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
-                : []
+              dataRuls
+                .filter((item) => item.courseType === "course")
+                .map((item) => {
+                  let children = [];
+                  item.children.forEach((item) => {
+                    if (Array.isArray(item.children)) {
+                      children = [...children, ...item.children];
+                    }
+                  });
+                  const totalScore = children.length;
+                  const score = children.filter(
+                    (item) => item?.trakingData?.length > 0
+                  ).length;
+                  const value = Math.round((score * 100) / totalScore);
+                  return {
+                    sectionName: item?.name,
+                    value,
+                  };
+                })
             );
           }
           setLoading(false);
@@ -83,7 +91,7 @@ export default function SubjectScoreCard({ subject, userId }) {
 
   return (
     <Box>
-      <Stack space="2" p="4" mb="3">
+      <Stack space="2" mb="3">
         <VStack
           p="5"
           bg="#fffbfa"
@@ -108,56 +116,25 @@ export default function SubjectScoreCard({ subject, userId }) {
           </HStack>
           {trackData.length > 0 ? (
             <HStack>
-              <Box rounded="full">
-                <RoundedProgressBar
-                  values={[score, totalScore - score]}
-                  colors={[
-                    colors?.reports?.primaryGreen,
-                    colors?.reports?.barGray,
-                  ]}
-                  title={{
-                    text: `${score} / ${totalScore}`,
-                    fontSize: "21px",
-                    _text: {
-                      style: { transform: "translate(-50%, -50%)" },
-                      color: "selfassesment.cloverGreen",
-                    },
-                  }}
-                  cutout={"70%"}
-                  size="125px"
-                />
-              </Box>
-
-              <Stack w={"70%"}>
+              <Stack w={"100%"}>
                 {trackData?.map((val, idx) => {
-                  const totalScore = val?.data?.reduce(
-                    (old, newData) =>
-                      old +
-                      (newData?.item?.maxscore ? newData?.item?.maxscore : 0),
-                    0
-                  );
-                  const score = val?.data?.reduce(
-                    (old, newData) =>
-                      old + (newData?.score ? newData?.score : 0),
-                    0
-                  );
-                  const value = (score * 100) / totalScore;
                   return (
-                    <HStack ml={"8"} key={idx}>
-                      {val?.sectionName}
-                      <Box w="70%" mb={"4"}>
-                        <VStack space="md">
-                          <Progress
-                            bg="coolGray.100"
-                            _filledTrack={{ style: style.gradient }}
-                            size="xl"
-                            value={value}
-                            mx="4"
-                          />
-                        </VStack>
-                      </Box>
-                      {score}/{totalScore}
-                    </HStack>
+                    <VStack key={idx} space={2}>
+                      <H3>{val?.sectionName}</H3>
+                      <HStack space={2}>
+                        <Box w="85%" mb={"4"}>
+                          <VStack space="md">
+                            <Progress
+                              bg="coolGray.100"
+                              _filledTrack={{ style: style.gradient }}
+                              size="xl"
+                              value={val?.value}
+                            />
+                          </VStack>
+                        </Box>
+                        <H3>{val?.value}%</H3>
+                      </HStack>
+                    </VStack>
                   );
                 })}
               </Stack>

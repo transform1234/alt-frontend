@@ -1,7 +1,8 @@
 import { Tab } from "@shiksha/common-lib";
 import { useTheme } from "native-base";
-import BaselineScore from "pages/BaselineScore";
-import ComingSoon from "pages/ComingSoon";
+import BaselineScore from "../pages/BaselineScore";
+import CoursesScore from "../pages/CoursesScore";
+import EndlineScore from "../pages/EndlineScore";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,11 +26,11 @@ export default function ScoreCard({ userId }) {
         { title: t("BASELINE"), component: <BaselineScore userId={userId} /> },
         {
           title: t("COURSES"),
-          component: <ComingSoon _box={{ py: "5" }} />,
+          component: <CoursesScore userId={userId} />,
         },
         {
           title: t("ENDLINE"),
-          component: <ComingSoon _box={{ py: "5" }} />,
+          component: <EndlineScore userId={userId} />,
         },
       ]}
     />

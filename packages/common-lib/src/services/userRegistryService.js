@@ -97,6 +97,27 @@ export const getOne = async ({ id, ...params } = {}, header = {}) => {
   }
 }
 
+export const getAuthUser = async ({ ...params } = {}, header = {}) => {
+  let headers = {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    ...header
+  }
+
+  const result = await get(
+    `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura/protocol/openid-connect/userinfo`,
+    {
+      params,
+      headers
+    }
+  ).catch((error) => error)
+
+  if (result.data) {
+    return result.data
+  } else {
+    return {}
+  }
+}
+
 export const getUserById = async (id, header = {}) => {
   let headers = {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
