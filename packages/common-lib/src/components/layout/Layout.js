@@ -6,6 +6,7 @@ import AppBar from './AppBar'
 import { useWindowSize } from '../helper'
 import HeightWidth from '../HeightWidth'
 import Loading from '../Loading'
+import { checkAuth } from '../../hooks/useAuthFlow'
 
 export default function Layout({
   isDisabledAppBar,
@@ -24,6 +25,10 @@ export default function Layout({
   const [refFoot, serRefFoot] = React.useState({})
   const { components } = useTheme()
   const { Layout } = components
+
+  React.useEffect(() => {
+    checkAuth()
+  }, [])
 
   if (typeof loading !== 'undefined' && loading) {
     return <Loading />

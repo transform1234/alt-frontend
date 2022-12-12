@@ -23,7 +23,7 @@ function App() {
         setTheme("teacheralt");
         setRoutes(teacherRoutes);
         setFooterLinks(teachers);
-      } else if (user?.role === "student") {
+      } else {
         setRoutes(studentRoutes);
         setFooterLinks(students);
       }
@@ -38,6 +38,7 @@ function App() {
 
   return (
     <AppShell
+      AuthComponent={StudentLogin}
       themeName={theme}
       footerLinks={footerLinks}
       basename={process.env.PUBLIC_URL}

@@ -38,7 +38,7 @@ export const getAll = async ({ adapter, ...params } = {}, header = {}) => {
 }
 
 export const getOne = async (
-  { id, adapter, coreData, type, userId },
+  { id, adapter, coreData, type, userId, courseType },
   header = {}
 ) => {
   let headers = {
@@ -67,16 +67,20 @@ export const getOne = async (
                 return { ...item, children: resultData }
               })
             )
-            return { ...result?.data?.data, children: childrenTracking }
+            return {
+              ...result?.data?.data,
+              children: childrenTracking,
+              courseType
+            }
           }
-          return { ...result?.data?.data }
+          return { ...result?.data?.data, courseType }
         } else {
           const trakingData = await courseTrackingSearch({
             courseId: id,
             lessonId: id,
             userId: userId ? userId : localStorage.getItem('id')
           })
-          return { ...result?.data?.data, trakingData }
+          return { ...result?.data?.data, trakingData, courseType }
         }
       }
       return mapInterfaceData(result.data.data, interfaceData)

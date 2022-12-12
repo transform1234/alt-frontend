@@ -42,7 +42,7 @@ export const getSubjectList = async () => {
       { headers }
     )
     if (subjectList?.data?.data) {
-      return subjectList?.data?.data
+      return _.sortBy(subjectList?.data?.data, 'rules')
     }
   } else {
     return []
