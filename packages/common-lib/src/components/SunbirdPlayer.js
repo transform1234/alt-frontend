@@ -1,10 +1,14 @@
+import { VStack } from 'native-base'
 import React from 'react'
+import IconByName from './IconByName'
 import { H2 } from './layout/HeaderTags'
 
 const SunbirdPlayer = ({
   public_url,
   setTrackData,
   handleExitButton,
+  width,
+  height,
   ...props
 }) => {
   const { mimeType } = props
@@ -133,19 +137,43 @@ const SunbirdPlayer = ({
 
   if (url) {
     return (
-      <iframe
-        style={{ border: 'none' }}
-        id='preview'
-        height={'100%'}
-        width='100%'
-        name={JSON.stringify({
-          ...props,
-          questionListUrl:
-            'https://dhruva.shikshalokam.org/api/question/v1/list'
-          // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
-        })}
-        src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}
-      />
+      <VStack {...{ width, height }}>
+        <IconByName
+          name='CloseCircleLineIcon'
+          onPress={() => {
+            if (mimeType === 'application/vnd.ekstep.h5p-archive') {
+              handleEvent({
+                data: {
+                  eid: 'IMPRESSION',
+                  edata: { pageid: 'summary_stage_id' }
+                }
+              })
+            }
+            handleExitButton()
+          }}
+          position='absolute'
+          zIndex='10'
+          right='4px'
+          top='4px'
+          _icon={{ size: 40 }}
+          bg='white'
+          p='0'
+          rounded='full'
+        />
+        <iframe
+          style={{ border: 'none' }}
+          id='preview'
+          height={'100%'}
+          width='100%'
+          name={JSON.stringify({
+            ...props,
+            questionListUrl:
+              'https://dhruva.shikshalokam.org/api/question/v1/list'
+            // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
+          })}
+          src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}
+        />
+      </VStack>
     )
   } else {
     return <H2>{`${mimeType} this mime type not compatible`}</H2>

@@ -170,13 +170,16 @@ export const getByTeacher = async () => {
     })
 
     if (classResult[0].id) {
-      return await getAll({
-        classId: classResult[0].id,
-        role: 'student'
-      })
+      return {
+        class: classResult[0],
+        data: await getAll({
+          classId: classResult[0].id,
+          role: 'student'
+        })
+      }
     }
   } catch (e) {
     console.log('error', e.message)
   }
-  return []
+  return { class: {}, data: [] }
 }
