@@ -13,7 +13,7 @@ export default function CourseCard({ item, isDisabled, onPress, isDone }) {
   const { t } = useTranslation();
   return (
     <Pressable
-      isDisabled={isDisabled || isDone}
+      isDisabled={isDisabled || (isDone && item?.courseType === "baseline")}
       onPress={onPress}
       position="relative"
     >

@@ -60,13 +60,11 @@ export default function EndlineScoreCard({ subject, userId }) {
             if (data) {
               setTotalScore(data?.maxScore);
               setScore(
-                data?.trakingData?.[0]?.score
-                  ? dataRuls[0].trakingData[0].score
-                  : 0
+                data?.trakingData?.[0]?.score ? data.trakingData[0].score : 0
               );
               setTrackData(
                 data?.trakingData?.[0]
-                  ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
+                  ? JSON.parse(data.trakingData[0].scoreDetails)
                   : []
               );
             }

@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
-import { capture, H3, H1, Menu } from "@shiksha/common-lib";
+import { Box, Stack, VStack } from "native-base";
+import { Widget } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
 import Layout from "../components/Layout";
@@ -20,41 +20,20 @@ function Home({ footerLinks }) {
   React.useEffect(() => {
     setDashboard([
       {
-        id: 1,
-        title: "Dashboard",
-        icon: "DashboardLineIcon",
-        route: "/students",
-        // _pressable: {
-        //   flex: "0 0 50%",
-        // },
-        ...menuBoxProp,
+        title: t("QUICK_CHECK"),
+        data: [
+          {
+            link: "/students",
+            title: t("Dashboard"),
+            _box: {
+              style: {
+                background:
+                  "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+              },
+            },
+          },
+        ],
       },
-      // {
-      //   id: 2,
-      //   title: "Teaching & Learning",
-      //   icon: "FileEditLineIcon",
-      //   _text: { maxW: "85px" },
-      //   ...menuBoxProp,
-      // },
-      // {
-      //   id: 3,
-      //   title: "Add Content",
-      //   icon: "FileCopyLineIcon",
-      //   ...menuBoxProp,
-      // },
-      // {
-      //   id: 4,
-      //   title: "Training",
-      //   icon: "FileUserLineIcon",
-      //   ...menuBoxProp,
-      // },
-      // {
-      //   id: 5,
-      //   title: "Reporting",
-      //   icon: "DashboardLineIcon",
-      //   _pressable: { flex: "0 0 50%" },
-      //   ...menuBoxProp,
-      // },
     ]);
     setLoading(false);
   }, []);
@@ -95,29 +74,15 @@ function Home({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Box p="5">
-        <Menu
-          gridCount="2"
-          type="vertical"
-          _icon={{
-            color: "primary",
-            bg: "primaryLight",
-            p: 2,
-            rounded: "full",
-            _icon: { size: "32" },
-          }}
-          _box={{ space: 4 }}
-          _hstack={{ justifyContent: "unset" }}
-          _vstack={{ space: 4 }}
-          _pressable={{ p: 5, rounded: "9px", bg: "white", flex: "50%" }}
-          _text={{
-            color: "#333",
-            fontWeight: 600,
-            fontSize: "16px",
-            maxW: "auto",
-          }}
-          items={dashboard}
-        />
+      <Box bg="white" rounded={"2xl"} py={6} px={4} mb={5} shadow={3}>
+        <Stack>
+          <VStack space={6}>
+            <Box display={"inline"}>{t("SUBTITLE_HOME")}</Box>
+            {dashboard.map((item, index) => {
+              return <Widget {...item} key={index} />;
+            })}
+          </VStack>
+        </Stack>
       </Box>
     </Layout>
   );

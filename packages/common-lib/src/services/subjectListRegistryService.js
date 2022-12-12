@@ -64,20 +64,24 @@ export const getOngoingCourses = async (
     }
   )
   if (result?.data?.data) {
-    let couses = []
-    result?.data?.data.forEach(async (item) => {
-      couses = [
-        ...couses,
-        ...item?.ongoingCourses.map(async (subItem) => {
-          return await courseRegistryService.getOne({
-            id: subItem?.courseId,
-            adapter: 'diksha',
-            coreData: 'core'
+    if (Array.isArray(result?.data?.data)) {
+      let couses = []
+      result?.data?.data.forEach(async (item) => {
+        couses = [
+          ...couses,
+          ...item?.ongoingCourses.map(async (subItem) => {
+            return await courseRegistryService.getOne({
+              id: subItem?.courseId,
+              adapter: 'diksha',
+              coreData: 'core'
+            })
           })
-        })
-      ]
-    })
-    return await Promise.all(couses)
+        ]
+      })
+      return await Promise.all(couses)
+    } else {
+      return result?.data?.data
+    }
   } else {
     return []
   }

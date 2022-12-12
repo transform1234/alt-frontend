@@ -63,23 +63,37 @@ function Students({ footerLinks }) {
   const { t } = useTranslation();
   const [loading, setLoading] = React.useState(false);
   const [students, setStudents] = React.useState([]);
+  const [classObject, setClassObject] = React.useState({});
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const getData = async () => {
       const result = await studentRegistryService.getByTeacher();
-      setStudents(result);
+      if (result?.data) {
+        setClassObject(result?.class);
+        setStudents(result?.data);
+      }
     };
     getData();
   }, []);
-  console.log(students);
+  console.log(classObject);
   return (
     <Layout
       loading={loading}
       _header={{
-        title: t("STUDENTS"),
-        subHeading: moment().format("hh:mm A"),
+        headingComponent: (
+          <VStack>
+            <H1>{t("STUDENTS")}</H1>
+            <Caption>{`${
+              !classObject?.name?.toLowerCase().includes("class")
+                ? t("CLASS")
+                : ""
+            } ${classObject?.name} ${localStorage.getItem(
+              "section"
+            )} ${localStorage.getItem("medium")}`}</Caption>
+          </VStack>
+        ),
         subHeadingComponent: (
           <Breadcrumb
             data={[{ title: t("HOME"), link: "/" }, { title: t("STUDENTS") }]}
@@ -91,7 +105,7 @@ function Students({ footerLinks }) {
       }}
       _footer={footerLinks}
     >
-      <Stack space="4" p="5" mb="5">
+      <Stack space="4" p="5" pt="0" mb="5">
         {students.length > 0 ? (
           students.map((item, index) => (
             <Pressable
@@ -104,7 +118,7 @@ function Students({ footerLinks }) {
                     <IconByName name="UserLineIcon" isDisabled pr="2" />
                     <VStack space="2">
                       <BodyLarge>{item?.name}</BodyLarge>
-                      <Caption>{item?.board}</Caption>
+                      <Caption>{item?.email}</Caption>
                     </VStack>
                   </HStack>
                   <IconByName name="ArrowRightSLineIcon" isDisabled />

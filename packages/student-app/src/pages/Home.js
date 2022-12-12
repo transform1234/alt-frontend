@@ -20,35 +20,46 @@ function Home({ footerLinks }) {
   const [loading, setLoading] = React.useState(true);
 
   const getData = () => {
-    const resultDate = courses
-      ? courses?.map((course) => {
-          return {
-            link: "/studentprogram",
-            title: course?.name,
-            subTitle: `${
-              course?.subject ? course?.subject?.join(", ") + "," : ""
-            } ${
-              course?.gradeLevel
-                ? course?.gradeLevel?.join(", ") + ","
-                : course?.se_gradeLevel
-                ? course?.se_gradeLevel?.join(", ") + ","
-                : ""
-            } ${t("MEDIUM")} ${
-              course?.medium
-                ? course?.medium?.join(", ")
-                : course?.se_mediums
-                ? course?.se_mediums?.join(", ")
-                : ""
-            }`,
-            _box: {
-              style: {
-                background:
-                  "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+    const resultDate =
+      courses && Array.isArray(courses)
+        ? courses?.map((course) => {
+            return {
+              link: "/studentprogram",
+              title: course?.name,
+              subTitle: `${
+                course?.subject ? course?.subject?.join(", ") + "," : ""
+              } ${
+                course?.gradeLevel
+                  ? course?.gradeLevel?.join(", ") + ","
+                  : course?.se_gradeLevel
+                  ? course?.se_gradeLevel?.join(", ") + ","
+                  : ""
+              } ${t("MEDIUM")} ${
+                course?.medium
+                  ? course?.medium?.join(", ")
+                  : course?.se_mediums
+                  ? course?.se_mediums?.join(", ")
+                  : ""
+              }`,
+              _box: {
+                style: {
+                  background:
+                    "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+                },
+              },
+            };
+          })
+        : [
+            {
+              subTitle: courses?.msg,
+              _box: {
+                style: {
+                  background:
+                    "linear-gradient(100.88deg, rgb(211 212 215) -21.15%, rgb(149 149 149) 80.4%)",
+                },
               },
             },
-          };
-        })
-      : [];
+          ];
     return resultDate;
   };
 
