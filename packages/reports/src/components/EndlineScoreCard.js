@@ -25,7 +25,7 @@ const style = {
   },
 };
 
-export default function BaselineScoreCard({ subject, userId }) {
+export default function EndlineScoreCard({ subject, userId }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
   const [score, setScore] = React.useState(0);
@@ -51,21 +51,25 @@ export default function BaselineScoreCard({ subject, userId }) {
           const dataRuls = await selfAssesmentService.getCoursesRule({
             programId: data?.programId,
             subject,
-            userId,
+            filter: { userId },
           });
 
           if (Array.isArray(dataRuls)) {
-            setTotalScore(dataRuls?.[0]?.maxScore);
-            setScore(
-              dataRuls?.[0]?.trakingData?.[0]?.score
-                ? dataRuls[0].trakingData[0].score
-                : 0
-            );
-            setTrackData(
-              dataRuls?.[0]?.trakingData?.[0]
-                ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
-                : []
-            );
+            const data = dataRuls.find((item) => item.courseType === "endline");
+            console.log({ data });
+            if (data) {
+              setTotalScore(data?.maxScore);
+              setScore(
+                data?.trakingData?.[0]?.score
+                  ? dataRuls[0].trakingData[0].score
+                  : 0
+              );
+              setTrackData(
+                data?.trakingData?.[0]
+                  ? JSON.parse(dataRuls[0].trakingData[0].scoreDetails)
+                  : []
+              );
+            }
           }
           setLoading(false);
         }
