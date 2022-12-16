@@ -1,6 +1,11 @@
 import React from "react";
-import { Box, HStack, Avatar } from "native-base";
-import { Breadcrumb, H1, H3 } from "@shiksha/common-lib";
+import { Box, VStack } from "native-base";
+import {
+  Breadcrumb,
+  Caption,
+  H1,
+  userRegistryService,
+} from "@shiksha/common-lib";
 import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
@@ -10,11 +15,18 @@ const ScoreCard = React.lazy(() => import("reports/ScoreCard"));
 function Report({ footerLinks }) {
   const { t } = useTranslation();
   const { id } = useParams();
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+    const getData = async () => {
+      setUser(await userRegistryService.getOne({ id }));
+    };
+    getData();
+  }, [id]);
 
   return (
     <Layout
       _header={{
-        title: t("REPORT"),
         subHeadingComponent: (
           <Breadcrumb
             data={[
@@ -24,6 +36,13 @@ function Report({ footerLinks }) {
             ]}
           />
         ),
+
+        headingComponent: (
+          <VStack>
+            <H1>{t("REPORT")}</H1>
+            <Caption>{user?.name}</Caption>
+          </VStack>
+        ),
       }}
       _appBar={{
         languages: manifest.languages,
@@ -31,7 +50,7 @@ function Report({ footerLinks }) {
       _footer={footerLinks}
     >
       <Box p="5" mb="4">
-        <ScoreCard userId={id} />
+        <ScoreCard user={user} />
       </Box>
     </Layout>
   );

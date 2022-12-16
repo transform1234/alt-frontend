@@ -1,10 +1,5 @@
 import { HStack, VStack, Avatar, Pressable, Box } from "native-base";
-import {
-  IconByName,
-  ProgressBar,
-  BodyLarge,
-  Caption,
-} from "@shiksha/common-lib";
+import { IconByName, BodyLarge, Caption } from "@shiksha/common-lib";
 import React from "react";
 import { useTranslation } from "react-i18next";
 

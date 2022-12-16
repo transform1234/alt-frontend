@@ -126,6 +126,7 @@ import LogoutCircleLineIcon from 'remixicon-react/LogoutCircleLineIcon'
 import EnglishInputIcon from 'remixicon-react/EnglishInputIcon'
 import CalculatorLineIcon from 'remixicon-react/CalculatorLineIcon'
 import IncreaseDecreaseLineIcon from 'remixicon-react/IncreaseDecreaseLineIcon'
+import LinksLineIcon from 'remixicon-react/LinksLineIcon'
 
 function IconButton({ icon, isDisabled, prefix, ...props }) {
   if (!isDisabled) {
@@ -1144,6 +1145,14 @@ export default function IconByName({ _icon, ...props }) {
         <IconButton
           {...props}
           icon={<IncreaseDecreaseLineIcon {...(_icon ? _icon : {})} />}
+        />
+      )
+      break
+    case 'LinksLineIcon':
+      icon = (
+        <IconButton
+          {...props}
+          icon={<LinksLineIcon {...(_icon ? _icon : {})} />}
         />
       )
       break

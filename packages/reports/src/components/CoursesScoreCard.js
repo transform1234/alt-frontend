@@ -7,16 +7,17 @@ import {
   Avatar,
   Progress,
   useTheme,
+  Pressable,
 } from "native-base";
 import {
   IconByName,
   H1,
   subjectListRegistryService,
   selfAssesmentService,
-  userRegistryService,
   H3,
-  ProgressBar,
+  courseRegistryService,
 } from "@shiksha/common-lib";
+import { useNavigate } from "react-router-dom";
 export const maxWidth = "750";
 
 const style = {
@@ -25,18 +26,17 @@ const style = {
   },
 };
 
-export default function CoursesScoreCard({ subject, userId }) {
+export default function CoursesScoreCard({ subject, user }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const getTraking = async () => {
       try {
         let data = {};
-        if (userId) {
-          const user = await userRegistryService.getOne({ id: userId });
-          console.log({ user });
+        if (user) {
           data = await subjectListRegistryService.getProgramId({
             board: user?.board,
             medium: user?.medium,
@@ -46,10 +46,14 @@ export default function CoursesScoreCard({ subject, userId }) {
           data = await subjectListRegistryService.getProgramId();
         }
         if (data?.programId) {
+          const status = await courseRegistryService.courseStatus({
+            programId: data?.programId,
+            subject: subject,
+          });
           const dataRuls = await selfAssesmentService.getCoursesRule({
             programId: data?.programId,
             subject,
-            filter: { userId, coreData: "withLesonFilter" },
+            filter: { userId: user?.id, coreData: "withLesonFilter" },
           });
 
           if (Array.isArray(dataRuls)) {
@@ -68,9 +72,16 @@ export default function CoursesScoreCard({ subject, userId }) {
                     (item) => item?.trakingData?.length > 0
                   ).length;
                   const value = Math.round((score * 100) / totalScore);
+                  const isComplete = status.find(
+                    (subItem) => item.identifier === subItem?.contentId
+                  );
                   return {
                     sectionName: item?.name,
-                    value,
+                    identifier: item?.identifier,
+                    objectType: item?.objectType,
+                    contentType: item?.contentType,
+                    value: isComplete?.status === "locked" ? 0 : value,
+                    status: isComplete?.status,
                   };
                 })
             );
@@ -120,7 +131,53 @@ export default function CoursesScoreCard({ subject, userId }) {
                 {trackData?.map((val, idx) => {
                   return (
                     <VStack key={idx} space={2}>
-                      <H3>{val?.sectionName}</H3>
+                      <Pressable
+                        isDisabled={val?.status === "locked"}
+                        {...([
+                          "assessment",
+                          "SelfAssess",
+                          "QuestionSet",
+                          "QuestionSetImage",
+                        ].includes(val?.objectType)
+                          ? {
+                              onPress: () =>
+                                navigate(
+                                  `/studentprogram/lessons/${val?.identifier}/${val?.objectType}`
+                                ),
+                            }
+                          : {
+                              onPress: () =>
+                                navigate(
+                                  `/studentprogram/lessons/${val?.identifier}/${val?.contentType}`
+                                ),
+                            })}
+                      >
+                        <HStack alignItems="center" space="1">
+                          <H3
+                            color={
+                              val?.status === "locked"
+                                ? "lightGray1"
+                                : "primary"
+                            }
+                          >
+                            {val?.sectionName}
+                          </H3>
+                          {val?.status ? (
+                            <IconByName
+                              isDisabled
+                              name="LinksLineIcon"
+                              color={
+                                val?.status === "locked"
+                                  ? "lightGray1"
+                                  : "primary"
+                              }
+                              _icon={{ size: "16px" }}
+                            />
+                          ) : (
+                            <React.Fragment />
+                          )}
+                        </HStack>
+                      </Pressable>
                       <HStack space={2}>
                         <Box w="85%" mb={"4"}>
                           <VStack space="md">
@@ -132,7 +189,11 @@ export default function CoursesScoreCard({ subject, userId }) {
                             />
                           </VStack>
                         </Box>
-                        <H3>{val?.value}%</H3>
+                        <H3
+                          color={val?.status === "locked" ? "lightGray1" : ""}
+                        >
+                          {val?.value}%
+                        </H3>
                       </HStack>
                     </VStack>
                   );
