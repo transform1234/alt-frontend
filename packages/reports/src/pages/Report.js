@@ -1,12 +1,25 @@
 import React from "react";
 import { Box, HStack, Avatar } from "native-base";
-import { Breadcrumb, Layout, NameTag } from "@shiksha/common-lib";
+import {
+  Breadcrumb,
+  Layout,
+  NameTag,
+  userRegistryService,
+} from "@shiksha/common-lib";
 import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 import ScoreCard from "components/ScoreCard";
 
 function Report({ footerLinks }) {
   const { t } = useTranslation();
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+    const getData = async () => {
+      setUser(await userRegistryService.getOne());
+    };
+    getData();
+  }, []);
 
   return (
     <Layout
@@ -38,7 +51,7 @@ function Report({ footerLinks }) {
       _footer={footerLinks}
     >
       <Box px="5" mb="4">
-        <ScoreCard />
+        <ScoreCard user={user} />
       </Box>
     </Layout>
   );

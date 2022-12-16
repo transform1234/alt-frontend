@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { subjectListRegistryService } from "@shiksha/common-lib";
 import EndlineScoreCard from "../components/EndlineScoreCard";
 
-export default function EndlineScore({ userId }) {
+export default function EndlineScore({ user }) {
   const [SubjectListData, setSubjectListData] = React.useState([]);
   const [programID, setProgramID] = React.useState([]);
 
@@ -23,7 +23,7 @@ export default function EndlineScore({ userId }) {
   return (
     <VStack p="2">
       {SubjectListData?.map((item, index) => (
-        <EndlineScoreCard key={index} subject={item.subject} userId={userId} />
+        <EndlineScoreCard key={index} subject={item.subject} user={user} />
       ))}
     </VStack>
   );

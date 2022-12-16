@@ -5,7 +5,6 @@ import {
   VStack,
   HStack,
   Avatar,
-  Center,
   Progress,
   useTheme,
 } from "native-base";
@@ -15,7 +14,6 @@ import {
   RoundedProgressBar,
   subjectListRegistryService,
   selfAssesmentService,
-  userRegistryService,
 } from "@shiksha/common-lib";
 export const maxWidth = "750";
 
@@ -25,7 +23,7 @@ const style = {
   },
 };
 
-export default function EndlineScoreCard({ subject, userId }) {
+export default function EndlineScoreCard({ subject, user }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
   const [score, setScore] = React.useState(0);
@@ -36,9 +34,7 @@ export default function EndlineScoreCard({ subject, userId }) {
     const getTraking = async () => {
       try {
         let data = {};
-        if (userId) {
-          const user = await userRegistryService.getOne({ id: userId });
-          console.log({ user });
+        if (user) {
           data = await subjectListRegistryService.getProgramId({
             board: user?.board,
             medium: user?.medium,
@@ -51,12 +47,11 @@ export default function EndlineScoreCard({ subject, userId }) {
           const dataRuls = await selfAssesmentService.getCoursesRule({
             programId: data?.programId,
             subject,
-            filter: { userId },
+            filter: { userId: user?.id },
           });
 
           if (Array.isArray(dataRuls)) {
             const data = dataRuls.find((item) => item.courseType === "endline");
-            console.log({ data });
             if (data) {
               setTotalScore(data?.maxScore);
               setScore(

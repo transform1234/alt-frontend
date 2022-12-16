@@ -323,23 +323,31 @@ export default function LessonList({ footerLinks }) {
                 defaultCollapse={false}
                 _box={{ bg: "transperent", p: 0, px: 4 }}
                 _icon={{
-                  ...(moduleTrackingData?.status === "completed"
-                    ? { color: "white" }
-                    : {}),
+                  ...(moduleTrackingData?.status === "completed" ? {} : {}),
                 }}
                 _header={{
                   bg:
                     moduleTrackingData?.status === "completed"
-                      ? "selfassesment.cloverGreen"
+                      ? "white"
                       : "white",
                   rounded: "8",
                 }}
                 header={
                   <VStack p="4" w="100%" space="4">
                     <HStack alignItems="center" space="4">
-                      <Avatar bg={"primary"}>
+                      <Avatar
+                        bg={
+                          moduleTrackingData?.status === "completed"
+                            ? "selfassesment.cloverGreen"
+                            : "primary"
+                        }
+                      >
                         <IconByName
-                          name={"ListUnorderedIcon"}
+                          name={
+                            moduleTrackingData?.status === "completed"
+                              ? "CheckboxCircleLineIcon"
+                              : "ListUnorderedIcon"
+                          }
                           color="white"
                           isDisabled
                           _icon={{ size: 35 }}
@@ -348,18 +356,14 @@ export default function LessonList({ footerLinks }) {
                       <VStack space="2">
                         <BodyLarge
                           color={
-                            moduleTrackingData?.status === "completed"
-                              ? "white"
-                              : ""
+                            moduleTrackingData?.status === "completed" ? "" : ""
                           }
                         >
                           {item?.name}
                         </BodyLarge>
                         <Caption
                           color={
-                            moduleTrackingData?.status === "completed"
-                              ? "white"
-                              : ""
+                            moduleTrackingData?.status === "completed" ? "" : ""
                           }
                         >
                           {item?.description}

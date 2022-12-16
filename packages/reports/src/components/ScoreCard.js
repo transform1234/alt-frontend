@@ -6,7 +6,7 @@ import EndlineScore from "../pages/EndlineScore";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function ScoreCard({ userId }) {
+export default function ScoreCard({ user }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
@@ -23,14 +23,14 @@ export default function ScoreCard({ userId }) {
         style: { boxShadow: `inset 0px -1px 0px ${colors?.primary}` },
       }}
       routes={[
-        { title: t("BASELINE"), component: <BaselineScore userId={userId} /> },
+        { title: t("BASELINE"), component: <BaselineScore user={user} /> },
         {
           title: t("COURSES"),
-          component: <CoursesScore userId={userId} />,
+          component: <CoursesScore user={user} />,
         },
         {
           title: t("ENDLINE"),
-          component: <EndlineScore userId={userId} />,
+          component: <EndlineScore user={user} />,
         },
       ]}
     />
