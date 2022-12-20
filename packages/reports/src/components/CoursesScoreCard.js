@@ -26,7 +26,7 @@ const style = {
   },
 };
 
-export default function CoursesScoreCard({ subject, user }) {
+export default function CoursesScoreCard({ subject, user, isDisabledLink }) {
   const { colors } = useTheme();
   const [trackData, setTrackData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -133,7 +133,7 @@ export default function CoursesScoreCard({ subject, user }) {
                   return (
                     <VStack key={idx} space={2}>
                       <Pressable
-                        isDisabled={val?.status === "locked"}
+                        isDisabled={val?.status === "locked" || isDisabledLink}
                         {...([
                           "assessment",
                           "SelfAssess",
@@ -158,12 +158,14 @@ export default function CoursesScoreCard({ subject, user }) {
                             color={
                               val?.status === "locked"
                                 ? "lightGray1"
+                                : isDisabledLink
+                                ? "darkGray4"
                                 : "primary"
                             }
                           >
                             {val?.sectionName}
                           </H3>
-                          {val?.status ? (
+                          {val?.status && !isDisabledLink ? (
                             <IconByName
                               isDisabled
                               name="LinksLineIcon"

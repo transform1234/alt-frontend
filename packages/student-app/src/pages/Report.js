@@ -12,7 +12,7 @@ import Layout from "../components/Layout";
 import { useParams } from "react-router-dom";
 const ScoreCard = React.lazy(() => import("reports/ScoreCard"));
 
-function Report({ footerLinks }) {
+function Report({ footerLinks, isDisabledLink }) {
   const { t } = useTranslation();
   const { id } = useParams();
   const [user, setUser] = React.useState();
@@ -50,7 +50,7 @@ function Report({ footerLinks }) {
       _footer={footerLinks}
     >
       <Box p="5" mb="4">
-        <ScoreCard user={user} />
+        <ScoreCard user={user} isDisabledLink={isDisabledLink} />
       </Box>
     </Layout>
   );

@@ -13,6 +13,7 @@ const routes = [
     moduleName: "reports",
     path: "/students/:id",
     component: Report,
+    props: { isDisabledLink: true },
   },
   {
     moduleName: "student-app",
