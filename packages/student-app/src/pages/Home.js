@@ -23,7 +23,6 @@ function Home({ footerLinks }) {
     const resultDate =
       courses && Array.isArray(courses)
         ? courses?.map((course) => {
-            console.log({ course, subjects });
             return {
               link: `/studentprogram/${
                 course?.subject ? course?.subject?.[0].toLowerCase() : ""
