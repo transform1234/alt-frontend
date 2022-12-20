@@ -24,7 +24,9 @@ function Home({ footerLinks }) {
       courses && Array.isArray(courses)
         ? courses?.map((course) => {
             return {
-              link: "/studentprogram",
+              link: `/studentprogram/${
+                course?.subject ? course?.subject?.[0].toLowerCase() : ""
+              }`,
               title: course?.name,
               subTitle: `${
                 course?.subject ? course?.subject?.join(", ") + "," : ""

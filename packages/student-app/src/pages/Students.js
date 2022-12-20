@@ -77,7 +77,7 @@ function Students({ footerLinks }) {
     };
     getData();
   }, []);
-  console.log(classObject);
+
   return (
     <Layout
       loading={loading}

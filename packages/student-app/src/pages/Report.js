@@ -39,8 +39,8 @@ function Report({ footerLinks }) {
 
         headingComponent: (
           <VStack>
-            <H1>{t("REPORT")}</H1>
-            <Caption>{user?.name}</Caption>
+            <H1>{user?.name}</H1>
+            <Caption>{t("REPORT")}</Caption>
           </VStack>
         ),
       }}

@@ -47,6 +47,7 @@ export default function CoursesScoreCard({ subject, user }) {
         }
         if (data?.programId) {
           const status = await courseRegistryService.courseStatus({
+            userId: user?.id,
             programId: data?.programId,
             subject: subject,
           });
