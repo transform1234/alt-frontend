@@ -30,6 +30,7 @@ const routes = [
     moduleName: "reports",
     path: "/scorecard",
     component: Report,
+    props: { isDisabledLink: false },
   },
   {
     moduleName: "student-app",

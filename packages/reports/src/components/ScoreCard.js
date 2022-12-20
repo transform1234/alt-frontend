@@ -6,7 +6,7 @@ import EndlineScore from "../pages/EndlineScore";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function ScoreCard({ user }) {
+export default function ScoreCard({ user, isDisabledLink }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
@@ -26,7 +26,9 @@ export default function ScoreCard({ user }) {
         { title: t("BASELINE"), component: <BaselineScore user={user} /> },
         {
           title: t("COURSES"),
-          component: <CoursesScore user={user} />,
+          component: (
+            <CoursesScore user={user} _coursesScoreCard={{ isDisabledLink }} />
+          ),
         },
         {
           title: t("ENDLINE"),
