@@ -86,21 +86,21 @@ export default function StudentLogin({ swPath }) {
         }
 
         if (resultTeacher?.id) {
-          try {
-            const fcmToken = await getUserToken(swPath);
-            let id = localStorage.getItem("id");
-            await userRegistryService.update({ id, fcmToken });
-            localStorage.setItem("fcmToken", fcmToken);
-          } catch (e) {
-            localStorage.setItem("fcmToken", "");
-            console.log({ e });
-          }
-          eventBus.publish("AUTH", {
-            eventType: "LOGIN_SUCCESS",
-            data: {
-              token: token,
-            },
-          });
+          // try {
+          //   const fcmToken = await getUserToken(swPath);
+          //   let id = localStorage.getItem("id");
+          //   await userRegistryService.update({ id, fcmToken });
+          //   localStorage.setItem("fcmToken", fcmToken);
+          // } catch (e) {
+          //   localStorage.setItem("fcmToken", "");
+          //   console.log({ e });
+          // }
+          // eventBus.publish("AUTH", {
+          //   eventType: "LOGIN_SUCCESS",
+          //   data: {
+          //     token: token,
+          //   },
+          // });
           window.location.reload();
         } else {
           localStorage.removeItem("token");
