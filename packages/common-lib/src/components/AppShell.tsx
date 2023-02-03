@@ -56,7 +56,7 @@ function AppShell({
       }
       if (!token) {
         setAccessRoutes([
-          ...guestRoutes,
+          ...(guestRoutes ? guestRoutes : []),
           {
             path: '*',
             component: AuthComponent
