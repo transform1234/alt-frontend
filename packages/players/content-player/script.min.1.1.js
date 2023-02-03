@@ -72852,11 +72852,6 @@
           return !0;
         }),
         (window.addWindowUnloadEvent = function () {
-          console.log("addWindowUnloadEvent");
-          window?.parent?.postMessage(
-            { version: "3", data: "{e:'addWindowUnloadEvent'}" },
-            "*"
-          );
           var e;
           (e = window.location.origin
             ? window.location.origin
