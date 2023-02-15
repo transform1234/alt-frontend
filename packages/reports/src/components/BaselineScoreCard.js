@@ -32,7 +32,6 @@ export default function BaselineScoreCard({ subject, user }) {
   const [totalScore, setTotalScore] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
 
-  console.log(window.innerWidth, maxWidth);
   React.useEffect(() => {
     const getTraking = async () => {
       try {
