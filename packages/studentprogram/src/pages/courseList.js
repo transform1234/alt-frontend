@@ -48,13 +48,30 @@ export default function CourseList({ footerLinks }) {
     <Layout
       loading={loading}
       _header={{
-        title: subjectname,
+        title:
+          subjectname === "English"
+            ? t("ENGLISH")
+            : subjectname === "Mathematics"
+            ? t("MATHEMATICS")
+            : subjectname === "Science"
+            ? t("SCIENCE")
+            : subjectname === "Odiya"
+            ? t("ODIYA")
+            : "",
         subHeadingComponent: (
           <Breadcrumb
             data={[
               { title: t("HOME"), link: "/" },
               { title: t("SUBJECTS"), link: "/studentprogram/subjects" },
-              subjectname,
+              subjectname === "English"
+                ? t("ENGLISH")
+                : subjectname === "Mathematics"
+                ? t("MATHEMATICS")
+                : subjectname === "Science"
+                ? t("SCIENCE")
+                : subjectname === "Odiya"
+                ? t("ODIYA")
+                : "",
             ]}
           />
         ),

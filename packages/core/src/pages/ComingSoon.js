@@ -10,12 +10,17 @@ import {
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import { useParams, useLocation } from "react-router-dom";
+import manifest from "../manifest.json";
 
 function CommingSoon({ footerLinks }) {
   const [width, Height] = useWindowSize();
   const params = useParams();
   let location = useLocation();
   const { t } = useTranslation();
+  const Title =
+    params["title"] == "ScoreCard"
+      ? "Score Card"
+      : location.pathname.split("/")[1];
 
   React.useEffect(() => {
     capture("PAGE");
@@ -24,13 +29,11 @@ function CommingSoon({ footerLinks }) {
   return (
     <Layout
       _header={{
-        title:
-          params["title"] == "ScoreCard"
-            ? "Score Card"
-            : location.pathname.split("/")[1],
+        title: t("SETTING"),
       }}
       _appBar={{
-        languages: [],
+        languages: manifest.languages,
+        isLanguageIcon: true,
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
         LeftIcon: (
@@ -50,7 +53,7 @@ function CommingSoon({ footerLinks }) {
         <Center width={width}>
           <VStack space="">
             <Box>
-              <Heading>{t("Coming Soon")}</Heading>
+              <Heading>{t("COMING_SOON")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
               <Center>

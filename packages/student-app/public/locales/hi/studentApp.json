@@ -421,5 +421,7 @@
   "SUBJECT_NAME": "अंग्रेजी, गणित, विज्ञान, हिंदी",
   "SUBJECT_NOT_FOUND": "विषय नहीं मिला",
   "PROGRAM_NOT_FOUND": "प्रोग्राम नहीं मिला",
-  "LESSON_NOT_FOUND": "सबक नहीं मिला"
+  "LESSON_NOT_FOUND": "सबक नहीं मिला",
+  "SETTING": "सेटिंग",
+  "ODIYA": "उड़िया"
 }
