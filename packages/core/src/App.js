@@ -14,11 +14,13 @@ import { extendTheme, NativeBaseProvider } from "native-base";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { DEFAULT_THEME, initializeI18n } from "@shiksha/common-lib";
 
-initializeI18n(["translation", "core"]);
-
 const theme = extendTheme(DEFAULT_THEME);
 
 function App() {
+  initializeI18n(
+    ["studentApp"],
+    `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
+  );
   return (
     <NativeBaseProvider theme={theme}>
       <Router basename={process.env.PUBLIC_URL}>

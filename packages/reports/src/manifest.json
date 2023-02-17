@@ -88,20 +88,17 @@
     },
     {
       "title": "Hindi",
-      "path": "./samagra-shiksha.en-gb.json",
-      "overridePath": "./override-samagra-shiksha.en-gb.json",
-      "code": "en"
+
+      "code": "hi"
     },
     {
       "title": "Odiya",
-      "path": "./samagra-shiksha.hi-in.json",
-      "overridePath": "./override-samagra-shiksha.hi-in.json",
+
       "code": "od"
     },
     {
       "title": "Bangali",
-      "path": "./samagra-shiksha.hi-in.json",
-      "overridePath": "./override-samagra-shiksha.hi-in.json",
+
       "code": "bn"
     }
   ],
