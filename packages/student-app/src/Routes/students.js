@@ -1,5 +1,6 @@
 import Home from "pages/Home";
 import React from "react";
+import FunActivity from "pages/FunActivity"
 const Studentprogram = React.lazy(() => import("studentprogram/courseList"));
 const StudentprogramLessonList = React.lazy(() =>
   import("studentprogram/Lessons")
@@ -57,6 +58,11 @@ const routes = [
     moduleName: "student-app",
     path: "/",
     component: Home,
+  },
+  {
+    moduleName: "student-app",
+    path: "/fun-activity",
+    component: FunActivity,
   },
 ];
 export default routes;

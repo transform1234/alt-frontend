@@ -67,6 +67,23 @@ function Home({ footerLinks }) {
 
   const widgetData = [
     {
+      title: t("FUN-ACTIVITY"),
+      link: "/",
+      data: [
+        {
+          link: "/fun-activity",
+          title: t("FUN-ACTIVITY"),
+         
+          _box: {
+            style: {
+              background:
+                "linear-gradient(281.03deg, #FC5858 -21.15%, #F8AF5A 100.04%)",
+            },
+          },
+        }
+      ]
+      },
+    {
       title: t("QUICK_CHECK"),
       link: "/studentprogram",
       data: [

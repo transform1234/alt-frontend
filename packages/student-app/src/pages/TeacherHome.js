@@ -2,11 +2,9 @@ import React from "react";
 import { Box, Stack, VStack } from "native-base";
 import { Widget } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
-import manifest from "../../src/manifest.json";
 import Layout from "../components/Layout";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-
 const menuBoxProp = {
   boxMinW: "150px",
 };
@@ -69,9 +67,7 @@ function Home({ footerLinks }) {
         //   </HStack>
         // ),
       }}
-      _appBar={{
-        languages: manifest.languages,
-      }}
+     
       _footer={footerLinks}
     >
       <Box bg="white" rounded={"2xl"} py={6} px={4} mb={5} shadow={3}>
