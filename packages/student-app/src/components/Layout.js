@@ -1,12 +1,17 @@
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Avatar, HStack } from "native-base";
 import React from "react";
+import { LibManifestPlugin } from "webpack";
+import manifest from "../../src/manifest.json";
 
 export default function App({ children, ...props }) {
   return (
     <Layout
       {...props}
       _appBar={{
+        
+          languages:manifest.languages,
+        
         // color: "#fff",
         // _box: { pt: 5 },
         isLanguageIcon: true,

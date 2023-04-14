@@ -50,4 +50,12 @@ export const teachers = [
     route: "/students",
     routeparameters: {},
   },
+  // {
+  //   title: "Score Card",
+  //   icon: "AwardLineIcon",
+  //   moduleName: "reports",
+  //   selected: ["/students/:id"],
+  //   route: "/students/:id",
+  //   routeparameters: {},
+  // },
 ];
