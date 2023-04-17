@@ -1,11 +1,21 @@
-import { Layout } from "@shiksha/common-lib";
-import { Link } from "react-router-dom";
-import { Box, HStack, Text, VStack } from "native-base";
+import { IconByName, Layout } from "@shiksha/common-lib";
+import { Link,useNavigate } from "react-router-dom";
+import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
 
 export default function FunActivity() {
+  const navigate = useNavigate();
   return (
     <Layout
-      
+    _appBar={{
+      isShowNotificationButton: false,
+     
+      LeftIcon: (
+        <HStack>
+          <IconByName name="ArrowLeftLineIcon"  onPress={() => navigate("/")}/>
+
+        </HStack>
+      ),
+    }}
       _footer={{
         menues: [
           {

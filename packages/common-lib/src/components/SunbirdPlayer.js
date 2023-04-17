@@ -153,8 +153,8 @@ const SunbirdPlayer = ({
           }}
           position='absolute'
           zIndex='10'
-          right='4px'
-          top='4px'
+          right='15px'
+          top='-50px'
           _icon={{ size: 40 }}
           bg='white'
           p='0'
