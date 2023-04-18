@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, HStack, Avatar } from "native-base";
+import { Box, HStack, Avatar,Text } from "native-base";
 import {
   Breadcrumb,
   Layout,
   NameTag,
+  H3,
   userRegistryService,
 } from "@shiksha/common-lib";
 import manifest from "../../src/manifest.json";
@@ -37,13 +38,16 @@ function Report({ footerLinks }) {
 
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
+        _text_logo :(<HStack>
+          <Box mt={"10px"} mb={"10px"} >
+          <H3>Accelerated Learning via Technology (ALT)</H3>
+          </Box>
+        </HStack>),
         LeftIcon: (
           <HStack>
-            <Avatar
-              rounded={0}
-              _image={{ rounded: 0 }}
-              style={{ borderRadius: 0 }}
-              source={require("../../src/assets/images/TSHeader.jpg")}
+            <img
+            width={"100px"}
+            src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),

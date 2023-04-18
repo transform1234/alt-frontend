@@ -93,13 +93,13 @@
       "code": "hi"
     },
     {
-      "title": "Odiya",
+      "title": "Odia",
       "path": "./samagra-shiksha.hi-in.json",
       "overridePath": "./override-samagra-shiksha.hi-in.json",
       "code": "od"
     },
     {
-      "title": "Bangali",
+      "title": "Bengali",
       "path": "./samagra-shiksha.hi-in.json",
       "overridePath": "./override-samagra-shiksha.hi-in.json",
       "code": "bn"
