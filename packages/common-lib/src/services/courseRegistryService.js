@@ -144,6 +144,18 @@ export const lessontracking = async (
   } catch {
     return {}
   }
+  setTimeout(async () => {
+    const result = await post(
+      baseUrl + '/altlessontracking/altcheckandaddlessontracking',
+      params,
+      { params: { program, subject }, headers }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    } else {
+      return {}
+    }
+  }, 1500)
 }
 
 export const getLessontracking = async ({ userId, ...params }, header = {}) => {
