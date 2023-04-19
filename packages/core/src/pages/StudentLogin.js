@@ -11,6 +11,7 @@ import {
   CloseIcon,
   Center,
   Avatar,
+  Image
 } from "native-base";
 import { useTranslation } from "react-i18next";
 
@@ -27,6 +28,7 @@ import {
   Layout,
   IconByName,
   getAuthUser,
+  H3
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -133,14 +135,21 @@ export default function StudentLogin({ swPath }) {
       <Box>
         <Center width={width}>
           <HStack>
-            <Avatar
-              bg=""
-              size={"xl"}
-              style={{ borderRadius: "0px" }}
-              source={require("../../src/assets/Transform Schools _PFA.png")}
+            <Center>
+            <img
+              
+              width={"200px"}
+              src={require("../../src/assets/TSHeader.png")}
             />
+            </Center>
+            
           </HStack>
           <VStack space="" w="300px">
+          <Center>
+              <Box mt={"10px"} textAlign="center">
+              <H3 style={{fontSize:"16px"}}>Accelerated Learning via Technology (ALT)</H3>
+              </Box>
+            </Center>
             <Center>
               <Box mt={"10px"}>
                 <Heading>{t("WELCOME")}</Heading>

@@ -85,11 +85,9 @@ export default function CourseList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack space={2} alignItems="center">
-            <Avatar
-              rounded={0}
-              _image={{ rounded: 0 }}
-              style={{ borderRadius: 0 }}
-              source={require("../assets/images/TSHeader.jpg")}
+            <img
+            width={"100px"}
+            src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),

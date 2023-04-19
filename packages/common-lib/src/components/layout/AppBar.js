@@ -34,6 +34,7 @@ export default function AppBar({
   titleComponent,
   isBackButtonShow,
   isLanguageIcon,
+  _text_logo ,
   ...props
 }) {
   const [searchInput, setSearchInput] = useState(false)
@@ -62,7 +63,7 @@ export default function AppBar({
     <Box pt={7} px={3} {...props?._box}>
       <StatusBar bg='gray.600' barStyle='light-content' />
       <Box safeAreaTop bg='gray.600' />
-
+      {_text_logo ? _text_logo :<React.Fragment />}
       {searchInput ? (
         <Stack alignItems='center'>
           <InputGroup width='100%'>
