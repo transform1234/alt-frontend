@@ -43,6 +43,26 @@ export default function LessonList({ footerLinks }) {
   const navigate = useNavigate();
   const [trackData, setTrackData] = React.useState();
   const [loading, setLoading] = React.useState(true);
+  const setLessonData = async (id) => {
+    let resultData = await courseRegistryService.getOne({
+      id: id,
+      adapter: "diksha",
+      coreData: true,
+      type: "assessment",
+    });
+
+    let instructionData = await courseRegistryService.courseTrackingRead({
+      id,
+    });
+    const newData = {
+      ...resultData,
+      instructions: instructionData?.instructions
+        ? instructionData?.instructions
+        : {},
+    };
+    console.log("newData", newData, newData?.children);
+    setLesson(newData);
+  };
 
   React.useEffect(async () => {
     try {
@@ -54,22 +74,7 @@ export default function LessonList({ footerLinks }) {
           "QuestionSetImage",
         ].includes(type)
       ) {
-        let resultData = await courseRegistryService.getOne({
-          id: id,
-          adapter: "diksha",
-          coreData: true,
-          type: "assessment",
-        });
-
-        let instructionData = await courseRegistryService.courseTrackingRead({
-          id,
-        });
-        setLesson({
-          ...resultData,
-          instructions: instructionData?.instructions
-            ? instructionData?.instructions
-            : {},
-        });
+        setLessonData(id);
       } else if (["course", "Course"].includes(type)) {
         const data = await courseRegistryService.moduleTracking({
           userId: localStorage.getItem("id"),
@@ -156,14 +161,17 @@ export default function LessonList({ footerLinks }) {
 
   React.useEffect(async () => {
     if (lessonId) {
-      let resultData = await courseRegistryService.getContent({
-        id: lessonId?.identifier,
-        adapter: "diksha",
-      });
-      setLesson(resultData);
+      if (lessonId.mimeType === "application/vnd.sunbird.questionset") {
+        setLessonData(lessonId?.identifier);
+      } else {
+        const resultData = await courseRegistryService.getContent({
+          id: lessonId?.identifier,
+          adapter: "diksha",
+        });
+        setLesson(resultData);
+      }
     }
   }, [lessonId]);
-
   if (lesson?.trakingData?.length > 0) {
     return (
       <Loading
