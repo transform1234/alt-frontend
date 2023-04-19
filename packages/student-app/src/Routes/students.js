@@ -1,6 +1,8 @@
 import Home from "pages/Home";
 import React from "react";
+
 import FunActivity from "pages/FunActivity";
+
 const Studentprogram = React.lazy(() => import("studentprogram/courseList"));
 const StudentprogramLessonList = React.lazy(() =>
   import("studentprogram/Lessons")

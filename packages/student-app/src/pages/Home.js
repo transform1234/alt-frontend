@@ -68,11 +68,13 @@ function Home({ footerLinks }) {
 
   const widgetData = [
     {
+
       title: t("FUN_ACTIVITY"),
       link: "/",
       data: [
         {
           link: "/fun-activity",
+
           title: t("FUN_ACTIVITY"),
           
           _box: {
@@ -85,6 +87,7 @@ function Home({ footerLinks }) {
         
       ],
     },
+
     {
       title: t("QUICK_CHECK"),
       link: "/studentprogram",
