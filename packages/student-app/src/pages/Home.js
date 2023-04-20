@@ -5,6 +5,7 @@ import {
   Layout,
   Widget,
   NameTag,
+  H3,
   subjectListRegistryService,
   selfAssesmentService,
   courseRegistryService,
@@ -53,7 +54,7 @@ function Home({ footerLinks }) {
           })
         : [
             {
-              subTitle: courses?.msg,
+              subTitle: `No data, Start consuming course to see current phases`,
               _box: {
                 style: {
                   background:
@@ -66,6 +67,27 @@ function Home({ footerLinks }) {
   };
 
   const widgetData = [
+    {
+
+      title: t("FUN_ACTIVITY"),
+      link: "/",
+      data: [
+        {
+          link: "/fun-activity",
+
+          title: t("FUN_ACTIVITY"),
+          
+          _box: {
+            style: {
+              background:
+                "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+            },
+          },
+        },
+        
+      ],
+    },
+
     {
       title: t("QUICK_CHECK"),
       link: "/studentprogram",
@@ -111,7 +133,10 @@ function Home({ footerLinks }) {
         const courseData = await subjectListRegistryService.getOngoingCourses({
           programId: pro?.programId,
         });
-        setCourses(courseData);
+        console.log(courseData.msg)
+        const ids = courseData.map(o => o.name)
+        let filteredData = courseData.filter(({name}, index) => !ids.includes(name, index + 1))
+        setCourses(filteredData);
         setLoading(false);
       } catch (e) {
         console.log({ e });
@@ -133,13 +158,16 @@ function Home({ footerLinks }) {
         isLanguageIcon: true,
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
+        _text_logo :(<HStack>
+          <Box mt={"10px"} mb={"10px"} >
+          <H3>Accelerated Learning via Technology (ALT)</H3>
+          </Box>
+        </HStack>),
         LeftIcon: (
           <HStack>
-            <Avatar
-              rounded={0}
-              _image={{ rounded: 0 }}
-              style={{ borderRadius: 0 }}
-              source={require("./../assets/images/TSHeader.jpg")}
+            <img
+            width={"100px"}
+            src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),

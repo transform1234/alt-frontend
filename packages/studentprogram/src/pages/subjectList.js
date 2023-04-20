@@ -58,11 +58,9 @@ export default function SubjectList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack>
-            <Avatar
-              rounded={0}
-              _image={{ rounded: 0 }}
-              style={{ borderRadius: 0 }}
-              source={require("../assets/images/TSHeader.jpg")}
+             <img
+            width={"100px"}
+            src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),
