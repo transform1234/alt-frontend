@@ -246,7 +246,6 @@ export default function LessonList({ footerLinks }) {
                       lesson?.mimeType
                     )
                   ) {
-                    alert("hello 1");
 
                     handleTrackData(
                       data,
