@@ -19,33 +19,37 @@ export default function FunActivity() {
       _footer={{
         menues: [
           {
-            title: 'Home',
-            icon: 'Home4LineIcon',
-            moduleName: 'app',
-            route: '/',
-            routeparameters: {}
+            title: "Home",
+            icon: "Home4LineIcon",
+            moduleName: "app",
+            selected: ["/"],
+            route: "/",
+            routeparameters: {},
           },
           {
-            title: 'Learn',
-            icon: 'BookLineIcon',
-            moduleName: 'studentprogram',
-            route: '/studentprogram/subjects',
-            routeparameters: {}
+            title: "Learn",
+            icon: "BookLineIcon",
+            moduleName: "studentprogram",
+            selected: ["/studentprogram"],
+            route: "/studentprogram/subjects",
+            routeparameters: {},
           },
           {
-            title: 'Certificate',
-            icon: 'AwardLineIcon',
-            moduleName: 'Certificate',
-            route: '/Certificate',
-            routeparameters: {}
+            title: "Score Card",
+            icon: "AwardLineIcon",
+            moduleName: "Certificate",
+            selected: ["/scorecard"],
+            route: "/scorecard",
+            routeparameters: {},
           },
           {
-            title: 'Settings',
-            icon: 'DashboardLineIcon',
-            moduleName: 'Settings',
-            route: '/Settings',
-            routeparameters: {}
-          }
+            title: "Settings",
+            icon: "DashboardLineIcon",
+            moduleName: "Settings",
+            selected: ["/Settings"],
+            route: "/Settings",
+            routeparameters: {},
+          },
         ],
       }}
     >
