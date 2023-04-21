@@ -53,7 +53,8 @@
     "react-router-dom": "^6.1.1",
     "remixicon-react": "^1.0.0",
     "styled-components": "^5.3.3",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "@project-sunbird/client-services": "^5.1.2"
   },
   "peerDependencies": {
     "react": "17.0.2"
