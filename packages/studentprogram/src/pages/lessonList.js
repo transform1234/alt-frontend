@@ -246,7 +246,6 @@ export default function LessonList({ footerLinks }) {
                       lesson?.mimeType
                     )
                   ) {
-
                     handleTrackData(
                       data,
                       "application/vnd.sunbird.questionset"
@@ -428,7 +427,7 @@ export default function LessonList({ footerLinks }) {
                               "application/vnd.sunbird.question",
                               "application/vnd.sunbird.questionset",
                             ].includes(subItem?.mimeType) ? (
-                            "QUML"
+                            <IconByName name="PlayFillIcon" isDisabled />
                           ) : ["application/vnd.ekstep.h5p-archive"].includes(
                               subItem?.mimeType
                             ) ? (
