@@ -155,7 +155,6 @@ export default function LessonList({ footerLinks }) {
         subject: lessons?.subject?.join(","),
       };
     }
-    // console.log({ data });
     courseRegistryService.lessontracking(data);
   };
 
@@ -243,6 +242,15 @@ export default function LessonList({ footerLinks }) {
                   ) {
                     handleTrackData(data);
                   } else if (
+                    ["application/vnd.sunbird.questionset"].includes(
+                      lesson?.mimeType
+                    )
+                  ) {
+                    handleTrackData(
+                      data,
+                      "application/vnd.sunbird.questionset"
+                    );
+                  } else if (
                     [
                       "application/pdf",
                       "video/mp4",
@@ -324,7 +332,6 @@ export default function LessonList({ footerLinks }) {
             const moduleTrackingData = moduleTracking.find(
               (e) => e.moduleId === item.identifier
             );
-
             return (
               <Collapsible
                 key={index}
@@ -420,7 +427,7 @@ export default function LessonList({ footerLinks }) {
                               "application/vnd.sunbird.question",
                               "application/vnd.sunbird.questionset",
                             ].includes(subItem?.mimeType) ? (
-                            "QUML"
+                            <IconByName name="PlayFillIcon" isDisabled />
                           ) : ["application/vnd.ekstep.h5p-archive"].includes(
                               subItem?.mimeType
                             ) ? (
