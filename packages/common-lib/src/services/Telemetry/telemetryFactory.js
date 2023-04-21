@@ -1,5 +1,9 @@
 import { generateUUID } from '../../components/helper'
-import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry'
+import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry';
+import * as EkTelemetry from '@project-sunbird/telemetry-sdk';
+import jQuery from 'jquery'
+
+window.jQuery = jQuery;
 
 const telemetryConfig = {
   apislug: '',
@@ -16,13 +20,13 @@ const telemetryConfig = {
   sid: 'session-id',
   batchsize: 1,
   mode: '',
-  host: 'https://3.111.252.243:9001',
+  host: 'https://3.111.252.243:9001', //TODO: Change this host and endpoint properly
   endpoint: '/v1/telemetry',
   tags: []
 }
 export const telemetryFactory = {
   init: () => {
-  console.log('EkTelemetry', Telemetry);
+  console.log('EkTelemetry', EkTelemetry);
     if (!CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.init({})
       CsTelemetryModule.instance.telemetryService.initTelemetry({
@@ -40,14 +44,12 @@ export const telemetryFactory = {
     //   edata: eventData.edata
     // })
 
-    if (CsTelemetryModule.instance.isInitialised) {
       const eventData = getEventData(interactEventInput);
       console.log("eventData", eventData);
       CsTelemetryModule.instance.telemetryService.raiseInteractTelemetry({
         options: eventData.options,
         edata: eventData.edata
       });
-    }
     // return {
     //   type: edata?.type,
     //   eid: generateUUID(),

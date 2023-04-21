@@ -30,7 +30,7 @@ function App() {
     };
 
     getData();
-    telemetryFactory.init();
+    // telemetryFactory.init(); //TODO: Enable this when all the telemetry endpoints are set
   }, []);
 
   const skipLogin = !(
