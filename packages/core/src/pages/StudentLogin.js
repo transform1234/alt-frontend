@@ -14,6 +14,7 @@ import {
   Image
 } from "native-base";
 import { useTranslation } from "react-i18next";
+
 import manifest from "../manifest";
 import {
   fetchToken,
@@ -27,8 +28,7 @@ import {
   Layout,
   IconByName,
   getAuthUser,
-  H3,
-  telemetryFactory
+  H3
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -68,24 +68,7 @@ export default function StudentLogin({ swPath }) {
     return true;
   };
 
-  const handleTelemetry = async() => {
-    const telemetryInteract = {
-      context: {
-        env: 'sign-in',
-        cdata: []
-      },
-      edata: {
-        id: 'login-button',
-        type: 'CLICK',
-        subtype: '',
-        pageid: 'sign-in',
-      }
-    };
-    telemetryFactory.interact(telemetryInteract);
-  }
-
   const handleLogin = async () => {
-    
     if (validate()) {
       const result = await fetchToken(
         manifest.auth_url,
@@ -290,9 +273,6 @@ export default function StudentLogin({ swPath }) {
 
                 <Button p="3" onPress={handleLogin} variant={"rounded"}>
                   {t("LOGIN")}
-                </Button>
-                <Button p="4" onPress={handleTelemetry} variant={"rounded"}>
-                  telemetry
                 </Button>
               </VStack>
             </VStack>
