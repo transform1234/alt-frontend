@@ -6,6 +6,7 @@ import {
   Widget,
   NameTag,
   H3,
+  H2,
   subjectListRegistryService,
   selfAssesmentService,
   courseRegistryService,
@@ -102,9 +103,9 @@ export default function FunActivity() {
                 pairs by flipping over other cards. The aim is to match all the
                 pairs and win the game.{" "}
               </H3>
-              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"center"}>
+              <H2 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"center"}>
                 Good luck and have fun!{" "}
-              </H3>
+              </H2>
             </Box>
           </Box>
         </HStack>
