@@ -1,21 +1,35 @@
 import { IconByName, Layout } from "@shiksha/common-lib";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
+import {
+  capture,
+  Widget,
+  NameTag,
+  H3,
+  subjectListRegistryService,
+  selfAssesmentService,
+  courseRegistryService,
+} from "@shiksha/common-lib";
+import { useTranslation } from "react-i18next";
+import manifest from "../../src/manifest.json";
+import moment from "moment";
 
 export default function FunActivity() {
   const navigate = useNavigate();
   return (
     <Layout
-    _appBar={{
-      isShowNotificationButton: false,
-     
-      LeftIcon: (
-        <HStack>
-          <IconByName name="ArrowLeftLineIcon"  onPress={() => navigate("/")}/>
+      _appBar={{
+        isShowNotificationButton: false,
 
-        </HStack>
-      ),
-    }}
+        LeftIcon: (
+          <HStack>
+            <IconByName
+              name="ArrowLeftLineIcon"
+              onPress={() => navigate("/")}
+            />
+          </HStack>
+        ),
+      }}
       _footer={{
         menues: [
           {
@@ -53,10 +67,56 @@ export default function FunActivity() {
         ],
       }}
     >
-     <>
-      <iframe src="https://h5p.org/h5p/embed/1372413" width="1019" height="270" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" title="Match the Organisms: The objective of the game is to collect the most pairs. Select card and remember which cards are where and then try selecting its pair..."></iframe>
-      <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
+      <>
+        <iframe
+          src="https://h5p.org/h5p/embed/1372413"
+          width="1019"
+          height="270"
+          frameborder="0"
+          allowfullscreen="allowfullscreen"
+          allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"
+          title="Match the Organisms: The objective of the game is to collect the most pairs. Select card and remember which cards are where and then try selecting its pair..."
+        ></iframe>
+        <script
+          src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js"
+          charset="UTF-8"
+        ></script>
+        <HStack
+          display={"inline"}
+          rounded={"2xl"}
+          py={6}
+          px={4}
+          mb={5}
+          shadow={3}
+        >
+          <Box mt={"10px"} mb={"10px"}>
+            <Box mt={"10px"} textAlign="center">
+              <H3 mb={"10px"} style={{ fontSize: "16px" }}>
+                The following is the message that needs to be put on the
+                platform for the fun activity. Pls check the following -
+              </H3>
+              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
+                1. If the message looks fine on the home page
+              </H3>
+              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
+                2. If not, then put the message inside the fun activity.
+              </H3>
+
+              <H3
+                mt={"20px"}
+                fontSize={"clamp(3rem, 6vw, 6rem)"}
+                textAlign={"left"}
+              >
+                Message - Welcome to a fun memory game! In this game, you will
+                see a set of cards, each featuring an organism. Your goal is to
+                flip over the cards and remember their positions, and then try
+                to find pairs by flipping over other cards. The aim is to match
+                all the pairs and win the game. Good luck and have fun!{" "}
+              </H3>
+            </Box>
+          </Box>
+        </HStack>
       </>
-      </Layout>
+    </Layout>
   );
 }
