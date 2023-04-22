@@ -167,7 +167,7 @@ function Home({ footerLinks }) {
             mb={5}
             shadow={3}
           >
-            <Box mt={"10px"} mb={"10px"}>
+            <Box mb={"10px"}>
               <Box mt={"10px"} textAlign="center">
                 <H3 mb={"10px"} style={{ fontSize: "16px" }}>
                   Tips for better experience

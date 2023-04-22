@@ -91,27 +91,19 @@ export default function FunActivity() {
         >
           <Box mt={"10px"} mb={"10px"}>
             <Box mt={"10px"} textAlign="center">
-              <H3 mb={"10px"} style={{ fontSize: "16px" }}>
-                The following is the message that needs to be put on the
-                platform for the fun activity. Pls check the following -
-              </H3>
-              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
-                1. If the message looks fine on the home page
-              </H3>
-              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
-                2. If not, then put the message inside the fun activity.
-              </H3>
-
               <H3
                 mt={"20px"}
                 fontSize={"clamp(3rem, 6vw, 6rem)"}
                 textAlign={"left"}
               >
-                Message - Welcome to a fun memory game! In this game, you will
-                see a set of cards, each featuring an organism. Your goal is to
-                flip over the cards and remember their positions, and then try
-                to find pairs by flipping over other cards. The aim is to match
-                all the pairs and win the game. Good luck and have fun!{" "}
+                Welcome to a fun memory game! In this game, you will see a set
+                of cards, each featuring an organism. Your goal is to flip over
+                the cards and remember their positions, and then try to find
+                pairs by flipping over other cards. The aim is to match all the
+                pairs and win the game.{" "}
+              </H3>
+              <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"center"}>
+                Good luck and have fun!{" "}
               </H3>
             </Box>
           </Box>
