@@ -6,7 +6,6 @@ import {
   Widget,
   NameTag,
   H3,
-  H2,
   subjectListRegistryService,
   selfAssesmentService,
   courseRegistryService,
@@ -181,7 +180,7 @@ function Home({ footerLinks }) {
                   incognito mode of your browser to access the platform.
                 </H3>
               </Box>
-              <H2 mt={"10px"}>Accelerated Learning via Technology (ALT)</H2>
+              <H3 mt={"10px"}>Accelerated Learning via Technology (ALT)</H3>
             </Box>
           </HStack>
         ),
