@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { AppShell, getAuthUser, initializeI18n, telemetryFactory } from "@shiksha/common-lib";
+import { AppShell, getAuthUser, initializeI18n } from "@shiksha/common-lib";
 import studentRoutes from "./Routes/students";
 import teacherRoutes from "./Routes/teachers";
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
@@ -28,7 +28,6 @@ function App() {
         setFooterLinks(students);
       }
     };
-
     getData();
     // telemetryFactory.init(); //TODO: Enable this when all the telemetry endpoints are set
   }, []);

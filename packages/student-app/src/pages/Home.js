@@ -68,7 +68,6 @@ function Home({ footerLinks }) {
 
   const widgetData = [
     {
-
       title: t("FUN_ACTIVITY"),
       link: "/",
       data: [
@@ -76,7 +75,7 @@ function Home({ footerLinks }) {
           link: "/fun-activity",
 
           title: t("FUN_ACTIVITY"),
-          
+
           _box: {
             style: {
               background:
@@ -84,7 +83,6 @@ function Home({ footerLinks }) {
             },
           },
         },
-        
       ],
     },
 
@@ -133,9 +131,11 @@ function Home({ footerLinks }) {
         const courseData = await subjectListRegistryService.getOngoingCourses({
           programId: pro?.programId,
         });
-        console.log(courseData.msg)
-        const ids = courseData.map(o => o.name)
-        let filteredData = courseData.filter(({name}, index) => !ids.includes(name, index + 1))
+        console.log(courseData.msg);
+        const ids = courseData.map((o) => o.name);
+        let filteredData = courseData.filter(
+          ({ name }, index) => !ids.includes(name, index + 1)
+        );
         setCourses(filteredData);
         setLoading(false);
       } catch (e) {
@@ -158,16 +158,37 @@ function Home({ footerLinks }) {
         isLanguageIcon: true,
         isShowNotificationButton: false,
         titleComponent: <NameTag />,
-        _text_logo :(<HStack>
-          <Box mt={"10px"} mb={"10px"} >
-          <H3>Accelerated Learning via Technology (ALT)</H3>
-          </Box>
-        </HStack>),
+        _text_logo: (
+          <HStack
+            display={"inline"}
+            rounded={"2xl"}
+            py={6}
+            px={4}
+            mb={5}
+            shadow={3}
+          >
+            <Box mb={"10px"}>
+              <Box mt={"10px"} textAlign="center">
+                <H3 mb={"10px"} style={{ fontSize: "16px" }}>
+                  Tips for better experience
+                </H3>
+                <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
+                  1. Please use chrome browser for better experience.
+                </H3>
+                <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
+                  2. Incase any issue persists during login then try with
+                  incognito mode of your browser to access the platform.
+                </H3>
+              </Box>
+              <H3 mt={"10px"}>Accelerated Learning via Technology (ALT)</H3>
+            </Box>
+          </HStack>
+        ),
         LeftIcon: (
           <HStack>
             <img
-            width={"100px"}
-            src={require("./../assets/images/TSHeader.png")}
+              width={"100px"}
+              src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),

@@ -11,9 +11,10 @@ import {
   CloseIcon,
   Center,
   Avatar,
-  Image
+  Image,
 } from "native-base";
 import { useTranslation } from "react-i18next";
+
 import manifest from "../manifest";
 import {
   fetchToken,
@@ -28,7 +29,6 @@ import {
   IconByName,
   getAuthUser,
   H3,
-  telemetryFactory
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -68,24 +68,7 @@ export default function StudentLogin({ swPath }) {
     return true;
   };
 
-  const handleTelemetry = async() => {
-    const telemetryInteract = {
-      context: {
-        env: 'sign-in',
-        cdata: []
-      },
-      edata: {
-        id: 'login-button',
-        type: 'CLICK',
-        subtype: '',
-        pageid: 'sign-in',
-      }
-    };
-    telemetryFactory.interact(telemetryInteract);
-  }
-
   const handleLogin = async () => {
-    
     if (validate()) {
       const result = await fetchToken(
         manifest.auth_url,
@@ -149,26 +132,26 @@ export default function StudentLogin({ swPath }) {
       }}
       // _height="150px"
     >
-      <Box>
+      <Box overflow={"hidden"}>
         <Center width={width}>
-          <HStack>
+          <HStack overflow={"hidden"}>
             <Center>
-            <img
-              
-              width={"200px"}
-              src={require("../../src/assets/TSHeader.png")}
-            />
+              <img
+                width={"200px"}
+                src={require("../../src/assets/TSHeader.png")}
+              />
             </Center>
-            
           </HStack>
-          <VStack space="" w="300px">
-          <Center>
-              <Box mt={"10px"} textAlign="center">
-              <H3 style={{fontSize:"16px"}}>Accelerated Learning via Technology (ALT)</H3>
+          <VStack overflow={"hidden"} space="" w="300px">
+            <Center>
+              <Box textAlign="center">
+                <H3 style={{ fontSize: "16px" }}>
+                  Accelerated Learning via Technology (ALT)
+                </H3>
               </Box>
             </Center>
             <Center>
-              <Box mt={"10px"}>
+              <Box>
                 <Heading>{t("WELCOME")}</Heading>
               </Box>
             </Center>
@@ -196,7 +179,7 @@ export default function StudentLogin({ swPath }) {
               ) : (
                 <></>
               )}
-              <VStack space="30px" p={"20px"}>
+              <VStack space="30px" p>
                 <FormControl isRequired isInvalid={"username" in errors}>
                   <FormControl.Label
                     _text={{
@@ -204,7 +187,6 @@ export default function StudentLogin({ swPath }) {
                       fontWeight: "400",
                       color: "#6461D2",
                     }}
-                    mb="10px"
                   >
                     {t("USERNAME")}
                   </FormControl.Label>
@@ -214,7 +196,7 @@ export default function StudentLogin({ swPath }) {
                     borderColor={
                       credentials?.["username"] ? "yellow.500" : "#C1C1C1"
                     }
-                    p={"10px"}
+                    // p={"10px"}
                     placeholder={t("ENTER_USERNAME")}
                     onChange={(e) =>
                       setCredentials({
@@ -244,7 +226,6 @@ export default function StudentLogin({ swPath }) {
                       fontWeight: "400",
                       color: "#6461D2",
                     }}
-                    mb="10px"
                   >
                     {t("PASSWORD")}
                   </FormControl.Label>
@@ -270,7 +251,7 @@ export default function StudentLogin({ swPath }) {
                         rounded="full"
                         onPress={() => setShow(!show)}
                       />
-                    }
+                    } 
                   />
 
                   {"password" in errors ? (
@@ -288,12 +269,23 @@ export default function StudentLogin({ swPath }) {
                   )}
                 </FormControl>
 
-                <Button p="3" onPress={handleLogin} variant={"rounded"}>
+                <Button onPress={handleLogin} variant={"rounded"}>
                   {t("LOGIN")}
                 </Button>
-                <Button p="4" onPress={handleTelemetry} variant={"rounded"}>
-                  telemetry
-                </Button>
+                <VStack>
+                  <Box textAlign="center">
+                    <H3 style={{ fontSize: "16px" }}>
+                      Tips for better experience
+                    </H3>
+                    <H3 textAlign={"justify"}>
+                      1. Please use chrome browser for better experience.
+                    </H3>
+                    <H3 textAlign={"justify"}>
+                      2. Incase any issue persists during login then try with
+                      incognito mode of your browser to access the platform.
+                    </H3>
+                  </Box>
+                </VStack>
               </VStack>
             </VStack>
           </VStack>
