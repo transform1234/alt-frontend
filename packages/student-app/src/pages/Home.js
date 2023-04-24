@@ -131,7 +131,6 @@ function Home({ footerLinks }) {
         const courseData = await subjectListRegistryService.getOngoingCourses({
           programId: pro?.programId,
         });
-        console.log(courseData.msg);
         const ids = courseData.map((o) => o.name);
         let filteredData = courseData.filter(
           ({ name }, index) => !ids.includes(name, index + 1)
