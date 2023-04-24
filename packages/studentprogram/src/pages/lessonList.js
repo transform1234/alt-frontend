@@ -60,7 +60,6 @@ export default function LessonList({ footerLinks }) {
         ? instructionData?.instructions
         : {},
     };
-    console.log("newData", newData, newData?.children);
     setLesson(newData);
   };
 
