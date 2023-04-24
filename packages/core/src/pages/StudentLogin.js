@@ -251,7 +251,7 @@ export default function StudentLogin({ swPath }) {
                         rounded="full"
                         onPress={() => setShow(!show)}
                       />
-                    }
+                    } 
                   />
 
                   {"password" in errors ? (
@@ -277,10 +277,10 @@ export default function StudentLogin({ swPath }) {
                     <H3 style={{ fontSize: "16px" }}>
                       Tips for better experience
                     </H3>
-                    <H3 textAlign={"left"}>
+                    <H3 textAlign={"justify"}>
                       1. Please use chrome browser for better experience.
                     </H3>
-                    <H3 textAlign={"left"}>
+                    <H3 textAlign={"justify"}>
                       2. Incase any issue persists during login then try with
                       incognito mode of your browser to access the platform.
                     </H3>

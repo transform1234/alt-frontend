@@ -176,7 +176,7 @@ function Home({ footerLinks }) {
                   1. Please use chrome browser for better experience.
                 </H3>
                 <H3 fontSize={"clamp(3rem, 6vw, 6rem)"} textAlign={"left"}>
-                  2. Incase any issue persists during login then try with to
+                  2. Incase any issue persists during login then try with
                   incognito mode of your browser to access the platform.
                 </H3>
               </Box>
