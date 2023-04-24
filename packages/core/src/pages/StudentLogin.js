@@ -151,7 +151,7 @@ export default function StudentLogin({ swPath }) {
               </Box>
             </Center>
             <Center>
-              <Box >
+              <Box>
                 <Heading>{t("WELCOME")}</Heading>
               </Box>
             </Center>
@@ -273,7 +273,7 @@ export default function StudentLogin({ swPath }) {
                   {t("LOGIN")}
                 </Button>
                 <VStack>
-                  <Box  textAlign="center">
+                  <Box textAlign="center">
                     <H3 style={{ fontSize: "16px" }}>
                       Tips for better experience
                     </H3>
@@ -281,7 +281,7 @@ export default function StudentLogin({ swPath }) {
                       1. Please use chrome browser for better experience.
                     </H3>
                     <H3 textAlign={"left"}>
-                      2. Incase any issue persists during login then try with to
+                      2. Incase any issue persists during login then try with
                       incognito mode of your browser to access the platform.
                     </H3>
                   </Box>
