@@ -167,7 +167,7 @@ function Home({ footerLinks }) {
             mb={5}
             shadow={3}
           >
-            <Box mt={"10px"} mb={"10px"}>
+            <Box mb={"10px"}>
               <Box mt={"10px"} textAlign="center">
                 <H3 mb={"10px"} style={{ fontSize: "16px" }}>
                   Tips for better experience
@@ -180,7 +180,7 @@ function Home({ footerLinks }) {
                   incognito mode of your browser to access the platform.
                 </H3>
               </Box>
-              <H3>Accelerated Learning via Technology (ALT)</H3>
+              <H3 mt={"10px"}>Accelerated Learning via Technology (ALT)</H3>
             </Box>
           </HStack>
         ),
