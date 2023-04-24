@@ -499,7 +499,6 @@ const LessonResultPage = ({
   type,
   setTrackData,
 }) => {
-  // console.log(data);
   const navigate = useNavigate();
   const score = trackData.reduce((old, newData) => old + newData?.score, 0);
   const average = (score * 100) / data?.totalScore;
