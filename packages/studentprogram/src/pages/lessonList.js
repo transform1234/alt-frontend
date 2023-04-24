@@ -43,6 +43,26 @@ export default function LessonList({ footerLinks }) {
   const navigate = useNavigate();
   const [trackData, setTrackData] = React.useState();
   const [loading, setLoading] = React.useState(true);
+  const setLessonData = async (id) => {
+    let resultData = await courseRegistryService.getOne({
+      id: id,
+      adapter: "diksha",
+      coreData: true,
+      type: "assessment",
+    });
+
+    let instructionData = await courseRegistryService.courseTrackingRead({
+      id,
+    });
+    const newData = {
+      ...resultData,
+      instructions: instructionData?.instructions
+        ? instructionData?.instructions
+        : {},
+    };
+    console.log("newData", newData, newData?.children);
+    setLesson(newData);
+  };
 
   React.useEffect(async () => {
     try {
@@ -54,22 +74,7 @@ export default function LessonList({ footerLinks }) {
           "QuestionSetImage",
         ].includes(type)
       ) {
-        let resultData = await courseRegistryService.getOne({
-          id: id,
-          adapter: "diksha",
-          coreData: true,
-          type: "assessment",
-        });
-
-        let instructionData = await courseRegistryService.courseTrackingRead({
-          id,
-        });
-        setLesson({
-          ...resultData,
-          instructions: instructionData?.instructions
-            ? instructionData?.instructions
-            : {},
-        });
+        setLessonData(id);
       } else if (["course", "Course"].includes(type)) {
         const data = await courseRegistryService.moduleTracking({
           userId: localStorage.getItem("id"),
@@ -150,20 +155,22 @@ export default function LessonList({ footerLinks }) {
         subject: lessons?.subject?.join(","),
       };
     }
-    // console.log({ data });
     courseRegistryService.lessontracking(data);
   };
 
   React.useEffect(async () => {
     if (lessonId) {
-      let resultData = await courseRegistryService.getContent({
-        id: lessonId?.identifier,
-        adapter: "diksha",
-      });
-      setLesson(resultData);
+      if (lessonId.mimeType === "application/vnd.sunbird.questionset") {
+        setLessonData(lessonId?.identifier);
+      } else {
+        const resultData = await courseRegistryService.getContent({
+          id: lessonId?.identifier,
+          adapter: "diksha",
+        });
+        setLesson(resultData);
+      }
     }
   }, [lessonId]);
-
   if (lesson?.trakingData?.length > 0) {
     return (
       <Loading
@@ -235,6 +242,15 @@ export default function LessonList({ footerLinks }) {
                   ) {
                     handleTrackData(data);
                   } else if (
+                    ["application/vnd.sunbird.questionset"].includes(
+                      lesson?.mimeType
+                    )
+                  ) {
+                    handleTrackData(
+                      data,
+                      "application/vnd.sunbird.questionset"
+                    );
+                  } else if (
                     [
                       "application/pdf",
                       "video/mp4",
@@ -299,9 +315,11 @@ export default function LessonList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack space={2} alignItems="center">
-           <img
-            width={"100px"}
-            src={require("./../assets/images/TSHeader.png")}
+            <Avatar
+              rounded={0}
+              _image={{ rounded: 0 }}
+              style={{ borderRadius: 0 }}
+              source={require("../assets/images/TSHeader.jpg")}
             />
           </HStack>
         ),
@@ -314,7 +332,6 @@ export default function LessonList({ footerLinks }) {
             const moduleTrackingData = moduleTracking.find(
               (e) => e.moduleId === item.identifier
             );
-
             return (
               <Collapsible
                 key={index}
@@ -410,7 +427,7 @@ export default function LessonList({ footerLinks }) {
                               "application/vnd.sunbird.question",
                               "application/vnd.sunbird.questionset",
                             ].includes(subItem?.mimeType) ? (
-                            "QUML"
+                            <IconByName name="PlayFillIcon" isDisabled />
                           ) : ["application/vnd.ekstep.h5p-archive"].includes(
                               subItem?.mimeType
                             ) ? (
