@@ -29,6 +29,7 @@ import {
   IconByName,
   getAuthUser,
   H3,
+  telemetryFactory
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -69,6 +70,19 @@ export default function StudentLogin({ swPath }) {
   };
 
   const handleLogin = async () => {
+    const telemetryInteract = {
+      context: {
+        env: 'sign-in',
+        cdata: []
+      },
+      edata: {
+        id: 'login-button',
+        type: 'CLICK',
+        subtype: '',
+        pageid: 'sign-in',
+      }
+    };
+    telemetryFactory.interact(telemetryInteract);
     if (validate()) {
       const result = await fetchToken(
         manifest.auth_url,
