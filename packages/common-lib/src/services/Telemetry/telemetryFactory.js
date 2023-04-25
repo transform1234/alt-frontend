@@ -20,7 +20,7 @@ const telemetryConfig = {
   sid: 'session-id',
   batchsize: 1,
   mode: '',
-  host: 'https://3.111.252.243:9001', //TODO: Change this host and endpoint properly
+  host: 'http://3.111.252.243:9001', //TODO: Change this host and endpoint properly
   endpoint: '/v1/telemetry',
   tags: []
 }
