@@ -27,6 +27,9 @@ p {
     left: 40% !important;
   }
 }
+.quml-mcq {
+  word-break: break-all !important;
+}
 .quml-mcq--question.mb-24 {
   margin-bottom: 10px !important;
 }
