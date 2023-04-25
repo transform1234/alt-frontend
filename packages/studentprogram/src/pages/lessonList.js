@@ -60,7 +60,6 @@ export default function LessonList({ footerLinks }) {
         ? instructionData?.instructions
         : {},
     };
-    console.log("newData", newData, newData?.children);
     setLesson(newData);
   };
 
@@ -499,7 +498,6 @@ const LessonResultPage = ({
   type,
   setTrackData,
 }) => {
-  // console.log(data);
   const navigate = useNavigate();
   const score = trackData.reduce((old, newData) => old + newData?.score, 0);
   const average = (score * 100) / data?.totalScore;
