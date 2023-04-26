@@ -104,7 +104,6 @@ function Home({ footerLinks }) {
         {
           link: "/scorecard",
           title: t("SCORE_CARD"),
-          subTitle: t("COMING_SOON"),
           _box: {
             style: {
               background:
