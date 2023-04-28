@@ -44,17 +44,6 @@ export default function CourseCard({ item, isDisabled, onPress, isDone }) {
             )}
           </VStack>
         </HStack>
-
-        {/* <ProgressBar
-          h="15px"
-          _bar={{
-            overflow: "visible",
-            space: "2",
-            alignItems: "center",
-          }}
-          data={[{ name: "0/8", color: "#EAA95A", value: "0" }]}
-          isLabelCountHide
-        /> */}
       </VStack>
       <Box
         bg={

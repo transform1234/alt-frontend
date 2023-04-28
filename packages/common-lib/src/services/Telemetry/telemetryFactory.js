@@ -1,9 +1,9 @@
 import { generateUUID } from '../../components/helper'
-import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry';
-import * as EkTelemetry from '@project-sunbird/telemetry-sdk';
+import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry'
+import * as EkTelemetry from '@project-sunbird/telemetry-sdk'
 import jQuery from 'jquery'
 
-window.jQuery = jQuery;
+window.jQuery = jQuery
 
 const telemetryConfig = {
   apislug: '',
@@ -26,7 +26,7 @@ const telemetryConfig = {
 }
 export const telemetryFactory = {
   init: () => {
-  console.log('EkTelemetry', EkTelemetry);
+    console.log('EkTelemetry', EkTelemetry)
     if (!CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.init({})
       CsTelemetryModule.instance.telemetryService.initTelemetry({
@@ -35,15 +35,59 @@ export const telemetryFactory = {
       })
     }
   },
+
+  // This API is used to log telemetry of user interactions on the page. For example, search, click, preview, move, resize, configure
+
   interact: (interactEventInput) => {
-      const eventData = getEventData(interactEventInput);
-      console.log("eventData", eventData);
-      if (CsTelemetryModule.instance.isInitialised) {
-        CsTelemetryModule.instance.telemetryService.raiseInteractTelemetry({
-          options: eventData.options,
-          edata: eventData.edata
-        });
-      }
+    const eventData = getEventData(interactEventInput)
+    if (CsTelemetryModule.instance.isInitialised) {
+      CsTelemetryModule.instance.telemetryService.raiseInteractTelemetry({
+        options: eventData.options,
+        edata: eventData.edata
+      })
+    }
+  },
+
+  // This API is used to log telemetry when users visit a specific page.
+
+  impression: (impressionEventInput) => {
+    const eventData = getEventData(impressionEventInput)
+    console.log('check eventData', eventData)
+    if (CsTelemetryModule.instance.isInitialised) {
+      CsTelemetryModule.instance.telemetryService.raiseImpressionTelemetry({
+        options: eventData.options,
+        edata: eventData.edata
+      })
+    }
+  },
+
+  // This API is used to log telemetry of assessments that have occured when the user is viewing content
+  assess: (assessEventInput) => {
+    const eventData = getEventData(assessEventInput)
+    if (CsTelemetryModule.instance.isInitialised) {
+      CsTelemetryModule.instance.telemetryService.raiseAssesTelemetry({
+        options: eventData.options,
+        edata: eventData.edata
+      })
+    }
+  },
+
+  // This API is used to log telemetry of user response. For example; Responded to assessments.
+
+  response: (responseEventInput) => {
+    const eventData = getEventData(responseEventInput)
+    if (CsTelemetryModule.instance.isInitialised) {
+      CsTelemetryModule.instance.telemetryService.raiseResponseTelemetry({
+        options: eventData.options,
+        edata: eventData.edata
+      })
+    }
+  },
+
+  // This API is used to log telemetry for any interruptions that have occurred when a user is viewing content or playing games. For example; screen lock, incoming call, etc.
+
+  interrupt: (interactEventInput) => {
+    const eventData = getEventData(int)
   },
 
   start: ({ appName, ...edata }) => {

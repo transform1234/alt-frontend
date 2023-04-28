@@ -13,6 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
 import moment from "moment";
+import "./funActivity.css";
 
 export default function FunActivity() {
   const navigate = useNavigate();
@@ -69,8 +70,9 @@ export default function FunActivity() {
     >
       <>
         <iframe
+          className="funactivity_layout"
           src="https://h5p.org/h5p/embed/1372413"
-          width="1019"
+          width="100%"
           height="270"
           frameborder="0"
           allowfullscreen="allowfullscreen"
@@ -82,6 +84,7 @@ export default function FunActivity() {
           charset="UTF-8"
         ></script>
         <HStack
+          className="funactivity_layout"
           display={"inline"}
           rounded={"2xl"}
           py={6}

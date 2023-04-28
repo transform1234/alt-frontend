@@ -86,8 +86,8 @@ export default function CourseList({ footerLinks }) {
         LeftIcon: (
           <HStack space={2} alignItems="center">
             <img
-            width={"100px"}
-            src={require("./../assets/images/TSHeader.png")}
+              width={"100px"}
+              src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),
