@@ -8,7 +8,8 @@ export default function SubjectCard({
   status,
   onPress,
   isDisabled,
-}) {
+})
+{
   return (
     <VStack
       alignItems="center"

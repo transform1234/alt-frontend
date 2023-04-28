@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   HStack,
   Button,
@@ -29,7 +29,7 @@ import {
   IconByName,
   getAuthUser,
   H3,
-  telemetryFactory
+  telemetryFactory,
 } from "@shiksha/common-lib";
 
 const colors = overrideColorTheme();
@@ -69,18 +69,35 @@ export default function StudentLogin({ swPath }) {
     return true;
   };
 
+  useEffect(() => {
+    const telemetryImpression = {
+      context: {
+        env: "sign-in",
+        cdata: [],
+      },
+      edata: {
+        type: "edit", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "sign-in", //Required.  Unique page id
+      },
+    };
+    telemetryFactory.impression(telemetryImpression);
+  }, []);
+
   const handleLogin = async () => {
     const telemetryInteract = {
       context: {
-        env: 'sign-in',
-        cdata: []
+        env: "sign-in",
+        cdata: [],
       },
       edata: {
-        id: 'login-button',
-        type: 'CLICK',
-        subtype: '',
-        pageid: 'sign-in',
-      }
+        id: "login-button",
+        type: "CLICK",
+        subtype: "",
+        pageid: "sign-in",
+      },
     };
     telemetryFactory.interact(telemetryInteract);
     if (validate()) {
@@ -265,7 +282,7 @@ export default function StudentLogin({ swPath }) {
                         rounded="full"
                         onPress={() => setShow(!show)}
                       />
-                    } 
+                    }
                   />
 
                   {"password" in errors ? (
