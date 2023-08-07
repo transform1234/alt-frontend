@@ -10,7 +10,7 @@ export function fetchToken(
   params.append('username', username)
   params.append('password', password)
   params.append('grant_type', 'password')
-  params.append('client_secret', '4c5a1403-9088-4f36-b1dc-c1a2384d8ec2')
+  params.append('client_secret', 'ae50a0a3-b1d3-4817-a474-cc0c97496018')
 
   const config = {
     headers: {
