@@ -1,4 +1,4 @@
-# Shiksha Platform Frontend (Uses Module Federation)
+# ALT Platform Frontend (Uses Module Federation)
 
 ## Modules
 
@@ -108,4 +108,4 @@ const AppShell = React.lazy(() => import("core/AppShell"));
 
 # Developer Documents
 
-https://shiksha-platform.github.io/docs/Developer/Frontend/
+
