@@ -6,7 +6,7 @@ import UploadSchema from "schema/UploadSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import studentAPI from "api/studentAPI";
 
-function FormData() {
+function StudentForm() {
   const {
     register,
     handleSubmit,
@@ -40,7 +40,7 @@ function FormData() {
               <input
                 className="form-control"
                 type="text"
-                name="firstName"
+                name="userName"
                 id="firstName"
                 placeholder="Name of the content"
                 {...register("firstName")}
@@ -49,6 +49,21 @@ function FormData() {
                 Name
               </label>
               {errors.firstName && <p>{errors.firstName.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="userName"
+                id="userName"
+                placeholder="userName"
+                {...register("userName")}
+              ></input>
+              <label className="form-label" htmlFor="userName">
+                Username
+              </label>
+              {errors.userName && <p>{errors.userName.message}</p>}
             </div>
             <br></br>
             <div className="form-check">
@@ -158,6 +173,51 @@ function FormData() {
               <input
                 className="form-control"
                 type="text"
+                name="role"
+                id="role"
+                placeholder="role"
+                {...register("role")}
+              ></input>
+              <label className="form-label" htmlFor="role">
+                Role
+              </label>
+              {errors.role && <p>{errors.role.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="board"
+                id="board"
+                placeholder="board"
+                {...register("board")}
+              ></input>
+              <label className="form-label" htmlFor="board">
+                Board
+              </label>
+              {errors.board && <p>{errors.board.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="password"
+                id="password"
+                placeholder="password"
+                {...register("password")}
+              ></input>
+              <label className="form-label" htmlFor="password">
+                Password
+              </label>
+              {errors.password && <p>{errors.password.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
                 name="grade"
                 id="grade"
                 placeholder="Name of the content"
@@ -212,6 +272,36 @@ function FormData() {
                 Annual Income
               </label>
               {errors.annual && <p>{errors.annual.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="motherName"
+                id="motherName"
+                placeholder="Name of the content"
+                {...register("motherName")}
+              ></input>
+              <label className="form-label" htmlFor="motherName">
+                Mother Name
+              </label>
+              {errors.motherName && <p>{errors.motherName.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="fatherName"
+                id="fatherName"
+                placeholder="Name of the content"
+                {...register("fatherName")}
+              ></input>
+              <label className="form-label" htmlFor="fatherName">
+                Father Name
+              </label>
+              {errors.fatherName && <p>{errors.fatherName.message}</p>}
             </div>
             <br></br>
             <div className="form-floating">
@@ -296,6 +386,156 @@ function FormData() {
               </label>
               {errors.siblings && <p>{errors.siblings.message}</p>}
             </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="uniqueId"
+                id="uniqueId"
+                placeholder="Name of the content"
+                {...register("uniqueId")}
+              ></input>
+              <label className="form-label" htmlFor="uniqueId">
+                Unique ID
+              </label>
+              {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="state"
+                id="state"
+                placeholder="Name of the content"
+                {...register("state")}
+              ></input>
+              <label className="form-label" htmlFor="state">
+                State
+              </label>
+              {errors.state && <p>{errors.state.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="block"
+                id="block"
+                placeholder="Name of the content"
+                {...register("block")}
+              ></input>
+              <label className="form-label" htmlFor="block">
+                Block
+              </label>
+              {errors.block && <p>{errors.block.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="serialNo"
+                id="serialNo"
+                placeholder="Name of the content"
+                {...register("serialNo")}
+              ></input>
+              <label className="form-label" htmlFor="serialNo">
+                Serial No
+              </label>
+              {errors.serialNo && <p>{errors.serialNo.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="district"
+                id="district"
+                placeholder="Name of the content"
+                {...register("district")}
+              ></input>
+              <label className="form-label" htmlFor="district">
+                District
+              </label>
+              {errors.district && <p>{errors.district.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="section"
+                id="section"
+                placeholder="Name of the content"
+                {...register("section")}
+              ></input>
+              <label className="form-label" htmlFor="section">
+                Section
+              </label>
+              {errors.section && <p>{errors.section.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="medium"
+                id="medium"
+                placeholder="Name of the content"
+                {...register("medium")}
+              ></input>
+              <label className="form-label" htmlFor="medium">
+                Medium
+              </label>
+              {errors.medium && <p>{errors.medium.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="bloodGroup"
+                id="bloodGroup"
+                placeholder="Name of the content"
+                {...register("bloodGroup")}
+              ></input>
+              <label className="form-label" htmlFor="bloodGroup">
+                Blood Group
+              </label>
+              {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="status"
+                id="status"
+                placeholder="Name of the content"
+                {...register("status")}
+              ></input>
+              <label className="form-label" htmlFor="status">
+                Status
+              </label>
+              {errors.status && <p>{errors.status.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="image"
+                id="image"
+                placeholder="Name of the content"
+                {...register("image")}
+              ></input>
+              <label className="form-label" htmlFor="image">
+                Image
+              </label>
+              {errors.image && <p>{errors.image.message}</p>}
+            </div>
           </div>
           <Button type="button" onPress={handleSubmit(onSubmit)}>
             Submit
@@ -306,4 +546,4 @@ function FormData() {
   );
 }
 
-export default FormData;
+export default StudentForm;

@@ -1,0 +1,13 @@
+.mainDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodyDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

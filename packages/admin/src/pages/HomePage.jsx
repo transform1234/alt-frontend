@@ -45,7 +45,7 @@ function HomePage() {
       data: [
         {
           //   title: t("FUN_ACTIVITY"),
-          link: "/studentprogram/subjects",
+          link: "/teacherpage",
           title: <H2>Teacher Page</H2>,
 
           _box: {
@@ -133,7 +133,7 @@ function HomePage() {
             {
               title: "TEACHER",
               icon: "UserLineIcon",
-              route: "/",
+              route: "/teacherpage",
             },
           ],
         }}

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./StudentPage.module.css";
+import styles from "./TeacherPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CSVImportForm from "components/StudentCSV";
@@ -15,10 +15,11 @@ import CSVModal from "react-modal";
 import FORMmodal from "react-modal";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import StudentListView from "components/StudentListView";
 import StudentForm from "components/StudentForm";
+import TeacherListView from "components/TeacherListView";
+import TeacherCSVImport from "components/TeacherCSV";
 
-function StudentPage() {
+function TeacherPage() {
   const [loading, setLoading] = React.useState(false);
   const [isCSVOpen, setIsCSVOpen] = useState(false);
   const [isFORMOpen, setIsFORMOpen] = useState(false);
@@ -44,7 +45,7 @@ function StudentPage() {
       <Layout
         loading={loading}
         _header={{
-          title: t("STUDENT PAGE"),
+          title: t("TEACHER PAGE"),
           subHeading: moment().format("hh:mm:ss A"),
         }}
         _appBar={{
@@ -97,7 +98,7 @@ function StudentPage() {
                 <H4>Import data using with a CSV File</H4>{" "}
                 <Button onPress={openCSVModal}>CSV</Button>{" "}
               </Box>
-              <Heading>Student Records list</Heading>
+              <Heading>Teacher Records list</Heading>
               {isCSVOpen && (
                 <CSVModal
                   isOpen={isCSVOpen}
@@ -106,7 +107,7 @@ function StudentPage() {
                   ariaHideApp={false}
                 >
                   <div className={styles.bodyDiv}>
-                    <CSVImportForm />
+                    <TeacherCSVImport />
                   </div>
                 </CSVModal>
               )}
@@ -122,7 +123,7 @@ function StudentPage() {
                   </div>
                 </FORMmodal>
               )}
-              <StudentListView />
+              <TeacherListView />
             </VStack>
           </Stack>
         </Box>
@@ -131,4 +132,4 @@ function StudentPage() {
   );
 }
 
-export default StudentPage;
+export default TeacherPage;

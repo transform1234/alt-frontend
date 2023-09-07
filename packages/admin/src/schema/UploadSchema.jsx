@@ -5,6 +5,10 @@ const UploadSchema = yup.object().shape({
     .string()
     .required("*first name required")
     .min(3, "*should not be less than 3 characters"),
+  userName: yup
+    .string()
+    .required("*username required")
+    .min(3, "*should not be less than 3 characters"),
   gender: yup
     .string()
     .required("*gender is required")
@@ -26,6 +30,18 @@ const UploadSchema = yup.object().shape({
     .string()
     .required("*School udise is required")
     .min(3, "*should not be less than 3 characters"),
+  role: yup
+    .string()
+    .required("*role required")
+    .min(3, "*should not be less than 3 characters"),
+  board: yup
+    .string()
+    .required("*board required")
+    .min(3, "*should not be less than 3 characters"),
+  password: yup
+    .string()
+    .required("*password required")
+    .min(3, "*should not be less than 3 characters"),
   grade: yup
     .string()
     .required("*grade is required")
@@ -41,6 +57,14 @@ const UploadSchema = yup.object().shape({
   annualIncome: yup
     .string()
     .required("*annual income is required")
+    .min(3, "*should not be less than 3 characters"),
+  motherName: yup
+    .string()
+    .required("*mother name is required")
+    .min(3, "*should not be less than 3 characters"),
+  fatherName: yup
+    .string()
+    .required("*father name is required")
     .min(3, "*should not be less than 3 characters"),
   motherEducation: yup
     .string()
@@ -61,6 +85,46 @@ const UploadSchema = yup.object().shape({
   siblings: yup
     .string()
     .required("*siblings is required")
+    .min(3, "*should not be less than 3 characters"),
+  uniqueId: yup
+    .string()
+    .required("*uniqueId is required")
+    .min(3, "*should not be less than 3 characters"),
+  state: yup
+    .string()
+    .required("*state is required")
+    .min(3, "*should not be less than 3 characters"),
+  block: yup
+    .string()
+    .required("*block is required")
+    .min(3, "*should not be less than 3 characters"),
+  serialNo: yup
+    .string()
+    .required("*serialNo is required")
+    .min(3, "*should not be less than 3 characters"),
+  district: yup
+    .string()
+    .required("*district is required")
+    .min(3, "*should not be less than 3 characters"),
+  section: yup
+    .string()
+    .required("*section is required")
+    .min(3, "*should not be less than 3 characters"),
+  medium: yup
+    .string()
+    .required("*medium is required")
+    .min(3, "*should not be less than 3 characters"),
+  bloodGroup: yup
+    .string()
+    .required("*bloodGroup is required")
+    .min(3, "*should not be less than 3 characters"),
+  status: yup
+    .string()
+    .required("*status is required")
+    .min(3, "*should not be less than 3 characters"),
+  image: yup
+    .string()
+    .required("*image is required")
     .min(3, "*should not be less than 3 characters"),
 });
 
