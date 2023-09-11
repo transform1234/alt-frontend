@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const UploadSchema = yup.object().shape({
+const StudentSchema = yup.object().shape({
   firstName: yup
     .string()
     .required("*first name required")
@@ -128,4 +128,4 @@ const UploadSchema = yup.object().shape({
     .min(3, "*should not be less than 3 characters"),
 });
 
-export default UploadSchema;
+export default StudentSchema;

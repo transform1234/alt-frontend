@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form";
 import { H2 } from "@shiksha/common-lib";
 import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
-import studentAPI from "api/studentAPI";
-import StudentSchema from "schema/StudentSchema";
+import TeacherSchema from "schema/TeacherSchema";
+import teacherAPI from "api/teacherAPI";
 
-function StudentForm() {
+function TeacherForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(StudentSchema) });
+  } = useForm({ resolver: yupResolver(TeacherSchema) });
   const onSubmit = async (data) => {
-    const result = await studentAPI(data);
+    const result = await teacherAPI(data);
     if (result == true) {
       alert("Registration Successful.");
     } else {
@@ -218,106 +218,16 @@ function StudentForm() {
               <input
                 className="form-control"
                 type="text"
-                name="grade"
-                id="grade"
+                name="educationalQualification"
+                id="educationalQualification"
                 placeholder="Name of the content"
-                {...register("grade")}
+                {...register("educationalQualification")}
               ></input>
-              <label className="form-label" htmlFor="grade">
-                Grade
+              <label className="form-label" htmlFor="educationalQualification">
+                Educational Qualification
               </label>
-              {errors.grade && <p>{errors.grade.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="religion"
-                id="religion"
-                placeholder="Name of the content"
-                {...register("religion")}
-              ></input>
-              <label className="form-label" htmlFor="religion">
-                Religion
-              </label>
-              {errors.religion && <p>{errors.religion.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="caste"
-                id="caste"
-                placeholder="Name of the content"
-                {...register("caste")}
-              ></input>
-              <label className="form-label" htmlFor="caste">
-                Caste
-              </label>
-              {errors.caste && <p>{errors.caste.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="annualIncome"
-                id="annualIncome"
-                placeholder="Name of the content"
-                {...register("annualIncome")}
-              ></input>
-              <label className="form-label" htmlFor="annual">
-                Annual Income
-              </label>
-              {errors.annual && <p>{errors.annual.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="motherName"
-                id="motherName"
-                placeholder="Name of the content"
-                {...register("motherName")}
-              ></input>
-              <label className="form-label" htmlFor="motherName">
-                Mother Name
-              </label>
-              {errors.motherName && <p>{errors.motherName.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="fatherName"
-                id="fatherName"
-                placeholder="Name of the content"
-                {...register("fatherName")}
-              ></input>
-              <label className="form-label" htmlFor="fatherName">
-                Father Name
-              </label>
-              {errors.fatherName && <p>{errors.fatherName.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="motherEducation"
-                id="motherEducation"
-                placeholder="Name of the content"
-                {...register("motherEducation")}
-              ></input>
-              <label className="form-label" htmlFor="motherEducation">
-                Mother Education
-              </label>
-              {errors.motherEducation && (
-                <p>{errors.motherEducation.message}</p>
+              {errors.educationalQualification && (
+                <p>{errors.educationalQualification.message}</p>
               )}
             </div>
             <br></br>
@@ -325,16 +235,31 @@ function StudentForm() {
               <input
                 className="form-control"
                 type="text"
-                name="fatherEducation"
-                id="fatherEducation"
+                name="currentRole"
+                id="currentRole"
                 placeholder="Name of the content"
-                {...register("fatherEducation")}
+                {...register("currentRole")}
               ></input>
-              <label className="form-label" htmlFor="fatherEducation">
-                Father Education
+              <label className="form-label" htmlFor="currentRole">
+                Current Role
               </label>
-              {errors.fatherEducation && (
-                <p>{errors.fatherEducation.message}</p>
+              {errors.currentRole && <p>{errors.currentRole.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className="form-control"
+                type="text"
+                name="natureOfappointment"
+                id="natureOfappointment"
+                placeholder="Name of the content"
+                {...register("natureOfappointment")}
+              ></input>
+              <label className="form-label" htmlFor="natureOfappointment">
+                Nature Of appointment
+              </label>
+              {errors.natureOfappointment && (
+                <p>{errors.natureOfappointment.message}</p>
               )}
             </div>
             <br></br>
@@ -342,16 +267,16 @@ function StudentForm() {
               <input
                 className="form-control"
                 type="text"
-                name="motherOccupation"
-                id="motherOccupation"
+                name="appointedPostName"
+                id="appointedPostName"
                 placeholder="Name of the content"
-                {...register("motherOccupation")}
+                {...register("appointedPostName")}
               ></input>
-              <label className="form-label" htmlFor="motherOccupation">
-                Mother Occupation
+              <label className="form-label" htmlFor="appointedPostName">
+                Appointed Post Name
               </label>
-              {errors.motherOccupation && (
-                <p>{errors.motherOccupation.message}</p>
+              {errors.appointedPostName && (
+                <p>{errors.appointedPostName.message}</p>
               )}
             </div>
             <br></br>
@@ -359,16 +284,16 @@ function StudentForm() {
               <input
                 className="form-control"
                 type="text"
-                name="fatherOccupation"
-                id="fatherOccupation"
+                name="totalExperienceInTeaching"
+                id="totalExperienceInTeaching"
                 placeholder="Name of the content"
-                {...register("fatherOccupation")}
+                {...register("totalExperienceInTeaching")}
               ></input>
-              <label className="form-label" htmlFor="fatherOccupation">
-                Father Occupation
+              <label className="form-label" htmlFor="totalExperienceInTeaching">
+                Total Experience In Teaching
               </label>
-              {errors.fatherOccupation && (
-                <p>{errors.fatherOccupation.message}</p>
+              {errors.totalExperienceInTeaching && (
+                <p>{errors.totalExperienceInTeaching.message}</p>
               )}
             </div>
             <br></br>
@@ -376,165 +301,120 @@ function StudentForm() {
               <input
                 className="form-control"
                 type="text"
-                name="siblings"
-                id="siblings"
+                name="totalExperienceAsHead"
+                id="totalExperienceAsHead"
                 placeholder="Name of the content"
-                {...register("siblings")}
+                {...register("totalExperienceAsHead")}
               ></input>
-              <label className="form-label" htmlFor="siblings">
-                Number of Siblings
+              <label className="form-label" htmlFor="totalExperienceAsHead">
+                Total Experience As Head
               </label>
-              {errors.siblings && <p>{errors.siblings.message}</p>}
+              {errors.totalExperienceAsHead && (
+                <p>{errors.totalExperienceAsHead.message}</p>
+              )}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="uniqueId"
-                id="uniqueId"
+                name="classTaught"
+                id="classTaught"
                 placeholder="Name of the content"
-                {...register("uniqueId")}
+                {...register("classTaught")}
               ></input>
-              <label className="form-label" htmlFor="uniqueId">
-                Unique ID
+              <label className="form-label" htmlFor="classTaught">
+                Class Taught
               </label>
-              {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
+              {errors.classTaught && <p>{errors.classTaught.message}</p>}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="state"
-                id="state"
+                name="coreSubjectTaught"
+                id="coreSubjectTaught"
                 placeholder="Name of the content"
-                {...register("state")}
+                {...register("coreSubjectTaught")}
               ></input>
-              <label className="form-label" htmlFor="state">
-                State
+              <label className="form-label" htmlFor="coreSubjectTaught">
+                Core Subject Taught
               </label>
-              {errors.state && <p>{errors.state.message}</p>}
+              {errors.coreSubjectTaught && (
+                <p>{errors.coreSubjectTaught.message}</p>
+              )}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="block"
-                id="block"
+                name="attendedInServiceTraining"
+                id="attendedInServiceTraining"
                 placeholder="Name of the content"
-                {...register("block")}
+                {...register("attendedInServiceTraining")}
               ></input>
-              <label className="form-label" htmlFor="block">
-                Block
+              <label className="form-label" htmlFor="attendedInServiceTraining">
+                Attended In Service Training
               </label>
-              {errors.block && <p>{errors.block.message}</p>}
+              {errors.attendedInServiceTraining && (
+                <p>{errors.attendedInServiceTraining.message}</p>
+              )}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="serialNo"
-                id="serialNo"
+                name="lastTrainingAttendedTopic"
+                id="lastTrainingAttendedTopic"
                 placeholder="Name of the content"
-                {...register("serialNo")}
+                {...register("lastTrainingAttendedTopic")}
               ></input>
-              <label className="form-label" htmlFor="serialNo">
-                Serial No
+              <label className="form-label" htmlFor="lastTrainingAttendedTopic">
+                Last Training Attended Topic
               </label>
-              {errors.serialNo && <p>{errors.serialNo.message}</p>}
+              {errors.lastTrainingAttendedTopic && (
+                <p>{errors.lastTrainingAttendedTopic.message}</p>
+              )}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="district"
-                id="district"
+                name="lastTrainingAttendedYear"
+                id="lastTrainingAttendedYear"
                 placeholder="Name of the content"
-                {...register("district")}
+                {...register("lastTrainingAttendedYear")}
               ></input>
-              <label className="form-label" htmlFor="district">
-                District
+              <label className="form-label" htmlFor="lastTrainingAttendedYear">
+                Last Training Attended Year
               </label>
-              {errors.district && <p>{errors.district.message}</p>}
+              {errors.lastTrainingAttendedYear && (
+                <p>{errors.lastTrainingAttendedYear.message}</p>
+              )}
             </div>
             <br></br>
             <div className="form-floating">
               <input
                 className="form-control"
                 type="text"
-                name="section"
-                id="section"
+                name="TrainedinUseofComputerAndDigitalTeaching"
+                id="TrainedinUseofComputerAndDigitalTeaching"
                 placeholder="Name of the content"
-                {...register("section")}
+                {...register("TrainedinUseofComputerAndDigitalTeaching")}
               ></input>
-              <label className="form-label" htmlFor="section">
-                Section
+              <label
+                className="form-label"
+                htmlFor="TrainedinUseofComputerAndDigitalTeaching"
+              >
+                Trained in Use of Computer And Digital Teaching
               </label>
-              {errors.section && <p>{errors.section.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="medium"
-                id="medium"
-                placeholder="Name of the content"
-                {...register("medium")}
-              ></input>
-              <label className="form-label" htmlFor="medium">
-                Medium
-              </label>
-              {errors.medium && <p>{errors.medium.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="bloodGroup"
-                id="bloodGroup"
-                placeholder="Name of the content"
-                {...register("bloodGroup")}
-              ></input>
-              <label className="form-label" htmlFor="bloodGroup">
-                Blood Group
-              </label>
-              {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="status"
-                id="status"
-                placeholder="Name of the content"
-                {...register("status")}
-              ></input>
-              <label className="form-label" htmlFor="status">
-                Status
-              </label>
-              {errors.status && <p>{errors.status.message}</p>}
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="image"
-                id="image"
-                placeholder="Name of the content"
-                {...register("image")}
-              ></input>
-              <label className="form-label" htmlFor="image">
-                Image
-              </label>
-              {errors.image && <p>{errors.image.message}</p>}
+              {errors.TrainedinUseofComputerAndDigitalTeaching && (
+                <p>{errors.TrainedinUseofComputerAndDigitalTeaching.message}</p>
+              )}
             </div>
           </div>
           <Button type="button" onPress={handleSubmit(onSubmit)}>
@@ -546,4 +426,4 @@ function StudentForm() {
   );
 }
 
-export default StudentForm;
+export default TeacherForm;

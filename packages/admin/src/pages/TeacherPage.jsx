@@ -1,9 +1,6 @@
 import React from "react";
 import styles from "./TeacherPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import CSVImportForm from "components/StudentCSV";
-import listView from "components/StudentListView";
 import { H4, Heading, BodyLarge } from "@shiksha/common-lib";
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Box, Stack, VStack, HStack, Avatar, Image, Button } from "native-base";
@@ -15,9 +12,9 @@ import CSVModal from "react-modal";
 import FORMmodal from "react-modal";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import StudentForm from "components/StudentForm";
 import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";
+import TeacherForm from "components/TeacherForm";
 
 function TeacherPage() {
   const [loading, setLoading] = React.useState(false);
@@ -119,7 +116,7 @@ function TeacherPage() {
                   ariaHideApp={false}
                 >
                   <div className={styles.bodyDiv}>
-                    <StudentForm />
+                    <TeacherForm />
                   </div>
                 </FORMmodal>
               )}
