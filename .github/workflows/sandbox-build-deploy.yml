@@ -2,7 +2,7 @@ name: CICD
 on: 
   push: 
     branches:
-      - revert
+      - altv1
 jobs:
   build:
     name: build-deploy-to-sandbox
@@ -27,7 +27,7 @@ jobs:
       - name: Copy Package
         run: |
           sh ./scripts/pack-prod-build.sh
-          rsync shiksha-ui.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/alt-shiksha.uniteframework.io/shiksha-ui.tar
+          rsync shiksha-ui.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/alt.uniteframework.io/shiksha-ui.tar
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/alt-shiksha.uniteframework.io/public
+            cd /var/www/alt.uniteframework.io/public
             rm -rf *
             cp ../shiksha-ui.tar ./
             tar -xvf shiksha-ui.tar .
