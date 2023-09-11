@@ -54,7 +54,7 @@ function AppShell({
             : newFooterLinks
         })
       }
-      if (!token) {
+      if (!token && false) {
         setAccessRoutes([
           ...(guestRoutes ? guestRoutes : []),
           {

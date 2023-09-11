@@ -8,7 +8,8 @@
       "packages/studentprogram",
       "packages/reports",
       "packages/players",
-      "packages/student-app"
+      "packages/student-app",
+      "packages/admin"
     ]
   },
   "scripts": {
@@ -23,5 +24,18 @@
   "devDependencies": {
     "lerna": "4.0.0",
     "prettier": "^2.6.0"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.1",
+    "@mui/material": "^5.14.7",
+    "ag-grid-community": "^30.1.0",
+    "axios": "^1.5.0",
+    "framer-motion": "^10.16.2",
+    "react-hook-form": "^7.45.4",
+    "react-modal": "^3.16.1",
+    "yup": "^1.2.0"
   }
 }
