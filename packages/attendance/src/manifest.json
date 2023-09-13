@@ -94,7 +94,7 @@
     }
   ],
 
-  "auth_url": "https://alt-shiksha.uniteframework.io/auth/realms/hasura/protocol/openid-connect/token",
+  "auth_url": "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token",
   "maxWidth": "1080",
   "weekDays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   "attendancePastDays": 90,

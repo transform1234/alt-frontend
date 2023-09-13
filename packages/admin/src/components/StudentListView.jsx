@@ -1,13 +1,19 @@
 // export default listView;
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { H4 } from "@shiksha/common-lib";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import EditModal from "react-modal";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function StudentListView() {
+  const navigate = useNavigate();
   const gridRef = useRef();
   const [rowData] = useState([
     { Name: "Student 1", Gender: "Male", "Date of Birth": "05/06/2010" },
@@ -57,7 +63,46 @@ function StudentListView() {
     { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
     { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
   ]);
+
   const [columnDefs] = useState([
+    {
+      headerName: "Delete",
+      field: "actions",
+      width: 100,
+      cellRenderer: function (params) {
+        const label = (
+          <PersonRemoveIcon
+            style={{ color: "#EE4436", fontSize: "large", cursor: "pointer" }}
+          />
+        ); // Replace with your desired label
+        const handleClick = async () => {
+          console.log("Record has been removed");
+        };
+
+        return <div onClick={handleClick}>{label}</div>;
+      },
+    },
+    {
+      headerName: "",
+      field: "actions",
+      width: 80,
+      cellRenderer: function (params) {
+        const label = "Edit"; // Replace with your desired label
+
+        return (
+          <div
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              fontWeight: "medium",
+            }}
+          >
+            {label}
+          </div>
+        );
+      },
+    },
+
     { field: "Name", filter: true },
     { field: "Gender" },
     { field: "Date of Birth" },
@@ -76,7 +121,8 @@ function StudentListView() {
   ]);
 
   const cellClickedListener = useCallback((event) => {
-    console.log("cellClicked", event);
+    console.log("cellClicked", event.data);
+    localStorage.setItem("selectedRowData", JSON.stringify(event.data));
   }, []);
 
   const onBtnExport = useCallback(() => {

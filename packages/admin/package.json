@@ -27,6 +27,7 @@
     "react-router-dom": "^6.1.1",
     "react-scripts": "5.0.0",
     "remixicon-react": "^1.0.0",
+    "react-modal": "^3.16.1",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
@@ -40,6 +41,7 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
+    
   },
   "scripts": {
     "start": "craco start",
