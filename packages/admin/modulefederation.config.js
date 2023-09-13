@@ -3,6 +3,7 @@ const { dependencies } = require("./package.json");
 module.exports = {
   name: "adminmodule",
   exposes: {
+    "./App": "./src/App",
     "./SampleComponent": "./src/components/SampleComponent",
     "./HomePage": "./src/pages/HomePage",
     "./StudentPage": "./src/pages/StudentPage",

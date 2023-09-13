@@ -1,8 +1,14 @@
 import React from "react";
 import "./App.css";
-import { AppShell, getAuthUser, initializeI18n, telemetryFactory } from "@shiksha/common-lib";
+import {
+  AppShell,
+  getAuthUser,
+  initializeI18n,
+  telemetryFactory,
+} from "@shiksha/common-lib";
 import studentRoutes from "./Routes/students";
 import teacherRoutes from "./Routes/teachers";
+import adminRoutes from "./Routes/admin";
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
 import { teachers, students } from "./config/footerLinks";
 
@@ -23,6 +29,11 @@ function App() {
         setTheme("teacheralt");
         setRoutes(teacherRoutes);
         setFooterLinks(teachers);
+      }
+      if (user?.role === "admin") {
+        setTheme("adminalt");
+        setRoutes(adminRoutes);
+        setFooterLinks(admin);
       } else {
         setRoutes(studentRoutes);
         setFooterLinks(students);
