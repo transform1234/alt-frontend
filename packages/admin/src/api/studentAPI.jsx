@@ -2,7 +2,7 @@ import axios from "axios";
 import { studentRegister } from "../routes/links";
 
 const studentAPI = async (data) => {
-  console.log("Before AXIOS ");
+  console.log("INSIDE API");
   console.log(data);
   let result = true;
   //   await axios({

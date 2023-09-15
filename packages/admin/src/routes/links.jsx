@@ -1,3 +1,3 @@
-const baseLink = "https://alt-shiksha.uniteframework.io/api/v1";
+const baseLink = "https://alt.uniteframework.io/api/v1";
 
-export const studentRegister = baseLink + "/user";
+export const studentRegister = baseLink + "/student";

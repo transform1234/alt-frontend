@@ -5,17 +5,17 @@ const TeacherPage = React.lazy(() => import("admin/src/pages/TeacherPage"));
 
 const routes = [
   {
-    moduleName: "student-app",
+    moduleName: "admin",
     path: "/",
     component: HomePage,
   },
   {
-    moduleName: "student-app",
+    moduleName: "admin",
     path: "/studentpage",
     component: StudentPage,
   },
   {
-    moduleName: "student-app",
+    moduleName: "admin",
     path: "/teacherpage",
     component: TeacherPage,
   },
