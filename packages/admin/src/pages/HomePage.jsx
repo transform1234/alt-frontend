@@ -27,7 +27,7 @@ function HomePage() {
         {
           link: "/studentpage",
 
-          title: <H2>Student Page</H2>,
+          title: <H2>Student Add</H2>,
 
           _box: {
             style: {
@@ -46,7 +46,7 @@ function HomePage() {
         {
           //   title: t("FUN_ACTIVITY"),
           link: "/teacherpage",
-          title: <H2>Teacher Page</H2>,
+          title: <H2>Teacher Add</H2>,
 
           _box: {
             style: {
@@ -57,8 +57,8 @@ function HomePage() {
         },
         {
           //   title: t("FUN_ACTIVITY"),
-          link: "/scorecard",
-          title: <H2>School Page</H2>,
+          link: "/schoolpage",
+          title: <H2>School Add</H2>,
           _box: {
             style: {
               background:
@@ -75,7 +75,7 @@ function HomePage() {
         {
           link: "/fun-activity",
 
-          title: <H2>Program Page</H2>,
+          title: <H2>Program Add</H2>,
 
           _box: {
             style: {
@@ -127,7 +127,7 @@ function HomePage() {
             {
               title: "SCHOOL",
               icon: "GovernmentLineIcon",
-              route: "/",
+              route: "/schoolpage",
             },
 
             {

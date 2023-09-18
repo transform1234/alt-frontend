@@ -15,7 +15,11 @@ function StudentForm() {
   const onSubmit = async (data) => {
     const result = await studentAPI(data);
     if (result == true) {
-      alert("Registration Successful.");
+      let sID = localStorage.getItem("studentId");
+      let uID = localStorage.getItem("userId");
+      alert(
+        "Registration Successful.\nStudent ID: " + sID + "\nUser ID: " + uID
+      );
     } else {
       alert("Registeration failed");
     }

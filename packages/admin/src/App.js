@@ -5,6 +5,7 @@ import { AppShell } from "@shiksha/common-lib";
 import StudentPage from "pages/StudentPage";
 import HomePage from "pages/HomePage";
 import TeacherPage from "pages/TeacherPage";
+import SchoolPage from "pages/SchoolPage";
 function App() {
   const routes = [
     {
@@ -21,6 +22,11 @@ function App() {
       moduleName: "module-template",
       path: "/teacherpage",
       component: TeacherPage,
+    },
+    {
+      moduleName: "module-template",
+      path: "/schoolpage",
+      component: SchoolPage,
     },
   ];
   const LoginComponent = React.lazy(() => import("core/Login"));
