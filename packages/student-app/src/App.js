@@ -31,6 +31,7 @@ function App() {
         setFooterLinks(teachers);
       }
       if (user?.role === "systemAdmin") {
+        setTheme("adminalt");
         setRoutes(adminRoutes);
       } else {
         setRoutes(studentRoutes);

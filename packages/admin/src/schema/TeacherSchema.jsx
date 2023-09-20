@@ -1,11 +1,11 @@
 import * as yup from "yup";
 
 const TeacherSchema = yup.object().shape({
-  firstName: yup
+  name: yup
     .string()
     .required("*first name required")
     .min(3, "*should not be less than 3 characters"),
-  userName: yup
+  username: yup
     .string()
     .required("*username required")
     .min(3, "*should not be less than 3 characters"),
@@ -14,7 +14,7 @@ const TeacherSchema = yup.object().shape({
     .required("*gender is required")
     .min(3, "*should not be less than 3 characters"),
 
-  dob: yup
+  dateOfBirth: yup
     .string()
     .required("*dob is required")
     .min(3, "*should not be less than 3 characters"),
@@ -26,11 +26,11 @@ const TeacherSchema = yup.object().shape({
     .string()
     .required("*mobile number is required")
     .min(3, "*should not be less than 3 characters"),
-  udise: yup
+  schoolUdise: yup
     .string()
     .required("*School udise is required")
     .min(3, "*should not be less than 3 characters"),
-  role: yup
+  currentRole: yup
     .string()
     .required("*role required")
     .min(3, "*should not be less than 3 characters"),
@@ -46,35 +46,35 @@ const TeacherSchema = yup.object().shape({
     .string()
     .required("*educational Qualification is required")
     .min(3, "*should not be less than 3 characters"),
-  currentRole: yup
+  status: yup
     .string()
     .required("*current Role is required")
     .min(3, "*should not be less than 3 characters"),
-  natureOfappointment: yup
+  natureOfAppointment: yup
     .string()
     .required("*nature Of appointment is required")
     .min(3, "*should not be less than 3 characters"),
-  appointedPostName: yup
+  appointedPost: yup
     .string()
     .required("*appointed Post Name is required")
     .min(3, "*should not be less than 3 characters"),
-  totalExperienceInTeaching: yup
+  totalTeachingExperience: yup
     .string()
     .required("*total Experience In Teaching is required")
     .min(3, "*should not be less than 3 characters"),
-  totalExperienceAsHead: yup
+  totalHeadteacherExperience: yup
     .string()
     .required("* total Experience As Head is required")
     .min(3, "*should not be less than 3 characters"),
-  classTaught: yup
+  classesTaught: yup
     .string()
     .required("*class Taught is required")
-    .min(3, "*should not be less than 3 characters"),
+    .min(1, "*should not be less than 1 characters"),
   coreSubjectTaught: yup
     .string()
     .required("*core Subject Taught is required")
     .min(3, "*should not be less than 3 characters"),
-  attendedInServiceTraining: yup
+  attendedInserviceTraining: yup
     .string()
     .required("*attended In Service Training is required")
     .min(3, "*should not be less than 3 characters"),
@@ -86,7 +86,7 @@ const TeacherSchema = yup.object().shape({
     .string()
     .required("*last Training Attended Year is required")
     .min(3, "*should not be less than 3 characters"),
-  TrainedinUseofComputerAndDigitalTeaching: yup
+  trainedInComputerDigitalteaching: yup
     .string()
     .required("*Trained in Use of Computer And Digital Teaching is required")
     .min(3, "*should not be less than 3 characters"),

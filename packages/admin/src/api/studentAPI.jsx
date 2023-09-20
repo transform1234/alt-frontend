@@ -5,9 +5,11 @@ const studentAPI = async (data) => {
   console.log("INSIDE API");
   console.log(data);
 
+  const token = localStorage.getItem("token");
+
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",
-    Authorization: "Bearer ",
+    Authorization: `Bearer ${token}`,
     Connection: "keep-alive",
     "Content-Type": "application/json",
   };
