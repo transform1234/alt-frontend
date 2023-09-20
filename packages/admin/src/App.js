@@ -9,29 +9,36 @@ import SchoolPage from "pages/SchoolPage";
 function App() {
   const routes = [
     {
-      moduleName: "module-template",
+      moduleName: "admin",
       path: "/",
       component: HomePage,
     },
     {
-      moduleName: "module-template",
+      moduleName: "admin",
       path: "/studentpage",
       component: StudentPage,
     },
     {
-      moduleName: "module-template",
+      moduleName: "admin",
       path: "/teacherpage",
       component: TeacherPage,
     },
     {
-      moduleName: "module-template",
+      moduleName: "admin",
       path: "/schoolpage",
       component: SchoolPage,
     },
   ];
   const LoginComponent = React.lazy(() => import("core/Login"));
 
-  return <AppShell routes={routes} AuthComponent={LoginComponent} />;
+  return (
+    <AppShell
+      basename={process.env.PUBLIC_URL}
+      routes={routes}
+      AuthComponent={LoginComponent}
+      _authComponent={{ swPath: "/modules/admin" }}
+    />
+  );
 }
 
 export default App;

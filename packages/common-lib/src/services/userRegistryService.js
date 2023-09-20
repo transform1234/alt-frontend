@@ -104,7 +104,7 @@ export const getAuthUser = async ({ ...params } = {}, header = {}) => {
   }
 
   const result = await get(
-    `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura/protocol/openid-connect/userinfo`,
+    `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura-app/protocol/openid-connect/userinfo`,
     {
       params,
       headers

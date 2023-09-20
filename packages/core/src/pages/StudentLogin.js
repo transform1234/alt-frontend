@@ -111,12 +111,14 @@ export default function StudentLogin({ swPath }) {
         let token = result.data.access_token;
         localStorage.setItem("token", token);
         let resultTeacher = {};
-        try {
-          resultTeacher = await getAuthUser();
-        } catch (e) {
-          localStorage.removeItem("token");
-          console.log({ e });
-        }
+        // try {
+
+        // } catch (e) {
+        //   localStorage.removeItem("token");
+        //   console.log({ e });
+        // }
+
+        resultTeacher = await getAuthUser();
 
         if (resultTeacher?.id) {
           // try {

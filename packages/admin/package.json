@@ -43,6 +43,7 @@
     "workbox-streams": "^5.1.4"
     
   },
+  "homepage": "modules/admin",
   "scripts": {
     "start": "craco start",
     "build": "craco build",

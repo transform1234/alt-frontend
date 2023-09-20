@@ -1,7 +1,7 @@
 import React from "react";
-const HomePage = React.lazy(() => import("admin/src/pages/HomePage"));
-const StudentPage = React.lazy(() => import("admin/src/pages/StudentPage"));
-const TeacherPage = React.lazy(() => import("admin/src/pages/TeacherPage"));
+const HomePage = React.lazy(() => import("admin/HomePage"));
+const StudentPage = React.lazy(() => import("admin/StudentPage"));
+const TeacherPage = React.lazy(() => import("admin/TeacherPage"));
 
 const routes = [
   {
