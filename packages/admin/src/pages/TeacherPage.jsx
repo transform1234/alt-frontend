@@ -15,6 +15,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
+import CloseIcon from "@mui/icons-material/Close";
 
 function TeacherPage() {
   const [loading, setLoading] = React.useState(false);
@@ -115,6 +116,12 @@ function TeacherPage() {
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
                 >
+                  <button
+                    onClick={closeFORMModal}
+                    className={styles.closeButton}
+                  >
+                    <CloseIcon />
+                  </button>
                   <div className={styles.bodyDiv}>
                     <TeacherForm />
                   </div>

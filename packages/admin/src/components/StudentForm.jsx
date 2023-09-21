@@ -7,6 +7,7 @@ import studentAPI from "api/studentAPI";
 import StudentSchema from "schema/StudentSchema";
 import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
+import styles from "./StudentForm.module.css";
 
 function StudentForm() {
   const [data, setData] = useState([]);
@@ -115,7 +116,7 @@ function StudentForm() {
       >
         <div className="mb-3">
           <div className="container mb-3">
-            <div style={{ marginBottom: "10px" }}>
+            <div className={styles.formLabel} style={{ marginBottom: "10px" }}>
               <H2>
                 Interact with the requisite fields and execute a "Submit" action
                 to preserve your alterations.
@@ -123,7 +124,7 @@ function StudentForm() {
             </div>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="userName"
                 id="firstName"
@@ -133,54 +134,61 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="firstName">
                 Name
               </label> */}
-              {errors.firstName && <p>{errors.firstName.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.firstName && <p>{errors.firstName.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="userName"
                 id="userName"
-                placeholder="userName"
+                placeholder="User Name"
                 {...register("userName")}
               ></input>
               {/* <label className="form-label" htmlFor="userName">
                 Username
               </label> */}
-              {errors.userName && <p>{errors.userName.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.userName && <p>{errors.userName.message}</p>}
+              </div>
             </div>
             <br></br>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gender"
-                id="gender"
-                value="Male"
-                checked
-                {...register("gender")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Male
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gender"
-                id="gender"
-                value="Female"
-                {...register("gender")}
-              />
-              <label className="form-check-label" htmlFor="gender">
-                Female
-              </label>
+            <div className={styles.radiobutton}>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="gender"
+                  value="Male"
+                  checked
+                  {...register("gender")}
+                />
+                <label className="form-check-label" htmlFor="exampleRadios1">
+                  Male
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="gender"
+                  value="Female"
+                  {...register("gender")}
+                />
+                <label className="form-check-label" htmlFor="gender">
+                  Female
+                </label>
+              </div>
             </div>
             {/* <div className="form-floating">
               <input
-                className="form-control"
+                                className={styles.formControl}
+
                 type="text"
                 name="gender"
                 id="gender"
@@ -195,7 +203,7 @@ function StudentForm() {
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="date"
                 name="dob"
                 id="dob"
@@ -205,12 +213,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="dob">
                 Date of Birth
               </label> */}
-              {errors.dob && <p>{errors.dob.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.dob && <p>{errors.dob.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="email"
                 id="email"
@@ -220,13 +230,15 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="email">
                 E-mail
               </label> */}
-              {errors.email && <p>{errors.email.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.email && <p>{errors.email.message}</p>}
+              </div>
             </div>
 
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="mobile"
                 id="mobile"
@@ -236,13 +248,16 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="mobile">
                 Mobile number
               </label> */}
-              {errors.mobile && <p>{errors.mobile.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.mobile && <p>{errors.mobile.message}</p>}
+              </div>
             </div>
             <br></br>
             <div>
               {/* ... (previous form elements) */}
               <div className="form-floating">
                 <select
+                  className={styles.selectWrapper}
                   name="udise"
                   id="udise"
                   {...register("udise")}
@@ -260,7 +275,9 @@ function StudentForm() {
                 {/* <label className="form-label" htmlFor="udise">
                   School Udise
                 </label> */}
-                {errors.udise && <p>{errors.udise.message}</p>}
+                <div className={styles.errorMessage}>
+                  {errors.udise && <p>{errors.udise.message}</p>}
+                </div>
               </div>
               {/* ... (more form elements) */}
             </div>
@@ -270,6 +287,7 @@ function StudentForm() {
               {/* ... (previous form elements) */}
               <div className="form-floating">
                 <select
+                  className={styles.selectWrapper}
                   name="group"
                   id="group"
                   {...register("group")}
@@ -288,7 +306,9 @@ function StudentForm() {
                 {/* <label className="form-label" htmlFor="udise">
                   Group
                 </label> */}
-                {errors.group && <p>{errors.group.message}</p>}
+                <div className={styles.errorMessage}>
+                  {errors.group && <p>{errors.group.message}</p>}
+                </div>
               </div>
               {/* ... (more form elements) */}
             </div>
@@ -296,7 +316,7 @@ function StudentForm() {
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="role"
                 id="role"
@@ -306,12 +326,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="role">
                 Role
               </label> */}
-              {errors.role && <p>{errors.role.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.role && <p>{errors.role.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="board"
                 id="board"
@@ -321,12 +343,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="board">
                 Board
               </label> */}
-              {errors.board && <p>{errors.board.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.board && <p>{errors.board.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="password"
                 id="password"
@@ -336,12 +360,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="password">
                 Password
               </label> */}
-              {errors.password && <p>{errors.password.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.password && <p>{errors.password.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="grade"
                 id="grade"
@@ -351,12 +377,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="grade">
                 Grade
               </label> */}
-              {errors.grade && <p>{errors.grade.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.grade && <p>{errors.grade.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="religion"
                 id="religion"
@@ -366,12 +394,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="religion">
                 Religion
               </label> */}
-              {errors.religion && <p>{errors.religion.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.religion && <p>{errors.religion.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="caste"
                 id="caste"
@@ -381,12 +411,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="caste">
                 Caste
               </label> */}
-              {errors.caste && <p>{errors.caste.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.caste && <p>{errors.caste.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="annualIncome"
                 id="annualIncome"
@@ -396,12 +428,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="annual">
                 Annual Income
               </label> */}
-              {errors.annual && <p>{errors.annual.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.annual && <p>{errors.annual.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="motherName"
                 id="motherName"
@@ -411,12 +445,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="motherName">
                 Mother Name
               </label> */}
-              {errors.motherName && <p>{errors.motherName.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.motherName && <p>{errors.motherName.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="fatherName"
                 id="fatherName"
@@ -426,12 +462,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="fatherName">
                 Father Name
               </label> */}
-              {errors.fatherName && <p>{errors.fatherName.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.fatherName && <p>{errors.fatherName.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="motherEducation"
                 id="motherEducation"
@@ -441,14 +479,16 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="motherEducation">
                 Mother Education
               </label> */}
-              {errors.motherEducation && (
-                <p>{errors.motherEducation.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.motherEducation && (
+                  <p>{errors.motherEducation.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="fatherEducation"
                 id="fatherEducation"
@@ -458,14 +498,16 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="fatherEducation">
                 Father Education
               </label> */}
-              {errors.fatherEducation && (
-                <p>{errors.fatherEducation.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.fatherEducation && (
+                  <p>{errors.fatherEducation.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="motherOccupation"
                 id="motherOccupation"
@@ -475,14 +517,16 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="motherOccupation">
                 Mother Occupation
               </label> */}
-              {errors.motherOccupation && (
-                <p>{errors.motherOccupation.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.motherOccupation && (
+                  <p>{errors.motherOccupation.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="fatherOccupation"
                 id="fatherOccupation"
@@ -492,14 +536,16 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="fatherOccupation">
                 Father Occupation
               </label> */}
-              {errors.fatherOccupation && (
-                <p>{errors.fatherOccupation.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.fatherOccupation && (
+                  <p>{errors.fatherOccupation.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="siblings"
                 id="siblings"
@@ -509,12 +555,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="siblings">
                 Number of Siblings
               </label> */}
-              {errors.siblings && <p>{errors.siblings.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.siblings && <p>{errors.siblings.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="uniqueId"
                 id="uniqueId"
@@ -524,12 +572,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="uniqueId">
                 Unique ID
               </label> */}
-              {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="state"
                 id="state"
@@ -539,12 +589,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="state">
                 State
               </label> */}
-              {errors.state && <p>{errors.state.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.state && <p>{errors.state.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="block"
                 id="block"
@@ -554,12 +606,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="block">
                 Block
               </label> */}
-              {errors.block && <p>{errors.block.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.block && <p>{errors.block.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="serialNo"
                 id="serialNo"
@@ -569,12 +623,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="serialNo">
                 Serial No
               </label> */}
-              {errors.serialNo && <p>{errors.serialNo.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.serialNo && <p>{errors.serialNo.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="district"
                 id="district"
@@ -584,12 +640,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="district">
                 District
               </label> */}
-              {errors.district && <p>{errors.district.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.district && <p>{errors.district.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="section"
                 id="section"
@@ -599,12 +657,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="section">
                 Section
               </label> */}
-              {errors.section && <p>{errors.section.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.section && <p>{errors.section.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="medium"
                 id="medium"
@@ -614,12 +674,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="medium">
                 Medium
               </label> */}
-              {errors.medium && <p>{errors.medium.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.medium && <p>{errors.medium.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="bloodGroup"
                 id="bloodGroup"
@@ -629,13 +691,15 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="bloodGroup">
                 Blood Group
               </label> */}
-              {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
+              </div>
             </div>
 
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="status"
                 id="status"
@@ -645,12 +709,14 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="status">
                 Status
               </label> */}
-              {errors.status && <p>{errors.status.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.status && <p>{errors.status.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="image"
                 id="image"
@@ -660,9 +726,12 @@ function StudentForm() {
               {/* <label className="form-label" htmlFor="image">
                 Image
               </label> */}
-              {errors.image && <p>{errors.image.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.image && <p>{errors.image.message}</p>}
+              </div>
             </div>
           </div>
+          <br />
           <Button type="button" onPress={handleSubmit(onSubmit)}>
             Submit
           </Button>
