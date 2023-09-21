@@ -77,7 +77,7 @@ function StudentPage() {
             {
               title: "SCHOOL",
               icon: "GovernmentLineIcon",
-              route: "/",
+              route: "/schoolpage",
             },
 
             {

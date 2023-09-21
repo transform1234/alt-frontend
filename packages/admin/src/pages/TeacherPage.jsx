@@ -75,7 +75,7 @@ function TeacherPage() {
             {
               title: "SCHOOL",
               icon: "GovernmentLineIcon",
-              route: "/",
+              route: "/schoolpage",
             },
 
             {

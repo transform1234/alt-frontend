@@ -17,6 +17,7 @@ import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
 import SchoolListView from "components/SchoolListView";
 import SchoolCSV from "components/SchoolCSV";
+import SchoolForm from "components/SchoolForm";
 
 function SchoolPage() {
   const [loading, setLoading] = React.useState(false);
@@ -97,7 +98,7 @@ function SchoolPage() {
                 <H4>Import data using with a CSV File</H4>{" "}
                 <Button onPress={openCSVModal}>CSV</Button>{" "}
               </Box>
-              <Heading>Teacher Records list</Heading>
+              <Heading>School Records list</Heading>
               {isCSVOpen && (
                 <CSVModal
                   isOpen={isCSVOpen}
@@ -118,7 +119,7 @@ function SchoolPage() {
                   ariaHideApp={false}
                 >
                   <div className={styles.bodyDiv}>
-                    <TeacherForm />
+                    <SchoolForm />
                   </div>
                 </FORMmodal>
               )}

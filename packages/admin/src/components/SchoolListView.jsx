@@ -126,36 +126,36 @@ function SchoolListView() {
     localStorage.setItem("selectedRowData", JSON.stringify(event.data));
   }, []);
 
-  const onBtnExport = useCallback(() => {
-    gridRef.current.api.exportDataAsCsv();
-  }, []);
+  // const onBtnExport = useCallback(() => {
+  //   gridRef.current.api.exportDataAsCsv();
+  // }, []);
 
-  const onBtnExportFields = useCallback(() => {
-    // Extract only the "Name" and "Gender" fields
-    const selectedFieldsData = rowData.map((row) => ({
-      Name: row.Name,
-      Gender: row.Gender,
-    }));
+  // const onBtnExportFields = useCallback(() => {
+  //   // Extract only the "Name" and "Gender" fields
+  //   const selectedFieldsData = rowData.map((row) => ({
+  //     Name: row.Name,
+  //     Gender: row.Gender,
+  //   }));
 
-    // Convert the data to CSV format using PapaParse
-    const csvData = Papa.unparse(selectedFieldsData);
+  //   // Convert the data to CSV format using PapaParse
+  //   const csvData = Papa.unparse(selectedFieldsData);
 
-    // Create a Blob containing the CSV data
-    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+  //   // Create a Blob containing the CSV data
+  //   const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
 
-    // Create a download link and trigger the download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "student_data_name_gender.csv";
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, [rowData]);
+  //   // Create a download link and trigger the download
+  //   const link = document.createElement("a");
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = "student_data_name_gender.csv";
+  //   link.style.display = "none";
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // }, [rowData]);
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
-      <button
+      {/* <button
         onClick={onBtnExport}
         style={{ background: "#41C88E", border: "none", borderRadius: "5px" }}
       >
@@ -177,7 +177,7 @@ function SchoolListView() {
           style={{ color: "white", fontSize: "largest" }}
         />
         <H4 style={{ color: "white" }}> Download username & password </H4>
-      </button>
+      </button> */}
       <AgGridReact
         ref={gridRef}
         rowData={rowData}

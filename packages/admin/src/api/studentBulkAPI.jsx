@@ -1,9 +1,17 @@
+import { studentBulk } from "routes/links";
 import axios from "axios";
-import { studentRegister } from "../routes/links";
 
-const studentAPI = async (data) => {
-  console.log("INSIDE API");
-  console.log(data);
+const studentBulkAPI = async (
+  schoolUdise,
+  groupId,
+  selectedpassword,
+  student
+) => {
+  console.log("INSIDE STUDENT BULK");
+  console.log("schoolUdise:", schoolUdise);
+  console.log("groupId:", groupId);
+  console.log("Password", selectedpassword);
+  console.log("CSV Data:", student);
 
   const token = localStorage.getItem("token");
 
@@ -15,37 +23,24 @@ const studentAPI = async (data) => {
   };
 
   const jsonData = {
-    name: data.firstName,
-    username: data.userName,
-    email: data.email,
-    mobile: data.mobile,
-    gender: data.gender,
-    dateOfBirth: data.dob,
-    board: data.board,
-    password: data.password,
-    status: "true",
-    groups: [data.group],
-    religion: data.religion,
-    schoolUdise: data.udise,
-    caste: data.caste,
-    annualIncome: data.annualIncome,
-    motherEducation: data.motherEducation,
-    fatherEducation: data.fatherEducation,
-    motherOccupation: data.motherOccupation,
-    fatherOccupation: data.fatherOccupation,
-    noOfSiblings: data.siblings,
+    schoolUdise: schoolUdise,
+    groupId: groupId,
+    password: selectedpassword,
+    students: student,
   };
+
+  console.log(jsonData);
 
   let result;
   await axios({
     method: "POST",
-    url: studentRegister,
+    url: studentBulk,
     data: jsonData,
     headers: headers,
   })
     .then((res) => {
       console.log(res);
-      // console.log(res.data);
+      console.log(res.data);
       console.log(res.data.data.studentId);
       console.log(res.data.data.userId);
 
@@ -67,4 +62,4 @@ const studentAPI = async (data) => {
   return result;
 };
 
-export default studentAPI;
+export default studentBulkAPI;

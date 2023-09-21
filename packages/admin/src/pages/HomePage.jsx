@@ -75,7 +75,7 @@ function HomePage() {
         {
           link: "/fun-activity",
 
-          title: <H2>Program Add</H2>,
+          title: <H2>Group Add</H2>,
 
           _box: {
             style: {

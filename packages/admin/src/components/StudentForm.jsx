@@ -5,8 +5,89 @@ import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import studentAPI from "api/studentAPI";
 import StudentSchema from "schema/StudentSchema";
+import { useState, useEffect, useLayoutEffect } from "react";
+import axios from "axios";
 
 function StudentForm() {
+  const [data, setData] = useState([]);
+  const [token, setToken] = useState([]);
+  const [selectedUdiseCode, setSelectedUdiseCode] = useState(0);
+  const [selectedgroup, setSelectedgroup] = useState(""); // Initialize with an empty string
+
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+    console.log("FIRST useEffect");
+    console.log(token);
+  }, []);
+
+  useEffect(() => {
+    console.log("Second useEffect");
+    console.log(token);
+
+    const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
+    const headers = {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestData = {
+      limit: "20",
+      page: 0,
+      filters: {},
+    };
+
+    axios
+      .post(apiUrl, requestData, { headers })
+      .then((response) => {
+        console.log("SCHOOL DATA USE EFFECT");
+        console.log(response.data.data);
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        // Handle any errors here
+        console.error("Error fetching data:", error);
+      });
+  }, [token]);
+
+  useEffect(() => {
+    console.log("Group useEffect");
+    console.log(token);
+    console.log(selectedUdiseCode);
+
+    const groupapiUrl = "https://alt.uniteframework.io/api/v1/group/search";
+    const headers = {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestData = {
+      limit: 20,
+      page: 0,
+      filters: {
+        schoolUdise: {
+          eq: selectedUdiseCode,
+        },
+      },
+    };
+
+    axios
+      .post(groupapiUrl, requestData, { headers })
+      .then((response) => {
+        console.log("Group DATA USE EFFECT");
+        console.log(response.data.data);
+        setGroups(response.data.data);
+      })
+      .catch((error) => {
+        // Handle any errors here
+        console.error("Error fetching data:", error);
+      });
+  }, [selectedUdiseCode]);
+
   const {
     register,
     handleSubmit,
@@ -46,12 +127,12 @@ function StudentForm() {
                 type="text"
                 name="userName"
                 id="firstName"
-                placeholder="Name of the content"
+                placeholder="Student Name"
                 {...register("firstName")}
               ></input>
-              <label className="form-label" htmlFor="firstName">
+              {/* <label className="form-label" htmlFor="firstName">
                 Name
-              </label>
+              </label> */}
               {errors.firstName && <p>{errors.firstName.message}</p>}
             </div>
             <br></br>
@@ -64,9 +145,9 @@ function StudentForm() {
                 placeholder="userName"
                 {...register("userName")}
               ></input>
-              <label className="form-label" htmlFor="userName">
+              {/* <label className="form-label" htmlFor="userName">
                 Username
-              </label>
+              </label> */}
               {errors.userName && <p>{errors.userName.message}</p>}
             </div>
             <br></br>
@@ -118,12 +199,12 @@ function StudentForm() {
                 type="date"
                 name="dob"
                 id="dob"
-                placeholder="Name of the content"
+                placeholder="Date of Birth"
                 {...register("dob")}
               ></input>
-              <label className="form-label" htmlFor="dob">
+              {/* <label className="form-label" htmlFor="dob">
                 Date of Birth
-              </label>
+              </label> */}
               {errors.dob && <p>{errors.dob.message}</p>}
             </div>
             <br></br>
@@ -133,12 +214,12 @@ function StudentForm() {
                 type="text"
                 name="email"
                 id="email"
-                placeholder="Name of the content"
+                placeholder="E-mail"
                 {...register("email")}
               ></input>
-              <label className="form-label" htmlFor="email">
+              {/* <label className="form-label" htmlFor="email">
                 E-mail
-              </label>
+              </label> */}
               {errors.email && <p>{errors.email.message}</p>}
             </div>
 
@@ -149,29 +230,69 @@ function StudentForm() {
                 type="text"
                 name="mobile"
                 id="mobile"
-                placeholder="Name of the content"
+                placeholder="Mobile"
                 {...register("mobile")}
               ></input>
-              <label className="form-label" htmlFor="mobile">
+              {/* <label className="form-label" htmlFor="mobile">
                 Mobile number
-              </label>
+              </label> */}
               {errors.mobile && <p>{errors.mobile.message}</p>}
             </div>
             <br></br>
-            <div className="form-floating">
-              <input
-                className="form-control"
-                type="text"
-                name="udise"
-                id="udise"
-                placeholder="Name of the content"
-                {...register("udise")}
-              ></input>
-              <label className="form-label" htmlFor="udise">
-                School Udise
-              </label>
-              {errors.udise && <p>{errors.udise.message}</p>}
+            <div>
+              {/* ... (previous form elements) */}
+              <div className="form-floating">
+                <select
+                  name="udise"
+                  id="udise"
+                  {...register("udise")}
+                  value={selectedUdiseCode}
+                  onChange={(e) => setSelectedUdiseCode(e.target.value)}
+                >
+                  <option value="">Select School Udise</option>{" "}
+                  {/* Placeholder option */}
+                  {data.map((school) => (
+                    <option key={school.udiseCode} value={school.udiseCode}>
+                      {school.udiseCode}
+                    </option>
+                  ))}
+                </select>
+                {/* <label className="form-label" htmlFor="udise">
+                  School Udise
+                </label> */}
+                {errors.udise && <p>{errors.udise.message}</p>}
+              </div>
+              {/* ... (more form elements) */}
             </div>
+            <br></br>
+
+            <div>
+              {/* ... (previous form elements) */}
+              <div className="form-floating">
+                <select
+                  name="group"
+                  id="group"
+                  {...register("group")}
+                  value={selectedgroup}
+                  onChange={(e) => setSelectedgroup(e.target.value)}
+                >
+                  <option value="">Select Group</option>{" "}
+                  {/* Placeholder option */}
+                  {groups.map((school) => (
+                    <option key={school.groupId} value={school.groupId}>
+                      {school.groupId}
+                    </option>
+                  ))}
+                </select>
+
+                {/* <label className="form-label" htmlFor="udise">
+                  Group
+                </label> */}
+                {errors.group && <p>{errors.group.message}</p>}
+              </div>
+              {/* ... (more form elements) */}
+            </div>
+
             <br></br>
             <div className="form-floating">
               <input
@@ -179,12 +300,12 @@ function StudentForm() {
                 type="text"
                 name="role"
                 id="role"
-                placeholder="role"
+                placeholder="Role"
                 {...register("role")}
               ></input>
-              <label className="form-label" htmlFor="role">
+              {/* <label className="form-label" htmlFor="role">
                 Role
-              </label>
+              </label> */}
               {errors.role && <p>{errors.role.message}</p>}
             </div>
             <br></br>
@@ -194,12 +315,12 @@ function StudentForm() {
                 type="text"
                 name="board"
                 id="board"
-                placeholder="board"
+                placeholder="Board"
                 {...register("board")}
               ></input>
-              <label className="form-label" htmlFor="board">
+              {/* <label className="form-label" htmlFor="board">
                 Board
-              </label>
+              </label> */}
               {errors.board && <p>{errors.board.message}</p>}
             </div>
             <br></br>
@@ -209,12 +330,12 @@ function StudentForm() {
                 type="text"
                 name="password"
                 id="password"
-                placeholder="password"
+                placeholder="Password"
                 {...register("password")}
               ></input>
-              <label className="form-label" htmlFor="password">
+              {/* <label className="form-label" htmlFor="password">
                 Password
-              </label>
+              </label> */}
               {errors.password && <p>{errors.password.message}</p>}
             </div>
             <br></br>
@@ -224,12 +345,12 @@ function StudentForm() {
                 type="text"
                 name="grade"
                 id="grade"
-                placeholder="Name of the content"
+                placeholder="Grade"
                 {...register("grade")}
               ></input>
-              <label className="form-label" htmlFor="grade">
+              {/* <label className="form-label" htmlFor="grade">
                 Grade
-              </label>
+              </label> */}
               {errors.grade && <p>{errors.grade.message}</p>}
             </div>
             <br></br>
@@ -239,12 +360,12 @@ function StudentForm() {
                 type="text"
                 name="religion"
                 id="religion"
-                placeholder="Name of the content"
+                placeholder="Religion"
                 {...register("religion")}
               ></input>
-              <label className="form-label" htmlFor="religion">
+              {/* <label className="form-label" htmlFor="religion">
                 Religion
-              </label>
+              </label> */}
               {errors.religion && <p>{errors.religion.message}</p>}
             </div>
             <br></br>
@@ -254,12 +375,12 @@ function StudentForm() {
                 type="text"
                 name="caste"
                 id="caste"
-                placeholder="Name of the content"
+                placeholder="Caste"
                 {...register("caste")}
               ></input>
-              <label className="form-label" htmlFor="caste">
+              {/* <label className="form-label" htmlFor="caste">
                 Caste
-              </label>
+              </label> */}
               {errors.caste && <p>{errors.caste.message}</p>}
             </div>
             <br></br>
@@ -269,12 +390,12 @@ function StudentForm() {
                 type="text"
                 name="annualIncome"
                 id="annualIncome"
-                placeholder="Name of the content"
+                placeholder="Annual Income"
                 {...register("annualIncome")}
               ></input>
-              <label className="form-label" htmlFor="annual">
+              {/* <label className="form-label" htmlFor="annual">
                 Annual Income
-              </label>
+              </label> */}
               {errors.annual && <p>{errors.annual.message}</p>}
             </div>
             <br></br>
@@ -284,12 +405,12 @@ function StudentForm() {
                 type="text"
                 name="motherName"
                 id="motherName"
-                placeholder="Name of the content"
+                placeholder="Mother Name"
                 {...register("motherName")}
               ></input>
-              <label className="form-label" htmlFor="motherName">
+              {/* <label className="form-label" htmlFor="motherName">
                 Mother Name
-              </label>
+              </label> */}
               {errors.motherName && <p>{errors.motherName.message}</p>}
             </div>
             <br></br>
@@ -299,12 +420,12 @@ function StudentForm() {
                 type="text"
                 name="fatherName"
                 id="fatherName"
-                placeholder="Name of the content"
+                placeholder="Father Name"
                 {...register("fatherName")}
               ></input>
-              <label className="form-label" htmlFor="fatherName">
+              {/* <label className="form-label" htmlFor="fatherName">
                 Father Name
-              </label>
+              </label> */}
               {errors.fatherName && <p>{errors.fatherName.message}</p>}
             </div>
             <br></br>
@@ -314,12 +435,12 @@ function StudentForm() {
                 type="text"
                 name="motherEducation"
                 id="motherEducation"
-                placeholder="Name of the content"
+                placeholder="Mother Education"
                 {...register("motherEducation")}
               ></input>
-              <label className="form-label" htmlFor="motherEducation">
+              {/* <label className="form-label" htmlFor="motherEducation">
                 Mother Education
-              </label>
+              </label> */}
               {errors.motherEducation && (
                 <p>{errors.motherEducation.message}</p>
               )}
@@ -331,12 +452,12 @@ function StudentForm() {
                 type="text"
                 name="fatherEducation"
                 id="fatherEducation"
-                placeholder="Name of the content"
+                placeholder="Father Education"
                 {...register("fatherEducation")}
               ></input>
-              <label className="form-label" htmlFor="fatherEducation">
+              {/* <label className="form-label" htmlFor="fatherEducation">
                 Father Education
-              </label>
+              </label> */}
               {errors.fatherEducation && (
                 <p>{errors.fatherEducation.message}</p>
               )}
@@ -348,12 +469,12 @@ function StudentForm() {
                 type="text"
                 name="motherOccupation"
                 id="motherOccupation"
-                placeholder="Name of the content"
+                placeholder="Mother Occupation"
                 {...register("motherOccupation")}
               ></input>
-              <label className="form-label" htmlFor="motherOccupation">
+              {/* <label className="form-label" htmlFor="motherOccupation">
                 Mother Occupation
-              </label>
+              </label> */}
               {errors.motherOccupation && (
                 <p>{errors.motherOccupation.message}</p>
               )}
@@ -365,12 +486,12 @@ function StudentForm() {
                 type="text"
                 name="fatherOccupation"
                 id="fatherOccupation"
-                placeholder="Name of the content"
+                placeholder="Father Occupation"
                 {...register("fatherOccupation")}
               ></input>
-              <label className="form-label" htmlFor="fatherOccupation">
+              {/* <label className="form-label" htmlFor="fatherOccupation">
                 Father Occupation
-              </label>
+              </label> */}
               {errors.fatherOccupation && (
                 <p>{errors.fatherOccupation.message}</p>
               )}
@@ -382,12 +503,12 @@ function StudentForm() {
                 type="text"
                 name="siblings"
                 id="siblings"
-                placeholder="Name of the content"
+                placeholder="Number of Siblings"
                 {...register("siblings")}
               ></input>
-              <label className="form-label" htmlFor="siblings">
+              {/* <label className="form-label" htmlFor="siblings">
                 Number of Siblings
-              </label>
+              </label> */}
               {errors.siblings && <p>{errors.siblings.message}</p>}
             </div>
             <br></br>
@@ -397,12 +518,12 @@ function StudentForm() {
                 type="text"
                 name="uniqueId"
                 id="uniqueId"
-                placeholder="Name of the content"
+                placeholder="Unique ID"
                 {...register("uniqueId")}
               ></input>
-              <label className="form-label" htmlFor="uniqueId">
+              {/* <label className="form-label" htmlFor="uniqueId">
                 Unique ID
-              </label>
+              </label> */}
               {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
             </div>
             <br></br>
@@ -412,12 +533,12 @@ function StudentForm() {
                 type="text"
                 name="state"
                 id="state"
-                placeholder="Name of the content"
+                placeholder="State"
                 {...register("state")}
               ></input>
-              <label className="form-label" htmlFor="state">
+              {/* <label className="form-label" htmlFor="state">
                 State
-              </label>
+              </label> */}
               {errors.state && <p>{errors.state.message}</p>}
             </div>
             <br></br>
@@ -427,12 +548,12 @@ function StudentForm() {
                 type="text"
                 name="block"
                 id="block"
-                placeholder="Name of the content"
+                placeholder="Block"
                 {...register("block")}
               ></input>
-              <label className="form-label" htmlFor="block">
+              {/* <label className="form-label" htmlFor="block">
                 Block
-              </label>
+              </label> */}
               {errors.block && <p>{errors.block.message}</p>}
             </div>
             <br></br>
@@ -442,12 +563,12 @@ function StudentForm() {
                 type="text"
                 name="serialNo"
                 id="serialNo"
-                placeholder="Name of the content"
+                placeholder="Serial No"
                 {...register("serialNo")}
               ></input>
-              <label className="form-label" htmlFor="serialNo">
+              {/* <label className="form-label" htmlFor="serialNo">
                 Serial No
-              </label>
+              </label> */}
               {errors.serialNo && <p>{errors.serialNo.message}</p>}
             </div>
             <br></br>
@@ -457,12 +578,12 @@ function StudentForm() {
                 type="text"
                 name="district"
                 id="district"
-                placeholder="Name of the content"
+                placeholder="District"
                 {...register("district")}
               ></input>
-              <label className="form-label" htmlFor="district">
+              {/* <label className="form-label" htmlFor="district">
                 District
-              </label>
+              </label> */}
               {errors.district && <p>{errors.district.message}</p>}
             </div>
             <br></br>
@@ -472,12 +593,12 @@ function StudentForm() {
                 type="text"
                 name="section"
                 id="section"
-                placeholder="Name of the content"
+                placeholder="Section"
                 {...register("section")}
               ></input>
-              <label className="form-label" htmlFor="section">
+              {/* <label className="form-label" htmlFor="section">
                 Section
-              </label>
+              </label> */}
               {errors.section && <p>{errors.section.message}</p>}
             </div>
             <br></br>
@@ -487,12 +608,12 @@ function StudentForm() {
                 type="text"
                 name="medium"
                 id="medium"
-                placeholder="Name of the content"
+                placeholder="Medium"
                 {...register("medium")}
               ></input>
-              <label className="form-label" htmlFor="medium">
+              {/* <label className="form-label" htmlFor="medium">
                 Medium
-              </label>
+              </label> */}
               {errors.medium && <p>{errors.medium.message}</p>}
             </div>
             <br></br>
@@ -502,14 +623,15 @@ function StudentForm() {
                 type="text"
                 name="bloodGroup"
                 id="bloodGroup"
-                placeholder="Name of the content"
+                placeholder="BloodGroup"
                 {...register("bloodGroup")}
               ></input>
-              <label className="form-label" htmlFor="bloodGroup">
+              {/* <label className="form-label" htmlFor="bloodGroup">
                 Blood Group
-              </label>
+              </label> */}
               {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
             </div>
+
             <br></br>
             <div className="form-floating">
               <input
@@ -517,12 +639,12 @@ function StudentForm() {
                 type="text"
                 name="status"
                 id="status"
-                placeholder="Name of the content"
+                placeholder="Status"
                 {...register("status")}
               ></input>
-              <label className="form-label" htmlFor="status">
+              {/* <label className="form-label" htmlFor="status">
                 Status
-              </label>
+              </label> */}
               {errors.status && <p>{errors.status.message}</p>}
             </div>
             <br></br>
@@ -532,12 +654,12 @@ function StudentForm() {
                 type="text"
                 name="image"
                 id="image"
-                placeholder="Name of the content"
+                placeholder="Image"
                 {...register("image")}
               ></input>
-              <label className="form-label" htmlFor="image">
+              {/* <label className="form-label" htmlFor="image">
                 Image
-              </label>
+              </label> */}
               {errors.image && <p>{errors.image.message}</p>}
             </div>
           </div>

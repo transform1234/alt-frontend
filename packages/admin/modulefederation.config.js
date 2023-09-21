@@ -8,6 +8,7 @@ module.exports = {
     "./HomePage": "./src/pages/HomePage",
     "./StudentPage": "./src/pages/StudentPage",
     "./TeacherPage": "./src/pages/TeacherPage",
+    "./SchoolPage": "./src/pages/SchoolPage",
   },
   remotes: {
     core: `core@[window.appModules.core.url]/moduleEntry.js`,
