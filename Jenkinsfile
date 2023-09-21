@@ -15,7 +15,7 @@ pipeline {
 
     stage('Checkout') {
       steps {
-        cleanWs()
+        //cleanWs()
         git branch: 'altv1', url: 'https://github.com/transform1234/alt-frontend.git'
       }
     }
@@ -54,6 +54,7 @@ pipeline {
     }
     stage ('deployment on s3') {
       steps {
+        dir('/var/lib/jenkins/build'){
             script {
             withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
               s3Delete(bucket: 'alt-frontend', path:'**/*')
@@ -61,6 +62,7 @@ pipeline {
             }
             }
           }
+      }
     }
     
     
