@@ -57,8 +57,8 @@ pipeline {
         dir('/var/lib/jenkins/build'){
             script {
             withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
-              s3Delete(bucket: 'alt-frontend', path:'**/*')
-              s3Upload(bucket: 'alt-frontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
+              s3Delete(bucket: 'altfrontend', path:'**/*')
+              s3Upload(bucket: 'altfrontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
             }
             }
           }
