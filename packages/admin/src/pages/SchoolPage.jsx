@@ -19,6 +19,7 @@ import SchoolListView from "components/SchoolListView";
 import SchoolCSV from "components/SchoolCSV";
 import SchoolForm from "components/SchoolForm";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 
 function SchoolPage() {
   const [loading, setLoading] = React.useState(false);
@@ -129,6 +130,12 @@ function SchoolPage() {
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
                 >
+                  <button
+                    onClick={closeFORMModal}
+                    className={styles.closeButton}
+                  >
+                    <CloseIcon />
+                  </button>
                   <div className={styles.bodyDiv}>
                     <SchoolForm />
                   </div>

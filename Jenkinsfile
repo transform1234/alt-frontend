@@ -23,8 +23,8 @@ pipeline {
     stage('Building Code') {
       steps {
         dir('/var/lib/jenkins/workspace/Frontend') {
-          sh 'rm -rf node_modules'
-          sh 'rm -f package-lock.json' // Corrected to remove the file
+          // sh 'rm -rf node_modules'
+          // sh 'rm -f package-lock.json' // Corrected to remove the file
           sh 'ls'
           sh 'yarn install'
           sh 'yarn workspace @shiksha/common-lib build'
@@ -52,27 +52,40 @@ pipeline {
         }
       }
     }
-
-    stage('Deployment') {
+    stage ('deployment on s3') {
       steps {
-        dir('/var/lib/jenkins/build') {
-          sh 'aws s3 ls'
-          sh "aws s3 cp . s3://altfrontend/ --recursive"
-          //script {
-            //def awsCliCmd = 'aws'
-            //def bucketName = 'altfrontend'
-             //sh "aws s3 cp . s3://altfrontend/ --recursive"
+        dir('/var/lib/jenkins/build'){
+            script {
+            withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
+              s3Delete(bucket: 'altfrontend', path:'**/*')
+              s3Upload(bucket: 'altfrontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
+            }
+            }
           }
-        }
       }
-        // New stage for executing ccs.sh script
-    // stage('Execute Invalidation Script') {
+    }
+    
+    
+    // stage('Deployment') {
     //   steps {
-    //     dir('/var/lib/jenkins/workspace') {
-    //       sh 'sh frontend.sh'
+    //     dir('/var/lib/jenkins/build') {
+    //       sh 'aws s3 ls'
+    //       sh "aws s3 cp . s3://altfrontend/ --recursive"
+    //       //script {
+    //         //def awsCliCmd = 'aws'
+    //         //def bucketName = 'altfrontend'
+    //          //sh "aws s3 cp . s3://altfrontend/ --recursive"
+    //       }
     //     }
     //   }
-    // }
+        // New stage for executing ccs.sh script
+    stage('Execute Invalidation Script') {
+      steps {
+        dir('/var/lib/jenkins/workspace') {
+          sh 'sh frontend.sh'
+        }
+      }
+    }
     }
   }
 
