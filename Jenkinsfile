@@ -52,19 +52,30 @@ pipeline {
         }
       }
     }
-
-    stage('Deployment') {
+    stage ('deployment on s3') {
       steps {
-        dir('/var/lib/jenkins/build') {
-          sh 'aws s3 ls'
-          sh "aws s3 cp . s3://altfrontend/ --recursive"
-          //script {
-            //def awsCliCmd = 'aws'
-            //def bucketName = 'altfrontend'
-             //sh "aws s3 cp . s3://altfrontend/ --recursive"
+            script {
+            withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
+              s3Delete(bucket: 'alt-frontend', path:'**/*')
+              s3Upload(bucket: 'alt-frontend', workingDir:'build', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
+            }
+            }
           }
-        }
-      }
+    }
+    
+    
+    // stage('Deployment') {
+    //   steps {
+    //     dir('/var/lib/jenkins/build') {
+    //       sh 'aws s3 ls'
+    //       sh "aws s3 cp . s3://altfrontend/ --recursive"
+    //       //script {
+    //         //def awsCliCmd = 'aws'
+    //         //def bucketName = 'altfrontend'
+    //          //sh "aws s3 cp . s3://altfrontend/ --recursive"
+    //       }
+    //     }
+    //   }
         // New stage for executing ccs.sh script
     // stage('Execute Invalidation Script') {
     //   steps {
