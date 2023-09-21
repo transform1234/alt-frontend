@@ -1,16 +1,9 @@
 import { studentBulk } from "routes/links";
 import axios from "axios";
 
-const studentBulkAPI = async (
-  schoolUdise,
-  groupId,
-  selectedpassword,
-  student
-) => {
+const studentBulkAPI = async (student) => {
   console.log("INSIDE STUDENT BULK");
-  console.log("schoolUdise:", schoolUdise);
-  console.log("groupId:", groupId);
-  console.log("Password", selectedpassword);
+
   console.log("CSV Data:", student);
 
   const token = localStorage.getItem("token");
@@ -22,20 +15,11 @@ const studentBulkAPI = async (
     "Content-Type": "application/json",
   };
 
-  const jsonData = {
-    schoolUdise: schoolUdise,
-    groupId: groupId,
-    password: selectedpassword,
-    students: student,
-  };
-
-  console.log(jsonData);
-
   let result;
   await axios({
     method: "POST",
     url: studentBulk,
-    data: jsonData,
+    data: student,
     headers: headers,
   })
     .then((res) => {

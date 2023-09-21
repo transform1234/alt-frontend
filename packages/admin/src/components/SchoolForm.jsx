@@ -244,6 +244,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="libraryFunctional">
                 No
               </label>
+              {errors.libraryFunctional && (
+                <p>{errors.libraryFunctional.message}</p>
+              )}
             </div>
             <br></br>
             <label>Computer Lab Functional</label>
@@ -278,6 +281,9 @@ function SchoolForm() {
                 No
               </label>
             </div>
+            {errors.computerLabFunctional && (
+              <p>{errors.computerLabFunctional.message}</p>
+            )}
             <br></br>
             <div className="form-floating">
               <input
@@ -355,6 +361,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="smrtBrd6Functional">
                 No
               </label>
+              {errors.smrtBrd6Functional && (
+                <p>{errors.smrtBrd6Functional.message}</p>
+              )}
             </div>
             <br></br>
             <label>smrtBrd7Functional</label>
@@ -384,6 +393,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="smrtBrd7Functional">
                 No
               </label>
+              {errors.smrtBrd7Functional && (
+                <p>{errors.smrtBrd7Functional.message}</p>
+              )}
             </div>
             <br></br>
             <label>smrtBrd8Functional</label>
@@ -413,6 +425,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="smrtBrd8Functional">
                 No
               </label>
+              {errors.smrtBrd8Functional && (
+                <p>{errors.smrtBrd8Functional.message}</p>
+              )}
             </div>
             <br></br>
             <label>smrtBrd9Functional</label>
@@ -442,6 +457,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="smrtBrd9Functional">
                 No
               </label>
+              {errors.smrtBrd9Functional && (
+                <p>{errors.smrtBrd9Functional.message}</p>
+              )}
             </div>
             <br></br>
             <label>smrtBrd10Functional</label>
@@ -472,6 +490,9 @@ function SchoolForm() {
                 No
               </label>
             </div>
+            {errors.smrtBrd10Functional && (
+              <p>{errors.smrtBrd10Functional.message}</p>
+            )}
             <br></br>
             <div className="form-floating">
               <input
@@ -549,6 +570,9 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.adequateRoomsForEveryClass && (
+                <p>{errors.adequateRoomsForEveryClass.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -580,6 +604,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="drinkingWaterSupply">
                 No
               </label>
+              {errors.drinkingWaterSupply && (
+                <p>{errors.drinkingWaterSupply.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -614,6 +641,9 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.seperateToiletForGirlsAndBoys && (
+                <p>{errors.seperateToiletForGirlsAndBoys.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -648,6 +678,9 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.whetherToiletBeingUsed && (
+                <p>{errors.whetherToiletBeingUsed.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -679,6 +712,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="playgroundAvailable">
                 No
               </label>
+              {errors.playgroundAvailable && (
+                <p>{errors.playgroundAvailable.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -710,6 +746,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="boundaryWallFence">
                 No
               </label>
+              {errors.boundaryWallFence && (
+                <p>{errors.boundaryWallFence.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -727,6 +766,9 @@ function SchoolForm() {
               <label className="form-check-label" htmlFor="exampleRadios1">
                 Yes
               </label>
+              {errors.electricFittingsAreInsulated && (
+                <p>{errors.electricFittingsAreInsulated.message}</p>
+              )}
             </div>
 
             <div className="form-check">
@@ -744,6 +786,9 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.electricFittingsAreInsulated && (
+                <p>{errors.electricFittingsAreInsulated.message}</p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -782,6 +827,14 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.buildingIsResistantToEarthquakeFireFloodOtherCalamity && (
+                <p>
+                  {
+                    errors.buildingIsResistantToEarthquakeFireFloodOtherCalamity
+                      .message
+                  }
+                </p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -816,6 +869,14 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.buildingIsFreeFromInflammableAndToxicMaterials && (
+                <p>
+                  {
+                    errors.buildingIsFreeFromInflammableAndToxicMaterials
+                      .message
+                  }
+                </p>
+              )}
             </div>
             <br></br>
             <br></br>
@@ -850,6 +911,9 @@ function SchoolForm() {
               >
                 No
               </label>
+              {errors.roofAndWallsAreInGoodCondition && (
+                <p>{errors.roofAndWallsAreInGoodCondition.message}</p>
+              )}
             </div>
             <br></br>
           </div>

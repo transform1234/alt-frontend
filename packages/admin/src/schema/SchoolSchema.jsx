@@ -1,81 +1,81 @@
 import * as yup from "yup";
 
 const SchoolSchema = yup.object().shape({
-  firstName: yup
+  udiseCode: yup
     .string()
     .required("*first name required")
     .min(3, "*should not be less than 3 characters"),
-  userName: yup
+  name: yup
     .string()
     .required("*username required")
     .min(3, "*should not be less than 3 characters"),
-  gender: yup
+  location: yup
     .string()
     .required("*gender is required")
     .min(3, "*should not be less than 3 characters"),
 
-  dob: yup
+  management: yup
     .string()
     .required("*dob is required")
     .min(3, "*should not be less than 3 characters"),
-  email: yup
+  composition: yup
     .string()
     .required("*email is required")
     .min(3, "*should not be less than 3 characters"),
-  mobile: yup
+  board: yup
     .string()
     .required("*mobile number is required")
     .min(3, "*should not be less than 3 characters"),
-  udise: yup
+  mediumOfInstruction: yup
     .string()
     .required("*School udise is required")
     .min(3, "*should not be less than 3 characters"),
-  group: yup
+  headmaster: yup
     .string()
     .required("*School group is required")
     .min(1, "*should not be empty"), // Updated min to 1 for non-empty string
 
-  role: yup
+  headmasterMobile: yup
     .string()
     .required("*role required")
     .min(3, "*should not be less than 3 characters"),
-  board: yup
+  upperPrimaryTeachersSanctioned: yup
     .string()
     .required("*board required")
     .min(3, "*should not be less than 3 characters"),
-  password: yup
+  secondaryTeachersSanctioned: yup
     .string()
     .required("*password required")
     .min(3, "*should not be less than 3 characters"),
-  grade: yup
+  libraryFunctional: yup
     .string()
     .required("*grade is required")
     .min(3, "*should not be less than 3 characters"),
-  religion: yup
+  computerLabFunctional: yup
     .string()
     .required("*religion is required")
     .min(3, "*should not be less than 3 characters"),
-  caste: yup
+  totalFunctionalComputers: yup
     .string()
     .required("*caste is required")
     .min(3, "*should not be less than 3 characters"),
-  annualIncome: yup
+  noOfBoysToilet: yup
     .string()
     .required("*annual income is required")
     .min(3, "*should not be less than 3 characters"),
-  motherName: yup
+  noOfGirlsToilet: yup
     .string()
     .required("*mother name is required")
     .min(3, "*should not be less than 3 characters"),
-  fatherName: yup
+  smartBoardFunctionalClass6: yup
     .string()
     .required("*father name is required")
     .min(3, "*should not be less than 3 characters"),
-  motherEducation: yup
+  smartBoardFunctionalClass7: yup
     .string()
     .required("*mother education is required")
     .min(3, "*should not be less than 3 characters"),
-  fatherEducation: yup
+  smartBoardFunctionalClass8: yup
     .string()
     .required("*father education is required")
     .min(3, "*should not be less than 3 characters"),
