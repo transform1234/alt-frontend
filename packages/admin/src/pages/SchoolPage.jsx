@@ -18,6 +18,7 @@ import TeacherForm from "components/TeacherForm";
 import SchoolListView from "components/SchoolListView";
 import SchoolCSV from "components/SchoolCSV";
 import SchoolForm from "components/SchoolForm";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 function SchoolPage() {
   const [loading, setLoading] = React.useState(false);
@@ -38,6 +39,10 @@ function SchoolPage() {
   };
   const closeFORMModal = () => {
     setIsFORMOpen(false);
+  };
+
+  const sampleCSV = () => {
+    console.log("download");
   };
 
   return (
@@ -97,6 +102,12 @@ function SchoolPage() {
                 <Button onPress={openFORMModal}>FORM</Button>{" "}
                 <H4>Import data using with a CSV File</H4>{" "}
                 <Button onPress={openCSVModal}>CSV</Button>{" "}
+                <BodyLarge>Download Sample CSV</BodyLarge>
+                <Button style={{ width: "80px" }} onPress={sampleCSV}>
+                  <FileDownloadOutlinedIcon
+                    style={{ color: "white", fontSize: "largest" }}
+                  />
+                </Button>
               </Box>
               <Heading>School Records list</Heading>
               {isCSVOpen && (
