@@ -21,7 +21,10 @@ function CSVImportForm() {
     reader.onload = (event) => {
       const content = event.target.result;
       const lines = content.split("\n");
-      const data = lines.map((line) => line.split(","));
+
+      // Remove the trailing newline character from each line and then split into columns
+      const data = lines.map((line) => line.replace(/\r$/, "").split(","));
+
       setCSVData(data);
     };
 
@@ -103,16 +106,17 @@ function CSVImportForm() {
         board: studentData[7] || "",
         password: studentData[8] || "",
         status: studentData[9] || "",
+        className: studentData[10] || "",
         groups: [] || [true],
-        religion: studentData[11] || "",
-        schoolUdise: studentData[12] || "",
-        caste: studentData[13] || "",
-        annualIncome: studentData[14] || 0, // Use an empty string if annual_income is missing
-        motherEducation: studentData[15] || "", // Use an empty string if mother_education is missing
-        fatherEducation: studentData[16] || "", // Use an empty string if father_education is missing
-        motherOccupation: studentData[17] || "", // Use an empty string if mother_occupation is missing
-        fatherOccupation: studentData[18] || "", // Use an empty string if father_occupation is missing
-        noOfSiblings: 5 || 0, // Use 0 if No_of_siblings is missing
+        religion: studentData[12] || "",
+        schoolUdise: studentData[13] || "",
+        caste: studentData[14] || "",
+        annualIncome: studentData[15] || 0, // Use an empty string if annual_income is missing
+        motherEducation: studentData[16] || "", // Use an empty string if mother_education is missing
+        fatherEducation: studentData[17] || "", // Use an empty string if father_education is missing
+        motherOccupation: studentData[18] || "", // Use an empty string if mother_occupation is missing
+        fatherOccupation: studentData[19] || "", // Use an empty string if father_occupation is missing
+        noOfSiblings: studentData[20] || 0, // Use 0 if No_of_siblings is missing
       };
 
       // Add the student object to the students array
