@@ -236,23 +236,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="libraryFunctional"
-                id="libraryFunctional"
-                value="false"
-                {...register("libraryFunctional")}
-              />
-              <label className="form-check-label" htmlFor="libraryFunctional">
-                No
-              </label>
-              {errors.libraryFunctional && (
-                <p>{errors.libraryFunctional.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -266,7 +249,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <label>Computer Lab Functional</label>
@@ -356,133 +338,6 @@ function SchoolForm() {
             </div>
             <br></br>
             <label>smrtBrd6Functional</label>
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd6Functional"
-                id="smrtBrd6Functional"
-                value="true"
-                checked
-                {...register("smrtBrd6Functional")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Yes
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd6Functional"
-                id="smrtBrd6Functional"
-                value="false"
-                {...register("smrtBrd6Functional")}
-              />
-              <label className="form-check-label" htmlFor="smrtBrd6Functional">
-                No
-              </label>
-              {errors.smrtBrd6Functional && (
-                <p>{errors.smrtBrd6Functional.message}</p>
-              )}
-            </div>
-            <br></br>
-            <label>smrtBrd7Functional</label>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd7Functional"
-                id="smrtBrd7Functional"
-                value="true"
-                checked
-                {...register("smrtBrd7Functional")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Yes
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd7Functional"
-                id="smrtBrd7Functional"
-                value="false"
-                {...register("smrtBrd7Functional")}
-              />
-              <label className="form-check-label" htmlFor="smrtBrd7Functional">
-                No
-              </label>
-              {errors.smrtBrd7Functional && (
-                <p>{errors.smrtBrd7Functional.message}</p>
-              )}
-            </div>
-            <br></br>
-            <label>smrtBrd8Functional</label>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd8Functional"
-                id="smrtBrd8Functional"
-                value="true"
-                checked
-                {...register("smrtBrd8Functional")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Yes
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd8Functional"
-                id="smrtBrd8Functional"
-                value="false"
-                {...register("smrtBrd8Functional")}
-              />
-              <label className="form-check-label" htmlFor="smrtBrd8Functional">
-                No
-              </label>
-              {errors.smrtBrd8Functional && (
-                <p>{errors.smrtBrd8Functional.message}</p>
-              )}
-            </div>
-            <br></br>
-            <label>smrtBrd9Functional</label>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd9Functional"
-                id="smrtBrd9Functional"
-                value="true"
-                checked
-                {...register("smrtBrd9Functional")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Yes
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="smrtBrd9Functional"
-                id="smrtBrd9Functional"
-                value="false"
-                {...register("smrtBrd9Functional")}
-              />
-              <label className="form-check-label" htmlFor="smrtBrd9Functional">
-                No
-              </label>
-              {errors.smrtBrd9Functional && (
-                <p>{errors.smrtBrd9Functional.message}</p>
-              )}
-=======
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -616,7 +471,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <label>smrtBrd10Functional</label>
@@ -724,26 +578,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="adequateRoomsForEveryClass"
-                id="adequateRoomsForEveryClass"
-                value="false"
-                {...register("adequateRoomsForEveryClass")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="adequateRoomsForEveryClass"
-              >
-                No
-              </label>
-              {errors.adequateRoomsForEveryClass && (
-                <p>{errors.adequateRoomsForEveryClass.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -760,7 +594,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -781,23 +614,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="drinkingWaterSupply"
-                id="drinkingWaterSupply"
-                value="false"
-                {...register("drinkingWaterSupply")}
-              />
-              <label className="form-check-label" htmlFor="drinkingWaterSupply">
-                No
-              </label>
-              {errors.drinkingWaterSupply && (
-                <p>{errors.drinkingWaterSupply.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -814,7 +630,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -835,26 +650,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="seperateToiletForGirlsAndBoys"
-                id="seperateToiletForGirlsAndBoys"
-                value="false"
-                {...register("seperateToiletForGirlsAndBoys")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="seperateToiletForGirlsAndBoys"
-              >
-                No
-              </label>
-              {errors.seperateToiletForGirlsAndBoys && (
-                <p>{errors.seperateToiletForGirlsAndBoys.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -871,7 +666,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -892,26 +686,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="whetherToiletBeingUsed"
-                id="whetherToiletBeingUsed"
-                value="false"
-                {...register("whetherToiletBeingUsed")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="whetherToiletBeingUsed"
-              >
-                No
-              </label>
-              {errors.whetherToiletBeingUsed && (
-                <p>{errors.whetherToiletBeingUsed.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -928,7 +702,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -949,23 +722,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="playgroundAvailable"
-                id="playgroundAvailable"
-                value="false"
-                {...register("playgroundAvailable")}
-              />
-              <label className="form-check-label" htmlFor="playgroundAvailable">
-                No
-              </label>
-              {errors.playgroundAvailable && (
-                <p>{errors.playgroundAvailable.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -982,7 +738,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -1003,23 +758,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="boundaryWallFence"
-                id="boundaryWallFence"
-                value="false"
-                {...register("boundaryWallFence")}
-              />
-              <label className="form-check-label" htmlFor="boundaryWallFence">
-                No
-              </label>
-              {errors.boundaryWallFence && (
-                <p>{errors.boundaryWallFence.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -1033,49 +771,10 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
             <label>electricFittingsAreInsulated</label>
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="electricFittingsAreInsulated"
-                id="electricFittingsAreInsulated"
-                value="true"
-                checked
-                {...register("electricFittingsAreInsulated")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Yes
-              </label>
-              {errors.electricFittingsAreInsulated && (
-                <p>{errors.electricFittingsAreInsulated.message}</p>
-              )}
-            </div>
-
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="electricFittingsAreInsulated"
-                id="electricFittingsAreInsulated"
-                value="false"
-                {...register("electricFittingsAreInsulated")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="electricFittingsAreInsulated"
-              >
-                No
-              </label>
-              {errors.electricFittingsAreInsulated && (
-                <p>{errors.electricFittingsAreInsulated.message}</p>
-              )}
-=======
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -1108,7 +807,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -1131,33 +829,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="buildingIsResistantToEarthquakeFireFloodOtherCalamity"
-                id="buildingIsResistantToEarthquakeFireFloodOtherCalamity"
-                value="false"
-                {...register(
-                  "buildingIsResistantToEarthquakeFireFloodOtherCalamity"
-                )}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="buildingIsResistantToEarthquakeFireFloodOtherCalamity"
-              >
-                No
-              </label>
-              {errors.buildingIsResistantToEarthquakeFireFloodOtherCalamity && (
-                <p>
-                  {
-                    errors.buildingIsResistantToEarthquakeFireFloodOtherCalamity
-                      .message
-                  }
-                </p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -1176,7 +847,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -1199,31 +869,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="buildingIsFreeFromInflammableAndToxicMaterials"
-                id="buildingIsFreeFromInflammableAndToxicMaterials"
-                value="false"
-                {...register("buildingIsFreeFromInflammableAndToxicMaterials")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="buildingIsFreeFromInflammableAndToxicMaterials"
-              >
-                No
-              </label>
-              {errors.buildingIsFreeFromInflammableAndToxicMaterials && (
-                <p>
-                  {
-                    errors.buildingIsFreeFromInflammableAndToxicMaterials
-                      .message
-                  }
-                </p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -1242,7 +887,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
             <br></br>
@@ -1263,26 +907,6 @@ function SchoolForm() {
                 </label>
               </div>
 
-<<<<<<< HEAD
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="roofAndWallsAreInGoodCondition"
-                id="roofAndWallsAreInGoodCondition"
-                value="false"
-                {...register("roofAndWallsAreInGoodCondition")}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="roofAndWallsAreInGoodCondition"
-              >
-                No
-              </label>
-              {errors.roofAndWallsAreInGoodCondition && (
-                <p>{errors.roofAndWallsAreInGoodCondition.message}</p>
-              )}
-=======
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -1299,7 +923,6 @@ function SchoolForm() {
                   No
                 </label>
               </div>
->>>>>>> 9c9af10cadb929cc99eddb0afebe9a0f114b2bea
             </div>
             <br></br>
           </div>
