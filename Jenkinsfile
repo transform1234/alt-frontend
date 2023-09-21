@@ -79,13 +79,13 @@ pipeline {
     //     }
     //   }
         // New stage for executing ccs.sh script
-    // stage('Execute Invalidation Script') {
-    //   steps {
-    //     dir('/var/lib/jenkins/workspace') {
-    //       sh 'sh frontend.sh'
-    //     }
-    //   }
-    // }
+    stage('Execute Invalidation Script') {
+      steps {
+        dir('/var/lib/jenkins/workspace') {
+          sh 'sh frontend.sh'
+        }
+      }
+    }
     }
   }
 
