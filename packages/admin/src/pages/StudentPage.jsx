@@ -17,6 +17,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import StudentListView from "components/StudentListView";
 import StudentForm from "components/StudentForm";
+import CloseIcon from "@mui/icons-material/Close";
 
 function StudentPage() {
   const [loading, setLoading] = React.useState(false);
@@ -117,6 +118,12 @@ function StudentPage() {
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
                 >
+                  <button
+                    onClick={closeFORMModal}
+                    className={styles.closeButton}
+                  >
+                    <CloseIcon />
+                  </button>
                   <div className={styles.bodyDiv}>
                     <StudentForm />
                   </div>

@@ -5,6 +5,7 @@ import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TeacherSchema from "schema/TeacherSchema";
 import teacherAPI from "api/teacherAPI";
+import styles from "./StudentForm.module.css";
 
 function TeacherForm() {
   const {
@@ -42,7 +43,7 @@ function TeacherForm() {
             </div>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="name"
                 id="name"
@@ -52,12 +53,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="firstName">
                 Name
               </label> */}
-              {errors.name && <p>{errors.name.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.name && <p>{errors.name.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="username"
                 id="username"
@@ -67,39 +70,43 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="username">
                 username
               </label> */}
-              {errors.username && <p>{errors.username.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.username && <p>{errors.username.message}</p>}
+              </div>
             </div>
             <br></br>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gender"
-                id="gender"
-                value="Male"
-                checked
-                {...register("gender")}
-              />
-              <label className="form-check-label" htmlFor="exampleRadios1">
-                Male
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gender"
-                id="gender"
-                value="Female"
-                {...register("gender")}
-              />
-              <label className="form-check-label" htmlFor="gender">
-                Female
-              </label>
+            <div className={styles.radiobutton}>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="gender"
+                  value="Male"
+                  checked
+                  {...register("gender")}
+                />
+                <label className="form-check-label" htmlFor="exampleRadios1">
+                  Male
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="gender"
+                  value="Female"
+                  {...register("gender")}
+                />
+                <label className="form-check-label" htmlFor="gender">
+                  Female
+                </label>
+              </div>
             </div>
             {/* <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="gender"
                 id="gender"
@@ -114,7 +121,7 @@ function TeacherForm() {
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="date"
                 name="dateOfBirth"
                 id="dateOfBirth"
@@ -124,12 +131,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="dateOfBirth">
                 Date of Birth
               </label> */}
-              {errors.dateOfBirth && <p>{errors.dateOfBirth.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.dateOfBirth && <p>{errors.dateOfBirth.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="email"
                 id="email"
@@ -139,13 +148,15 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="email">
                 E-mail
               </label> */}
-              {errors.email && <p>{errors.email.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.email && <p>{errors.email.message}</p>}
+              </div>
             </div>
 
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="mobile"
                 id="mobile"
@@ -155,12 +166,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="mobile">
                 Mobile number
               </label> */}
-              {errors.mobile && <p>{errors.mobile.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.mobile && <p>{errors.mobile.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="schoolUdise"
                 id="schoolUdise"
@@ -170,12 +183,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="schoolUdise">
                 School schoolUdise
               </label> */}
-              {errors.schoolUdise && <p>{errors.schoolUdise.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.schoolUdise && <p>{errors.schoolUdise.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="currentRole"
                 id="currentRole"
@@ -185,12 +200,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="role">
                 Role
               </label> */}
-              {errors.currentRole && <p>{errors.currentRole.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.currentRole && <p>{errors.currentRole.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="board"
                 id="board"
@@ -200,12 +217,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="board">
                 Board
               </label> */}
-              {errors.board && <p>{errors.board.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.board && <p>{errors.board.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="password"
                 id="password"
@@ -215,12 +234,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="password">
                 Password
               </label> */}
-              {errors.password && <p>{errors.password.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.password && <p>{errors.password.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="educationalQualification"
                 id="educationalQualification"
@@ -230,14 +251,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="educationalQualification">
                 Educational Qualification
               </label> */}
-              {errors.educationalQualification && (
-                <p>{errors.educationalQualification.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.educationalQualification && (
+                  <p>{errors.educationalQualification.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="status"
                 id="status"
@@ -247,12 +270,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="status">
                 Status
               </label> */}
-              {errors.status && <p>{errors.status.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.status && <p>{errors.status.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="natureOfAppointment"
                 id="natureOfAppointment"
@@ -262,14 +287,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="natureOfappointment">
                 Nature Of appointment
               </label> */}
-              {errors.natureOfAppointment && (
-                <p>{errors.natureOfAppointment.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.natureOfAppointment && (
+                  <p>{errors.natureOfAppointment.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="appointedPost"
                 id="appointedPost"
@@ -279,12 +306,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="appointedPostName">
                 Appointed Post Name
               </label> */}
-              {errors.appointedPost && <p>{errors.appointedPost.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.appointedPost && <p>{errors.appointedPost.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="totalTeachingExperience"
                 id="totalTeachingExperience"
@@ -294,14 +323,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="totalExperienceInTeaching">
                 Total Experience In Teaching
               </label> */}
-              {errors.totalTeachingExperience && (
-                <p>{errors.totalTeachingExperience.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.totalTeachingExperience && (
+                  <p>{errors.totalTeachingExperience.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="totalHeadteacherExperience"
                 id="totalHeadteacherExperience"
@@ -311,14 +342,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="totalExperienceAsHead">
                 Total Experience As Head
               </label> */}
-              {errors.totalHeadteacherExperience && (
-                <p>{errors.totalHeadteacherExperience.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.totalHeadteacherExperience && (
+                  <p>{errors.totalHeadteacherExperience.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="number"
                 name="classesTaught"
                 id="classesTaught"
@@ -328,12 +361,14 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="classTaught">
                 Class Taught
               </label> */}
-              {errors.classesTaught && <p>{errors.classesTaught.message}</p>}
+              <div className={styles.errorMessage}>
+                {errors.classesTaught && <p>{errors.classesTaught.message}</p>}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="coreSubjectTaught"
                 id="coreSubjectTaught"
@@ -343,14 +378,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="coreSubjectTaught">
                 Core Subject Taught
               </label> */}
-              {errors.coreSubjectTaught && (
-                <p>{errors.coreSubjectTaught.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.coreSubjectTaught && (
+                  <p>{errors.coreSubjectTaught.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="attendedInserviceTraining"
                 id="attendedInserviceTraining"
@@ -360,14 +397,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="attendedInServiceTraining">
                 Attended In Service Training
               </label> */}
-              {errors.attendedInserviceTraining && (
-                <p>{errors.attendedInserviceTraining.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.attendedInserviceTraining && (
+                  <p>{errors.attendedInserviceTraining.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="lastTrainingAttendedTopic"
                 id="lastTrainingAttendedTopic"
@@ -377,14 +416,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="lastTrainingAttendedTopic">
                 Last Training Attended Topic
               </label> */}
-              {errors.lastTrainingAttendedTopic && (
-                <p>{errors.lastTrainingAttendedTopic.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.lastTrainingAttendedTopic && (
+                  <p>{errors.lastTrainingAttendedTopic.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="lastTrainingAttendedYear"
                 id="lastTrainingAttendedYear"
@@ -394,14 +435,16 @@ function TeacherForm() {
               {/* <label className="form-label" htmlFor="lastTrainingAttendedYear">
                 Last Training Attended Year
               </label> */}
-              {errors.lastTrainingAttendedYear && (
-                <p>{errors.lastTrainingAttendedYear.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.lastTrainingAttendedYear && (
+                  <p>{errors.lastTrainingAttendedYear.message}</p>
+                )}
+              </div>
             </div>
             <br></br>
             <div className="form-floating">
               <input
-                className="form-control"
+                className={styles.formControl}
                 type="text"
                 name="trainedInComputerDigitalteaching"
                 id="trainedInComputerDigitalteaching"
@@ -414,11 +457,15 @@ function TeacherForm() {
               >
                 Trained in Use of Computer And Digital Teaching
               </label> */}
-              {errors.trainedInComputerDigitalteaching && (
-                <p>{errors.trainedInComputerDigitalteaching.message}</p>
-              )}
+              <div className={styles.errorMessage}>
+                {errors.trainedInComputerDigitalteaching && (
+                  <p>{errors.trainedInComputerDigitalteaching.message}</p>
+                )}
+              </div>
             </div>
           </div>
+          <br />
+          <br />
           <Button type="button" onPress={handleSubmit(onSubmit)}>
             Submit
           </Button>
