@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { H2 } from "@shiksha/common-lib";
 import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
-import studentAPI from "api/studentAPI";
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import SchoolSchema from "schema/SchoolSchema";
 import styles from "./StudentForm.module.css";
+import schoolAPI from "api/schoolAPI";
 
 function SchoolForm() {
   const {
@@ -17,7 +17,7 @@ function SchoolForm() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(SchoolSchema) });
   const onSubmit = async (data) => {
-    const result = await studentAPI(data);
+    const result = await schoolAPI(data);
     if (result == true) {
       let sID = localStorage.getItem("studentId");
       let uID = localStorage.getItem("userId");
