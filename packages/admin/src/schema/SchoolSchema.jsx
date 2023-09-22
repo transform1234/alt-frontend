@@ -3,7 +3,7 @@ import * as yup from "yup";
 const SchoolSchema = yup.object().shape({
   udiseCode: yup
     .string()
-    .required("*udiseCode name required")
+    .required("*udiseCode required")
     .min(3, "*should not be less than 3 characters"),
   name: yup
     .string()
