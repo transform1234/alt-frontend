@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { H2 } from "@shiksha/common-lib";
 import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
-import studentAPI from "api/studentAPI";
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import SchoolSchema from "schema/SchoolSchema";
 import styles from "./StudentForm.module.css";
+import schoolAPI from "api/schoolAPI";
 
 function SchoolForm() {
   const {
@@ -16,16 +16,15 @@ function SchoolForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(SchoolSchema) });
+  // } = useForm();
+  console.log(errors);
   const onSubmit = async (data) => {
-    const result = await studentAPI(data);
+    const result = await schoolAPI(data);
+    // console.log(result, "data");
     if (result == true) {
-      let sID = localStorage.getItem("studentId");
-      let uID = localStorage.getItem("userId");
-      alert(
-        "Registration Successful.\nStudent ID: " + sID + "\nUser ID: " + uID
-      );
+      alert("Added Successful");
     } else {
-      alert("Registeration failed");
+      alert("Failed");
     }
   };
 
@@ -75,44 +74,68 @@ function SchoolForm() {
             </div>
             <br></br>
             <div className="form-floating">
-              <input
+              <label classlocation="form-label" htmlFor="location">
+                Location
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("location")}
+                placeholder="Location"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="Rural">Rural</option>
+                <option value="Urban">Urban</option>
+              </select>
+              {/* <input
                 className={styles.formControl}
                 type="text"
                 name="location"
                 id="location"
                 placeholder="Location"
                 {...register("location")}
-              ></input>
-              {/* <label classlocation="form-label" htmlFor="location">
-                location
-              </label> */}
+              ></input> */}
               {errors.location && <p>{errors.location.message}</p>}
             </div>
             <br></br>
             <div className="form-floating">
-              <input
+              <label classlocation="form-label" htmlFor="management">
+                School management
+              </label>
+              <select
                 className={styles.formControl}
-                type="text"
-                name="management"
-                id="management"
-                placeholder="management"
                 {...register("management")}
-              ></input>
-              {/* <label classmanagement="form-label" htmlFor="management">
-                management
-              </label> */}
+                placeholder="Management"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="Government_Aided">Government_Aided</option>
+                <option value="Local_Bodies">Local_Bodies</option>
+                <option value="Private_Unaided">Private_Unaided</option>
+                <option value="State_Government">State_Government</option>
+                <option value="Tribal">Tribal</option>
+                <option value="Others">Others</option>
+              </select>
+
               {errors.management && <p>{errors.management.message}</p>}
             </div>
             <br></br>
             <div className="form-floating">
-              <input
+              <label classlocation="form-label" htmlFor="composition">
+                School composition
+              </label>
+              <select
                 className={styles.formControl}
-                type="text"
-                name="composition"
-                id="composition"
-                placeholder="composition"
                 {...register("composition")}
-              ></input>
+                placeholder="Composition"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="Boys">Boys</option>
+                <option value="CoEducation">CoEducation</option>
+                <option value="Girls">Girls</option>
+              </select>
+
               {/* <label classcomposition="form-label" htmlFor="composition">
                 composition
               </label> */}
@@ -125,7 +148,7 @@ function SchoolForm() {
                 type="text"
                 name="board"
                 id="board"
-                placeholder="board"
+                placeholder="Board"
                 {...register("board")}
               ></input>
               {/* <label classboard="form-label" htmlFor="board">
@@ -142,7 +165,7 @@ function SchoolForm() {
                 type="text"
                 name="mediumOfInstruction"
                 id="mediumOfInstruction"
-                placeholder="mediumOfInstruction"
+                placeholder="Medium Of Instruction"
                 {...register("mediumOfInstruction")}
               ></input>
               {/* <label classmediumOfInstruction="form-label" htmlFor="mediumOfInstruction">
@@ -159,7 +182,7 @@ function SchoolForm() {
                 type="text"
                 name="headmaster"
                 id="headmaster"
-                placeholder="headmaster"
+                placeholder="Headmaster"
                 {...register("headmaster")}
               ></input>
               {/* <label classheadmaster="form-label" htmlFor="headmaster">
@@ -174,7 +197,7 @@ function SchoolForm() {
                 type="text"
                 name="headmasterMobile"
                 id="headmasterMobile"
-                placeholder="headmasterMobile"
+                placeholder="Headmaster Mobile"
                 {...register("headmasterMobile")}
               ></input>
               {/* <label classheadmasterMobile="form-label" htmlFor="headmasterMobile">
@@ -186,12 +209,33 @@ function SchoolForm() {
             </div>
             <br></br>
             <div className="form-floating">
+              <label classlocation="form-label" htmlFor="headmasterType">
+                Headmaster Type
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("headmasterType")}
+                placeholder="HeadmasterType"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="FullTime">FullTime</option>
+                <option value="PartTime">PartTime</option>
+              </select>
+
+              {/* <label classheadmasterType="form-label" htmlFor="headmasterType">
+                headmasterType
+              </label> */}
+              {errors.headmasterType && <p>{errors.headmasterType.message}</p>}
+            </div>
+            <br></br>
+            <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="number"
                 name="upperPrimaryTeachersSanctioned"
                 id="upperPrimaryTeachersSanctioned"
-                placeholder="upperPrimaryTeachersSanctioned"
+                placeholder="Upper Primary Teachers Sanctioned"
                 {...register("upperPrimaryTeachersSanctioned")}
               ></input>
               {/* <label classupperPrimaryTeachersSanctioned="form-label" htmlFor="upperPrimaryTeachersSanctioned">
@@ -208,7 +252,7 @@ function SchoolForm() {
                 type="number"
                 name="secondaryTeachersSanctioned"
                 id="secondaryTeachersSanctioned"
-                placeholder="secondaryTeachersSanctioned"
+                placeholder="Secondary Teachers Sanctioned"
                 {...register("secondaryTeachersSanctioned")}
               ></input>
               {/* <label classsecondaryTeachersSanctioned="form-label" htmlFor="secondaryTeachersSanctioned">
@@ -251,38 +295,21 @@ function SchoolForm() {
               </div>
             </div>
             <br></br>
-            <label>Computer Lab Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="computerLabFunctional"
-                  id="computerLabFunctional"
-                  value="true"
-                  checked
-                  {...register("computerLabFunctional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="computerLabFunctional"
-                  id="computerLabFunctional"
-                  value="false"
-                  {...register("computerLabFunctional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="computerLabFunctional"
-                >
-                  No
-                </label>
-              </div>
+            {/* <label>Computer Lab Functional</label> */}
+            <div className="form-check">
+              <label classlocation="form-label" htmlFor="computerLabFunctional">
+                Computer Lab Functional
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("computerLabFunctional")}
+                placeholder="computerLabFunctional"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
             </div>
             {errors.computerLabFunctional && (
               <p>{errors.computerLabFunctional.message}</p>
@@ -294,7 +321,7 @@ function SchoolForm() {
                 type="number"
                 name="totalFunctionalComputers"
                 id="totalFunctionalComputers"
-                placeholder="totalFunctionalComputers"
+                placeholder="Total Functional Computers"
                 {...register("totalFunctionalComputers")}
               ></input>
               {/* <label classtotalFunctionalComputers="form-label" htmlFor="totalFunctionalComputers">
@@ -311,7 +338,7 @@ function SchoolForm() {
                 type="number"
                 name="noOfBoysToilet"
                 id="noOfBoysToilet"
-                placeholder="noOfBoysToilet"
+                placeholder="Number Of Boys Toilet"
                 {...register("noOfBoysToilet")}
               ></input>
               {/* <label classnoOfBoysToilet="form-label" htmlFor="noOfBoysToilet">
@@ -326,7 +353,7 @@ function SchoolForm() {
                 type="number"
                 name="noOfGirlsToilet"
                 id="noOfGirlsToilet"
-                placeholder="noOfGirlsToilet"
+                placeholder="Number Of Girls Toilet"
                 {...register("noOfGirlsToilet")}
               ></input>
               {/* <label classnoOfGirlsToilet="form-label" htmlFor="noOfGirlsToilet">
@@ -337,178 +364,114 @@ function SchoolForm() {
               )}
             </div>
             <br></br>
-            <label>smrtBrd6Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd6Functional"
-                  id="smrtBrd6Functional"
-                  value="true"
-                  checked
-                  {...register("smrtBrd6Functional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd6Functional"
-                  id="smrtBrd6Functional"
-                  value="false"
-                  {...register("smrtBrd6Functional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="smrtBrd6Functional"
-                >
-                  No
-                </label>
-              </div>
+            <br></br>
+            {/* <label>Smart Board Functional Class 6</label> */}
+            <div className="form-check">
+              <label
+                classlocation="form-label"
+                htmlFor="smartBoardFunctionalClass6"
+              >
+                Smart Board Functional Class 6
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("smartBoardFunctionalClass6")}
+                placeholder="Smart Board Functional Class 6"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="NotInstalled">NotInstalled</option>
+              </select>
             </div>
             <br></br>
-            <label>smrtBrd7Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd7Functional"
-                  id="smrtBrd7Functional"
-                  value="true"
-                  checked
-                  {...register("smrtBrd7Functional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd7Functional"
-                  id="smrtBrd7Functional"
-                  value="false"
-                  {...register("smrtBrd7Functional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="smrtBrd7Functional"
-                >
-                  No
-                </label>
-              </div>
+            <br></br>
+            {/* <label>Smart Board Functional Class 7</label> */}
+            <div className="form-check">
+              <label
+                classlocation="form-label"
+                htmlFor="smartBoardFunctionalClass7"
+              >
+                Smart Board Functional Class 7
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("smartBoardFunctionalClass7")}
+                placeholder="Smart Board Functional Class 7"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="NotInstalled">NotInstalled</option>
+              </select>
             </div>
             <br></br>
-            <label>smrtBrd8Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd8Functional"
-                  id="smrtBrd8Functional"
-                  value="true"
-                  checked
-                  {...register("smrtBrd8Functional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd8Functional"
-                  id="smrtBrd8Functional"
-                  value="false"
-                  {...register("smrtBrd8Functional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="smrtBrd8Functional"
-                >
-                  No
-                </label>
-              </div>
+            <br></br>
+            {/* <label>Smart Board Functional Class 8</label> */}
+            <div className="form-check">
+              <label
+                classlocation="form-label"
+                htmlFor="smartBoardFunctionalClass8"
+              >
+                Smart Board Functional Class 8
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("smartBoardFunctionalClass8")}
+                placeholder="Smart Board Functional Class 8"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="NotInstalled">NotInstalled</option>
+              </select>
             </div>
             <br></br>
-            <label>smrtBrd9Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd9Functional"
-                  id="smrtBrd9Functional"
-                  value="true"
-                  checked
-                  {...register("smrtBrd9Functional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd9Functional"
-                  id="smrtBrd9Functional"
-                  value="false"
-                  {...register("smrtBrd9Functional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="smrtBrd9Functional"
-                >
-                  No
-                </label>
-              </div>
+            <br></br>
+            {/* <label>Smart Board Functional Class 9</label> */}
+            <div className="form-check">
+              <label
+                classlocation="form-label"
+                htmlFor="smartBoardFunctionalClass9"
+              >
+                Smart Board Functional Class 9
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("smartBoardFunctionalClass9")}
+                placeholder="Smart Board Functional Class 9"
+              >
+                <option value=""> Select 1 option</option>
+
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="NotInstalled">NotInstalled</option>
+              </select>
             </div>
             <br></br>
-            <label>smrtBrd10Functional</label>
-            <div className={styles.radiobutton}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd10Functional"
-                  id="smrtBrd10Functional"
-                  value="true"
-                  checked
-                  {...register("smrtBrd10Functional")}
-                />
-                <label className="form-check-label" htmlFor="exampleRadios1">
-                  Yes
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="smrtBrd10Functional"
-                  id="smrtBrd10Functional"
-                  value="false"
-                  {...register("smrtBrd10Functional")}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="smrtBrd10Functional"
-                >
-                  No
-                </label>
-              </div>
+            <br></br>
+            {/* <label>Smart Board Functional Class 10</label> */}
+            <div className="form-check">
+              <label
+                classlocation="form-label"
+                htmlFor="smartBoardFunctionalClass10"
+              >
+                Smart Board Functional Class 10
+              </label>
+              <select
+                className={styles.formControl}
+                {...register("smartBoardFunctionalClass10")}
+                placeholder="Smart Board Functional Class 10"
+              >
+                <option value=""> Select 1 option</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="NotInstalled">NotInstalled</option>
+              </select>
             </div>
-            {errors.smrtBrd10Functional && (
-              <p>{errors.smrtBrd10Functional.message}</p>
-            )}
             <br></br>
             <div className="form-floating">
               <input
@@ -516,7 +479,7 @@ function SchoolForm() {
                 type="text"
                 name="state"
                 id="state"
-                placeholder="state"
+                placeholder="State"
                 {...register("state")}
               ></input>
               {/* <label classstate="form-label" htmlFor="state">
@@ -533,7 +496,7 @@ function SchoolForm() {
                 type="text"
                 name="district"
                 id="district"
-                placeholder="district"
+                placeholder="District"
                 {...register("district")}
               ></input>
               {/* <label classdistrict="form-label" htmlFor="district">
@@ -550,7 +513,7 @@ function SchoolForm() {
                 type="text"
                 name="block"
                 id="block"
-                placeholder="block"
+                placeholder="Block"
                 {...register("block")}
               ></input>
               {/* <label classblock="form-label" htmlFor="block">
@@ -561,7 +524,7 @@ function SchoolForm() {
               </div>
             </div>
             <br></br>
-            <label>adequateRoomsForEveryClass</label>
+            <label>Adequate Rooms For Every Class</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -597,7 +560,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>drinkingWaterSupply</label>
+            <label>Drinking Water Supply</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -633,7 +596,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>seperateToiletForGirlsAndBoys</label>
+            <label>Seperate Toilet For Girls And Boys</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -669,7 +632,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>whetherToiletBeingUsed</label>
+            <label>Whether Toilet Being Used</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -705,7 +668,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>playgroundAvailable</label>
+            <label>Playground Available</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -741,7 +704,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>boundaryWallFence</label>
+            <label>Boundary Wall Fence</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -774,7 +737,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>electricFittingsAreInsulated</label>
+            <label>Electric Fittings Are Insulated</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -808,9 +771,12 @@ function SchoolForm() {
                 </label>
               </div>
             </div>
+
             <br></br>
             <br></br>
-            <label>buildingIsResistantToEarthquakeFireFloodOtherCalamity</label>
+            <label>
+              Building Is Resistant To Earthquake Fire Flood Other Calamity
+            </label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -850,7 +816,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>buildingIsFreeFromInflammableAndToxicMaterials</label>
+            <label>Building Is Free From Inflammable And Toxic Materials</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -890,7 +856,7 @@ function SchoolForm() {
             </div>
             <br></br>
             <br></br>
-            <label>roofAndWallsAreInGoodCondition</label>
+            <label>Roof And Walls Are In Good Condition</label>
             <div className={styles.radiobutton}>
               <div className="form-check">
                 <input
@@ -924,9 +890,9 @@ function SchoolForm() {
                 </label>
               </div>
             </div>
-            <br></br>
           </div>
           <br />
+          {/* <button type="submit">Submit</button> */}
           <Button type="button" onPress={handleSubmit(onSubmit)}>
             Submit
           </Button>
