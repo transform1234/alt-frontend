@@ -24,20 +24,24 @@ const SchoolSchema = yup.object().shape({
     .min(3, "*should not be less than 3 characters"),
   board: yup
     .string()
-    .required("*board is required")
+    .required("*Board is required")
     .min(3, "*should not be less than 3 characters"),
   mediumOfInstruction: yup
     .string()
-    .required("*mediumOfInstruction  is required")
+    .required("*medium Of Instruction is required")
     .min(3, "*should not be less than 3 characters"),
   headmaster: yup
     .string()
-    .required("*headmaster is required")
+    .required("*head master is required")
     .min(1, "*should not be empty"), // Updated min to 1 for non-empty string
 
+  headmasterType: yup
+    .string()
+    .required("*headmaster Type required")
+    .min(3, "*should not be less than 3 characters"),
   headmasterMobile: yup
     .string()
-    .required("*headmasterMobile required")
+    .required("*headmaster Mobile required")
     .min(3, "*should not be less than 3 characters"),
   upperPrimaryTeachersSanctioned: yup
     .string()
@@ -57,44 +61,24 @@ const SchoolSchema = yup.object().shape({
     .min(3, "*should not be less than 3 characters"),
   totalFunctionalComputers: yup
     .string()
-    .required("*totalFunctionalComputers is required")
-    .min(3, "*should not be less than 3 characters"),
-  noOfBoysToilet: yup
-    .string()
-    .required("*noOfBoysToilet is required")
-    .min(3, "*should not be less than 3 characters"),
-  noOfGirlsToilet: yup
-    .string()
-    .required("*noOfGirlsToilet is required")
-    .min(3, "*should not be less than 3 characters"),
+    .required("*totalFunctionalComputers is required"),
+  noOfBoysToilet: yup.string().required("*noOfBoysToilet income is required"),
+  noOfGirlsToilet: yup.string().required("*noOfGirlsToilet name is required"),
   smartBoardFunctionalClass6: yup
     .string()
-    .required("*smartBoardFunctionalClass6 is required")
-    .min(3, "*should not be less than 3 characters"),
+    .required("*smartBoardFunctionalClass6 is required"),
   smartBoardFunctionalClass7: yup
     .string()
-    .required("*smartBoardFunctionalClass7 is required")
-    .min(3, "*should not be less than 3 characters"),
+    .required("*smartBoardFunctionalClass7 is required"),
   smartBoardFunctionalClass8: yup
     .string()
-    .required("*smartBoardFunctionalClass8 is required")
-    .min(3, "*should not be less than 3 characters"),
-  motherOccupation: yup
+    .required("*smartBoardFunctionalClass8 is required"),
+  smartBoardFunctionalClass9: yup
     .string()
-    .required("*motherOccupation is required")
-    .min(3, "*should not be less than 3 characters"),
-  fatherOccupation: yup
+    .required("*smartBoardFunctionalClass9 is required"),
+  smartBoardFunctionalClass10: yup
     .string()
-    .required("*fatherOccupation is required")
-    .min(3, "*should not be less than 3 characters"),
-  siblings: yup
-    .string()
-    .required("*siblings is required")
-    .min(3, "*should not be less than 3 characters"),
-  uniqueId: yup
-    .string()
-    .required("*uniqueId is required")
-    .min(3, "*should not be less than 3 characters"),
+    .required("*smartBoardFunctionalClass10 is required"),
   state: yup
     .string()
     .required("*state is required")
@@ -103,33 +87,10 @@ const SchoolSchema = yup.object().shape({
     .string()
     .required("*block is required")
     .min(3, "*should not be less than 3 characters"),
-  serialNo: yup
-    .string()
-    .required("*serialNo is required")
-    .min(3, "*should not be less than 3 characters"),
+
   district: yup
     .string()
     .required("*district is required")
-    .min(3, "*should not be less than 3 characters"),
-  section: yup
-    .string()
-    .required("*section is required")
-    .min(3, "*should not be less than 3 characters"),
-  medium: yup
-    .string()
-    .required("*medium is required")
-    .min(3, "*should not be less than 3 characters"),
-  bloodGroup: yup
-    .string()
-    .required("*bloodGroup is required")
-    .min(3, "*should not be less than 3 characters"),
-  status: yup
-    .string()
-    .required("*status is required")
-    .min(3, "*should not be less than 3 characters"),
-  image: yup
-    .string()
-    .required("*image is required")
     .min(3, "*should not be less than 3 characters"),
 });
 

@@ -119,10 +119,7 @@ const StudentSchema = yup.object().shape({
     .string()
     .required("*medium is required")
     .min(3, "*should not be less than 3 characters"),
-  bloodGroup: yup
-    .string()
-    .required("*bloodGroup is required")
-    .min(3, "*should not be less than 3 characters"),
+  bloodGroup: yup.string().required("*bloodGroup is required"),
   status: yup
     .string()
     .required("*status is required")
