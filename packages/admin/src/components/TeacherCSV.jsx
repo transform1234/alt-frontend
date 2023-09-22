@@ -65,35 +65,35 @@ function CSVImportForm() {
       const teacherData = csvData[i];
       const teacherObject = {
         name: teacherData["Name"] || "",
-        username: teacherData.username || "",
+        username: "",
         email: teacherData["Email Id"] || "",
         mobile: teacherData["Mobile"] || "",
         gender: teacherData["Gender"] || "",
         dateOfBirth: teacherData["DoB"] || "",
         board: teacherData["board"] || "",
-        password: teacherData.password || "",
-        status: teacherData.status || "",
-        className: teacherData.className || "",
-        groups: [teacherData["Classes taught"]] || [true],
+        password: "",
+        status: teacherData["Status"] || "",
+        groups: [],
         educationalQualification:
           teacherData["Educational Qualification"] || "",
-        schoolUdise: teacherData.school_udise || 0,
+        schoolUdise: teacherData["School Udise"] || "",
         currentRole: teacherData["Current role"] || "",
         natureOfAppointment: teacherData["Nature of appointment"] || "",
         appointedPost: teacherData["Appointed Postname"] || "",
         totalTeachingExperience:
-          teacherData["Total Experience in teaching"] || 0,
+          teacherData["Total Experience in teaching"] || "",
         totalHeadteacherExperience:
-          teacherData["Total experience as Head Teacher"] || 0,
-        coreSubjectTaught: teacherData["Core subject taught"] || 0,
+          teacherData["Total experience as Head Teacher"] || "",
+        classesTaught: teacherData["Classes taught"] || "",
+        coreSubjectTaught: teacherData["Core subject taught"] || "",
         attendedInserviceTraining:
-          teacherData["Attended In service teacher training"] || 0,
+          teacherData["Attended In service teacher training"] || "",
         lastTrainingAttendedTopic:
-          teacherData["Last training attended (Topic)"] || 0,
+          teacherData["Last training attended (Topic)"] || "",
         lastTrainingAttendedYear:
-          teacherData["Last training attended (Year)"] || 0,
+          teacherData["Last training attended (Year)"] || "",
         trainedInComputerDigitalteaching:
-          teacherData["Trained in use of computer & digital teaching"] || 0,
+          teacherData["Trained in use of computer & digital teaching"] || "",
       };
 
       requestData.teachers.push(teacherObject);

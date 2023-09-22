@@ -65,25 +65,27 @@ function CSVImportForm() {
       const schoolData = csvData[i];
       const schoolObject = {
         udiseCode: schoolData["School UDISE code"] || "",
-        name: schoolData.name || "",
-        location: schoolData.Location || "",
+        name: schoolData["School Name"] || "",
+        location: schoolData["Location"] || "",
         management: schoolData["School Management"] || "",
         composition: schoolData["School Composition"] || "",
-        board: schoolData.board || "",
-        mediumOfInstruction: [schoolData["Medium of Instruction"]] || [""],
+        board: schoolData["Board"] || "",
+        mediumOfInstruction: [schoolData["Medium of Instruction"]] || [],
         headmaster: schoolData["Head Master"] || "",
         headmasterType: schoolData["Headmaster Type"] || "",
         headmasterMobile: schoolData["Headmaster Mobile"] || "",
         upperPrimaryTeachersSanctioned:
-          schoolData["Number of teachers sanctioned -Upper Primary "] || 0,
+          parseInt(
+            schoolData["Number of teachers sanctioned -Upper Primary"]
+          ) || 0,
         secondaryTeachersSanctioned:
-          schoolData["Number of teachers sanctioned -Secondary"] || 0,
+          parseInt(schoolData["Number of teachers sanctioned -Secondary"]) || 0,
         libraryFunctional: schoolData["Library Functional"] || "",
         computerLabFunctional: schoolData["Computer Lab functional"] || "",
         totalFunctionalComputers:
-          schoolData["Number of functional computers"] || 0,
-        noOfBoysToilet: schoolData["Number of Boys toilet"] || 0,
-        noOfGirlsToilet: schoolData["Number of Girls toilet"] || 0,
+          parseInt(schoolData["Number of functional computers"]) || 0,
+        noOfBoysToilet: parseInt(schoolData["Number of Boys toilet"]) || 0,
+        noOfGirlsToilet: parseInt(schoolData["Number of Girls toilet"]) || 0,
         smartBoardFunctionalClass6:
           schoolData["Smart Board functional in Class 6"] || "",
         smartBoardFunctionalClass7:
@@ -94,9 +96,9 @@ function CSVImportForm() {
           schoolData["Smart Board functional in Class 9"] || "",
         smartBoardFunctionalClass10:
           schoolData["Smart Board functional in Class 10"] || "",
-        state: schoolData.State || "",
-        district: schoolData.District || "",
-        block: schoolData.Block || "",
+        state: schoolData["State"] || "",
+        district: schoolData["District"] || "",
+        block: schoolData["Block"] || "",
         adequateRoomsForEveryClass:
           schoolData["Adequate Rooms For EveryClass"] || false,
         drinkingWaterSupply: schoolData["Drinking Water Supply"] || false,

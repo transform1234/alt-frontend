@@ -23,7 +23,6 @@ const schoolBulkAPI = async (school) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
       console.log(res.data);
 
       if (res.status === 201) {

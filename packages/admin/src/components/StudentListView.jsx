@@ -59,7 +59,7 @@ function StudentListView() {
     //   },
     // },
 
-    { field: "userId", filter: true },
+    { field: "userId", filter: true, editable: true },
     { field: "name", filter: true },
     { field: "username" },
     { field: "email" },
@@ -68,12 +68,13 @@ function StudentListView() {
     { field: "dateOfBirth" },
     { field: "role" },
     { field: "board" },
+
     { field: "createdBy" },
     { field: "updatedBy" },
     { field: "studentId" },
     { field: "groups" },
     { field: "religion" },
-    { field: "schoolUdise" },
+    { field: "schoolUdise", filter: true },
     { field: "caste" },
     { field: "annualIncome" },
     { field: "motherEducation" },
@@ -92,11 +93,61 @@ function StudentListView() {
     gridRef.current.api.exportDataAsCsv();
   }, []);
 
+  //Download username and pass with prompt
+
+  // const onBtnExportFields = useCallback(() => {
+  //   // Get the selected user ID for filtering
+  //   const selectedUserId = prompt("Enter the User ID to filter:");
+
+  //   if (!selectedUserId) {
+  //     alert("User ID is required.");
+  //     return;
+  //   }
+
+  //   // Filter the data to include only the selected user's information
+  //   const filteredData = rowData.filter((row) => row.userId === selectedUserId);
+
+  //   if (filteredData.length === 0) {
+  //     alert(`No data found for User ID: ${selectedUserId}`);
+  //     return;
+  //   }
+
+  //   // Extract the "UserID" and "Password" fields
+  //   const selectedFieldsData = filteredData.map((row) => ({
+  //     UserID: row.userId,
+  //     Password: row.password,
+  //   }));
+
+  //   // Convert the data to CSV format using PapaParse
+  //   const csvData = Papa.unparse(selectedFieldsData);
+
+  //   // Create a Blob containing the CSV data
+  //   const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+  //   // Create a download link and trigger the download
+  //   const link = document.createElement("a");
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = `student_data_${selectedUserId}_user_password.csv`;
+  //   link.style.display = "none";
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // }, [rowData]);
+
   const onBtnExportFields = useCallback(() => {
-    // Extract only the "Name" and "Gender" fields
-    const selectedFieldsData = rowData.map((row) => ({
-      Name: row.username,
-      Gender: row.Gender,
+    // Get the visible (filtered) rows from the grid
+    const filteredData = gridRef.current.api.getModel().rowsToDisplay;
+
+    if (filteredData.length === 0) {
+      alert("No data to export. Please apply a filter.");
+      return;
+    }
+
+    // Extract the "UserID" and "Password" fields
+    const selectedFieldsData = filteredData.map((row) => ({
+      Name: row.data.name,
+      UserName: row.data.username,
+      Password: row.data.password,
     }));
 
     // Convert the data to CSV format using PapaParse
@@ -108,12 +159,12 @@ function StudentListView() {
     // Create a download link and trigger the download
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "student_data_name_gender.csv";
+    link.download = "student_data_filtered_user_password.csv";
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }, [rowData]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

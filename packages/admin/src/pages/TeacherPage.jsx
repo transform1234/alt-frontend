@@ -16,6 +16,7 @@ import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
 import CloseIcon from "@mui/icons-material/Close";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 function TeacherPage() {
   const [loading, setLoading] = React.useState(false);
@@ -36,6 +37,24 @@ function TeacherPage() {
   };
   const closeFORMModal = () => {
     setIsFORMOpen(false);
+  };
+
+  const sampleCSV = async () => {
+    const csvFilePath = process.env.PUBLIC_URL + "./FinalTeacher.csv";
+
+    try {
+      const response = await fetch(csvFilePath);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "FinalTeacher.csv";
+      link.click();
+      console.log("download");
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
   };
 
   return (
@@ -95,6 +114,12 @@ function TeacherPage() {
                 <Button onPress={openFORMModal}>FORM</Button>{" "}
                 <H4>Import data using with a CSV File</H4>{" "}
                 <Button onPress={openCSVModal}>CSV</Button>{" "}
+                <BodyLarge>Download Sample CSV</BodyLarge>
+                <Button style={{ width: "80px" }} onPress={sampleCSV}>
+                  <FileDownloadOutlinedIcon
+                    style={{ color: "white", fontSize: "largest" }}
+                  />
+                </Button>
               </Box>
               <Heading>Teacher Records list</Heading>
               {isCSVOpen && (

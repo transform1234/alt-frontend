@@ -43,7 +43,7 @@ function SchoolPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath = process.env.PUBLIC_URL + "./LatestStudentCSV.csv";
+    const csvFilePath = process.env.PUBLIC_URL + "./FinalSchool.csv";
 
     try {
       const response = await fetch(csvFilePath);
@@ -52,7 +52,7 @@ function SchoolPage() {
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = "LatestStudentCSV.csv";
+      link.download = "FinalSchool.csv";
       link.click();
       console.log("download");
     } catch (error) {

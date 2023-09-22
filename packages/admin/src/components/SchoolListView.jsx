@@ -174,6 +174,7 @@ function SchoolListView() {
         animateRows={true}
         onCellClicked={cellClickedListener}
         pagination={true}
+
         // paginationAutoPageSize={true}
       ></AgGridReact>{" "}
     </div>
