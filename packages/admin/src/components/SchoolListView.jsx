@@ -61,7 +61,7 @@ function SchoolListView() {
     //   },
     // },
 
-    { field: "block" },
+    { field: "block", filter: true },
     { field: "board" },
 
     { field: "location" },
@@ -143,7 +143,7 @@ function SchoolListView() {
   }, [token]);
 
   return (
-    <div className="ag-theme-material" style={{ height: 200, width: "100%" }}>
+    <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <button
         onClick={onBtnExport}
         style={{ background: "#41C88E", border: "none", borderRadius: "5px" }}

@@ -12,113 +12,75 @@ import EditModal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
+import axios from "axios";
 
 function StudentListView() {
+  const [token, setToken] = useState([]);
   const navigate = useNavigate();
   const gridRef = useRef();
-  const [rowData] = useState([
-    { Name: "Student 1", Gender: "Male", "Date of Birth": "05/06/2010" },
-    { Name: "Student 1", Gender: "Female", "Date of Birth": "26/09/2010" },
-    { Name: "Student 1", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 1", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 1", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 2", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-    { Name: "Student 3", Gender: "Female", "Date of Birth": "18/02/2010" },
-  ]);
+  const [rowData, setRowData] = useState([]);
 
   const [columnDefs] = useState([
-    {
-      headerName: "Delete",
-      field: "actions",
-      width: 100,
-      cellRenderer: function (params) {
-        const label = (
-          <PersonRemoveIcon
-            style={{ color: "#EE4436", fontSize: "large", cursor: "pointer" }}
-          />
-        ); // Replace with your desired label
-        const handleClick = async () => {
-          console.log("Record has been removed");
-        };
+    // {
+    //   headerName: "Delete",
+    //   field: "actions",
+    //   width: 100,
+    //   cellRenderer: function (params) {
+    //     const label = (
+    //       <PersonRemoveIcon
+    //         style={{ color: "#EE4436", fontSize: "large", cursor: "pointer" }}
+    //       />
+    //     ); // Replace with your desired label
+    //     const handleClick = async () => {
+    //       console.log("Record has been removed");
+    //     };
 
-        return <div onClick={handleClick}>{label}</div>;
-      },
-    },
-    {
-      headerName: "",
-      field: "actions",
-      width: 80,
-      cellRenderer: function (params) {
-        const label = "Edit"; // Replace with your desired label
+    //     return <div onClick={handleClick}>{label}</div>;
+    //   },
+    // },
+    // {
+    //   headerName: "",
+    //   field: "actions",
+    //   width: 80,
+    //   cellRenderer: function (params) {
+    //     const label = "Edit"; // Replace with your desired label
 
-        return (
-          <div
-            style={{
-              color: "blue",
-              cursor: "pointer",
-              fontWeight: "medium",
-            }}
-          >
-            {label}
-          </div>
-        );
-      },
-    },
+    //     return (
+    //       <div
+    //         style={{
+    //           color: "blue",
+    //           cursor: "pointer",
+    //           fontWeight: "medium",
+    //         }}
+    //       >
+    //         {label}
+    //       </div>
+    //     );
+    //   },
+    // },
 
-    { field: "Name", filter: true },
-    { field: "Gender" },
-    { field: "Date of Birth" },
-    { field: "E-mail" },
-    { field: "Mobile" },
-    { field: "Udise" },
-    { field: "Grade" },
-    { field: "Religion" },
-    { field: "Caste" },
-    { field: "Annual Income" },
-    { field: "Mother Education" },
-    { field: "Father Education" },
-    { field: "Mother Occupation" },
-    { field: "Father Occupation" },
-    { field: "Siblings" },
+    { field: "userId", filter: true },
+    { field: "name", filter: true },
+    { field: "username" },
+    { field: "email" },
+    { field: "mobile" },
+    { field: "gender" },
+    { field: "dateOfBirth" },
+    { field: "role" },
+    { field: "board" },
+    { field: "createdBy" },
+    { field: "updatedBy" },
+    { field: "studentId" },
+    { field: "groups" },
+    { field: "religion" },
+    { field: "schoolUdise" },
+    { field: "caste" },
+    { field: "annualIncome" },
+    { field: "motherEducation" },
+    { field: "motherEducation" },
+    { field: "motherOccupation" },
+    { field: "fatherOccupation" },
+    { field: "noOfSiblings" },
   ]);
 
   const cellClickedListener = useCallback((event) => {
@@ -133,7 +95,7 @@ function StudentListView() {
   const onBtnExportFields = useCallback(() => {
     // Extract only the "Name" and "Gender" fields
     const selectedFieldsData = rowData.map((row) => ({
-      Name: row.Name,
+      Name: row.username,
       Gender: row.Gender,
     }));
 
@@ -152,6 +114,43 @@ function StudentListView() {
     link.click();
     document.body.removeChild(link);
   }, [rowData]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+    console.log("FIRST useEffect");
+    console.log(token);
+  }, []);
+
+  useEffect(() => {
+    console.log("All school list");
+    console.log(token);
+
+    const apiUrl = "https://alt.uniteframework.io/api/v1/student/search";
+    const headers = {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestData = {
+      limit: "",
+      page: 0,
+      filters: {},
+    };
+
+    axios
+      .post(apiUrl, requestData, { headers })
+      .then((response) => {
+        console.log("SCHOOL List");
+        console.log(response.data.data);
+        setRowData(response.data.data);
+      })
+      .catch((error) => {
+        // Handle any errors here
+        console.error("Error fetching data:", error);
+      });
+  }, [token]);
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
@@ -185,7 +184,7 @@ function StudentListView() {
         animateRows={true}
         onCellClicked={cellClickedListener}
         pagination={true}
-        paginationAutoPageSize={true}
+        // paginationAutoPageSize={true}
       ></AgGridReact>{" "}
     </div>
   );
