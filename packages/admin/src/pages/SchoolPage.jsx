@@ -42,8 +42,22 @@ function SchoolPage() {
     setIsFORMOpen(false);
   };
 
-  const sampleCSV = () => {
-    console.log("download");
+  const sampleCSV = async () => {
+    const csvFilePath = process.env.PUBLIC_URL + "./LatestStudentCSV.csv";
+
+    try {
+      const response = await fetch(csvFilePath);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "LatestStudentCSV.csv";
+      link.click();
+      console.log("download");
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
   };
 
   return (

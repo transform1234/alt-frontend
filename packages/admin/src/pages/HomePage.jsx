@@ -25,20 +25,18 @@ function HomePage() {
       link: "/",
       data: [
         {
-          link: "/studentpage",
-
-          title: <H2>Student Add</H2>,
-
+          //   title: t("FUN_ACTIVITY"),
+          link: "/schoolpage",
+          title: <H2>School Add</H2>,
           _box: {
             style: {
               background:
-                "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
+                "linear-gradient(102.88deg, #D7BEE6 -5.88%, #B143F3 116.6%)",
             },
           },
         },
       ],
     },
-
     {
       //   title: t("QUICK_CHECK"),
       link: "/",
@@ -55,14 +53,22 @@ function HomePage() {
             },
           },
         },
+      ],
+    },
+
+    {
+      //   title: t("Student"),
+      link: "/",
+      data: [
         {
-          //   title: t("FUN_ACTIVITY"),
-          link: "/schoolpage",
-          title: <H2>School Add</H2>,
+          link: "/studentpage",
+
+          title: <H2>Student Add</H2>,
+
           _box: {
             style: {
               background:
-                "linear-gradient(102.88deg, #D7BEE6 -5.88%, #B143F3 116.6%)",
+                "linear-gradient(100.88deg, #90c7ef -21.15%, #145788 80.4%)",
             },
           },
         },
@@ -144,11 +150,17 @@ function HomePage() {
               <Box display={"inline"}>
                 Welcome to the Admin Panel. Please choose one of the following
                 entities to manage records. Within each entity, you have the
-                capability to perform various operations.{" "}
+                capability to perform various operations.
               </Box>
-              {widgetData.map((item, index) => {
-                return <Widget {...item} key={index} />;
-              })}
+              <div className={styles.gridContainer}>
+                {widgetData.map((item, index) => {
+                  return (
+                    <div className={styles.gridItem} key={index}>
+                      <Widget {...item} />
+                    </div>
+                  );
+                })}
+              </div>
             </VStack>
           </Stack>
         </Box>
