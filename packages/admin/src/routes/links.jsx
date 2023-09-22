@@ -5,3 +5,4 @@ export const teacherRegister = baseLink + "/teacher";
 export const studentBulk = baseLink + "/student/bulkupload";
 export const schoolRegister = baseLink + "/school";
 export const schoolBulk = baseLink + "/school/bulkupload";
+export const teacherBulk = baseLink + "/teacher/bulkupload";

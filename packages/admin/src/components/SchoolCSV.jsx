@@ -4,10 +4,11 @@ import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import schoolBulkAPI from "api/schoolBulkAPI";
 
-function SchoolCSV() {
+function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State to track loading state
-  const batchSize = 5; // Number of records per batch
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const batchSize = 100; // Number of records per batch
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -17,8 +18,28 @@ function SchoolCSV() {
       const content = event.target.result;
       const lines = content.split("\n");
 
+      let headers = [];
+
+      // Find the header row (row with the header names)
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].trim() !== "") {
+          headers = lines[i].split(",");
+          break;
+        }
+      }
+
       // Remove the trailing newline character from each line and then split into columns
-      const data = lines.map((line) => line.replace(/\r$/, "").split(","));
+      const data = lines.slice(1).map((line) => {
+        const columns = line.replace(/\r$/, "").split(",");
+        const schoolObject = {};
+
+        // Map columns to header names dynamically
+        headers.forEach((header, index) => {
+          schoolObject[header] = columns[index] || "";
+        });
+
+        return schoolObject;
+      });
 
       setCSVData(data);
     };
@@ -26,151 +47,109 @@ function SchoolCSV() {
     reader.readAsText(file);
   };
 
-  // const sendBatches = async () => {
-  //   setIsLoading(true);
+  const sendBatch = async (startIndex, endIndex) => {
+    const batchData = csvData.slice(startIndex, endIndex);
 
-  //   // Create an object to hold the request data
-  //   const requestData = {
-  //     schoolUdise: selectedUdiseCode,
-  //     groupId: selectedgroup,
-  //     password: selectedpassword,
-  //     schools: [],
-  //   };
+    if (batchData.length === 0) {
+      // No more data to send
+      return;
+    }
 
-  //   // Iterate through the parsed data starting from the second row (index 1)
-  //   for (let i = 1; i < parsedData.length; i++) {
-  //     const schoolData = parsedData[i];
-
-  //     // Create a school object for each row and add it to the requestData.schools array
-  //     const schoolObject = {
-  //       name: schoolData[1],
-  //       gender: schoolData[2],
-  //       dob: schoolData[3],
-  //       mobile: schoolData[4],
-  //       school_udise: schoolData[5],
-  //       grade: schoolData[6],
-  //       religion: schoolData[7],
-  //       email: schoolData[8] || "", // Use an empty string if email is missing
-  //       caste: schoolData[9] || "", // Use an empty string if caste is missing
-  //       annual_income: schoolData[10] || "", // Use an empty string if annual_income is missing
-  //       mother_education: schoolData[11] || "", // Use an empty string if mother_education is missing
-  //       father_education: schoolData[12] || "", // Use an empty string if father_education is missing
-  //       mother_occupation: schoolData[13] || "", // Use an empty string if mother_occupation is missing
-  //       father_occupation: schoolData[14] || "", // Use an empty string if father_occupation is missing
-  //       No_of_siblings: schoolData[15] || 0, // Use 0 if No_of_siblings is missing
-  //     };
-
-  //     // Add the school object to the schools array
-  //     requestData.schools.push(schoolObject);
-  //   }
-
-  //   try {
-  //     // Convert the requestData object to JSON and send it as the request body
-  //     const result = await schoolBulkAPI(
-  //       requestData // Send the formatted request data
-  //     );
-  //     console.log("Data sent:", result);
-  //     // Optionally, you can update your database here with the response data
-  //   } catch (error) {
-  //     console.error("Error sending data:", error);
-  //   }
-
-  //   setIsLoading(false);
-  // };
-
-  const sendBatches = async () => {
     setIsLoading(true);
 
-    // Create an object to hold the request data
     const requestData = {
       schools: [],
     };
 
-    // Iterate through the parsed data starting from the second row (index 1)
-    for (let i = 1; i < csvData.length; i++) {
+    for (let i = 0; i < csvData.length; i++) {
       const schoolData = csvData[i];
-
-      // Create a school object for each row and add it to the requestData.schools array
       const schoolObject = {
-        udiseCode: schoolData[1] || "",
-        name: schoolData[2] || "",
-        location: schoolData[3 || ""],
-        management: schoolData[4] || "",
-        composition: schoolData[5] || "",
-        board: schoolData[6] || "",
-        mediumOfInstruction: [schoolData[7]] || [""],
-        headmaster: schoolData[8] || "",
-        headmasterType: schoolData[9] || "",
-        headmasterMobile: schoolData[10] || "",
-        upperPrimaryTeachersSanctioned: schoolData[11] || 0,
-        secondaryTeachersSanctioned: schoolData[12] || 0,
-        libraryFunctional: schoolData[13] || "",
-        computerLabFunctional: schoolData[14] || "",
-        totalFunctionalComputers: schoolData[15] || 0, // Use an empty string if annual_income is missing
-        noOfBoysToilet: schoolData[16] || 0, // Use an empty string if mother_education is missing
-        noOfGirlsToilet: schoolData[17] || 0, // Use an empty string if father_education is missing
-        smartBoardFunctionalClass6: schoolData[18] || "", // Use an empty string if mother_occupation is missing
-        smartBoardFunctionalClass7: schoolData[19] || "", // Use an empty string if father_occupation is missing
-        smartBoardFunctionalClass8: schoolData[20] || 0, // Use 0 if No_of_siblings is missing
-        smartBoardFunctionalClass9: schoolData[21] || 0,
-        smartBoardFunctionalClass10: schoolData[22] || 0,
-        state: schoolData[23] || 0,
-        district: schoolData[24] || 0,
-        block: schoolData[25] || 0,
-        adequateRoomsForEveryClass: schoolData[26] || 0,
-        drinkingWaterSupply: schoolData[27] || 0,
-        seperateToiletForGirlsAndBoys: schoolData[28] || 0,
-        whetherToiletBeingUsed: schoolData[29] || 0,
-        playgroundAvailable: schoolData[30] || 0,
-        boundaryWallFence: schoolData[31] || 0,
-        electricFittingsAreInsulated: schoolData[32] || 0,
+        udiseCode: schoolData.udiseCode || "",
+        name: schoolData.name || "",
+        location: schoolData.location || "",
+        management: schoolData.management || "",
+        composition: schoolData.composition || "",
+        board: schoolData.board || "",
+        mediumOfInstruction: [schoolData.mediumOfInstruction] || [""],
+        headmaster: schoolData.headmaster || "",
+        headmasterType: schoolData.headmasterType || "",
+        headmasterMobile: schoolData.headmasterMobile || "",
+        upperPrimaryTeachersSanctioned:
+          schoolData.upperPrimaryTeachersSanctioned || 0,
+        secondaryTeachersSanctioned:
+          schoolData.secondaryTeachersSanctioned || 0,
+        libraryFunctional: schoolData.libraryFunctional || "",
+        computerLabFunctional: schoolData.computerLabFunctional || "",
+        totalFunctionalComputers: schoolData.totalFunctionalComputers || 0,
+        noOfBoysToilet: schoolData.noOfBoysToilet || 0,
+        noOfGirlsToilet: schoolData.noOfGirlsToilet || 0,
+        smartBoardFunctionalClass6: schoolData.smartBoardFunctionalClass6 || "",
+        smartBoardFunctionalClass7: schoolData.smartBoardFunctionalClass7 || "",
+        smartBoardFunctionalClass8: schoolData.smartBoardFunctionalClass8 || "",
+        smartBoardFunctionalClass9: schoolData.smartBoardFunctionalClass9 || "",
+        smartBoardFunctionalClass10:
+          schoolData.smartBoardFunctionalClass10 || "",
+        state: schoolData.state || "",
+        district: schoolData.district || "",
+        block: schoolData.block || "",
+        adequateRoomsForEveryClass:
+          schoolData.adequateRoomsForEveryClass || false,
+        drinkingWaterSupply: schoolData.drinkingWaterSupply || false,
+        seperateToiletForGirlsAndBoys:
+          schoolData.seperateToiletForGirlsAndBoys || false,
+        whetherToiletBeingUsed: schoolData.whetherToiletBeingUsed || false,
+        playgroundAvailable: schoolData.playgroundAvailable || false,
+        boundaryWallFence: schoolData.boundaryWallFence || false,
+        electricFittingsAreInsulated:
+          schoolData.electricFittingsAreInsulated || false,
         buildingIsResistantToEarthquakeFireFloodOtherCalamity:
-          schoolData[33] || 0,
-        buildingIsFreeFromInflammableAndToxicMaterials: schoolData[34] || 0,
-        roofAndWallsAreInGoodCondition: schoolData[35] || 0,
+          schoolData.buildingIsResistantToEarthquakeFireFloodOtherCalamity ||
+          false,
+        buildingIsFreeFromInflammableAndToxicMaterials:
+          schoolData.buildingIsFreeFromInflammableAndToxicMaterials || false,
+        roofAndWallsAreInGoodCondition:
+          schoolData.roofAndWallsAreInGoodCondition || false,
       };
 
-      // Add the school object to the schools array
       requestData.schools.push(schoolObject);
     }
 
     try {
-      // Convert the requestData object to JSON and send it as the request body
-      const result = await schoolBulkAPI(
-        requestData.schools // Send the formatted request data
-      );
-      console.log("Data sent:", result);
-      // Optionally, you can update your database here with the response data
+      const result = await schoolBulkAPI(requestData.schools);
+      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
+
+      // Update the current index for the next batch
+      setCurrentIndex(endIndex);
+
+      // Send the next batch if there is more data
+      sendBatch(endIndex, endIndex + batchSize);
     } catch (error) {
       console.error("Error sending data:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const sendBatches = async () => {
+    if (csvData.length === 0) {
+      return;
     }
 
-    setIsLoading(false);
+    sendBatch(currentIndex, currentIndex + batchSize);
   };
 
   return (
     <div>
       <div style={{ marginBottom: "10px" }}>
-        <H2>
-          Select a File by clicking on Browse and Click on Upload CSV to Submit
-        </H2>
+        <H2>Click on Upload CSV to Submit</H2>
       </div>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <input type="file" accept=".csv" onChange={handleFileChange} />
         <Button onPress={sendBatches} disabled={isLoading}>
           {isLoading ? "Uploading..." : "Upload CSV"}
         </Button>
-        {/* 
-        <Button
-          onClick={sendBatches}
-          disabled={isLoading}
-          style={{ marginLeft: "10px" }}
-        >
-          Download Template
-        </Button> */}
       </div>
     </div>
   );
 }
 
-export default SchoolCSV;
+export default CSVImportForm;

@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
-import { useEffect } from "react";
 import studentBulkAPI from "api/studentBulkAPI";
 
 function CSVImportForm() {
-  const [selectedUdiseCode, setSelectedUdiseCode] = useState(0);
-  const [selectedgroup, setSelectedgroup] = useState("");
-  const [selectedpassword, setSelectedpassword] = useState("");
-
   const [csvData, setCSVData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State to track loading state
-  const batchSize = 1; // Number of records per batch
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const batchSize = 100; // Number of records per batch
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -22,8 +18,28 @@ function CSVImportForm() {
       const content = event.target.result;
       const lines = content.split("\n");
 
+      let headers = [];
+
+      // Find the header row (row with the header names)
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].trim() !== "") {
+          headers = lines[i].split(",");
+          break;
+        }
+      }
+
       // Remove the trailing newline character from each line and then split into columns
-      const data = lines.map((line) => line.replace(/\r$/, "").split(","));
+      const data = lines.slice(1).map((line) => {
+        const columns = line.replace(/\r$/, "").split(",");
+        const studentObject = {};
+
+        // Map columns to header names dynamically
+        headers.forEach((header, index) => {
+          studentObject[header] = columns[index] || "";
+        });
+
+        return studentObject;
+      });
 
       setCSVData(data);
     };
@@ -31,110 +47,68 @@ function CSVImportForm() {
     reader.readAsText(file);
   };
 
-  // const sendBatches = async () => {
-  //   setIsLoading(true);
+  const sendBatch = async (startIndex, endIndex) => {
+    const batchData = csvData.slice(startIndex, endIndex);
 
-  //   // Create an object to hold the request data
-  //   const requestData = {
-  //     schoolUdise: selectedUdiseCode,
-  //     groupId: selectedgroup,
-  //     password: selectedpassword,
-  //     students: [],
-  //   };
+    if (batchData.length === 0) {
+      // No more data to send
+      return;
+    }
 
-  //   // Iterate through the parsed data starting from the second row (index 1)
-  //   for (let i = 1; i < parsedData.length; i++) {
-  //     const studentData = parsedData[i];
-
-  //     // Create a student object for each row and add it to the requestData.students array
-  //     const studentObject = {
-  //       name: studentData[1],
-  //       gender: studentData[2],
-  //       dob: studentData[3],
-  //       mobile: studentData[4],
-  //       school_udise: studentData[5],
-  //       grade: studentData[6],
-  //       religion: studentData[7],
-  //       email: studentData[8] || "", // Use an empty string if email is missing
-  //       caste: studentData[9] || "", // Use an empty string if caste is missing
-  //       annual_income: studentData[10] || "", // Use an empty string if annual_income is missing
-  //       mother_education: studentData[11] || "", // Use an empty string if mother_education is missing
-  //       father_education: studentData[12] || "", // Use an empty string if father_education is missing
-  //       mother_occupation: studentData[13] || "", // Use an empty string if mother_occupation is missing
-  //       father_occupation: studentData[14] || "", // Use an empty string if father_occupation is missing
-  //       No_of_siblings: studentData[15] || 0, // Use 0 if No_of_siblings is missing
-  //     };
-
-  //     // Add the student object to the students array
-  //     requestData.students.push(studentObject);
-  //   }
-
-  //   try {
-  //     // Convert the requestData object to JSON and send it as the request body
-  //     const result = await studentBulkAPI(
-  //       requestData // Send the formatted request data
-  //     );
-  //     console.log("Data sent:", result);
-  //     // Optionally, you can update your database here with the response data
-  //   } catch (error) {
-  //     console.error("Error sending data:", error);
-  //   }
-
-  //   setIsLoading(false);
-  // };
-
-  const sendBatches = async () => {
     setIsLoading(true);
-
-    // Create an object to hold the request data
     const requestData = {
       students: [],
     };
 
-    // Iterate through the parsed data starting from the second row (index 1)
-    for (let i = 1; i < csvData.length; i++) {
+    for (let i = 0; i < csvData.length; i++) {
       const studentData = csvData[i];
-
-      // Create a student object for each row and add it to the requestData.students array
       const studentObject = {
-        name: studentData[1] || "",
-        username: studentData[2] || "",
-        email: studentData[3 || ""],
-        mobile: studentData[4] || "",
-        gender: studentData[5] || "",
-        dateOfBirth: studentData[6] || "",
-        board: studentData[7] || "",
-        password: studentData[8] || "",
-        status: studentData[9] || "",
-        className: studentData[10] || "",
-        groups: [] || [true],
-        religion: studentData[12] || "",
-        schoolUdise: studentData[13] || "",
-        caste: studentData[14] || "",
-        annualIncome: studentData[15] || 0, // Use an empty string if annual_income is missing
-        motherEducation: studentData[16] || "", // Use an empty string if mother_education is missing
-        fatherEducation: studentData[17] || "", // Use an empty string if father_education is missing
-        motherOccupation: studentData[18] || "", // Use an empty string if mother_occupation is missing
-        fatherOccupation: studentData[19] || "", // Use an empty string if father_occupation is missing
-        noOfSiblings: studentData[20] || 0, // Use 0 if No_of_siblings is missing
+        name: studentData.name || "",
+        username: studentData.username || "",
+        email: studentData.email || "",
+        mobile: studentData.mobile || "",
+        gender: studentData.gender || "",
+        dateOfBirth: studentData.dateOfBirth || "",
+        board: studentData.board || "",
+        password: studentData.password || "",
+        status: studentData.status || "",
+        className: studentData.className || "",
+        groups: studentData.groups || [true],
+        religion: studentData.religion || "",
+        schoolUdise: studentData.school_udise || "",
+        caste: studentData.caste || "",
+        annualIncome: studentData.annual_income || 0,
+        motherEducation: studentData.mother_education || "",
+        fatherEducation: studentData.father_education || "",
+        motherOccupation: studentData.mother_occupation || "",
+        fatherOccupation: studentData.father_occupation || "",
+        noOfSiblings: studentData.No_of_siblings || 0,
       };
 
-      // Add the student object to the students array
       requestData.students.push(studentObject);
     }
 
     try {
-      // Convert the requestData object to JSON and send it as the request body
-      const result = await studentBulkAPI(
-        requestData.students // Send the formatted request data
-      );
-      console.log("Data sent:", result);
-      // Optionally, you can update your database here with the response data
+      const result = await studentBulkAPI(requestData.students);
+      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
+
+      // Update the current index for the next batch
+      setCurrentIndex(endIndex);
+
+      // Send the next batch if there is more data
+      sendBatch(endIndex, endIndex + batchSize);
     } catch (error) {
       console.error("Error sending data:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const sendBatches = async () => {
+    if (csvData.length === 0) {
+      return;
     }
 
-    setIsLoading(false);
+    sendBatch(currentIndex, currentIndex + batchSize);
   };
 
   return (
@@ -147,14 +121,6 @@ function CSVImportForm() {
         <Button onPress={sendBatches} disabled={isLoading}>
           {isLoading ? "Uploading..." : "Upload CSV"}
         </Button>
-        {/* 
-        <Button
-          onClick={sendBatches}
-          disabled={isLoading}
-          style={{ marginLeft: "10px" }}
-        >
-          Download Template
-        </Button> */}
       </div>
     </div>
   );

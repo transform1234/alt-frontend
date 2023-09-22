@@ -17,6 +17,7 @@ function SchoolForm() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(SchoolSchema) });
   const onSubmit = async (data) => {
+    console.log(data);
     const result = await schoolAPI(data);
     if (result == true) {
       let sID = localStorage.getItem("studentId");
