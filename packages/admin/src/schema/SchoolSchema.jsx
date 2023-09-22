@@ -62,12 +62,14 @@ const SchoolSchema = yup.object().shape({
   totalFunctionalComputers: yup
     .string()
     .required("*totalFunctionalComputers is required"),
-  noOfBoysToilet: yup.string().required("*annual income is required"),
-  noOfGirlsToilet: yup.string().required("*mother name is required"),
-  smartBoardFunctionalClass6: yup.string().required("*father name is required"),
+  noOfBoysToilet: yup.string().required("*noOfBoysToilet income is required"),
+  noOfGirlsToilet: yup.string().required("*noOfGirlsToilet name is required"),
+  smartBoardFunctionalClass6: yup
+    .string()
+    .required("*smartBoardFunctionalClass6 is required"),
   smartBoardFunctionalClass7: yup
     .string()
-    .required("*mother education is required"),
+    .required("*smartBoardFunctionalClass7 is required"),
   smartBoardFunctionalClass8: yup
     .string()
     .required("*smartBoardFunctionalClass8 is required"),
