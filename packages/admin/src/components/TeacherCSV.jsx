@@ -64,32 +64,36 @@ function CSVImportForm() {
     for (let i = 0; i < csvData.length; i++) {
       const teacherData = csvData[i];
       const teacherObject = {
-        name: teacherData.name || "",
+        name: teacherData["Name"] || "",
         username: teacherData.username || "",
-        email: teacherData.email || "",
-        mobile: teacherData.mobile || "",
-        gender: teacherData.gender || "",
-        dateOfBirth: teacherData.dateOfBirth || "",
-        board: teacherData.board || "",
+        email: teacherData["Email Id"] || "",
+        mobile: teacherData["Mobile"] || "",
+        gender: teacherData["Gender"] || "",
+        dateOfBirth: teacherData["DoB"] || "",
+        board: teacherData["board"] || "",
         password: teacherData.password || "",
         status: teacherData.status || "",
         className: teacherData.className || "",
-        groups: teacherData.groups || [true],
-        educationalQualification: teacherData.educational_Qualification || "",
+        groups: [teacherData["Classes taught"]] || [true],
+        educationalQualification:
+          teacherData["Educational Qualification"] || "",
         schoolUdise: teacherData.school_udise || 0,
-        currentRole: teacherData.currentRole || "",
-        natureOfAppointment: teacherData.nature_Of_Appointment || "",
-        appointedPost: teacherData.appointed_Post || "",
-        totalTeachingExperience: teacherData.total_Teaching_Experience || 0,
+        currentRole: teacherData["Current role"] || "",
+        natureOfAppointment: teacherData["Nature of appointment"] || "",
+        appointedPost: teacherData["Appointed Postname"] || "",
+        totalTeachingExperience:
+          teacherData["Total Experience in teaching"] || 0,
         totalHeadteacherExperience:
-          teacherData.total_Headteacher_Experience || 0,
-        coreSubjectTaught: teacherData.core_Subject_Taught || 0,
-        attendedInserviceTraining: teacherData.attended_Inservice_Training || 0,
+          teacherData["Total experience as Head Teacher"] || 0,
+        coreSubjectTaught: teacherData["Core subject taught"] || 0,
+        attendedInserviceTraining:
+          teacherData["Attended In service teacher training"] || 0,
         lastTrainingAttendedTopic:
-          teacherData.last_Training_Attended_Topic || 0,
-        lastTrainingAttendedYear: teacherData.last_Training_Attended_Year || 0,
+          teacherData["Last training attended (Topic)"] || 0,
+        lastTrainingAttendedYear:
+          teacherData["Last training attended (Year)"] || 0,
         trainedInComputerDigitalteaching:
-          teacherData.trained_In_Computer_Digitalteaching || 0,
+          teacherData["Trained in use of computer & digital teaching"] || 0,
       };
 
       requestData.teachers.push(teacherObject);

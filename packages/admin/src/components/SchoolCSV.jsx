@@ -64,51 +64,59 @@ function CSVImportForm() {
     for (let i = 0; i < csvData.length; i++) {
       const schoolData = csvData[i];
       const schoolObject = {
-        udiseCode: schoolData.udiseCode || "",
+        udiseCode: schoolData["School UDISE code"] || "",
         name: schoolData.name || "",
-        location: schoolData.location || "",
-        management: schoolData.management || "",
-        composition: schoolData.composition || "",
+        location: schoolData.Location || "",
+        management: schoolData["School Management"] || "",
+        composition: schoolData["School Composition"] || "",
         board: schoolData.board || "",
-        mediumOfInstruction: [schoolData.mediumOfInstruction] || [""],
-        headmaster: schoolData.headmaster || "",
-        headmasterType: schoolData.headmasterType || "",
-        headmasterMobile: schoolData.headmasterMobile || "",
+        mediumOfInstruction: [schoolData["Medium of Instruction"]] || [""],
+        headmaster: schoolData["Head Master"] || "",
+        headmasterType: schoolData["Headmaster Type"] || "",
+        headmasterMobile: schoolData["Headmaster Mobile"] || "",
         upperPrimaryTeachersSanctioned:
-          schoolData.upperPrimaryTeachersSanctioned || 0,
+          schoolData["Number of teachers sanctioned -Upper Primary "] || 0,
         secondaryTeachersSanctioned:
-          schoolData.secondaryTeachersSanctioned || 0,
-        libraryFunctional: schoolData.libraryFunctional || "",
-        computerLabFunctional: schoolData.computerLabFunctional || "",
-        totalFunctionalComputers: schoolData.totalFunctionalComputers || 0,
-        noOfBoysToilet: schoolData.noOfBoysToilet || 0,
-        noOfGirlsToilet: schoolData.noOfGirlsToilet || 0,
-        smartBoardFunctionalClass6: schoolData.smartBoardFunctionalClass6 || "",
-        smartBoardFunctionalClass7: schoolData.smartBoardFunctionalClass7 || "",
-        smartBoardFunctionalClass8: schoolData.smartBoardFunctionalClass8 || "",
-        smartBoardFunctionalClass9: schoolData.smartBoardFunctionalClass9 || "",
+          schoolData["Number of teachers sanctioned -Secondary"] || 0,
+        libraryFunctional: schoolData["Library Functional"] || "",
+        computerLabFunctional: schoolData["Computer Lab functional"] || "",
+        totalFunctionalComputers:
+          schoolData["Number of functional computers"] || 0,
+        noOfBoysToilet: schoolData["Number of Boys toilet"] || 0,
+        noOfGirlsToilet: schoolData["Number of Girls toilet"] || 0,
+        smartBoardFunctionalClass6:
+          schoolData["Smart Board functional in Class 6"] || "",
+        smartBoardFunctionalClass7:
+          schoolData["Smart Board functional in Class 7"] || "",
+        smartBoardFunctionalClass8:
+          schoolData["Smart Board functional in Class 8"] || "",
+        smartBoardFunctionalClass9:
+          schoolData["Smart Board functional in Class 9"] || "",
         smartBoardFunctionalClass10:
-          schoolData.smartBoardFunctionalClass10 || "",
-        state: schoolData.state || "",
-        district: schoolData.district || "",
-        block: schoolData.block || "",
+          schoolData["Smart Board functional in Class 10"] || "",
+        state: schoolData.State || "",
+        district: schoolData.District || "",
+        block: schoolData.Block || "",
         adequateRoomsForEveryClass:
-          schoolData.adequateRoomsForEveryClass || false,
-        drinkingWaterSupply: schoolData.drinkingWaterSupply || false,
+          schoolData["Adequate Rooms For EveryClass"] || false,
+        drinkingWaterSupply: schoolData["Drinking Water Supply"] || false,
         seperateToiletForGirlsAndBoys:
-          schoolData.seperateToiletForGirlsAndBoys || false,
-        whetherToiletBeingUsed: schoolData.whetherToiletBeingUsed || false,
-        playgroundAvailable: schoolData.playgroundAvailable || false,
-        boundaryWallFence: schoolData.boundaryWallFence || false,
+          schoolData["Separate Toilet For Girls And Boys"] || false,
+        whetherToiletBeingUsed:
+          schoolData["Whether Toilet Being Used"] || false,
+        playgroundAvailable: schoolData["Playground Available"] || false,
+        boundaryWallFence: schoolData["Boundary Wall Fence"] || false,
         electricFittingsAreInsulated:
-          schoolData.electricFittingsAreInsulated || false,
+          schoolData["Electric Fittings Are Insulated"] || false,
         buildingIsResistantToEarthquakeFireFloodOtherCalamity:
-          schoolData.buildingIsResistantToEarthquakeFireFloodOtherCalamity ||
-          false,
+          schoolData[
+            "Building Is Resistant To Earthquake Fire Flood Other Calamity"
+          ] || false,
         buildingIsFreeFromInflammableAndToxicMaterials:
-          schoolData.buildingIsFreeFromInflammableAndToxicMaterials || false,
+          schoolData["Building Is Free From Inflammable And Toxic Materials"] ||
+          false,
         roofAndWallsAreInGoodCondition:
-          schoolData.roofAndWallsAreInGoodCondition || false,
+          schoolData["Roof And Walls Are In Good Condition"] || false,
       };
 
       requestData.schools.push(schoolObject);
