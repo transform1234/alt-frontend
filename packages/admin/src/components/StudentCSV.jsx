@@ -64,7 +64,7 @@ function CSVImportForm() {
       const studentData = csvData[i];
       const studentObject = {
         name: studentData["name"] || "",
-        username: studentData.username || "",
+        username: "",
         email: studentData["email"] || "",
         mobile: studentData["mobile"] || "",
         gender: studentData["gender"] || "",

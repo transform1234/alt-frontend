@@ -16,7 +16,7 @@ const studentAPI = async (data) => {
 
   const jsonData = {
     name: data.firstName,
-    username: data.userName,
+    username: "",
     email: data.email,
     mobile: data.mobile,
     gender: data.gender,
