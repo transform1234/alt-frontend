@@ -23,8 +23,8 @@ pipeline {
     stage('Building Code') {
       steps {
         dir('/var/lib/jenkins/workspace/Frontend') {
-          // sh 'rm -rf node_modules'
-          // sh 'rm -f package-lock.json' // Corrected to remove the file
+          sh 'rm -rf node_modules'
+          sh 'rm -f package-lock.json' // Corrected to remove the file
           sh 'ls'
           sh 'yarn install'
           sh 'yarn workspace @shiksha/common-lib build'
