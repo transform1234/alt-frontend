@@ -26,6 +26,9 @@ export default function FunActivity() {
           <HStack>
             <IconByName
               name="ArrowLeftLineIcon"
+              p={0}
+              w="20px"
+              h="20px"
               onPress={() => navigate("/")}
             />
           </HStack>
