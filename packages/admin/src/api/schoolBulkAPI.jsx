@@ -24,6 +24,8 @@ const schoolBulkAPI = async (school) => {
   })
     .then((res) => {
       console.log(res.data);
+      console.log(res.data.successCount);
+      localStorage.setItem("successCount", res.data.successCount);
 
       if (res.status === 201) {
         result = true;

@@ -3,9 +3,11 @@ import axios from "axios";
 import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import teacherBulkAPI from "api/teacherBulkAPI";
+import { useNavigate } from "react-router-dom";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const batchSize = 100; // Number of records per batch
@@ -102,6 +104,12 @@ function CSVImportForm() {
     try {
       const result = await teacherBulkAPI(requestData.teachers);
       console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
+      if (result == true) {
+        let successCount = localStorage.getItem("successCount");
+        alert("Upload Successful.\nSuccess count: " + successCount);
+      } else {
+        alert("Upload failed");
+      }
 
       // Update the current index for the next batch
       setCurrentIndex(endIndex);

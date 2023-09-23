@@ -23,8 +23,9 @@ const teacherBulkAPI = async (teacher) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res.data);
-
+      console.log(res);
+      console.log(res.data.successCount);
+      localStorage.setItem("successCount", res.data.successCount);
       if (res.status === 201) {
         result = true;
       } else {

@@ -90,6 +90,14 @@ function CSVImportForm() {
 
     try {
       const result = await studentBulkAPI(requestData.students);
+
+      if (result == true) {
+        let successCount = localStorage.getItem("successCount");
+        alert("Upload Successful.\nSuccess count: " + successCount);
+      } else {
+        alert("Upload failed");
+      }
+
       console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
 
       // Update the current index for the next batch

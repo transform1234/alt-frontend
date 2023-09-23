@@ -25,11 +25,8 @@ const studentBulkAPI = async (student) => {
     .then((res) => {
       console.log(res);
       console.log(res.data);
-      console.log(res.data.data.studentId);
-      console.log(res.data.data.userId);
-
-      localStorage.setItem("studentId", res.data.data.studentId);
-      localStorage.setItem("userId", res.data.data.userId);
+      console.log(res.data.successCount);
+      localStorage.setItem("successCount", res.data.successCount);
 
       if (res.status === 201) {
         result = true;

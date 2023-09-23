@@ -43,7 +43,8 @@ function SchoolPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath = process.env.PUBLIC_URL + "./FinalSchool.csv";
+    const csvFilePath =
+      process.env.production.REACT_APP_API_URL + "./FinalSchool.csv";
 
     try {
       const response = await fetch(csvFilePath);
