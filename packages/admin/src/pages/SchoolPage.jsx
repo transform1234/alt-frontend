@@ -20,6 +20,7 @@ import SchoolCSV from "components/SchoolCSV";
 import SchoolForm from "components/SchoolForm";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import schoolCSV from "../assets/images/FinalSchool.csv";
 
 function SchoolPage() {
   const [loading, setLoading] = React.useState(false);
@@ -43,10 +44,8 @@ function SchoolPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath = process.env.REACT_APP_API_URL + "/FinalSchool.csv";
-
     try {
-      const response = await fetch(csvFilePath);
+      const response = await fetch(schoolCSV);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 

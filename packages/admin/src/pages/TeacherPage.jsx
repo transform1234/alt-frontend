@@ -17,6 +17,7 @@ import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
 import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import teacherCSV from "../assets/images/FinalTeacher.csv";
 
 function TeacherPage() {
   const [loading, setLoading] = React.useState(false);
@@ -40,10 +41,8 @@ function TeacherPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath = process.env.REACT_APP_API_URL + "/FinalTeacher.csv";
-
     try {
-      const response = await fetch(csvFilePath);
+      const response = await fetch(teacherCSV);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 

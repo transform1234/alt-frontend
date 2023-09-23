@@ -19,6 +19,7 @@ import StudentListView from "components/StudentListView";
 import StudentForm from "components/StudentForm";
 import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import studentCSV from "../assets/images/FinalStudent.csv";
 
 function StudentPage() {
   const [loading, setLoading] = React.useState(false);
@@ -42,10 +43,8 @@ function StudentPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath = process.env.REACT_APP_API_URL + "/FinalStudent.csv";
-
     try {
-      const response = await fetch(csvFilePath);
+      const response = await fetch(studentCSV);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 
