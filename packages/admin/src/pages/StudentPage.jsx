@@ -42,8 +42,7 @@ function StudentPage() {
   };
 
   const sampleCSV = async () => {
-    const csvFilePath =
-      process.env.production.REACT_APP_API_URL + "./FinalStudent.csv";
+    const csvFilePath = process.env.REACT_APP_API_URL + "/FinalStudent.csv";
 
     try {
       const response = await fetch(csvFilePath);

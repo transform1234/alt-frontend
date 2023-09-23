@@ -76,21 +76,19 @@ function HomePage() {
     },
     {
       //   title: t("FUN_ACTIVITY"),
-      link: "/",
-      data: [
-        {
-          link: "/fun-activity",
-
-          title: <H2>Group Add</H2>,
-
-          _box: {
-            style: {
-              background:
-                "linear-gradient(100.88deg, rgb(211 212 215) -21.15%, rgb(149 149 149) 80.4%)",
-            },
-          },
-        },
-      ],
+      // link: "/",
+      // data: [
+      //   {
+      //     link: "/fun-activity",
+      //     title: <H2>Group Add</H2>,
+      //     _box: {
+      //       style: {
+      //         background:
+      //           "linear-gradient(100.88deg, rgb(211 212 215) -21.15%, rgb(149 149 149) 80.4%)",
+      //       },
+      //     },
+      //   },
+      // ],
     },
   ];
 

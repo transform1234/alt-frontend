@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import { H4 } from "@shiksha/common-lib";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import axios from "axios";
+import Papa from "papaparse";
 
 function TeacherListView() {
   const [token, setToken] = useState([]);
@@ -14,7 +15,9 @@ function TeacherListView() {
   const [rowData, setRowData] = useState([]);
   const [columnDefs] = useState([
     { field: "userId", filter: true },
+    { field: "name" },
     { field: "username" },
+    { field: "schoolUdise", filter: true, editable: true },
     { field: "email" },
     { field: "mobile" },
     { field: "gender" },
@@ -26,7 +29,7 @@ function TeacherListView() {
     { field: "teacherId" },
     { field: "groups" },
     { field: "educationalQualification" },
-    { field: "schoolUdise" },
+
     { field: "currentRole" },
     { field: "natureOfAppointment" },
     { field: "appointedPost" },
@@ -46,6 +49,38 @@ function TeacherListView() {
 
   const onBtnExport = useCallback(() => {
     gridRef.current.api.exportDataAsCsv();
+  }, []);
+
+  const onBtnExportFields = useCallback(() => {
+    // Get the visible (filtered) rows from the grid
+    const filteredData = gridRef.current.api.getModel().rowsToDisplay;
+
+    if (filteredData.length === 0) {
+      alert("No data to export. Please apply a filter.");
+      return;
+    }
+
+    // Extract the "UserID" and "Password" fields
+    const selectedFieldsData = filteredData.map((row) => ({
+      Name: row.data.name,
+      UserName: row.data.username,
+      Password: row.data.password,
+    }));
+
+    // Convert the data to CSV format using PapaParse
+    const csvData = Papa.unparse(selectedFieldsData);
+
+    // Create a Blob containing the CSV data
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+    // Create a download link and trigger the download
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "teacher_data_filtered_user_password.csv";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }, []);
 
   useEffect(() => {
@@ -95,6 +130,20 @@ function TeacherListView() {
           style={{ color: "white", fontSize: "largest" }}
         />
         <H4 style={{ color: "white" }}> Download Template </H4>
+      </button>
+      <button
+        onClick={onBtnExportFields}
+        style={{
+          background: "#41C88E",
+          border: "none",
+          borderRadius: "5px",
+          marginLeft: "10px", // Add some spacing between the buttons
+        }}
+      >
+        <FileDownloadOutlinedIcon
+          style={{ color: "white", fontSize: "largest" }}
+        />
+        <H4 style={{ color: "white" }}> Download username & password </H4>
       </button>
       <AgGridReact
         ref={gridRef}
