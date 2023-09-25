@@ -64,8 +64,7 @@ pipeline {
         }
     }
 }
-  
-    
+       
     // stage('Deployment') {
     //   steps {
     //     dir('/var/lib/jenkins/build') {
