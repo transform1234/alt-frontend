@@ -13,58 +13,67 @@ pipeline {
     //   }
     // }
 
-    stage('Checkout') {
-      steps {
-        cleanWs()
-        git branch: 'altv1', url: 'https://github.com/transform1234/alt-frontend.git'
-      }
-    }
+//     stage('Checkout') {
+//       steps {
+//         cleanWs()
+//         git branch: 'altv1', url: 'https://github.com/transform1234/alt-frontend.git'
+//       }
+//     }
 
-    stage('Building Code') {
-      steps {
-        dir('/var/lib/jenkins/workspace/prod-frontend') {
-          sh 'rm -rf node_modules'
-          sh 'rm -f package-lock.json' // Corrected to remove the file
-          sh 'ls'
-          sh 'yarn install'
-          sh 'yarn workspace @shiksha/common-lib build'
-          sh 'yarn install'
-          sh 'yarn build'
-        }
-      }
-    }
+//     stage('Building Code') {
+//       steps {
+//         dir('/var/lib/jenkins/workspace/prod-frontend') {
+//           sh 'rm -rf node_modules'
+//           sh 'rm -f package-lock.json' // Corrected to remove the file
+//           sh 'ls'
+//           sh 'yarn install'
+//           sh 'yarn workspace @shiksha/common-lib build'
+//           sh 'yarn install'
+//           sh 'yarn build'
+//         }
+//       }
+//     }
 
-    stage('Copy Package') {
-      steps {
-        sh './scripts/pack-prod-build.sh'
-        // sh "rsync shiksha-ui.tar:/var/www/alt.uniteframework.io/shiksha-ui.tar"
-      }
-    }
+//     stage('Copy Package') {
+//       steps {
+//         sh './scripts/pack-prod-build.sh'
+//         // sh "rsync shiksha-ui.tar:/var/www/alt.uniteframework.io/shiksha-ui.tar"
+//       }
+//     }
 
-    stage('Deploy') {
-      steps {
-        script {
-          dir('/var/lib/jenkins/build') {
-            sh 'rm -rf *'
-            sh 'cp /var/lib/jenkins/workspace/prod-frontend/shiksha-ui.tar .'
-            sh 'tar -xvf shiksha-ui.tar'
-          }
-        }
-      }
-    }
-    stage('deployment on s3') {
-    steps {
-        dir('/var/lib/jenkins/build') {
-            script {
-                withAWS(region: 'ap-south-1', credentials: 'prasad-aws-id') {
-                    s3Delete(bucket: 'altprodfrontend', path: '**/*')
-                    s3Upload(bucket: 'altprodfrontend', workingDir: '.', includePathPattern: '**/*', excludePathPattern: '.git/*, **/node_modules/**')
+//     stage('Deploy') {
+//       steps {
+//         script {
+//           dir('/var/lib/jenkins/build') {
+//             sh 'rm -rf *'
+//             sh 'cp /var/lib/jenkins/workspace/prod-frontend/shiksha-ui.tar .'
+//             sh 'tar -xvf shiksha-ui.tar'
+//           }
+//         }
+//       }
+//     }
+// //     stage('deployment on s3') {
+// //     steps {
+// //         dir('/var/lib/jenkins/build') {
+// //             script {
+// //                 withAWS(region: 'ap-south-1', credentials: 'prasad-aws-id') {
+// //                     s3Delete(bucket: 'altprodfrontend', path: '**/*')
+// //                     s3Upload(bucket: 'altprodfrontend', workingDir: '.', includePathPattern: '**/*', excludePathPattern: '.git/*, **/node_modules/**')
+// //                 }
+// //             }
+// //         }
+// //     }
+// // }
+       stage('Deploy to S3') {
+            steps {
+                script {
+                    // Use the AWS S3 plugin to upload your code to an S3 bucket
+                    withAWS(region: 'ap-south-1', credentials: 'prasad-aws-id') {
+                        s3Upload(bucket: 'altprodfrontend', includePathPattern: '**/*', excludePathPattern:'.git/*, **/node_modules/**')
+                   }
                 }
-            }
-        }
-    }
-}
-  
+             }
+          }  
     
     // stage('Deployment') {
     //   steps {
