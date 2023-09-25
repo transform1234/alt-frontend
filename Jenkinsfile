@@ -6,7 +6,7 @@ pipeline {
     //   steps {
     //     script {
     //        Use 'dir' to change the workspace directory
-    //        dir('/var/lib/jenkins/workspace/Frontend') {
+    //        dir('/var/lib/jenkins/workspace/Prod Frontend') {
     //         sh 'rm -rf *'
     //       }
     //     }
@@ -22,7 +22,7 @@ pipeline {
 
     stage('Building Code') {
       steps {
-        dir('/var/lib/jenkins/workspace/Frontend') {
+        dir('/var/lib/jenkins/workspace/Prod Frontend') {
           sh 'rm -rf node_modules'
           sh 'rm -f package-lock.json' // Corrected to remove the file
           sh 'ls'
@@ -46,7 +46,7 @@ pipeline {
         script {
           dir('/var/lib/jenkins/build') {
             sh 'rm -rf *'
-            sh 'cp /var/lib/jenkins/workspace/Frontend/shiksha-ui.tar .'
+            sh 'cp /var/lib/jenkins/workspace/Prod Frontend/shiksha-ui.tar .'
             sh 'tar -xvf shiksha-ui.tar'
           }
         }
