@@ -6,7 +6,7 @@ pipeline {
     //   steps {
     //     script {
     //        Use 'dir' to change the workspace directory
-    //        dir('/var/lib/jenkins/workspace/Frontend') {
+    //        dir('/var/lib/jenkins/workspace/prod-frontend') {
     //         sh 'rm -rf *'
     //       }
     //     }
@@ -22,7 +22,7 @@ pipeline {
 
     stage('Building Code') {
       steps {
-        dir('/var/lib/jenkins/workspace/Frontend') {
+        dir('/var/lib/jenkins/workspace/prod-frontend') {
           sh 'rm -rf node_modules'
           sh 'rm -f package-lock.json' // Corrected to remove the file
           sh 'ls'
@@ -46,38 +46,39 @@ pipeline {
         script {
           dir('/var/lib/jenkins/build') {
             sh 'rm -rf *'
-            sh 'cp /var/lib/jenkins/workspace/Frontend/shiksha-ui.tar .'
+            sh 'cp /var/lib/jenkins/workspace/prod-frontend/shiksha-ui.tar .'
             sh 'tar -xvf shiksha-ui.tar'
           }
         }
       }
     }
-    stage ('deployment on s3') {
-      steps {
-        dir('/var/lib/jenkins/build'){
+    stage('deployment on s3') {
+    steps {
+        dir('/var/lib/jenkins/build') {
             script {
-            withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
-              s3Delete(bucket: 'altfrontend', path:'**/*')
-              s3Upload(bucket: 'altfrontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
+                withAWS(region: 'ap-south-1', credentials: 'prasad-aws-id') {
+                    s3Delete(bucket: 'altprodfrontend', path: '**/*')
+                    s3Upload(bucket: 'altprodfrontend', workingDir: '.', includePathPattern: '**/*', excludePathPattern: '.git/*, **/node_modules/**')
+                }
             }
-            }
-          }
-      }
+        }
     }
-    
+}
+  
     
     // stage('Deployment') {
     //   steps {
     //     dir('/var/lib/jenkins/build') {
     //       sh 'aws s3 ls'
-    //       sh "aws s3 cp . s3://altfrontend/ --recursive"
-    //       //script {
-    //         //def awsCliCmd = 'aws'
-    //         //def bucketName = 'altfrontend'
-    //          //sh "aws s3 cp . s3://altfrontend/ --recursive"
-    //       }
+    //       sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+    //       // script {
+    //       //   def awsCliCmd = 'aws'
+    //       //   //def bucketName = 'altfrontend'
+    //       //    sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+    //       // }
     //     }
     //   }
+    // }
         // New stage for executing ccs.sh script
     stage('Execute Invalidation Script') {
       steps {
