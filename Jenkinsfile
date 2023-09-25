@@ -52,32 +52,33 @@ pipeline {
         }
       }
     }
-    stage ('deployment on s3') {
+    // stage ('deployment on s3') {
+    //   steps {
+    //     dir('/var/lib/jenkins/build'){
+    //         script {
+    //         withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
+    //           s3Delete(bucket: 'altprodfrontend', path:'**/*')
+    //           s3Upload(bucket: 'altprodfrontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
+    //         }
+    //         }
+    //       }
+    //   }
+    // }
+    
+    
+    stage('Deployment') {
       steps {
-        dir('/var/lib/jenkins/build'){
-            script {
-            withAWS(region:'ap-south-1',credentials:'prasad-aws-id') {
-              s3Delete(bucket: 'altprodfrontend', path:'**/*')
-              s3Upload(bucket: 'altprodfrontend', workingDir:'.', includePathPattern:'**/*', excludePathPattern:'.git/*, **/node_modules/**');
-            }
-            }
-          }
+        dir('/var/lib/jenkins/build') {
+          sh 'aws s3 ls'
+          sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+          // script {
+          //   def awsCliCmd = 'aws'
+          //   //def bucketName = 'altfrontend'
+          //    sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+          // }
+        }
       }
     }
-    
-    
-    // stage('Deployment') {
-    //   steps {
-    //     dir('/var/lib/jenkins/build') {
-    //       sh 'aws s3 ls'
-    //       sh "aws s3 cp . s3://altfrontend/ --recursive"
-    //       //script {
-    //         //def awsCliCmd = 'aws'
-    //         //def bucketName = 'altfrontend'
-    //          //sh "aws s3 cp . s3://altfrontend/ --recursive"
-    //       }
-    //     }
-    //   }
         // New stage for executing ccs.sh script
     stage('Execute Invalidation Script') {
       steps {
