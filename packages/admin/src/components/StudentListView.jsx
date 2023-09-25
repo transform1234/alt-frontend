@@ -59,22 +59,31 @@ function StudentListView() {
     //   },
     // },
 
-    { field: "userId", filter: true, editable: true },
-    { field: "name", filter: true },
-    { field: "username" },
+    { field: "name" },
+    { field: "dateOfBirth" },
+    { field: "board" },
+    {
+      field: "schoolUdise",
+      filter: true,
+      editable: true,
+      filterParams: {
+        defaultOption: "equals",
+      },
+    },
     { field: "email" },
+    { field: "username" },
+
     { field: "mobile" },
     { field: "gender" },
-    { field: "dateOfBirth" },
+
     { field: "role" },
-    { field: "board" },
 
     { field: "createdBy" },
     { field: "updatedBy" },
     { field: "studentId" },
     { field: "groups" },
     { field: "religion" },
-    { field: "schoolUdise", filter: true },
+
     { field: "caste" },
     { field: "annualIncome" },
     { field: "motherEducation" },
@@ -82,6 +91,7 @@ function StudentListView() {
     { field: "motherOccupation" },
     { field: "fatherOccupation" },
     { field: "noOfSiblings" },
+    { field: "userId", filter: true, editable: true },
   ]);
 
   const cellClickedListener = useCallback((event) => {

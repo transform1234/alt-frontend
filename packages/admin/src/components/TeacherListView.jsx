@@ -14,16 +14,26 @@ function TeacherListView() {
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
   const [columnDefs] = useState([
-    { field: "userId", filter: true },
     { field: "name" },
-    { field: "username" },
-    { field: "schoolUdise", filter: true, editable: true },
+    { field: "dateOfBirth" },
+    { field: "board" },
+    {
+      field: "schoolUdise",
+      filter: true,
+      editable: true,
+      filterParams: {
+        defaultOption: "equals",
+      },
+    },
     { field: "email" },
+
+    { field: "username" },
+
     { field: "mobile" },
     { field: "gender" },
-    { field: "dateOfBirth" },
+
     { field: "role" },
-    { field: "board" },
+
     { field: "createdBy" },
     { field: "updatedBy" },
     { field: "teacherId" },
@@ -41,6 +51,7 @@ function TeacherListView() {
     { field: "lastTrainingAttendedTopic" },
     { field: "lastTrainingAttendedYear" },
     { field: "trainedInComputerDigitalteaching" },
+    { field: "userId", filter: true },
   ]);
 
   const cellClickedListener = useCallback((event) => {

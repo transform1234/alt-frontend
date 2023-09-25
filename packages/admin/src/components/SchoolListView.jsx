@@ -60,15 +60,52 @@ function SchoolListView() {
     //     );
     //   },
     // },
-
-    { field: "block", filter: true },
+    { field: "name" },
     { field: "board" },
+    {
+      field: "udiseCode",
+      filter: true,
+      filterParams: {
+        defaultOption: "equals",
+      },
+    },
 
     { field: "location" },
-    { field: "district" },
-    { field: "name" },
+    { field: "management" },
+    { field: "composition" },
+
+    { field: "mediumOfInstruction" },
+    { field: "headmasterType" },
+    { field: "headmasterMobile" },
+    { field: "upperPrimaryTeachersSanctioned" },
+    { field: "secondaryTeachersSanctioned" },
+    { field: "libraryFunctional" },
+    { field: "computerLabFunctional" },
+    { field: "totalFunctionalComputers" },
+    { field: "noOfBoysToilet" },
+    { field: "noOfGirlsToilet" },
+    { field: "smartBoardFunctionalClass6" },
+    { field: "smartBoardFunctionalClass7" },
+    { field: "smartBoardFunctionalClass8" },
+    { field: "smartBoardFunctionalClass9" },
+    { field: "smartBoardFunctionalClass10" },
     { field: "state" },
-    { field: "udiseCode" },
+    { field: "district" },
+    { field: "block" },
+    { field: "adequateRoomsForEveryClass" },
+    { field: "drinkingWaterSupply" },
+    { field: "seperateToiletForGirlsAndBoys" },
+    { field: "whetherToiletBeingUsed" },
+    { field: "playgroundAvailable" },
+    { field: "boundaryWallFence" },
+    { field: "electricFittingsAreInsulated" },
+    {
+      field: "buildingIsResistantToEarthquakeFireFloodOtherCalamity",
+    },
+    { field: "buildingIsFreeFromInflammableAndToxicMaterials" },
+    { field: "roofAndWallsAreInGoodCondition" },
+    { field: "createdAt" },
+    { field: "updatedAt" },
   ]);
 
   const cellClickedListener = useCallback((event) => {
