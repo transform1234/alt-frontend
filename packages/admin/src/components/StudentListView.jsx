@@ -187,7 +187,7 @@ function StudentListView() {
     console.log("All school list");
     console.log(token);
 
-    const apiUrl = "https://alt.uniteframework.io/api/v1/student/search";
+    const apiUrl = "alt.uniteframework.io/api/v1/student/search";
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,

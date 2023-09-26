@@ -28,7 +28,7 @@ function StudentForm() {
     console.log("Second useEffect");
     console.log(token);
 
-    const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
+    const apiUrl = "alt.uniteframework.io/api/v1/school/search";
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ function StudentForm() {
     console.log(token);
     console.log(selectedUdiseCode);
 
-    const groupapiUrl = "https://alt.uniteframework.io/api/v1/group/search";
+    const groupapiUrl = "alt.uniteframework.io/api/v1/group/search";
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
