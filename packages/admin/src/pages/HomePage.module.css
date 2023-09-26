@@ -16,8 +16,8 @@
 
 /* Style for the grid container */
 .gridContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  display: block;
+  grid-template-columns: repeat(3, 1fr); /* 2 columns */
   gap: 16px; /* Adjust the gap between items */
 }
 
@@ -27,6 +27,7 @@
 
 .grid {
   display: grid;
+
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 20px;
