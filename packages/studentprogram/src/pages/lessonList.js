@@ -279,7 +279,7 @@ export default function LessonList({ footerLinks }) {
                   }
                 }}
                 // public_url="http://localhost:5000"
-                public_url="alt-backend.uniteframework.io"
+                public_url="https://alt.uniteframework.io"
               />
             </VStack>
           )

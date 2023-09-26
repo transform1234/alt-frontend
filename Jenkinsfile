@@ -37,7 +37,7 @@ pipeline {
     stage('Copy Package') {
       steps {
         sh './scripts/pack-prod-build.sh'
-        // sh "rsync shiksha-ui.tar:/var/www/alt.uniteframework.io/shiksha-ui.tar"
+        // sh "rsync shiksha-ui.tar:/var/www/https://alt.uniteframework.io/shiksha-ui.tar"
       }
     }
 

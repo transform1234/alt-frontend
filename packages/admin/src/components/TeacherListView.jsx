@@ -105,7 +105,7 @@ function TeacherListView() {
     console.log("All school list");
     console.log(token);
 
-    const apiUrl = "alt-backend.uniteframework.io/api/v1/teacher/search";
+    const apiUrl = "https://alt.uniteframework.io/api/v1/teacher/search";
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,

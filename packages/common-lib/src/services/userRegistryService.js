@@ -81,9 +81,12 @@ export const getOne = async ({ id, ...params } = {}, header = {}) => {
     ...header
   }
   let url = `${process.env.REACT_APP_API_URL}/user`
+
   if (id) {
     url = `${process.env.REACT_APP_API_URL}/user/${id}`
   }
+  console.log('USER LOGIN URL')
+  console.log(url)
   const result = await get(url, {
     params,
     headers
