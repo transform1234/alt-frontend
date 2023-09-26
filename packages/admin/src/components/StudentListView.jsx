@@ -245,7 +245,7 @@ function StudentListView() {
         animateRows={true}
         onCellClicked={cellClickedListener}
         pagination={true}
-        // paginationAutoPageSize={true}
+        paginationAutoPageSize={true}
       ></AgGridReact>{" "}
     </div>
   );

@@ -27,7 +27,7 @@ function HomePage() {
         {
           //   title: t("FUN_ACTIVITY"),
           link: "/schoolpage",
-          title: <H2>School Add</H2>,
+          title: <H2>Manage School</H2>,
           _box: {
             style: {
               background:
@@ -44,7 +44,7 @@ function HomePage() {
         {
           //   title: t("FUN_ACTIVITY"),
           link: "/teacherpage",
-          title: <H2>Teacher Add</H2>,
+          title: <H2>Manage Teacher</H2>,
 
           _box: {
             style: {
@@ -63,7 +63,7 @@ function HomePage() {
         {
           link: "/studentpage",
 
-          title: <H2>Student Add</H2>,
+          title: <H2>Manage Student</H2>,
 
           _box: {
             style: {

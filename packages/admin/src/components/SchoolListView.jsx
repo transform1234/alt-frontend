@@ -161,7 +161,7 @@ function SchoolListView() {
     };
 
     const requestData = {
-      limit: "20",
+      limit: "",
       page: 0,
       filters: {},
     };
@@ -211,8 +211,7 @@ function SchoolListView() {
         animateRows={true}
         onCellClicked={cellClickedListener}
         pagination={true}
-
-        // paginationAutoPageSize={true}
+        paginationAutoPageSize={true}
       ></AgGridReact>{" "}
     </div>
   );
