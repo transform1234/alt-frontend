@@ -64,41 +64,41 @@ function CSVImportForm() {
     for (let i = 0; i < csvData.length; i++) {
       const schoolData = csvData[i];
       const schoolObject = {
-        udiseCode: schoolData["School UDISE code"] || "",
-        name: schoolData["School Name"] || "",
-        location: schoolData["Location"] || "",
-        management: schoolData["School Management"] || "",
-        composition: schoolData["School Composition"] || "",
-        board: schoolData["Board"] || "",
+        udiseCode: schoolData["School UDISE code"] || null,
+        name: schoolData["School Name"] || null,
+        location: schoolData["Location"] || null,
+        management: schoolData["School Management"] || null,
+        composition: schoolData["School Composition"] || null,
+        board: schoolData["Board"] || null,
         mediumOfInstruction: [schoolData["Medium of Instruction"]] || [],
-        headmaster: schoolData["Head Master"] || "",
-        headmasterType: schoolData["Headmaster Type"] || "",
-        headmasterMobile: schoolData["Headmaster Mobile"] || "",
+        headmaster: schoolData["Head Master"] || null,
+        headmasterType: schoolData["Headmaster Type"] || null,
+        headmasterMobile: schoolData["Headmaster Mobile"] || null,
         upperPrimaryTeachersSanctioned:
           parseInt(
             schoolData["Number of teachers sanctioned -Upper Primary"]
           ) || 0,
         secondaryTeachersSanctioned:
           parseInt(schoolData["Number of teachers sanctioned -Secondary"]) || 0,
-        libraryFunctional: schoolData["Library Functional"] || "",
-        computerLabFunctional: schoolData["Computer Lab functional"] || "",
+        libraryFunctional: schoolData["Library Functional"] || null,
+        computerLabFunctional: schoolData["Computer Lab functional"] || null,
         totalFunctionalComputers:
           parseInt(schoolData["Number of functional computers"]) || 0,
         noOfBoysToilet: parseInt(schoolData["Number of Boys toilet"]) || 0,
         noOfGirlsToilet: parseInt(schoolData["Number of Girls toilet"]) || 0,
         smartBoardFunctionalClass6:
-          schoolData["Smart Board functional in Class 6"] || "",
+          schoolData["Smart Board functional in Class 6"] || null,
         smartBoardFunctionalClass7:
-          schoolData["Smart Board functional in Class 7"] || "",
+          schoolData["Smart Board functional in Class 7"] || null,
         smartBoardFunctionalClass8:
-          schoolData["Smart Board functional in Class 8"] || "",
+          schoolData["Smart Board functional in Class 8"] || null,
         smartBoardFunctionalClass9:
-          schoolData["Smart Board functional in Class 9"] || "",
+          schoolData["Smart Board functional in Class 9"] || null,
         smartBoardFunctionalClass10:
-          schoolData["Smart Board functional in Class 10"] || "",
-        state: schoolData["State"] || "",
-        district: schoolData["District"] || "",
-        block: schoolData["Block"] || "",
+          schoolData["Smart Board functional in Class 10"] || null,
+        state: schoolData["State"] || null,
+        district: schoolData["District"] || null,
+        block: schoolData["Block"] || null,
         adequateRoomsForEveryClass:
           schoolData["Adequate Rooms For EveryClass"] || false,
         drinkingWaterSupply: schoolData["Drinking Water Supply"] || false,
