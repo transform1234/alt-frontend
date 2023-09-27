@@ -6,7 +6,7 @@ pipeline {
     //   steps {
     //     script {
     //        Use 'dir' to change the workspace directory
-    //        dir('/var/lib/jenkins/workspace/prod-frontend') {
+    //        dir('/var/lib/jenkins/workspace/altfrontend') {
     //         sh 'rm -rf *'
     //       }
     //     }
@@ -18,13 +18,12 @@ pipeline {
       steps {
         cleanWs()
           git branch: 'newuat', url: 'https://github.com/transform1234/alt-frontend.git'
-        //sh 'git clone https://github.com/transform1234/alt-frontend.git -b newuat'
       }
     }
 
     stage('Building Code') {
       steps {
-        dir('/var/lib/jenkins/workspace/prod-frontend') {
+        dir('/var/lib/jenkins/workspace/frontend') {
           sh 'rm -rf node_modules'
           sh 'rm -f package-lock.json' // Corrected to remove the file
           sh 'ls'
@@ -39,8 +38,7 @@ pipeline {
     stage('Copy Package') {
       steps {
         sh './scripts/pack-prod-build.sh'
-        // sh "rsync shiksha-ui.tar:/var/www/alt.uniteframework.io/shiksha-ui.tar"
-      }
+        }
     }
 
     stage('Deploy') {
@@ -48,7 +46,7 @@ pipeline {
         script {
           dir('/var/lib/jenkins/build') {
             sh 'rm -rf *'
-            sh 'cp /var/lib/jenkins/workspace/prod-frontend/shiksha-ui.tar .'
+            sh 'cp /var/lib/jenkins/workspace/frontend/shiksha-ui.tar .'
             sh 'tar -xvf shiksha-ui.tar'
           }
         }
@@ -59,8 +57,8 @@ pipeline {
         dir('/var/lib/jenkins/build') {
             script {
                 withAWS(region: 'ap-south-1', credentials: 'prasad-aws-id') {
-                    s3Delete(bucket: 'altprodfrontend', path: '**/*')
-                    s3Upload(bucket: 'altprodfrontend', workingDir: '.', includePathPattern: '**/*', excludePathPattern: '.git/*, **/node_modules/**')
+                    s3Delete(bucket: 'altfrontend', path: '**/*')
+                    s3Upload(bucket: 'altfrontend', workingDir: '.', includePathPattern: '**/*', excludePathPattern: '.git/*, **/node_modules/**')
                 }
             }
         }
@@ -72,11 +70,11 @@ pipeline {
     //   steps {
     //     dir('/var/lib/jenkins/build') {
     //       sh 'aws s3 ls'
-    //       sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+    //       sh "aws s3 cp . s3://altfrontend/ --recursive"
     //       // script {
     //       //   def awsCliCmd = 'aws'
     //       //   //def bucketName = 'altfrontend'
-    //       //    sh "aws s3 cp . s3://altprodfrontend/ --recursive"
+    //       //    sh "aws s3 cp . s3://altfrontend/ --recursive"
     //       // }
     //     }
     //   }
