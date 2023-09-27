@@ -16,7 +16,7 @@ pipeline {
     stage('Checkout') {
       steps {
         cleanWs()
-        git branch: 'altv1', url: 'https://github.com/transform1234/alt-frontend.git'
+        git branch: 'newuat', url: 'https://github.com/transform1234/alt-frontend.git'
       }
     }
 
