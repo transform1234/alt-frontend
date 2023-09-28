@@ -79,32 +79,33 @@ function CSVImportForm() {
 
     for (let i = 0; i < csvData.length; i++) {
       const studentData = csvData[i];
-      const studentObject = {
-        name: studentData["name"] || null,
-        username: null,
-        email: studentData["email"] || null,
-        mobile: studentData["mobile"] || null,
-        gender: studentData["gender"] || null,
-        dateOfBirth: studentData["dateOfBirth"] || null,
-        board: studentData["board"] || null,
-        password: null,
-        status: studentData["status"] || null,
-        className: studentData["className"] || null,
-        groups: [],
-        religion: studentData["religion"] || null,
-        schoolUdise: studentData["school_udise"] || null,
-        caste: studentData["caste"] || null,
-        annualIncome: studentData["annual_income"] || null,
-        motherEducation: studentData["mother_education"] || null,
-        fatherEducation: studentData["father_education"] || null,
-        motherOccupation: studentData["mother_occupation"] || null,
-        fatherOccupation: studentData["father_occupation"] || null,
-        noOfSiblings: studentData["No_of_siblings"] || 0,
-      };
+      if (studentData["name"] && studentData["name"].trim() !== "") {
+        const studentObject = {
+          name: studentData["name"] || null,
+          username: null,
+          email: studentData["email"] || null,
+          mobile: studentData["mobile"] || null,
+          gender: studentData["gender"] || null,
+          dateOfBirth: studentData["dateOfBirth"] || null,
+          board: studentData["board"] || null,
+          password: null,
+          status: studentData["status"] || null,
+          className: studentData["className"] || null,
+          groups: [],
+          religion: studentData["religion"] || null,
+          schoolUdise: studentData["school_udise"] || null,
+          caste: studentData["caste"] || null,
+          annualIncome: studentData["annual_income"] || null,
+          motherEducation: studentData["mother_education"] || null,
+          fatherEducation: studentData["father_education"] || null,
+          motherOccupation: studentData["mother_occupation"] || null,
+          fatherOccupation: studentData["father_occupation"] || null,
+          noOfSiblings: studentData["No_of_siblings"] || 0,
+        };
 
-      requestData.students.push(studentObject);
+        requestData.students.push(studentObject);
+      }
     }
-
     try {
       const result = await studentBulkAPI(requestData.students);
 
