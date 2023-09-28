@@ -15,7 +15,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
-import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import teacherCSV from "../assets/images/FinalTeacher.csv";
 
@@ -24,8 +23,6 @@ function TeacherPage() {
   const [isCSVOpen, setIsCSVOpen] = useState(false);
   const [isFORMOpen, setIsFORMOpen] = useState(false);
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const openCSVModal = () => {
     localStorage.removeItem("bulkErrors");
@@ -148,7 +145,7 @@ function TeacherPage() {
                     onClick={closeCSVModal}
                     className={styles.closeButton}
                   >
-                    <CloseIcon />
+                    ❌
                   </button>
                   <div className={styles.bodyDiv}>
                     <TeacherCSVImport />
@@ -166,7 +163,7 @@ function TeacherPage() {
                     onClick={closeFORMModal}
                     className={styles.closeButton}
                   >
-                    <CloseIcon />
+                    ❌
                   </button>
                   <div className={styles.bodyDiv}>
                     <TeacherForm />

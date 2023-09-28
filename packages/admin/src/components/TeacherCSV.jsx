@@ -7,7 +7,6 @@ import { Progress, Space } from "antd";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const batchSize = 100; // Number of records per batch
@@ -119,20 +118,21 @@ function CSVImportForm() {
 
     try {
       const result = await teacherBulkAPI(requestData.teachers);
-      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
+
       if (result === true) {
-        let successCount = localStorage.getItem("successCount") || "";
-        let bulkErrors = localStorage.getItem("bulkErrors") || "";
         let names = localStorage.getItem("bulkErrorsNames") || "";
         let errorMessage = localStorage.getItem("errorMessage") || "";
         setIsLoading(false);
-        const csvData = `Success Count,Error Count,Names of Failed Teachers,Error Message\n${successCount},${bulkErrors},${names},${errorMessage}`;
+        const csvData = `Names of Failed Teachers,Error Message\n${names},${errorMessage}`;
 
         // Trigger CSV download
         downloadCSV(csvData, "Teacher_summary_report");
       } else {
         alert("Upload failed");
+        setIsLoading(false);
       }
+
+      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
 
       // Update the current index for the next batch
       setCurrentIndex(endIndex);

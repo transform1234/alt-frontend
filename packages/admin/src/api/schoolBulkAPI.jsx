@@ -23,8 +23,23 @@ const schoolBulkAPI = async (school) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
+      console.log(res.data.errors);
       console.log(res.data.successCount);
+      const names = res.data.errors.map((error) => error.name).filter(Boolean);
+      if (res.data.errors && res.data.errors.length > 0) {
+        const firstError = res.data.errors[0];
+        if (firstError.schoolRes && firstError.schoolRes.errorMessage) {
+          const errorMessage = firstError.schoolRes.errorMessage;
+          localStorage.setItem("errorMessage", errorMessage);
+        } else {
+          console.log("No error message found in the first error object.");
+        }
+      } else {
+        console.log("No errors in the response data.");
+      }
+
+      localStorage.setItem("bulkErrors", res.data.errors.length - 1);
+      localStorage.setItem("bulkErrorsNames", names);
       localStorage.setItem("successCount", res.data.successCount);
 
       if (res.status === 201) {
