@@ -28,9 +28,9 @@ function SchoolPage() {
   const [isFORMOpen, setIsFORMOpen] = useState(false);
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
   const openCSVModal = () => {
+    localStorage.removeItem("bulkErrors");
+    localStorage.removeItem("successCount");
     setIsCSVOpen(true);
   };
   const openFORMModal = () => {
@@ -57,6 +57,19 @@ function SchoolPage() {
     } catch (error) {
       console.error("Error downloading CSV:", error);
     }
+  };
+
+  const customStyles = {
+    content: {
+      width: "30%",
+      height: "50%",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
   };
 
   return (
@@ -126,11 +139,18 @@ function SchoolPage() {
               <Heading>School Records list</Heading>
               {isCSVOpen && (
                 <CSVModal
+                  style={customStyles}
                   isOpen={isCSVOpen}
                   onRequestClose={closeCSVModal}
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
                 >
+                  <button
+                    onClick={closeCSVModal}
+                    className={styles.closeButton}
+                  >
+                    ❌
+                  </button>
                   <div className={styles.bodyDiv}>
                     <SchoolCSV />
                   </div>
@@ -147,7 +167,7 @@ function SchoolPage() {
                     onClick={closeFORMModal}
                     className={styles.closeButton}
                   >
-                    <CloseIcon />
+                    ❌
                   </button>
                   <div className={styles.bodyDiv}>
                     <SchoolForm />

@@ -15,7 +15,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";
 import TeacherForm from "components/TeacherForm";
-import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import teacherCSV from "../assets/images/FinalTeacher.csv";
 
@@ -25,9 +24,9 @@ function TeacherPage() {
   const [isFORMOpen, setIsFORMOpen] = useState(false);
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
   const openCSVModal = () => {
+    localStorage.removeItem("bulkErrors");
+    localStorage.removeItem("successCount");
     setIsCSVOpen(true);
   };
   const openFORMModal = () => {
@@ -54,6 +53,19 @@ function TeacherPage() {
     } catch (error) {
       console.error("Error downloading CSV:", error);
     }
+  };
+  //csv modal styles
+  const customStyles = {
+    content: {
+      width: "30%",
+      height: "50%",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
   };
 
   return (
@@ -123,11 +135,18 @@ function TeacherPage() {
               <Heading>Teacher Records list</Heading>
               {isCSVOpen && (
                 <CSVModal
+                  style={customStyles}
                   isOpen={isCSVOpen}
                   onRequestClose={closeCSVModal}
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
                 >
+                  <button
+                    onClick={closeCSVModal}
+                    className={styles.closeButton}
+                  >
+                    ❌
+                  </button>
                   <div className={styles.bodyDiv}>
                     <TeacherCSVImport />
                   </div>
@@ -144,7 +163,7 @@ function TeacherPage() {
                     onClick={closeFORMModal}
                     className={styles.closeButton}
                   >
-                    <CloseIcon />
+                    ❌
                   </button>
                   <div className={styles.bodyDiv}>
                     <TeacherForm />

@@ -1,16 +1,31 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import teacherBulkAPI from "api/teacherBulkAPI";
 import { useNavigate } from "react-router-dom";
+import { Progress, Space } from "antd";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const batchSize = 100; // Number of records per batch
+  const [overallProgress, setOverallProgress] = useState(0);
+
+  const [showSuccessCount, setShowSuccessCount] = useState(false);
+  const [showBulkErrors, setShowBulkErrors] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      // If loading is in progress, hide the success count
+      setShowSuccessCount(false);
+      setShowBulkErrors(false);
+    } else {
+      // Loading is finished, show the success count
+      setShowSuccessCount(true);
+      setShowBulkErrors(true);
+    }
+  }, [isLoading]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -63,7 +78,7 @@ function CSVImportForm() {
       teachers: [],
     };
 
-    for (let i = 0; i < csvData.length; i++) {
+    for (let i = startIndex; i < endIndex; i++) {
       const teacherData = csvData[i];
       const teacherObject = {
         name: teacherData["Name"] || null,
@@ -103,13 +118,21 @@ function CSVImportForm() {
 
     try {
       const result = await teacherBulkAPI(requestData.teachers);
-      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
-      if (result == true) {
-        let successCount = localStorage.getItem("successCount");
-        alert("Upload Successful.\nSuccess count: " + successCount);
+
+      if (result === true) {
+        let names = localStorage.getItem("bulkErrorsNames") || "";
+        let errorMessage = localStorage.getItem("errorMessage") || "";
+        setIsLoading(false);
+        const csvData = `Names of Failed Teachers,Error Message\n${names},${errorMessage}`;
+
+        // Trigger CSV download
+        downloadCSV(csvData, "Teacher_summary_report");
       } else {
         alert("Upload failed");
+        setIsLoading(false);
       }
+
+      console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
 
       // Update the current index for the next batch
       setCurrentIndex(endIndex);
@@ -120,6 +143,9 @@ function CSVImportForm() {
       console.error("Error sending data:", error);
       setIsLoading(false);
     }
+
+    const batchProgress = ((endIndex + 1) / csvData.length) * 100;
+    setOverallProgress(batchProgress);
   };
 
   const sendBatches = async () => {
@@ -127,20 +153,50 @@ function CSVImportForm() {
       return;
     }
 
-    sendBatch(currentIndex, currentIndex + batchSize);
+    sendBatch(currentIndex, Math.min(currentIndex + batchSize, csvData.length));
   };
 
+  function downloadCSV(data, filename) {
+    const csvContent =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(data);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvContent);
+    link.setAttribute("download", filename + ".csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
   return (
     <div>
       <div style={{ marginBottom: "10px" }}>
         <H2>Click on Upload CSV to Submit</H2>
       </div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: "25px",
+          marginTop: "15px",
+        }}
+      >
         <input type="file" accept=".csv" onChange={handleFileChange} />
         <Button onPress={sendBatches} disabled={isLoading}>
           {isLoading ? "Uploading..." : "Upload CSV"}
         </Button>
       </div>
+      <div>
+        <Progress
+          strokeLinecap="butt"
+          percent={overallProgress}
+          format={(percent) => `${percent.toFixed(2)}%`}
+        />
+      </div>
+      {showSuccessCount && (
+        <div>Success Count: {localStorage.getItem("successCount") || ""}</div>
+      )}
+      {showBulkErrors && (
+        <div>Error Count: {localStorage.getItem("bulkErrors") || ""}</div>
+      )}
     </div>
   );
 }
