@@ -21,7 +21,7 @@ const telemetryConfig = {
   sid: 'session-id',
   batchsize: 1,
   mode: '',
-  host: 'https://alt-shiksha.uniteframework.io', //TODO: Change this host and endpoint properly
+  host: 'https://alt.uniteframework.io', //TODO: Change this host and endpoint properly
   endpoint: '/telemetry/v1/telemetry',
   tags: []
 }
