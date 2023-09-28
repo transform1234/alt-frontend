@@ -23,10 +23,10 @@ const studentBulkAPI = async (student) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
-      console.log(res.data);
+      console.log(res.data.errors);
+console.log (res)
       console.log(res.data.successCount);
-
+      const names = res.data.errors.map((error) => error.name).filter(Boolean);
       if (res.data.errors && res.data.errors.length > 0) {
         const firstError = res.data.errors[0];
         if (firstError.studentRes && firstError.studentRes.errorMessage) {
