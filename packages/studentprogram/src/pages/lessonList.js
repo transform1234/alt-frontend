@@ -24,7 +24,6 @@ import {
   H3,
   RoundedProgressBar,
   NameTag,
-  telemetryFactory,
   Breadcrumb,
 } from "@shiksha/common-lib";
 import { useNavigate, useParams } from "react-router-dom";
@@ -93,52 +92,7 @@ export default function LessonList({ footerLinks }) {
     } catch (e) {
       console.log({ e });
       setLoading(false);
-    }
-    const telemetryImpression = {
-      context: {
-        env: "baseline assessment",
-        cdata: [],
-      },
-      edata: {
-        type: "edit", //Required. Impression type (list, detail, view, edit, workflow, search)
-
-        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
-
-        pageid: "baseline assessment (lesson list)", //Required.  Unique page id
-
-        uid: id,
-
-        studentid: "student-id",
-
-        userName: userName,
-
-        grade: grade,
-
-        medium: medium,
-
-        board: board,
-      },
-    };
-    telemetryFactory.impression(telemetryImpression);
-  }, [lessonId]);
-
-  const telemetryImpression = {
-    context: {
-      env: "baseline assessment",
-      cdata: [],
-    },
-    edata: {
-      type: "edit",
-      subtype: "Scroll",
-      pageid: "baseline assessment (lesson not exist)",
-      uid: id,
-      studentid: "student-id",
-      userName: userName,
-      grade: grade,
-      medium: medium,
-      board: board,
-    },
-  };
+    }}, [lessonId]);
 
   const handleExitButton = () => {
     setLesson();
