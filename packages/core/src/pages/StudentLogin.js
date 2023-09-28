@@ -69,10 +69,16 @@ export default function StudentLogin({ swPath }) {
     return true;
   };
 
+  const userName = localStorage.getItem("name");
+  const grade = localStorage.getItem("grade");
+  const medium = localStorage.getItem("medium");
+  const id = localStorage.getItem("id");
+  const board = localStorage.getItem("board");
+
   useEffect(() => {
     const telemetryImpression = {
       context: {
-        env: "sign-in",
+        env: "log-out",
         cdata: [],
       },
       edata: {
@@ -80,13 +86,52 @@ export default function StudentLogin({ swPath }) {
 
         subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
 
-        pageid: "sign-in", //Required.  Unique page id
+        pageid: "log-out", //Required.  Unique page id
+
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
       },
     };
     telemetryFactory.impression(telemetryImpression);
   }, []);
 
   const handleLogin = async () => {
+    const telemetryImpression = {
+      context: {
+        env: "log-in",
+        cdata: [],
+      },
+      edata: {
+        type: "edit", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "log-in", //Required.  Unique page id
+
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
+      },
+    };
+    telemetryFactory.impression(telemetryImpression);
+
     const telemetryInteract = {
       context: {
         env: "sign-in",
@@ -97,6 +142,17 @@ export default function StudentLogin({ swPath }) {
         type: "CLICK",
         subtype: "",
         pageid: "sign-in",
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
       },
     };
     telemetryFactory.interact(telemetryInteract);

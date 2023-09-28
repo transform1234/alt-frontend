@@ -1,4 +1,4 @@
-import { IconByName, Layout } from "@shiksha/common-lib";
+import { IconByName, Layout, telemetryFactory } from "@shiksha/common-lib";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
 import {
@@ -14,9 +14,67 @@ import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
 import moment from "moment";
 import "./funActivity.css";
+import { useEffect } from "react";
 
 export default function FunActivity() {
   const navigate = useNavigate();
+
+  const userName = localStorage.getItem("name");
+  const grade = localStorage.getItem("grade");
+  const medium = localStorage.getItem("medium");
+  const id = localStorage.getItem("id");
+  const board = localStorage.getItem("board");
+
+  useEffect(() => {
+    // const telemetryStart = {
+    //   context: {
+    //     env: "log-in",
+    //     cdata: [],
+    //   },
+    //   edata: {
+    //     type: "edit", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+    //     subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+    //     pageid: "log-in", //Required.  Unique page id
+    //     dspec: "", // Optional. Device spec
+    //     uaspec: "", // Optional. User agent spec
+    //     loc: "", // Optional. Location of the device
+    //     mode: "", // Optional. Mode of start. For "player" it would be "play/edit/preview". For Workflow it would be Review/Flag/Publish. For editor it could be "content", "textbook", "generic", "lessonplan" etc
+    //     duration: "", // Optional. Time taken to initialize/start
+    //     pageid: "rg", // Optional. Page/Stage id where the start has happened.
+    //   },
+    // };
+    // telemetryFactory.impression(telemetryStart);
+
+    const telemetryInteract = {
+      context: {
+        env: "fun-activity",
+        cdata: [],
+      },
+      edata: {
+        type: "edit", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "fun-activity", //Required.  Unique page id
+
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
+      },
+    };
+    telemetryFactory.interact(telemetryInteract);
+  }, []);
+
   return (
     <Layout
       _appBar={{

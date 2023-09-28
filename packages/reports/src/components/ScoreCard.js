@@ -1,14 +1,35 @@
-import { Tab } from "@shiksha/common-lib";
+import { Tab, telemetryFactory } from "@shiksha/common-lib";
 import { useTheme } from "native-base";
 import BaselineScore from "../pages/BaselineScore";
 import CoursesScore from "../pages/CoursesScore";
 import EndlineScore from "../pages/EndlineScore";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export default function ScoreCard({ user, isDisabledLink }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  useEffect(() => {
+    const telemetryImpression = {
+      context: {
+        env: "score-card",
+        cdata: [],
+      },
+      edata: {
+        type: "list", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "score-card", //Required.  Unique page id
+
+        uid: "user-id",
+
+        studentid: "student-id",
+      },
+    };
+    telemetryFactory.impression(telemetryImpression);
+  }, []);
 
   return (
     <Tab

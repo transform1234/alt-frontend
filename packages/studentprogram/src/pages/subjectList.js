@@ -5,6 +5,7 @@ import {
   NameTag,
   subjectListRegistryService,
   H1,
+  telemetryFactory,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +20,38 @@ export default function SubjectList({ footerLinks }) {
   const [SubjectList, setSubjectListData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
+    const userName = localStorage.getItem("name");
+    const grade = localStorage.getItem("grade");
+    const medium = localStorage.getItem("medium");
+    const id = localStorage.getItem("id");
+    const board = localStorage.getItem("board");
+
+    const telemetryImpression = {
+      context: {
+        env: "Subjects",
+        cdata: [],
+      },
+      edata: {
+        type: "list", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "subjects", //Required.  Unique page id
+
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
+      },
+    };
+    telemetryFactory.impression(telemetryImpression);
     const subjects = async () => {
       try {
         const data = await subjectListRegistryService.getSubjectList();
@@ -58,9 +91,9 @@ export default function SubjectList({ footerLinks }) {
         titleComponent: <NameTag />,
         LeftIcon: (
           <HStack>
-             <img
-            width={"100px"}
-            src={require("./../assets/images/TSHeader.png")}
+            <img
+              width={"100px"}
+              src={require("./../assets/images/TSHeader.png")}
             />
           </HStack>
         ),

@@ -16,6 +16,7 @@ const telemetryConfig = {
   channel: '',
   did: 'did',
   authtoken: '',
+  studentid: 'student-id',
   uid: 'user-id',
   sid: 'session-id',
   batchsize: 1,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Stack, VStack, HStack, Avatar, Image } from "native-base";
 import {
   capture,
@@ -9,6 +9,7 @@ import {
   subjectListRegistryService,
   selfAssesmentService,
   courseRegistryService,
+  telemetryFactory,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 import manifest from "../../src/manifest.json";
@@ -19,6 +20,41 @@ function Home({ footerLinks }) {
   const [subjects, setSubjects] = React.useState([]);
   const [courses, setCourses] = React.useState();
   const [loading, setLoading] = React.useState(true);
+
+  const userName = localStorage.getItem("name");
+  const grade = localStorage.getItem("grade");
+  const medium = localStorage.getItem("medium");
+  const id = localStorage.getItem("id");
+  const board = localStorage.getItem("board");
+
+  useEffect(() => {
+    const telemetryImpression = {
+      context: {
+        env: "home",
+        cdata: [],
+      },
+      edata: {
+        type: "view", //Required. Impression type (list, detail, view, edit, workflow, search)
+
+        subtype: "Scroll", //Optional. Additional subtype. "Paginate", "Scroll"
+
+        pageid: "home", //Required.  Unique page id
+
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
+      },
+    };
+    telemetryFactory.impression(telemetryImpression);
+  });
 
   const getData = () => {
     const resultDate =
