@@ -20,7 +20,7 @@ function App() {
 
   let isGAInitialized = false;
 
-  ReactGA.initialize("G-Z4XM1F8HWP");
+  ReactGA.initialize("G-NV600D4RP8");
 
   isGAInitialized = true;
 
