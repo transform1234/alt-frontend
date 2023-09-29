@@ -43,7 +43,7 @@ export default function AppBar({
   const setLang = (e) => {
     if (e === 'logout') {
       localStorage.setItem('token', '')
-      localStorage.clear()
+      console.log('INSIDE LOGOUT')
       eventBus.publish('AUTH', {
         eventType: 'LOGOUT',
         data: {}

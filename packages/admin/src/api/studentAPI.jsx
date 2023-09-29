@@ -44,10 +44,10 @@ const studentAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
-      // console.log(res.data);
-      console.log(res.data.data.studentId);
-      console.log(res.data.data.userId);
+      console.log(res.data.errors);
+
+      console.log(res.data.successCount);
+      const names = res.data.errors.map((error) => error.name).filter(Boolean);
 
       localStorage.setItem("studentId", res.data.data.studentId);
       localStorage.setItem("userId", res.data.data.userId);
