@@ -20,7 +20,7 @@ function App() {
 
   let isGAInitialized = false;
 
-  ReactGA.initialize("G-Z4XM1F8HWP");
+  ReactGA.initialize("G-NV600D4RP8");
 
   isGAInitialized = true;
 
@@ -42,8 +42,7 @@ function App() {
         setTheme("teacheralt");
         setRoutes(teacherRoutes);
         setFooterLinks(teachers);
-      }
-      if (user?.role === "systemAdmin") {
+      } else if (user?.role === "systemAdmin") {
         setTheme("adminalt");
         setRoutes(adminRoutes);
       } else {
