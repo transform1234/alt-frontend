@@ -42,8 +42,7 @@ function App() {
         setTheme("teacheralt");
         setRoutes(teacherRoutes);
         setFooterLinks(teachers);
-      }
-      if (user?.role === "systemAdmin") {
+      } else if (user?.role === "systemAdmin") {
         setTheme("adminalt");
         setRoutes(adminRoutes);
       } else {
