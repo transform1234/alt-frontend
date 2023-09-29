@@ -32,8 +32,8 @@ export default function NameTag({ height = '55', parentBgColor = '#f8f8f9' }) {
           Class:{' '}
           {localStorage.getItem('grade') +
             ' ' +
-            localStorage.getItem('section') +
-            ' ' +
+            // localStorage.getItem('section') +
+            // ' ' +
             localStorage.getItem('medium')}
         </Caption>
       </Box>

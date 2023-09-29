@@ -256,6 +256,7 @@ export const moduleTracking = async (
         headers
       }
     )
+    console.log(result.data)
     if (result?.data?.data) {
       return result.data?.data
     } else {
@@ -277,6 +278,7 @@ export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
       params: { questionsetId: id },
       headers
     })
+
     if (result?.data?.data) {
       return result.data?.data
     } else {
@@ -299,6 +301,7 @@ export const courseStatus = async (params, header = {}) => {
       params,
       { params, headers }
     )
+
     if (result?.data?.data) {
       return result.data?.data
     } else {
