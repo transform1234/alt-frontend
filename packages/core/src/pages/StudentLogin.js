@@ -101,7 +101,33 @@ export default function StudentLogin({ swPath }) {
         board: board,
       },
     };
+
     telemetryFactory.impression(telemetryImpression);
+
+    const telemetryInteract = {
+      context: {
+        env: "sign-out",
+        cdata: [],
+      },
+      edata: {
+        id: "log-out-button",
+        type: "CLICK",
+        subtype: "",
+        pageid: "sign-out",
+        uid: id,
+
+        studentid: "student-id",
+
+        userName: userName,
+
+        grade: grade,
+
+        medium: medium,
+
+        board: board,
+      },
+    };
+    telemetryFactory.interact(telemetryInteract);
   }, []);
 
   const handleLogin = async () => {

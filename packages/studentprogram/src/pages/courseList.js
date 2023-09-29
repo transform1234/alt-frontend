@@ -37,6 +37,7 @@ export default function CourseList({ footerLinks }) {
         subject: subjectname,
       });
       setCoursesList(data);
+
       setLoading(false);
     } catch (e) {
       console.log({ e });

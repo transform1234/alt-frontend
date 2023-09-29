@@ -34,7 +34,7 @@ export default function AppBar({
   titleComponent,
   isBackButtonShow,
   isLanguageIcon,
-  _text_logo ,
+  _text_logo,
   ...props
 }) {
   const [searchInput, setSearchInput] = useState(false)
@@ -43,7 +43,6 @@ export default function AppBar({
   const setLang = (e) => {
     if (e === 'logout') {
       localStorage.setItem('token', '')
-      localStorage.clear()
       eventBus.publish('AUTH', {
         eventType: 'LOGOUT',
         data: {}
@@ -63,7 +62,7 @@ export default function AppBar({
     <Box pt={7} px={3} {...props?._box}>
       <StatusBar bg='gray.600' barStyle='light-content' />
       <Box safeAreaTop bg='gray.600' />
-      {_text_logo ? _text_logo :<React.Fragment />}
+      {_text_logo ? _text_logo : <React.Fragment />}
       {searchInput ? (
         <Stack alignItems='center'>
           <InputGroup width='100%'>
@@ -138,7 +137,7 @@ export default function AppBar({
               {LeftIcon ? LeftIcon : <React.Fragment />}
             </HStack>
             {titleComponent ? titleComponent : <React.Fragment />}
-            <HStack alignItems={'center'}>
+            {/* <HStack alignItems={'center'}>
               {!searchInput && isEnableSearchBtn ? (
                 <IconByName
                   color={color ? color : ''}
@@ -160,7 +159,7 @@ export default function AppBar({
               ) : (
                 <React.Fragment />
               )}
-            </HStack>
+            </HStack> */}
           </HStack>
         </React.Fragment>
       ) : (

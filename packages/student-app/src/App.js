@@ -11,11 +11,24 @@ import teacherRoutes from "./Routes/teachers";
 import adminRoutes from "./Routes/admin";
 const StudentLogin = React.lazy(() => import("core/StudentLogin"));
 import { teachers, students } from "./config/footerLinks";
+import ReactGA from "react-ga";
 
 function App() {
   const [routes, setRoutes] = React.useState([]);
   const [footerLinks, setFooterLinks] = React.useState([]);
   const [theme, setTheme] = React.useState("alt");
+
+  let isGAInitialized = false;
+
+  ReactGA.initialize("G-Z4XM1F8HWP");
+
+  isGAInitialized = true;
+
+  if (isGAInitialized) {
+    console.log("Google Analytics is initialized.");
+  } else {
+    console.log("Google Analytics is not initialized.");
+  }
 
   initializeI18n(
     ["studentApp"],

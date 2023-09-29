@@ -12,8 +12,9 @@ export const useAuthFlow = () => {
 
 export const getAuthUser = async () => {
   const resultUser = await userRegistryService.getOne()
-  if (resultUser) {
+  if (Object.keys(resultUser).length) {
     let id = resultUser.id
+
     localStorage.setItem('id', id)
     localStorage.setItem('name', resultUser.name)
     localStorage.setItem('grade', resultUser.grade)
