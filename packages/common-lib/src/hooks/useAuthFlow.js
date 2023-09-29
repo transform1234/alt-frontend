@@ -15,9 +15,6 @@ export const getAuthUser = async () => {
   if (Object.keys(resultUser).length) {
     let id = resultUser.id
 
-    console.log('INSIDE getAUTHUser')
-    console.log(resultUser)
-
     localStorage.setItem('id', id)
     localStorage.setItem('name', resultUser.name)
     localStorage.setItem('grade', resultUser.grade)
