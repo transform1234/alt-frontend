@@ -31,15 +31,11 @@ export default function CourseList({ footerLinks }) {
         programId: resultData?.programId,
         subject: subjectname,
       });
-      console.log("INSIDE COURSE LIST 1");
-      console.log(result);
       setStatus(result);
       const data = await selfAssesmentService.getCoursesRule({
         programId: resultData?.programId,
         subject: subjectname,
       });
-      console.log("INSIDE COURSE LIST");
-      console.log(status);
       setCoursesList(data);
 
       setLoading(false);

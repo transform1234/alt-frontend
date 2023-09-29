@@ -256,7 +256,6 @@ export const moduleTracking = async (
         headers
       }
     )
-    console.log(result.data)
     if (result?.data?.data) {
       return result.data?.data
     } else {
