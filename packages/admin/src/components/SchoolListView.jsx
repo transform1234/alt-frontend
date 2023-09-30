@@ -145,14 +145,9 @@ function SchoolListView() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
-    console.log("FIRST useEffect");
-    console.log(token);
   }, []);
 
   useEffect(() => {
-    console.log("All school list");
-    console.log(token);
-
     const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
     const headers = {
       Accept: "*/*",
@@ -169,8 +164,6 @@ function SchoolListView() {
     axios
       .post(apiUrl, requestData, { headers })
       .then((response) => {
-        console.log("SCHOOL List");
-        console.log(response.data.data);
         setRowData(response.data.data);
       })
       .catch((error) => {

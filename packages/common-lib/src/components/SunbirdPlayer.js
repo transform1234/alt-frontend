@@ -62,7 +62,7 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
-    console.log(telemetry)
+
     if (telemetry?.eid === 'EXDATA') {
       try {
         const edata = JSON.parse(telemetry.edata?.data)
@@ -118,7 +118,6 @@ const SunbirdPlayer = ({
         }
       } else {
         setTrackData(telemetry?.edata)
-        console.log('summary is not found', telemetry)
       }
     } else if (
       telemetry?.eid === 'IMPRESSION' &&
@@ -167,8 +166,7 @@ const SunbirdPlayer = ({
           width='100%'
           name={JSON.stringify({
             ...props,
-            questionListUrl:
-              'https://sunbirdsaas.com/api/question/v1/list'
+            questionListUrl: 'https://sunbirdsaas.com/api/question/v1/list'
             // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
           })}
           src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}

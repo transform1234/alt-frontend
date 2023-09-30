@@ -2,10 +2,6 @@ import { studentBulk } from "routes/links";
 import axios from "axios";
 
 const studentBulkAPI = async (student) => {
-  console.log("INSIDE STUDENT BULK");
-
-  console.log("CSV Data:", student);
-
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -23,9 +19,8 @@ const studentBulkAPI = async (student) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res.data.errors);
-console.log (res)
-      console.log(res.data.successCount);
+      console.log(res);
+
       const names = res.data.errors.map((error) => error.name).filter(Boolean);
       if (res.data.errors && res.data.errors.length > 0) {
         const firstError = res.data.errors[0];

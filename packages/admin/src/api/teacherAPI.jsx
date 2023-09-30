@@ -2,9 +2,6 @@ import axios from "axios";
 import { teacherRegister } from "../routes/links";
 
 const teacherAPI = async (data) => {
-  console.log("Before AXIOS ");
-  console.log(data);
-
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -48,11 +45,6 @@ const teacherAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
-      console.log(res.data);
-      console.log(res.data.data.teacherId);
-      console.log(res.data.data.userId);
-
       localStorage.setItem("teacherId", res.data.data.teacherId);
       localStorage.setItem("userId", res.data.data.userId);
 
@@ -63,7 +55,6 @@ const teacherAPI = async (data) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data.error);
       let err = 0;
       return err;
     });

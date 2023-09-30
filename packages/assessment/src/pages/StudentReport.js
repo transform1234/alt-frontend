@@ -50,7 +50,7 @@ export default function StudentReport({ footerLinks }) {
       classId,
     });
     const reportData = report(studentData, data, WRITTEN_ASSESSMENT, "data");
-    console.log(reportData);
+
     setStudents(reportData?.presentStudents);
   }, [classId, subject, date]);
 

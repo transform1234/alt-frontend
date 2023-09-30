@@ -12,7 +12,9 @@ import styles from "./StudentForm.module.css";
 function StudentForm() {
   const [data, setData] = useState([]);
   const [token, setToken] = useState([]);
-  const [selectedUdiseCode, setSelectedUdiseCode] = useState(0);
+  const [selectedUdiseCode, setSelectedUdiseCode] = useState([]);
+  const [extractedUdise, setextractedUdise] = useState("");
+  const [extractedName, setextractedName] = useState("");
   const [selectedgroup, setSelectedgroup] = useState(""); // Initialize with an empty string
 
   const [groups, setGroups] = useState([]);
@@ -20,14 +22,9 @@ function StudentForm() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
-    console.log("FIRST useEffect");
-    console.log(token);
   }, []);
 
   useEffect(() => {
-    console.log("Second useEffect");
-    console.log(token);
-
     const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
     const headers = {
       Accept: "*/*",
@@ -44,8 +41,6 @@ function StudentForm() {
     axios
       .post(apiUrl, requestData, { headers })
       .then((response) => {
-        console.log("SCHOOL DATA USE EFFECT");
-        console.log(response.data.data);
         setData(response.data.data);
       })
       .catch((error) => {
@@ -55,10 +50,24 @@ function StudentForm() {
   }, [token]);
 
   useEffect(() => {
-    console.log("Group useEffect");
-    console.log(token);
     console.log(selectedUdiseCode);
+    if (Object.keys(selectedUdiseCode).length) {
+      // Splitting string into an array using the comma
+      const valuesArray = selectedUdiseCode.split(",");
 
+      // Extracting and store the values in separate variables
+      const udiseCode = valuesArray[0]; // "36220991573"
+
+      setextractedUdise(udiseCode);
+      const schoolName = valuesArray[1]; // "Gghs Hussaini Alam"
+      setextractedName(schoolName);
+      // Values in separate variables
+    } else {
+      console.error("selectedUdiseCode is not a string.");
+    }
+  }, [selectedUdiseCode]);
+
+  useEffect(async () => {
     const groupapiUrl = "https://alt.uniteframework.io/api/v1/group/search";
     const headers = {
       Accept: "*/*",
@@ -71,23 +80,21 @@ function StudentForm() {
       page: 0,
       filters: {
         schoolUdise: {
-          eq: selectedUdiseCode,
+          eq: extractedUdise,
         },
       },
     };
 
-    axios
+    await axios
       .post(groupapiUrl, requestData, { headers })
       .then((response) => {
-        console.log("Group DATA USE EFFECT");
-        console.log(response.data.data);
         setGroups(response.data.data);
       })
       .catch((error) => {
         // Handle any errors here
         console.error("Error fetching data:", error);
       });
-  }, [selectedUdiseCode]);
+  }, [extractedUdise]);
 
   const {
     register,
@@ -97,11 +104,8 @@ function StudentForm() {
   const onSubmit = async (data) => {
     const result = await studentAPI(data);
     if (result == true) {
-      let sID = localStorage.getItem("studentId");
-      let uID = localStorage.getItem("userId");
-      alert(
-        "Registration Successful.\nStudent ID: " + sID + "\nUser ID: " + uID
-      );
+      alert("Registration Successful.");
+      window.location.reload();
     } else {
       alert("Registeration failed");
     }
@@ -267,8 +271,11 @@ function StudentForm() {
                   <option value="">Select School Udise</option>{" "}
                   {/* Placeholder option */}
                   {data.map((school) => (
-                    <option key={school.udiseCode} value={school.udiseCode}>
-                      {school.udiseCode}
+                    <option
+                      key={school.udiseCode}
+                      value={[school.udiseCode, school.name]}
+                    >
+                      {school.name}
                     </option>
                   ))}
                 </select>
@@ -297,8 +304,8 @@ function StudentForm() {
                   <option value="">Select Group</option>{" "}
                   {/* Placeholder option */}
                   {groups.map((school) => (
-                    <option key={school.groupId} value={school.groupId}>
-                      {school.groupId}
+                    <option key={school.name} value={school.name}>
+                      {school.name}
                     </option>
                   ))}
                 </select>
