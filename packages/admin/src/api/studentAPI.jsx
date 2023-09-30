@@ -2,10 +2,12 @@ import axios from "axios";
 import { studentRegister } from "../routes/links";
 
 const studentAPI = async (data) => {
-  console.log("INSIDE API");
-  console.log(data);
-
   const token = localStorage.getItem("token");
+
+  const schoolUdise = data.udise.split(",");
+
+  // Extracting the udise value in separate variable
+  const udiseCode = schoolUdise[0];
 
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",
@@ -24,9 +26,10 @@ const studentAPI = async (data) => {
     board: data.board,
     password: data.password,
     status: "true",
-    groups: [data.group],
+    className: data.group,
+    groups: [],
     religion: data.religion,
-    schoolUdise: data.udise,
+    schoolUdise: udiseCode,
     caste: data.caste,
     annualIncome: data.annualIncome,
     motherEducation: data.motherEducation,
@@ -44,14 +47,9 @@ const studentAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res.data.errors);
-
-      console.log(res.data.successCount);
-      const names = res.data.errors.map((error) => error.name).filter(Boolean);
-
-      localStorage.setItem("studentId", res.data.data.studentId);
-      localStorage.setItem("userId", res.data.data.userId);
-
+      console.log(res);
+      console.log(res.data);
+      console.log(res.status);
       if (res.status === 201) {
         result = true;
       } else {
@@ -59,7 +57,6 @@ const studentAPI = async (data) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data.error);
       let err = 0;
       return err;
     });

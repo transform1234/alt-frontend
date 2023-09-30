@@ -15,10 +15,6 @@ function HomePage() {
   const [loading, setLoading] = React.useState(false);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.log(studentRegister);
-  });
-
   const widgetData = [
     {
       //   title: t("Student"),

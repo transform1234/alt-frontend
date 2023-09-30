@@ -2,9 +2,6 @@ import axios from "axios";
 import { schoolRegister } from "../routes/links";
 
 const schoolAPI = async (data) => {
-  console.log("INSIDE API");
-  console.log(data);
-
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -62,9 +59,6 @@ const schoolAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
-      // console.log(res.data);
-
       if (res.status === 201) {
         result = true;
       } else {
@@ -72,7 +66,6 @@ const schoolAPI = async (data) => {
       }
     })
     .catch(function (error) {
-      console.log(error.response.data.error);
       let err = 0;
       return err;
     });

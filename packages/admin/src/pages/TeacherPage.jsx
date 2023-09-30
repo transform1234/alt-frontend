@@ -49,7 +49,6 @@ function TeacherPage() {
       link.href = url;
       link.download = "FinalTeacher.csv";
       link.click();
-      console.log("download");
     } catch (error) {
       console.error("Error downloading CSV:", error);
     }
