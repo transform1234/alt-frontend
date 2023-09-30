@@ -21,7 +21,6 @@ const teacherAPI = async (data) => {
     board: data.board,
     password: data.password,
     status: "true",
-    groups: ["eedd138c-c14d-49c3-b5ca-a94fd74ec50c"],
     educationalQualification: data.educationalQualification,
     schoolUdise: data.schoolUdise,
     currentRole: data.currentRole,
@@ -29,7 +28,7 @@ const teacherAPI = async (data) => {
     appointedPost: data.appointedPost,
     totalTeachingExperience: data.totalTeachingExperience,
     totalHeadteacherExperience: data.totalHeadteacherExperience,
-    classesTaught: [data.classesTaught],
+    classesTaught: data.classesTaught,
     coreSubjectTaught: data.coreSubjectTaught,
     attendedInserviceTraining: data.attendedInserviceTraining,
     lastTrainingAttendedTopic: data.lastTrainingAttendedTopic,
@@ -45,9 +44,6 @@ const teacherAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      localStorage.setItem("teacherId", res.data.data.teacherId);
-      localStorage.setItem("userId", res.data.data.userId);
-
       if (res.status === 201) {
         result = true;
       } else {
