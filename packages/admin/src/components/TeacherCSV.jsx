@@ -102,7 +102,7 @@ function CSVImportForm() {
         totalHeadteacherExperience:
           teacherData["Total experience as Head Teacher"] || null,
         classesTaught: teacherData["Classes taught"] || null,
-        coreSubjectTaught: teacherData["Core subject taught"] || null,
+        coreSubjectTaught: teacherData["Core subject taught"].replace("|", ",") || null,
         attendedInserviceTraining:
           teacherData["Attended In service teacher training"] || null,
         lastTrainingAttendedTopic:
