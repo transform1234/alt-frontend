@@ -6,3 +6,4 @@ export const studentBulk = baseLink + "/student/bulkupload";
 export const schoolRegister = baseLink + "/school";
 export const schoolBulk = baseLink + "/school/bulkupload";
 export const teacherBulk = baseLink + "/teacher/bulkupload";
+export const studentReset = baseLink + "/user/reset-password";

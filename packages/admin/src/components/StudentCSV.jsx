@@ -77,7 +77,7 @@ function CSVImportForm() {
       students: [],
     };
 
-    for (let i = 0; i < csvData.length; i++) {
+    for (let i = startIndex; i < endIndex; i++) {
       const studentData = csvData[i];
       if (studentData["name"] && studentData["name"].trim() !== "") {
         const studentObject = {
