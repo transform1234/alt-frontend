@@ -56,7 +56,8 @@ function StudentListView() {
       cellRenderer: function () {
         // Replace with your desired label
         const combinedFunction = () => {
-          openModal();
+          // openModal();
+          alert("Work in progress");
         };
 
         return (
