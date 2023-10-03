@@ -13,14 +13,68 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import axios from "axios";
+import { Button } from "native-base";
+import Modal from "react-modal";
+import StudentResetPassword from "./StudentResetPassword";
+
+const customStyles = {
+  content: {
+    maxHeight: "90%",
+    maxWidth: "90%",
+    margin: 0,
+    padding: "20",
+    backgroundColor: "#fff",
+  },
+  scrollableContent: {
+    maxHeight: "90%",
+    overflowY: "auto",
+  },
+};
 
 function StudentListView() {
   const [token, setToken] = useState([]);
   const navigate = useNavigate();
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    Modal.setAppElement("#root"); // Set the app element for modal
+  }, []);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const [columnDefs] = useState([
+    {
+      width: 150,
+      cellRenderer: function () {
+        // Replace with your desired label
+        const combinedFunction = () => {
+          openModal();
+        };
+
+        return (
+          <div>
+            <button onClick={combinedFunction}> Reset Password</button>
+            <Modal
+              isOpen={isOpen}
+              onRequestClose={closeModal}
+              contentLabel="Edit Modal"
+              // className={modalStyles.modalDiv}
+              style={customStyles.content}
+            >
+              Hello
+            </Modal>
+          </div>
+        );
+      },
+    },
     // {
     //   headerName: "Delete",
     //   field: "actions",
@@ -60,8 +114,9 @@ function StudentListView() {
     // },
 
     { field: "name" },
-    { field: "dateOfBirth" },
-    { field: "board" },
+    { field: "dateOfBirth", width: 150 },
+    { field: "board", width: 150 },
+    { field: "schoolName", width: 250 },
     {
       field: "schoolUdise",
       filter: true,
@@ -78,8 +133,6 @@ function StudentListView() {
 
     { field: "role" },
 
-    { field: "createdBy" },
-    { field: "updatedBy" },
     { field: "studentId" },
     { field: "groups" },
     { field: "religion" },
@@ -91,13 +144,7 @@ function StudentListView() {
     { field: "motherOccupation" },
     { field: "fatherOccupation" },
     { field: "noOfSiblings" },
-    { field: "userId", filter: true, editable: true },
   ]);
-
-  const cellClickedListener = useCallback((event) => {
-    console.log("cellClicked", event.data);
-    localStorage.setItem("selectedRowData", JSON.stringify(event.data));
-  }, []);
 
   const onBtnExport = useCallback(() => {
     gridRef.current.api.exportDataAsCsv();
@@ -235,8 +282,6 @@ function StudentListView() {
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
-        animateRows={true}
-        onCellClicked={cellClickedListener}
         pagination={true}
         paginationAutoPageSize={true}
       ></AgGridReact>{" "}

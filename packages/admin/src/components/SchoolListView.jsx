@@ -71,6 +71,7 @@ function SchoolListView() {
     },
 
     { field: "location" },
+    { field: "groups" },
     { field: "management" },
     { field: "composition" },
 
@@ -104,8 +105,6 @@ function SchoolListView() {
     },
     { field: "buildingIsFreeFromInflammableAndToxicMaterials" },
     { field: "roofAndWallsAreInGoodCondition" },
-    { field: "createdAt" },
-    { field: "updatedAt" },
   ]);
 
   const cellClickedListener = useCallback((event) => {
