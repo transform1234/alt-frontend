@@ -16,6 +16,8 @@ import axios from "axios";
 import { Button } from "native-base";
 import Modal from "react-modal";
 import StudentResetPassword from "./StudentResetPassword";
+import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
+import SyncLockIcon from "@mui/icons-material/SyncLock";
 
 const customStyles = {
   content: {
@@ -36,42 +38,51 @@ function StudentListView() {
   const navigate = useNavigate();
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    Modal.setAppElement("#root"); // Set the app element for modal
-  }, []);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
+  const openPrompt = async (data) => {
+    console.log(data);
+    let person = window.prompt(
+      `Enter a new password for user ${data.username}`
+    );
+    if (person == null || person == "") {
+      alert("Please enter a valid password");
+    } else {
+      const result = await studentResetPasswordAPI(data.username, person);
+      if (result == true) {
+        alert("Password reset Successful.");
+        window.location.reload();
+      } else {
+        alert("Password reset failed");
+      }
+    }
   };
 
   const [columnDefs] = useState([
     {
       width: 150,
-      cellRenderer: function () {
+      cellRenderer: function (params) {
         // Replace with your desired label
-        const combinedFunction = () => {
-          // openModal();
-          alert("Work in progress");
+        const combinedFunction = (rowData) => {
+          openPrompt(rowData);
         };
 
         return (
           <div>
-            <button onClick={combinedFunction}> Reset Password</button>
-            <Modal
-              isOpen={isOpen}
-              onRequestClose={closeModal}
-              contentLabel="Edit Modal"
-              // className={modalStyles.modalDiv}
-              style={customStyles.content}
+            <button
+              onClick={() => combinedFunction(params.data)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#6461D2",
+                textDecoration: "underline",
+                display: "flex", // Center align vertically
+                alignItems: "center",
+                marginTop: "10px",
+              }}
             >
-              Hello
-            </Modal>
+              {" "}
+              <SyncLockIcon /> Password
+            </button>
           </div>
         );
       },
@@ -192,6 +203,10 @@ function StudentListView() {
   //   document.body.removeChild(link);
   // }, [rowData]);
 
+  const cellClickedListener = useCallback((event) => {
+    console.log("cellClicked", event);
+  }, []);
+
   const onBtnExportFields = useCallback(() => {
     // Get the visible (filtered) rows from the grid
     const filteredData = gridRef.current.api.getModel().rowsToDisplay;
@@ -256,35 +271,51 @@ function StudentListView() {
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
-      <button
-        onClick={onBtnExport}
-        style={{ background: "#41C88E", border: "none", borderRadius: "5px" }}
-      >
-        <FileDownloadOutlinedIcon
-          style={{ color: "white", fontSize: "largest" }}
-        />
-        <H4 style={{ color: "white" }}> Download Template </H4>
-      </button>
-      <button
-        onClick={onBtnExportFields}
-        style={{
-          background: "#41C88E",
-          border: "none",
-          borderRadius: "5px",
-          marginLeft: "10px", // Add some spacing between the buttons
-        }}
-      >
-        <FileDownloadOutlinedIcon
-          style={{ color: "white", fontSize: "largest" }}
-        />
-        <H4 style={{ color: "white" }}> Download username & password </H4>
-      </button>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <button
+          onClick={onBtnExport}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            display: "flex", // Center align vertically
+
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{ color: "white", fontSize: "largest" }}
+          />
+          <H4 style={{ color: "white" }}> Download Template </H4>
+        </button>
+        <button
+          onClick={onBtnExportFields}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px", // Add some spacing between the buttons
+            display: "flex", // Center align vertically
+
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}> Download username & password </H4>
+        </button>
+      </div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
         pagination={true}
         paginationAutoPageSize={true}
+        onCellClicked={cellClickedListener}
       ></AgGridReact>{" "}
     </div>
   );

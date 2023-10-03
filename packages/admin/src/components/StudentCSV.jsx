@@ -142,7 +142,23 @@ function CSVImportForm() {
       return;
     }
 
-    sendBatch(currentIndex, currentIndex + batchSize);
+    // Determine the number of full batches and the number of remaining records
+    const numFullBatches = Math.floor(csvData.length / batchSize);
+    const remainingRecords = csvData.length % batchSize;
+
+    // Send full batches
+    for (let i = 0; i < numFullBatches; i++) {
+      const startIndex = i * batchSize;
+      const endIndex = startIndex + batchSize;
+      await sendBatch(startIndex, endIndex);
+    }
+
+    // Send remaining records if there are any
+    if (remainingRecords > 0) {
+      const startIndex = numFullBatches * batchSize;
+      const endIndex = startIndex + remainingRecords;
+      await sendBatch(startIndex, endIndex);
+    }
   };
 
   function downloadCSV(data, filename) {

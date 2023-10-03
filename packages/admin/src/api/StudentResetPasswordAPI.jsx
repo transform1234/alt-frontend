@@ -1,7 +1,10 @@
 import axios from "axios";
 import { studentReset } from "../routes/links";
 
-const studentAPI = async (data) => {
+const studentResetPasswordAPI = async (username, password) => {
+  console.log("INSIDE RESET PASS API");
+  console.log(username, password);
+
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -12,8 +15,8 @@ const studentAPI = async (data) => {
   };
 
   const jsonData = {
-    username: data.username,
-    newPassword: data.newPassword,
+    username: username,
+    newPassword: password,
   };
 
   let result;
@@ -26,8 +29,8 @@ const studentAPI = async (data) => {
     .then((res) => {
       console.log(res);
       console.log(res.data);
-      console.log(res.status);
-      if (res.status === 201) {
+      console.log(res.data.statusCode);
+      if (res.data.statusCode === 200) {
         result = true;
       } else {
         result = false;
@@ -41,4 +44,4 @@ const studentAPI = async (data) => {
   return result;
 };
 
-export default studentAPI;
+export default studentResetPasswordAPI;
