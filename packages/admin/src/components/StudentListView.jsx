@@ -1,6 +1,12 @@
 // export default listView;
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -18,20 +24,7 @@ import Modal from "react-modal";
 import StudentResetPassword from "./StudentResetPassword";
 import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
-
-const customStyles = {
-  content: {
-    maxHeight: "90%",
-    maxWidth: "90%",
-    margin: 0,
-    padding: "20",
-    backgroundColor: "#fff",
-  },
-  scrollableContent: {
-    maxHeight: "90%",
-    overflowY: "auto",
-  },
-};
+import CustomLoadingCellRenderer from "./CustomLoadingCellRenderer";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
@@ -78,6 +71,7 @@ function StudentListView() {
                 display: "flex", // Center align vertically
                 alignItems: "center",
                 marginTop: "10px",
+                cursor: "pointer",
               }}
             >
               {" "}
@@ -269,6 +263,16 @@ function StudentListView() {
       });
   }, [token]);
 
+  const loadingCellRenderer = useMemo(() => {
+    return CustomLoadingCellRenderer;
+  }, []);
+
+  const loadingCellRendererParams = useMemo(() => {
+    return {
+      loadingMessage: "One moment please...",
+    };
+  }, []);
+
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -316,6 +320,8 @@ function StudentListView() {
         pagination={true}
         paginationAutoPageSize={true}
         onCellClicked={cellClickedListener}
+        loadingCellRenderer={loadingCellRenderer}
+        loadingCellRendererParams={loadingCellRendererParams}
       ></AgGridReact>{" "}
     </div>
   );

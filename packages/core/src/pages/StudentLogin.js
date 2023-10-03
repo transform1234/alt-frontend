@@ -41,6 +41,10 @@ export default function StudentLogin({ swPath }) {
   const { t } = useTranslation();
   const [width, Height] = useWindowSize();
 
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const fieldsName = [
     { label: "User Name", attribute: "userName" },
     { label: "Password", attribute: "password" },

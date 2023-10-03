@@ -56,8 +56,8 @@ function TeacherPage() {
   //csv modal styles
   const customStyles = {
     content: {
-      width: "30%",
-      height: "50%",
+      width: "auto",
+      height: "auto",
       top: "50%",
       left: "50%",
       right: "auto",
