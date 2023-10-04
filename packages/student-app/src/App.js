@@ -13,6 +13,7 @@ const StudentLogin = React.lazy(() => import("core/StudentLogin"));
 import { teachers, students } from "./config/footerLinks";
 import ReactGA from "react-ga";
 import { useEffect } from "react";
+import getNewAccessToken from "api's/getNewAccessToken";
 
 function App() {
   const [routes, setRoutes] = React.useState([]);

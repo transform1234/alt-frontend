@@ -42,11 +42,6 @@ export default function StudentLogin({ swPath }) {
   const { t } = useTranslation();
   const [width, Height] = useWindowSize();
 
-  useEffect(() => {
-    // Call checkTokenValidity to start checking immediately after the component is mounted
-    checkTokenValidity();
-  }, []);
-
   const fieldsName = [
     { label: "User Name", attribute: "userName" },
     { label: "Password", attribute: "password" },
@@ -204,8 +199,6 @@ export default function StudentLogin({ swPath }) {
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("token", token);
 
-        checkTokenValidity();
-
         let resultTeacher = {};
         // try {
 
@@ -243,47 +236,6 @@ export default function StudentLogin({ swPath }) {
       }
     }
   };
-
-  function checkTokenValidity() {
-    console.log("INSIDE checkTokenValidity");
-    const refreshToken = localStorage.getItem("refreshToken");
-    console.log("INSIDE tokenCheckInterval2 ");
-    console.log(refreshToken);
-    if (Object.keys(refreshToken).length) {
-      const interval = 30 * 60 * 1000; // 30 minutes
-      // const interval = 2 * 1000; // 2 seconds
-
-      const tokenCheckInterval = setInterval(async () => {
-        console.log("INSIDE tokenCheckInterval");
-        try {
-          const response = await fetch(
-            "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token/introspect",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `client_id=hasura-app&token=${refreshToken}&client_secret=ixoAI89JICldF5xF9Y8cgDGJrbOu6SGw`,
-            }
-          );
-          console.log("REFRESH check");
-          console.log(response.ok);
-
-          if (response.ok == false) {
-            const result = await getNewAccessToken();
-            const newAccessToken = result.access_token;
-            const newrefreshToken = result.refresh_token;
-            localStorage.setItem("token", newAccessToken);
-            localStorage.setItem("token", newrefreshToken);
-          } else {
-            return;
-          }
-        } catch (error) {
-          console.error("Error checking token:", error);
-        }
-      }, interval);
-    }
-  }
 
   const navigatePage = () => {
     window.location.href = "/";
