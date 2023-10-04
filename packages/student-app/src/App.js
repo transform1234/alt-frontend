@@ -64,7 +64,6 @@ function App() {
   function checkTokenValidity() {
     console.log("INSIDE checkTokenValidity");
     const refreshToken = localStorage.getItem("refreshToken");
-    console.log("INSIDE tokenCheckInterval2 ");
     console.log(refreshToken);
     if (refreshToken) {
       const interval = 30 * 60 * 1000; // 30 minutes
