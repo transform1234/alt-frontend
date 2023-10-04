@@ -31,6 +31,7 @@ import {
   H3,
   telemetryFactory,
 } from "@shiksha/common-lib";
+import getNewAccessToken from "api's/getNewAccessToken";
 
 const colors = overrideColorTheme();
 
@@ -42,7 +43,8 @@ export default function StudentLogin({ swPath }) {
   const [width, Height] = useWindowSize();
 
   useEffect(() => {
-    localStorage.clear();
+    // Call checkTokenValidity to start checking immediately after the component is mounted
+    checkTokenValidity();
   }, []);
 
   const fieldsName = [
@@ -194,8 +196,16 @@ export default function StudentLogin({ swPath }) {
       );
 
       if (result?.data) {
+        console.log("Token Data");
+
         let token = result.data.access_token;
+        let refreshToken = result.data.refresh_token;
+        console.log(refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("token", token);
+
+        checkTokenValidity();
+
         let resultTeacher = {};
         // try {
 
@@ -233,6 +243,47 @@ export default function StudentLogin({ swPath }) {
       }
     }
   };
+
+  function checkTokenValidity() {
+    console.log("INSIDE checkTokenValidity");
+    const refreshToken = localStorage.getItem("refreshToken");
+    console.log("INSIDE tokenCheckInterval2 ");
+    console.log(refreshToken);
+    if (Object.keys(refreshToken).length) {
+      const interval = 30 * 60 * 1000; // 30 minutes
+      // const interval = 2 * 1000; // 2 seconds
+
+      const tokenCheckInterval = setInterval(async () => {
+        console.log("INSIDE tokenCheckInterval");
+        try {
+          const response = await fetch(
+            "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token/introspect",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `client_id=hasura-app&token=${refreshToken}&client_secret=ixoAI89JICldF5xF9Y8cgDGJrbOu6SGw`,
+            }
+          );
+          console.log("REFRESH check");
+          console.log(response.ok);
+
+          if (response.ok == false) {
+            const result = await getNewAccessToken();
+            const newAccessToken = result.access_token;
+            const newrefreshToken = result.refresh_token;
+            localStorage.setItem("token", newAccessToken);
+            localStorage.setItem("token", newrefreshToken);
+          } else {
+            return;
+          }
+        } catch (error) {
+          console.error("Error checking token:", error);
+        }
+      }, interval);
+    }
+  }
 
   const navigatePage = () => {
     window.location.href = "/";
