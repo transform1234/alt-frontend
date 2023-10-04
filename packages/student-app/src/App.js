@@ -91,7 +91,7 @@ function App() {
             const newAccessToken = result.access_token;
             const newrefreshToken = result.refresh_token;
             localStorage.setItem("token", newAccessToken);
-            localStorage.setItem("token", newrefreshToken);
+            localStorage.setItem("refreshToken", newrefreshToken);
           } else {
             return;
           }
