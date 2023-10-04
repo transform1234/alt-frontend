@@ -31,7 +31,6 @@ import {
   H3,
   telemetryFactory,
 } from "@shiksha/common-lib";
-s;
 
 const colors = overrideColorTheme();
 
