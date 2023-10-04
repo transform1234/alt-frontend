@@ -31,6 +31,7 @@ import {
   H3,
   telemetryFactory,
 } from "@shiksha/common-lib";
+import getNewAccessToken from "api's/getNewAccessToken";
 
 const colors = overrideColorTheme();
 
@@ -190,8 +191,14 @@ export default function StudentLogin({ swPath }) {
       );
 
       if (result?.data) {
+        console.log("Token Data");
+
         let token = result.data.access_token;
+        let refreshToken = result.data.refresh_token;
+        console.log(refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("token", token);
+
         let resultTeacher = {};
         // try {
 

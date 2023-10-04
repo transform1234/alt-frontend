@@ -173,16 +173,26 @@ function SchoolListView() {
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
-      <button
-        onClick={onBtnExport}
-        style={{ background: "#41C88E", border: "none", borderRadius: "5px" }}
-      >
-        <FileDownloadOutlinedIcon
-          style={{ color: "white", fontSize: "largest" }}
-        />
-        <H4 style={{ color: "white" }}> Download Template </H4>
-      </button>
-      {/* <button
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <button
+          onClick={onBtnExport}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            display: "flex", // Center align vertically
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}> Download Template </H4>
+        </button>
+        {/* <button
         onClick={onBtnExportFields}
         style={{
           background: "#41C88E",
@@ -196,6 +206,7 @@ function SchoolListView() {
         />
         <H4 style={{ color: "white" }}> Download username & password </H4>
       </button>  */}
+      </div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}

@@ -2,9 +2,6 @@ import axios from "axios";
 import { studentReset } from "../routes/links";
 
 const studentResetPasswordAPI = async (username, password) => {
-  console.log("INSIDE RESET PASS API");
-  console.log(username, password);
-
   const token = localStorage.getItem("token");
 
   const headers = {
