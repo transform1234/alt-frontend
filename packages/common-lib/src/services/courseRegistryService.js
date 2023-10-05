@@ -223,7 +223,7 @@ export const courseTrackingSearch = async (
 
   try {
     const result = await post(
-      `${baseUrl}/altlessontracking/search/${userId}`,
+      `${baseUrl}/alt-course-tracking/search/${userId}`,
       { filters: params, limit },
       {
         headers

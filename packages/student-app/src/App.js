@@ -61,13 +61,12 @@ function App() {
     checkTokenValidity();
   }, []);
 
-  function checkTokenValidity() {
+  function checkTokenValidity () {
     console.log("INSIDE checkTokenValidity");
     const refreshToken = localStorage.getItem("refreshToken");
-    console.log("INSIDE tokenCheckInterval2 ");
     console.log(refreshToken);
     if (refreshToken) {
-      const interval = 30 * 60 * 1000; // 30 minutes
+      const interval = 29 * 60 * 1000; // 30 minutes
       // const interval = 2 * 1000; // 2 seconds
 
       const tokenCheckInterval = setInterval(async () => {
@@ -86,10 +85,14 @@ function App() {
           console.log("REFRESH check");
           console.log(response.ok);
 
-          if (response.ok == false) {
+          if (response.ok == true) {
             const result = await getNewAccessToken();
+            
             const newAccessToken = result.access_token;
             const newrefreshToken = result.refresh_token;
+
+            // console.log(newAccessToken);
+            // console.log(newrefreshToken);
             localStorage.setItem("token", newAccessToken);
             localStorage.setItem("refreshToken", newrefreshToken);
           } else {
