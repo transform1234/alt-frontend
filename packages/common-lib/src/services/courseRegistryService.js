@@ -77,7 +77,7 @@ export const getOne = async (
         } else {
           const trakingData = await courseTrackingSearch({
             courseId: id,
-            lessonId: id,
+            // lessonId: id,
             userId: userId ? userId : localStorage.getItem('id')
           })
           return { ...result?.data?.data, trakingData, courseType }
