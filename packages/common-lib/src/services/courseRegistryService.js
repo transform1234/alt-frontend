@@ -77,7 +77,7 @@ export const getOne = async (
         } else {
           const trakingData = await courseTrackingSearch({
             courseId: id,
-            // lessonId: id,
+            lessonId: id,
             userId: userId ? userId : localStorage.getItem('id')
           })
           return { ...result?.data?.data, trakingData, courseType }
@@ -223,7 +223,7 @@ export const courseTrackingSearch = async (
 
   try {
     const result = await post(
-      `${baseUrl}/alt-course-tracking/search/${userId}`,
+      `${baseUrl}/altlessontracking/search/${userId}`,
       { filters: params, limit },
       {
         headers

@@ -65,6 +65,7 @@ export const telemetryFactory = {
   // This API is used to log telemetry of assessments that have occured when the user is viewing content
   assess: (assessEventInput) => {
     const eventData = getEventData(assessEventInput)
+    
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseAssesTelemetry({
         options: eventData.options,
@@ -77,8 +78,10 @@ export const telemetryFactory = {
 
   response: (responseEventInput) => {
     const eventData = getEventData(responseEventInput)
+    
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseResponseTelemetry({
+        
         options: eventData.options,
         edata: eventData.edata
       })
