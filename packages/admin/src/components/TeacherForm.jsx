@@ -8,6 +8,7 @@ import teacherAPI from "api/teacherAPI";
 import styles from "./StudentForm.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { schoolSearch } from "routes/links";
 
 function TeacherForm() {
   const [data, setData] = useState([]);
@@ -24,7 +25,7 @@ function TeacherForm() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
+    const apiUrl = schoolSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,

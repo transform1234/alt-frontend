@@ -8,6 +8,7 @@ import { H4 } from "@shiksha/common-lib";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import axios from "axios";
 import Papa from "papaparse";
+import { teacherSearch } from "routes/links";
 
 function TeacherListView() {
   const [token, setToken] = useState([]);
@@ -100,7 +101,7 @@ function TeacherListView() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = "https://alt.uniteframework.io/api/v1/teacher/search";
+    const apiUrl = teacherSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,

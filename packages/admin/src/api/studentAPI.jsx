@@ -47,9 +47,6 @@ const studentAPI = async (data) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
-      console.log(res.data);
-      console.log(res.status);
       if (res.status === 201) {
         result = true;
       } else {
