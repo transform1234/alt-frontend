@@ -1,4 +1,4 @@
-const baseLink = "https://alt.uniteframework.io/api/v1";
+const baseLink = process.env.REACT_APP_API_URL;
 
 export const studentRegister = baseLink + "/student";
 export const teacherRegister = baseLink + "/teacher";
@@ -7,3 +7,7 @@ export const schoolRegister = baseLink + "/school";
 export const schoolBulk = baseLink + "/school/bulkupload";
 export const teacherBulk = baseLink + "/teacher/bulkupload";
 export const studentReset = baseLink + "/user/reset-password";
+export const studentSearch = baseLink + "/student/search";
+export const teacherSearch = baseLink + "/teacher/search";
+export const schoolSearch = baseLink + "/school/search";
+            

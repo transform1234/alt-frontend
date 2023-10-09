@@ -4,7 +4,7 @@ import {
   Breadcrumb,
   NameTag,
   subjectListRegistryService,
-  H1
+  H1,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export default function SubjectList({ footerLinks }) {
   const [SubjectList, setSubjectListData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-  const subjects = async () => {
+    const subjects = async () => {
       try {
         const data = await subjectListRegistryService.getSubjectList();
         setSubjectListData(data);

@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import axios from "axios";
+import { schoolSearch } from "routes/links";
 
 function SchoolListView() {
   const [token, setToken] = useState([]);
@@ -147,7 +148,7 @@ function SchoolListView() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
+    const apiUrl = schoolSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -215,6 +216,7 @@ function SchoolListView() {
         onCellClicked={cellClickedListener}
         pagination={true}
         paginationAutoPageSize={true}
+        overlayNoRowsTemplate={'<span>Loading School records....</span>'}
       ></AgGridReact>{" "}
     </div>
   );

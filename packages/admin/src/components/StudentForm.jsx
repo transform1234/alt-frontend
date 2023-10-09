@@ -8,6 +8,7 @@ import StudentSchema from "schema/StudentSchema";
 import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
+import { schoolSearch } from "routes/links";
 
 function StudentForm() {
   const [data, setData] = useState([]);
@@ -25,7 +26,7 @@ function StudentForm() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = "https://alt.uniteframework.io/api/v1/school/search";
+    const apiUrl = schoolSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -50,7 +51,6 @@ function StudentForm() {
   }, [token]);
 
   useEffect(() => {
-    console.log(selectedUdiseCode);
     if (Object.keys(selectedUdiseCode).length) {
       // Splitting string into an array using the comma
       const valuesArray = selectedUdiseCode.split(",");

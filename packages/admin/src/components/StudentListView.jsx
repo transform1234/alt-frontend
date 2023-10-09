@@ -25,6 +25,7 @@ import StudentResetPassword from "./StudentResetPassword";
 import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
 import CustomLoadingCellRenderer from "./CustomLoadingCellRenderer";
+import { studentSearch } from "routes/links";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
@@ -33,7 +34,6 @@ function StudentListView() {
   const [rowData, setRowData] = useState([]);
 
   const openPrompt = async (data) => {
-    console.log(data);
     let person = window.prompt(
       `Enter a new password for user ${data.username}`
     );
@@ -239,7 +239,7 @@ function StudentListView() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = "https://alt.uniteframework.io/api/v1/student/search";
+    const apiUrl = studentSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -322,6 +322,7 @@ function StudentListView() {
         onCellClicked={cellClickedListener}
         loadingCellRenderer={loadingCellRenderer}
         loadingCellRendererParams={loadingCellRendererParams}
+        overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
       ></AgGridReact>{" "}
     </div>
   );
