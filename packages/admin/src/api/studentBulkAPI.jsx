@@ -19,23 +19,28 @@ const studentBulkAPI = async (student) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res);
+      console.log(res.data); // Log the response data
 
-      const names = res.data.errors.map((error) => error.name).filter(Boolean);
-      if (res.data.errors && res.data.errors.length > 0) {
-        const firstError = res.data.errors[0];
-        if (firstError.studentRes && firstError.studentRes.errorMessage) {
-          const errorMessage = firstError.studentRes.errorMessage;
-          localStorage.setItem("errorMessage", errorMessage);
-        } else {
-          console.log("No error message found in the first error object.");
-        }
-      } else {
-        console.log("No errors in the response data.");
-      }
+      // Extract student information and store it in localStorage
+      const responses = res.data.responses;
 
-      localStorage.setItem("bulkErrors", res.data.errors.length - 1);
-      localStorage.setItem("bulkErrorsNames", names);
+      responses.forEach(response => {
+          const studentId = response.studentId;
+          const message = response.message;
+          const username = response.username;
+          const schoolUdise = response.schoolUdise;
+
+          const studentData = {
+              studentId,
+              message,
+              username,
+              schoolUdise
+          };
+
+          // studentId to the storage key to avoid overwriting
+          localStorage.setItem(`student_${studentId}`, JSON.stringify(studentData));
+      });
+
       localStorage.setItem("successCount", res.data.successCount);
 
       if (res.status === 201) {
