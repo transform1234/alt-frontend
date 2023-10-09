@@ -174,6 +174,7 @@ function TeacherListView() {
         onCellClicked={cellClickedListener}
         pagination={true}
         paginationAutoPageSize={true}
+        overlayNoRowsTemplate={'<span>Loading Teacher records....</span>'}
       ></AgGridReact>{" "}
     </div>
   );
