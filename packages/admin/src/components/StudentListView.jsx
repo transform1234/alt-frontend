@@ -322,6 +322,7 @@ function StudentListView() {
         onCellClicked={cellClickedListener}
         loadingCellRenderer={loadingCellRenderer}
         loadingCellRendererParams={loadingCellRendererParams}
+        overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
       ></AgGridReact>{" "}
     </div>
   );

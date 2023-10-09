@@ -10,3 +10,4 @@ export const studentReset = baseLink + "/user/reset-password";
 export const studentSearch = baseLink + "/student/search";
 export const teacherSearch = baseLink + "/teacher/search";
 export const schoolSearch = baseLink + "/school/search";
+            
