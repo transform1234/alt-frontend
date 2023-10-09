@@ -13,17 +13,17 @@ function CSVImportForm() {
 
   const [overallProgress, setOverallProgress] = useState(0);
   const [showSuccessCount, setShowSuccessCount] = useState(false);
-  const [showBulkErrors, setShowBulkErrors] = useState(false);
+ 
 
   useEffect(() => {
     if (isLoading) {
       // If loading is in progress, hide the success count
       setShowSuccessCount(false);
-      setShowBulkErrors(false);
+     
     } else {
       // Loading is finished, show the success count
       setShowSuccessCount(true);
-      setShowBulkErrors(true);
+      
     }
   }, [isLoading]);
 
@@ -109,18 +109,33 @@ function CSVImportForm() {
     try {
       const result = await studentBulkAPI(requestData.students);
 
-      if (result === true) {
-        let names = localStorage.getItem("bulkErrorsNames") || "";
-        let errorMessage = localStorage.getItem("errorMessage") || "";
-        setIsLoading(false);
-        const csvData = `Names of Failed Students,Error Message\n${names},${errorMessage}`;
+if (result === true) {
+  // Retrieve and assemble student data from localStorage
+  const studentData = [];
 
-        // Trigger CSV download
-        downloadCSV(csvData, "Student_summary_report");
-      } else {
-        setIsLoading(false);
-        alert("Upload failed");
-      }
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("student_")) {
+      const studentInfo = JSON.parse(localStorage.getItem(key));
+      studentData.push(studentInfo);
+    }
+  }
+
+  // Generate CSV data from studentData array
+  const csvRows = studentData.map((student) =>
+    `${student.username || ""},${student.schoolUdise || ""},${student.message || ""}`
+  );
+
+  const csvData = `Username,SchoolUdise,Error Message\n${csvRows.join("\n")}`;
+
+  // Trigger CSV download
+  downloadCSV(csvData, "Student_summary_report");
+  setIsLoading(false);
+} else {
+  setIsLoading(false);
+  alert("Upload failed");
+}
+
 
       console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
 
@@ -200,9 +215,7 @@ function CSVImportForm() {
       {showSuccessCount && (
         <div>Success Count: {localStorage.getItem("successCount") || ""}</div>
       )}
-      {showBulkErrors && (
-        <div>Error Count: {localStorage.getItem("bulkErrors") || ""}</div>
-      )}
+      
     </div>
   );
 }
