@@ -4,6 +4,7 @@ import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import studentBulkAPI from "api/studentBulkAPI";
 import { Progress, Space } from "antd";
+import Papa from 'papaparse';
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
@@ -13,56 +14,31 @@ function CSVImportForm() {
 
   const [overallProgress, setOverallProgress] = useState(0);
   const [showSuccessCount, setShowSuccessCount] = useState(false);
- 
 
   useEffect(() => {
     if (isLoading) {
       // If loading is in progress, hide the success count
       setShowSuccessCount(false);
-     
     } else {
       // Loading is finished, show the success count
       setShowSuccessCount(true);
-      
     }
   }, [isLoading]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const content = event.target.result;
-      const lines = content.split("\n");
-
-      let headers = [];
-
-      // Find the header row (row with the header names)
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim() !== "") {
-          headers = lines[i].split(",");
-          break;
-        }
-      }
-
-      // Remove the trailing newline character from each line and then split into columns
-      const data = lines.slice(1).map((line) => {
-        const columns = line.replace(/\r$/, "").split(",");
-        const studentObject = {};
-
-        // Map columns to header names dynamically
-        headers.forEach((header, index) => {
-          studentObject[header] = columns[index] || "";
-        });
-
-        return studentObject;
-      });
-
-      setCSVData(data);
-    };
-
-    reader.readAsText(file);
+    Papa.parse(file, {
+      header: true,
+      complete: (result) => {
+        setCSVData(result.data);
+        console.log(result.data);
+      },
+      error: (error) => {
+        console.error("CSV Parsing Error:", error);
+      },
+    });
   };
+  
 
   const sendBatch = async (startIndex, endIndex) => {
     const batchData = csvData.slice(startIndex, endIndex);
@@ -109,33 +85,13 @@ function CSVImportForm() {
     try {
       const result = await studentBulkAPI(requestData.students);
 
-if (result === true) {
-  // Retrieve and assemble student data from localStorage
-  const studentData = [];
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith("student_")) {
-      const studentInfo = JSON.parse(localStorage.getItem(key));
-      studentData.push(studentInfo);
-    }
-  }
-
-  // Generate CSV data from studentData array
-  const csvRows = studentData.map((student) =>
-    `${student.username || ""},${student.schoolUdise || ""},${student.message || ""}`
-  );
-
-  const csvData = `Username,SchoolUdise,Error Message\n${csvRows.join("\n")}`;
-
-  // Trigger CSV download
-  downloadCSV(csvData, "Student_summary_report");
-  setIsLoading(false);
-} else {
-  setIsLoading(false);
-  alert("Upload failed");
-}
-
+      if (result === true) {
+        setIsLoading(false);
+       
+      } else {
+        setIsLoading(false);
+        alert("Upload failed");
+      }
 
       console.log(`Batch ${startIndex + 1}-${endIndex} Data sent:`, result);
 
@@ -174,7 +130,34 @@ if (result === true) {
       const endIndex = startIndex + remainingRecords;
       await sendBatch(startIndex, endIndex);
     }
+    localStorage.setItem("successCount", totalSuccessCount);
+    downloadCSVFromLocalStorage();
   };
+
+
+
+  function downloadCSVFromLocalStorage() {
+    // Retrieve and assemble student data from localStorage
+    const studentData = [];
+  
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("student_")) {
+        const studentInfo = JSON.parse(localStorage.getItem(key));
+        studentData.push(studentInfo);
+      }
+    }
+  
+    // Generate CSV data from studentData array
+    const csvRows = studentData.map((student) =>
+      `${student.username || ""},${student.schoolUdise || ""},${student.message || ""}`
+    );
+  
+    const csvData = `Username,SchoolUdise,Error Message\n${csvRows.join("\n")}`;
+  
+    // Trigger CSV download
+    downloadCSV(csvData, "Student_summary_report");
+  }
 
   function downloadCSV(data, filename) {
     const csvContent =
@@ -215,7 +198,6 @@ if (result === true) {
       {showSuccessCount && (
         <div>Success Count: {localStorage.getItem("successCount") || ""}</div>
       )}
-      
     </div>
   );
 }
