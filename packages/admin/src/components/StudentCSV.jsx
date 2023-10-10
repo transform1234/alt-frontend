@@ -130,7 +130,7 @@ function CSVImportForm() {
       const endIndex = startIndex + remainingRecords;
       await sendBatch(startIndex, endIndex);
     }
-    localStorage.setItem("successCount", totalSuccessCount);
+    
     downloadCSVFromLocalStorage();
   };
 
