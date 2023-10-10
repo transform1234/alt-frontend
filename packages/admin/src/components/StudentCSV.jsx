@@ -4,6 +4,7 @@ import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import studentBulkAPI from "api/studentBulkAPI";
 import { Progress, Space } from "antd";
+import Papa from 'papaparse';
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
@@ -27,41 +28,64 @@ function CSVImportForm() {
     }
   }, [isLoading]);
 
+
+// Manual CSV File Reader
+
+
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   const reader = new FileReader();
+
+  //   reader.onload = (event) => {
+  //     const content = event.target.result;
+  //     const lines = content.split("\n");
+
+  //     let headers = [];
+
+  //     // Find the header row (row with the header names)
+  //     for (let i = 0; i < lines.length; i++) {
+  //       if (lines[i].trim() !== "") {
+  //         headers = lines[i].split(",");
+  //         break;
+  //       }
+  //     }
+
+  //     // Remove the trailing newline character from each line and then split into columns
+  //     const data = lines.slice(1).map((line) => {
+  //       const columns = line.replace(/\r$/, "").split(",");
+  //       const studentObject = {};
+
+  //       // Map columns to header names dynamically
+  //       headers.forEach((header, index) => {
+  //         studentObject[header] = columns[index] || "";
+  //       });
+
+  //       return studentObject;
+  //     });
+
+  //     setCSVData(data);
+  //     console.log(data)
+  //   };
+
+  //   reader.readAsText(file);
+  // };
+
+
+
+  // Reading CSV using papaParse
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const content = event.target.result;
-      const lines = content.split("\n");
-
-      let headers = [];
-
-      // Find the header row (row with the header names)
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim() !== "") {
-          headers = lines[i].split(",");
-          break;
-        }
-      }
-
-      // Remove the trailing newline character from each line and then split into columns
-      const data = lines.slice(1).map((line) => {
-        const columns = line.replace(/\r$/, "").split(",");
-        const studentObject = {};
-
-        // Map columns to header names dynamically
-        headers.forEach((header, index) => {
-          studentObject[header] = columns[index] || "";
-        });
-
-        return studentObject;
-      });
-
-      setCSVData(data);
-    };
-
-    reader.readAsText(file);
+    Papa.parse(file, {
+      header: true, 
+      complete: (result) => {
+        setCSVData(result.data);
+        console.log(result.data);
+      },
+      error: (error) => {
+        console.error("CSV Parsing Error:", error);
+      },
+    });
   };
 
   const sendBatch = async (startIndex, endIndex) => {
