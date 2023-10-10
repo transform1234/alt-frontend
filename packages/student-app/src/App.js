@@ -66,7 +66,7 @@ function App() {
     const refreshToken = localStorage.getItem("refreshToken");
     console.log(refreshToken);
     if (refreshToken) {
-      const interval = 29 * 60 * 1000; // 30 minutes
+      const interval = 5 * 60 * 1000; // 5 minutes
       // const interval = 2 * 1000; // 2 seconds
 
       const tokenCheckInterval = setInterval(async () => {
