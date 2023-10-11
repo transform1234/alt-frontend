@@ -125,14 +125,14 @@ export default function StudentEdit({
         if (type && type === "Teacher") {
           result = await userRegistryService.update(object, {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
+              Authorization: "Bearer " + sessionStorage.getItem('token'),
             },
             onlyParameter: [...onlyParameter, "fullName"],
           });
         } else {
           result = await studentRegistryService.update(object, {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
+              Authorization: "Bearer " + sessionStorage.getItem('token'),
             },
             onlyParameter: [...onlyParameter, "fullName"],
           });

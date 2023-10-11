@@ -25,7 +25,7 @@ let only = Object.keys(interfaceData)
 export const allLogGet = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const { id } = params
   const result = await get(
@@ -71,7 +71,7 @@ export const sendNotificationPost = async (data, headers = {}) => {
 export const sendNotificationSearch = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     process.env.REACT_APP_API_URL + '/instantNotification/log/search',
@@ -91,7 +91,7 @@ export const sendNotificationSearch = async (params = {}, header = {}) => {
 export const scheduledLogGet = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const { id } = params
   const result = await get(
@@ -112,7 +112,7 @@ export const scheduledLogGet = async (params = {}, header = {}) => {
 export const sendScheduledNotificationPost = async (data, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   let newInterfaceData = interfaceData
   newInterfaceData = {
@@ -142,7 +142,7 @@ export const sendScheduledNotificationSearch = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     process.env.REACT_APP_API_URL + '/scheduleNotification/search',

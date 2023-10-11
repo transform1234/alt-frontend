@@ -22,7 +22,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
     { filters: params, limit: limit },
     {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
         ...header
       }
     }
@@ -53,7 +53,7 @@ export const create = async (
     newData,
     {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
         ...headers
       }
     }
@@ -72,7 +72,7 @@ export const update = async (
   let newInterfaceData = interfaceData
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   newInterfaceData = {
     ...interfaceData,

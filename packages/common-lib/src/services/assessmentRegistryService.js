@@ -108,7 +108,7 @@ const readQuestion = async (questionId) => {
 export const getSubjectsList = async (params = {}, header = {}) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const adapter = params.adapter ? params.adapter : defaultAdapter
   const result = await get(
@@ -126,7 +126,7 @@ export const getSubjectsList = async (params = {}, header = {}) => {
 export const getCompetenciesList = async (params = {}, header = {}) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const adapter = params.adapter ? params.adapter : defaultAdapter
   const result = await get(
@@ -147,7 +147,7 @@ export const getCompetenciesList = async (params = {}, header = {}) => {
 export const createUpdateAssessment = async (params = {}, header = {}) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     `${process.env.REACT_APP_API_URL}/trackassessment`,
@@ -167,7 +167,7 @@ export const createUpdateAssessment = async (params = {}, header = {}) => {
 export const getAssessmentDetails = async (id, params = {}, header = {}) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/trackassessment/${id}`,
@@ -187,7 +187,7 @@ export const getAssessmentDetails = async (id, params = {}, header = {}) => {
 export const getAllAssessment = async (params = {}, header = {}) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     `${process.env.REACT_APP_API_URL}/trackassessment/search`,
@@ -209,7 +209,7 @@ export const getAttendanceDetailsByClass = async (
 ) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     `${process.env.REACT_APP_API_URL}/attendance/${groupId}/studentdetails`,

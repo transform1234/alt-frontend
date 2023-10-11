@@ -7,7 +7,7 @@ const dateFor = moment().format('YYYY-MM-DD')
 
 export const getProgramId = async (props) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const programID = await post(
     `${process.env.REACT_APP_API_URL}/altprogram/bmgs`,
@@ -29,7 +29,7 @@ export const getSubjectList = async () => {
   const data = await getProgramId()
   if (data?.programId) {
     let headers = {
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
     const subjectList = await post(
       `${process.env.REACT_APP_API_URL}/altprogramassociation/altsubjectlist`,
@@ -55,7 +55,7 @@ export const getOngoingCourses = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/altcurrentphase/altgetcurrentphase/${programId}`,

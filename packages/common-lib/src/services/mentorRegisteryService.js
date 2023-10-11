@@ -28,7 +28,7 @@ export const getAllAllocatedSchools = async (
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   const result = await post(

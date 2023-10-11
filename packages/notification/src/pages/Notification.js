@@ -49,7 +49,7 @@ const Notification = ({ footerLinks, appName }) => {
   const [filterObject, setFilterObject] = useState({});
   const [showMore, setShowMore] = useState(false);
   const [validUsers, setValidUsers] = useState("");
-  const { realm_access } = jwt_decode(localStorage.getItem("token"));
+  const { realm_access } = jwt_decode(sessionStorage.getItem('token'));
   const CalendarBar = React.lazy(() => import("attendance/CalendarBar"));
 
   const getDateFromCalendar = () => {

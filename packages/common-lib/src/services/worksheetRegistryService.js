@@ -37,7 +37,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   const result = await post(
@@ -58,7 +58,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
 export const getOne = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await get(
@@ -83,7 +83,7 @@ export const create = async (data, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   let newInterfaceData = interfaceData
@@ -133,7 +133,7 @@ export const update = async (data = {}, headers = {}) => {
 export const share = async ({ ...params }, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await post(
@@ -154,7 +154,7 @@ export const share = async ({ ...params }, header = {}) => {
 export const downloadWorksheet = async ({ id, ...params }, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await post(

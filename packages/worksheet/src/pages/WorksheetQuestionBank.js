@@ -38,7 +38,7 @@ export default function WorksheetQuestionBank({ footerLinks, appName }) {
   const [questionObject, setQuestionObject] = React.useState({});
   const { id } = useParams();
   const navigate = useNavigate();
-  const { sub } = jwt_decode(localStorage.getItem("token"));
+  const { sub } = jwt_decode(sessionStorage.getItem('token'));
   const [comments, setCommets] = React.useState([]);
   const [worksheetStartTime, setWorksheetStartTime] = useState();
   const [questionConfig, setQuestionConfig] = React.useState([]);

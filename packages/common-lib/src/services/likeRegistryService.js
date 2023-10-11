@@ -24,7 +24,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
     { filters: params, limit: limit },
     {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
         ...header
       }
     }
@@ -46,7 +46,7 @@ export const create = async (
   let newInterfaceData = interfaceData
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   newInterfaceData = {
     ...interfaceData,
@@ -71,7 +71,7 @@ export const update = async (
   let newInterfaceData = interfaceData
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   newInterfaceData = {
     ...interfaceData,
@@ -97,7 +97,7 @@ export const update = async (
 export const distory = async (data = {}, headers = {}) => {
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await distoryRequest(
     process.env.REACT_APP_API_URL + '/like/' + data.id,

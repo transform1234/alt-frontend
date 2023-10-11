@@ -24,7 +24,7 @@ const interfaceData = {
 export const getOne = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await get(
@@ -53,7 +53,7 @@ export const create = async (data, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   let newInterfaceData = interfaceData
@@ -82,7 +82,7 @@ export const create = async (data, header = {}) => {
 export const sendNotificationSearch = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     process.env.REACT_APP_API_URL + '/workhistory/search',

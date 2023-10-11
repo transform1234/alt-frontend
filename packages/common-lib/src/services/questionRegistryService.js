@@ -23,7 +23,7 @@ export const getAllQuestions = async (
   header = {}
 ) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ContentType: 'application/json',
     Accept: 'application/json',
     ...header
@@ -106,7 +106,7 @@ export const getSubjectsList = async (
 ) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   let adapterData = adapter ? adapter : defaultAdapter
   const result = await get(
@@ -126,7 +126,7 @@ export const getTopicsList = async (
 ) => {
   const headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   let adapterData = adapter ? adapter : defaultAdapter
   const result = await get(

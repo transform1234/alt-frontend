@@ -15,7 +15,7 @@ import { useLocation } from "react-router-dom";
 const SeeMore = ({ footerLinks, appName }) => {
   const [teacherObject, setTeacherObject] = React.useState({});
   const teacherId = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
   const location = useLocation();
   const { t } = useTranslation();
 

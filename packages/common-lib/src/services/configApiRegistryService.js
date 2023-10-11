@@ -28,7 +28,7 @@ export const getApiConfig = async (modules = []) => {
 export const getAll = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/config/{module}/all`,
@@ -48,7 +48,7 @@ export const getAll = async (params = {}, header = {}) => {
 export const getOne = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/config/${filters.id}`,

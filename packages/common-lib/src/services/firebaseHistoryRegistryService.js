@@ -24,7 +24,7 @@ const interfaceData = {
 export const getAllForUser = async (params, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   const result = await get(
@@ -46,7 +46,7 @@ export const getAllForUser = async (params, header = {}) => {
 export const getAllForBot = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   const result = await get(
@@ -66,7 +66,7 @@ export const getAllForBot = async (params = {}, header = {}) => {
 export const sendReadReceipt = async (params, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   const result = await post(

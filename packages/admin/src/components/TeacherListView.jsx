@@ -96,7 +96,7 @@ function TeacherListView() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
     setToken(token);
   }, []);
 

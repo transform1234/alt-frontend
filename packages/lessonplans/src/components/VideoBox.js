@@ -45,7 +45,7 @@ export default function VideoBox({
   const [likes, setLikes] = React.useState([]);
   const [showButtonArray, setShowButtonArray] = React.useState([]);
   const [random, setRandom] = React.useState();
-  const { sub } = jwt_decode(localStorage.getItem("token"));
+  const { sub } = jwt_decode(sessionStorage.getItem('token'));
 
   React.useEffect(async (e) => {
     setRandom(Math.floor(Math.random() * (4 - 1) + 1) - 1);

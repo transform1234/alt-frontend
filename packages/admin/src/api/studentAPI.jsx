@@ -2,7 +2,7 @@ import axios from "axios";
 import { studentRegister } from "../routes/links";
 
 const studentAPI = async (data) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
 
   const schoolUdise = data.udise.split(",");
 

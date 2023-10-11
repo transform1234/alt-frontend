@@ -18,7 +18,7 @@ function AppShell({
   guestRoutes,
   ...otherProps
 }: any) {
-  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [token, setToken] = useState(sessionStorage.getItem('token'))
   const [theme, setTheme] = React.useState<any>({})
   const [accessRoutes, setAccessRoutes] = React.useState<any>([])
   const [footerLinks, setFooterLinks] = React.useState<any>([])
@@ -37,7 +37,7 @@ function AppShell({
     const urlSearchParams = new URLSearchParams(window.location.search)
     const searchParams = Object.fromEntries(urlSearchParams.entries())
     if (searchParams.token != undefined) {
-      localStorage.setItem('token', searchParams.token)
+      sessionStorage.setItem('token', searchParams.token)
       setToken(searchParams.token)
       skipLogin = true
     }
@@ -78,7 +78,7 @@ function AppShell({
     getData()
     const subscription = eventBus.subscribe('AUTH', (data, envelop) => {
       if (data.eventType == 'LOGIN_SUCCESS') {
-        setToken(localStorage.getItem('token'))
+        setToken(sessionStorage.getItem('token'))
       } else if (data.eventType == 'LOGOUT') {
         if (skipLogin) {
           setTimeout(() => {

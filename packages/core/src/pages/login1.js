@@ -74,7 +74,7 @@
 //       );
 //       if (result?.data) {
 //         let token = result.data.access_token;
-//         localStorage.setItem("token", token);
+//         sessionStorage.setItem('token', token);
 
 //         const resultTeacher = await userRegistryService.getOne();
 //         if (resultTeacher?.id) {

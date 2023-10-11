@@ -37,7 +37,7 @@ let only = Object.keys(interfaceData)
 export const getSchoolById = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await get(

@@ -27,7 +27,7 @@ let only = Object.keys(interfaceData)
 export const getAll = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   const result = await get(process.env.REACT_APP_API_URL + '/attendance', {
@@ -44,7 +44,7 @@ export const getAll = async (params = {}, header = {}) => {
 export const getOne = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   const result = await get(
@@ -67,7 +67,7 @@ export const getOne = async (params = {}, header = {}) => {
 export const create = async (data, headers = {}) => {
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
     // 'Content-Type': 'multipart/form-data'
   }
   let newInterfaceData = interfaceData
@@ -97,7 +97,7 @@ export const create = async (data, headers = {}) => {
 export const update = async (data = {}, headers = {}) => {
   let header = {
     ...headers,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
     // 'Content-Type': 'multipart/form-data'
   }
   let newInterfaceData = interfaceData
@@ -125,7 +125,7 @@ export const update = async (data = {}, headers = {}) => {
 export const multipal = async (data = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     process.env.REACT_APP_API_URL + '/attendance/bulkAttendance',

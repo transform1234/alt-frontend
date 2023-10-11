@@ -36,7 +36,7 @@ export default function AttendanceReport({ footerLinks, appName, config }) {
   const [weekPage, setWeekPage] = useState(0);
   const [teacherObject, setTeacherObject] = useState({});
   const teacherId = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
   const [attendance, setAttendance] = useState([]);
   const [attendanceObject, setAttendanceObject] = useState({});
   const [weekDays, setWeekDays] = useState([]);

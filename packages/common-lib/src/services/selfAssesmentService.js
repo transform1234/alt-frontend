@@ -19,7 +19,7 @@ export const getCoursesRule = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const newParams = {
     board: localStorage.getItem('board'),
