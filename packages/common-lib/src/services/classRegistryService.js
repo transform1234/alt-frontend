@@ -27,7 +27,7 @@ export const getAll = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/group/participant/${teacherId}`,
@@ -53,7 +53,7 @@ export const update = async (data = {}, header = {}) => {
   let newInterfaceData = interfaceData
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   if (headers?.removeParameter || headers?.onlyParameter) {
     newInterfaceData = {
@@ -80,7 +80,7 @@ export const update = async (data = {}, header = {}) => {
 export const updateImage = async (data = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await coreUpdate(
     process.env.REACT_APP_API_URL + '/group/' + data.id,
@@ -102,7 +102,7 @@ export const getAllData = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     `${process.env.REACT_APP_API_URL}/group/search`,
@@ -129,7 +129,7 @@ export const getAllData = async (
 export const getOne = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/group/${filters.id}`,
@@ -147,7 +147,7 @@ export const getOne = async (filters = {}, header = {}) => {
 export const getChild = async ({ groupId, ...params } = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     `${process.env.REACT_APP_API_URL}/group/${groupId}/child`,

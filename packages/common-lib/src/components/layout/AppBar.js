@@ -42,7 +42,7 @@ export default function AppBar({
   const navigate = useNavigate()
   const setLang = (e) => {
     if (e === 'logout') {
-      localStorage.setItem('token', '')
+      sessionStorage.setItem('token', '')
       eventBus.publish('AUTH', {
         eventType: 'LOGOUT',
         data: {}

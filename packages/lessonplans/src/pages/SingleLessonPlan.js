@@ -57,7 +57,7 @@ export default function SingleLessonPlan({ footerLinks, appName }) {
   const [loading, setLoading] = React.useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { sub } = jwt_decode(localStorage.getItem("token"));
+  const { sub } = jwt_decode(sessionStorage.getItem('token'));
   const [comments, setCommets] = React.useState([]);
   const [showVideo, setShowVideo] = useState(true);
 

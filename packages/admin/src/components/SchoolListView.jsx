@@ -143,7 +143,7 @@ function SchoolListView() {
   // useEffect for All school search
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
     setToken(token);
   }, []);
 

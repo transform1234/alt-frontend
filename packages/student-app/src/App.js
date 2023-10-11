@@ -63,7 +63,7 @@ function App() {
 
   function checkTokenValidity () {
     console.log("INSIDE checkTokenValidity");
-    const refreshToken = localStorage.getItem("refreshToken");
+    const refreshToken = sessionStorage.getItem("refreshToken");
     console.log(refreshToken);
     if (refreshToken) {
       const interval = 5 * 60 * 1000; // 5 minutes
@@ -93,7 +93,7 @@ function App() {
 
             // console.log(newAccessToken);
             // console.log(newrefreshToken);
-            localStorage.setItem("token", newAccessToken);
+            sessionStorage.setItem('token', newAccessToken);
             localStorage.setItem("refreshToken", newrefreshToken);
           } else {
             return;

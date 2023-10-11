@@ -2,7 +2,7 @@ import axios from "axios";
 import { schoolRegister } from "../routes/links";
 
 const schoolAPI = async (data) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
 
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",

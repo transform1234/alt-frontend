@@ -18,7 +18,7 @@ export const getAll = async ({ adapter, ...params } = {}, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   const result = await get(
@@ -43,7 +43,7 @@ export const getOne = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await get(
@@ -96,7 +96,7 @@ export const getOne = async (
 export const getContent = async ({ id, adapter }, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -127,7 +127,7 @@ export const lessontracking = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -151,7 +151,7 @@ export const lessontracking = async (
 export const getLessontracking = async ({ userId, ...params }, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -175,7 +175,7 @@ export const getLessontracking = async ({ userId, ...params }, header = {}) => {
 export const coursetracking = async (params, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -218,7 +218,7 @@ export const courseTrackingSearch = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -245,7 +245,7 @@ export const moduleTracking = async (
 ) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -269,7 +269,7 @@ export const moduleTracking = async (
 export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
@@ -291,7 +291,7 @@ export const courseTrackingRead = async ({ id, ...params }, header = {}) => {
 export const courseStatus = async (params, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {

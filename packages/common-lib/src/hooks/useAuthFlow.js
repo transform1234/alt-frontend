@@ -27,7 +27,7 @@ export const getAuthUser = async () => {
 }
 
 export const checkAuth = async () => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   if (token) {
     const resultUser = await userRegistryService.getAuthUser()
     if (resultUser?.email) {

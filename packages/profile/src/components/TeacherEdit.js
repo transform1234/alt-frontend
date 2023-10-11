@@ -138,7 +138,7 @@ export default function TeacherEdit({
         let result = {};
         result = await userRegistryService.update(updatedObject, {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: "Bearer " + sessionStorage.getItem('token'),
           },
           onlyParameter: [...onlyParameter, "fullName"],
         });

@@ -167,7 +167,7 @@ export const getRole = async () => {
 
 export const getTokernUserInfo = (token = '') => {
   if (token === '') {
-    const newToken = localStorage.getItem('token')
+    const newToken = sessionStorage.getItem('token')
     if (newToken) {
       return jwt_decode(`${newToken}`)
     } else if (token) {

@@ -37,7 +37,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   const result = await post(
@@ -59,7 +59,7 @@ export const getAll = async ({ limit, ...params } = {}, header = {}) => {
 export const getOne = async (params = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   try {
     const result = await get(
@@ -88,7 +88,7 @@ export const create = async (data, header = {}) => {
     ...header,
     headers: {
       ...header.header,
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   }
   let newInterfaceData = interfaceData

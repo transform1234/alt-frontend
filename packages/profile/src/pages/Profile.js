@@ -28,7 +28,7 @@ export default function Profile({ footerLinks, appName, setAlert, config }) {
   const { t } = useTranslation();
   const [teacherObject, setTeacherObject] = useState({});
   const teacherId = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
   const [showModal, setShowModal] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [attendance, setAttendance] = React.useState({});

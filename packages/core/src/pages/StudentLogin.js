@@ -195,8 +195,8 @@ export default function StudentLogin({ swPath }) {
         let token = result.data.access_token;
         let refreshToken = result.data.refresh_token;
         console.log(refreshToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("refreshToken", refreshToken);
+        sessionStorage.setItem('token', token);
 
         let resultTeacher = {};
         // try {

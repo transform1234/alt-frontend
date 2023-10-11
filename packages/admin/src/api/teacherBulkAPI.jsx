@@ -2,7 +2,7 @@ import { teacherBulk } from "routes/links";
 import axios from "axios";
 
 const teacherBulkAPI = async (teacher) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
 
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",

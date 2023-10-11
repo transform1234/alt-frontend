@@ -58,7 +58,7 @@ const interfaceData = {
 
 export const getAll = async ({ sortBy, classId, ...params }, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ContentType: 'application/json',
     Accept: 'application/json',
     ...header
@@ -92,7 +92,7 @@ export const getAll = async ({ sortBy, classId, ...params }, header = {}) => {
 export const getOne = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await get(
     process.env.REACT_APP_API_URL + '/student/' + filters.id,
@@ -139,7 +139,7 @@ export const update = async (data = {}, headers = {}) => {
 export const getAllStudents = async (filters = {}, header = {}) => {
   let headers = {
     ...header,
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
   const result = await post(
     process.env.REACT_APP_API_URL + '/student/search',

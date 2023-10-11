@@ -57,7 +57,7 @@ const interfaceData = {
 
 export const getAll = async (filters = {}, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ...header
   }
 
@@ -77,7 +77,7 @@ export const getAll = async (filters = {}, header = {}) => {
 
 export const getOne = async ({ id, ...params } = {}, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ...header
   }
   let url = `${process.env.REACT_APP_API_URL}/user`
@@ -99,7 +99,7 @@ export const getOne = async ({ id, ...params } = {}, header = {}) => {
 
 export const getAuthUser = async ({ ...params } = {}, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ...header
   }
 
@@ -120,7 +120,7 @@ export const getAuthUser = async ({ ...params } = {}, header = {}) => {
 
 export const getUserById = async (id, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ...header
   }
   const result = await get(`${process.env.REACT_APP_API_URL}/user/${id}`, {
@@ -135,7 +135,7 @@ export const getUserById = async (id, header = {}) => {
 
 export const update = async (data = {}, header = {}) => {
   let headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     ...header
   }
   let newInterfaceData = interfaceData

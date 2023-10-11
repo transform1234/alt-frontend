@@ -2,7 +2,7 @@ import axios from "axios";
 import { studentReset } from "../routes/links";
 
 const studentResetPasswordAPI = async (username, password) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem('token');
 
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",

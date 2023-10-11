@@ -21,7 +21,7 @@ function StudentForm() {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
     setToken(token);
   }, []);
 
