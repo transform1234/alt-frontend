@@ -37,6 +37,8 @@ export const getAll = async (
     }
   )
   if (result.data) {
+   
+    console.log(result.data.data)
     if (coreData === 'getCoreData') {
       return result.data.data
     }

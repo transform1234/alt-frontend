@@ -2,6 +2,7 @@ import React from "react";
 import TeacherHome from "../pages/TeacherHome";
 import Students from "../pages/Students";
 import Report from "pages/Report";
+import Groups from "pages/Groups";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     moduleName: "student-app",
     path: "/students",
     component: Students,
+  },
+  {
+    moduleName: "student-app",
+    path: "/groups",
+    component: Groups,
   },
 ];
 
