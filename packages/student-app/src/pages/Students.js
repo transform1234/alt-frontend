@@ -70,7 +70,7 @@ function Students({ footerLinks }) {
 
   React.useEffect(() => {
     const getData = async () => {
-      console.log("INSIDE USEEFFECT")
+    
       // Changed the api from student to studentRegistryService getByTeacher to classRegistryService getAll
       // Earlier it was calling studentRegistryService getByTeacher inside which was the classRegistryService getll
       // To get the class/groups list we durecly call the classRegistryService getAll
@@ -81,8 +81,7 @@ function Students({ footerLinks }) {
 
       if (result) {
         // setClassObject(result?.class);
-        console.log("GROUPS DATA")
-        console.log(result)
+        
         setStudents(result);
       }
     };
