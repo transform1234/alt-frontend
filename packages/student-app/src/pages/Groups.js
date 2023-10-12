@@ -18,7 +18,6 @@ import {
   Caption,
   IconByName,
   studentRegistryService,
-  classRegistryService,
   Breadcrumb,
 } from "@shiksha/common-lib";
 import { useTranslation } from "react-i18next";
@@ -60,7 +59,7 @@ const menuBoxProp = {
 //   },
 // ];
 
-function Students({ footerLinks }) {
+function Groups({ footerLinks }) {
   const { t } = useTranslation();
   const [loading, setLoading] = React.useState(false);
   const [students, setStudents] = React.useState([]);
@@ -70,20 +69,10 @@ function Students({ footerLinks }) {
 
   React.useEffect(() => {
     const getData = async () => {
-      console.log("INSIDE USEEFFECT")
-      // Changed the api from student to studentRegistryService getByTeacher to classRegistryService getAll
-      // Earlier it was calling studentRegistryService getByTeacher inside which was the classRegistryService getll
-      // To get the class/groups list we durecly call the classRegistryService getAll
-      const result = await classRegistryService.getAll({
-        teacherId: localStorage.getItem('id'),
-        role: 'teacher'
-      })
-
-      if (result) {
-        // setClassObject(result?.class);
-        console.log("GROUPS DATA")
-        console.log(result)
-        setStudents(result);
+      const result = await studentRegistryService.getByTeacher();
+      if (result?.data) {
+        setClassObject(result?.class);
+        setStudents(result?.data);
       }
     };
     getData();
@@ -121,14 +110,7 @@ function Students({ footerLinks }) {
           students.map((item, index) => (
             <Pressable
               key={index}
-              // onPress={() => navigate(`/groups/${item?.id}`)}
-              onPress={() => {
-                // Set 'item.id' in localStorage
-                localStorage.setItem('groupId', item.id);
-              
-                // Navigate to the '/groups' route
-                navigate(`/groups`);
-              }}
+              onPress={() => navigate(`/students/${item?.id}`)}
             >
               <VStack p="4" w="100%" space="4" bg="white" rounded="lg">
                 <HStack alignItems="center" justifyContent={"space-between"}>
@@ -153,4 +135,4 @@ function Students({ footerLinks }) {
     </Layout>
   );
 }
-export default Students;
+export default Groups;
