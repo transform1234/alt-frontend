@@ -91,8 +91,8 @@ function App() {
             const newAccessToken = result.access_token;
             const newrefreshToken = result.refresh_token;
 
-            console.log(newAccessToken);
-            console.log(newrefreshToken);
+            // console.log(newAccessToken);
+            // console.log(newrefreshToken);
             sessionStorage.setItem('token', newAccessToken);
             sessionStorage.setItem("refreshToken", newrefreshToken);
           } else {
