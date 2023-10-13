@@ -66,8 +66,8 @@ function App() {
     const refreshToken = sessionStorage.getItem("refreshToken");
     console.log(refreshToken);
     if (refreshToken) {
-      // const interval = 5 * 60 * 1000; // 5 minutes
-      const interval = 2 * 1000; // 2 seconds
+      const interval = 5 * 60 * 1000; // 5 minutes
+      // const interval = 2 * 1000; // 2 seconds
 
       const tokenCheckInterval = setInterval(async () => {
         console.log("INSIDE tokenCheckInterval");
