@@ -183,10 +183,11 @@ function CSVImportForm() {
           marginTop: "15px",
         }}
       >
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        <Button onPress={sendBatches} disabled={isLoading}>
-          {isLoading ? "Uploading..." : "Upload CSV"}
-        </Button>
+     <input type="file" accept=".csv" onChange={handleFileChange} />
+<Button onPress={sendBatches} disabled={!csvData.length || isLoading}>
+  {isLoading ? "Uploading..." : "Upload CSV"}
+</Button>
+
       </div>
       <div>
         <Progress

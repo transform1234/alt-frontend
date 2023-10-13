@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getNewAccessToken = async () => {
-  const token = localStorage.getItem("refreshToken");
+  const token = sessionStorage.getItem("refreshToken");
 
   console.log("INSIDE TOKEN API");
   try {

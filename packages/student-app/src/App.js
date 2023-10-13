@@ -66,8 +66,8 @@ function App() {
     const refreshToken = sessionStorage.getItem("refreshToken");
     console.log(refreshToken);
     if (refreshToken) {
-      const interval = 5 * 60 * 1000; // 5 minutes
-      // const interval = 2 * 1000; // 2 seconds
+      // const interval = 5 * 60 * 1000; // 5 minutes
+      const interval = 2 * 1000; // 2 seconds
 
       const tokenCheckInterval = setInterval(async () => {
         console.log("INSIDE tokenCheckInterval");
@@ -91,10 +91,10 @@ function App() {
             const newAccessToken = result.access_token;
             const newrefreshToken = result.refresh_token;
 
-            // console.log(newAccessToken);
-            // console.log(newrefreshToken);
+            console.log(newAccessToken);
+            console.log(newrefreshToken);
             sessionStorage.setItem('token', newAccessToken);
-            localStorage.setItem("refreshToken", newrefreshToken);
+            sessionStorage.setItem("refreshToken", newrefreshToken);
           } else {
             return;
           }
