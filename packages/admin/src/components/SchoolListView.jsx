@@ -6,19 +6,14 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { H4 } from "@shiksha/common-lib";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import EditIcon from "@mui/icons-material/Edit";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import EditModal from "react-modal";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Papa from "papaparse";
+
 import axios from "axios";
 import { schoolSearch } from "routes/links";
 
 function SchoolListView() {
   const [token, setToken] = useState([]);
-  const [data, setData] = useState([]);
-  const navigate = useNavigate();
+
   const gridRef = useRef();
 
   const [rowData, setRowData] = useState([]);

@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import styles from "./HomePage.module.css";
-import { useNavigate } from "react-router-dom";
 import { H2, Heading, BodyLarge, Widget } from "@shiksha/common-lib";
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Box, Stack, VStack, HStack, Avatar, Image, Button } from "native-base";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import manifest from "../../src/manifest.json";
-import { useState } from "react";
 import "ag-grid-community/styles/ag-grid.css";
-import { studentRegister } from "routes/links";
+
 
 function HomePage() {
   const [loading, setLoading] = React.useState(false);

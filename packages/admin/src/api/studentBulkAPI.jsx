@@ -19,8 +19,7 @@ const studentBulkAPI = async (student) => {
     headers: headers,
   })
     .then((res) => {
-      console.log(res.data); // Log the response data
-
+  
       // Extract student information and store it in localStorage
       const responses = res.data.responses;
 
