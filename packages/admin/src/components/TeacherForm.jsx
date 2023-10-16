@@ -25,7 +25,6 @@ function TeacherForm() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = schoolSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -39,7 +38,7 @@ function TeacherForm() {
     };
 
     axios
-      .post(apiUrl, requestData, { headers })
+      .post(schoolSearch, requestData, { headers })
       .then((response) => {
         setData(response.data.data);
       })
@@ -50,7 +49,7 @@ function TeacherForm() {
   }, [token]);
 
   useEffect(() => {
-    console.log(selectedUdiseCode);
+   
     if (Object.keys(selectedUdiseCode).length) {
       // Splitting string into an array using the comma
       const valuesArray = selectedUdiseCode.split(",");

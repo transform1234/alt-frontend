@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./TeacherPage.module.css";
-import { useNavigate } from "react-router-dom";
 import { H4, Heading, BodyLarge } from "@shiksha/common-lib";
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Box, Stack, VStack, HStack, Avatar, Image, Button } from "native-base";
@@ -10,7 +9,6 @@ import manifest from "../../src/manifest.json";
 import { useState } from "react";
 import CSVModal from "react-modal";
 import FORMmodal from "react-modal";
-import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import TeacherListView from "components/TeacherListView";
 import TeacherCSVImport from "components/TeacherCSV";

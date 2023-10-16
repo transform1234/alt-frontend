@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import teacherBulkAPI from "api/teacherBulkAPI";
-import { useNavigate } from "react-router-dom";
-import { Progress, Space } from "antd";
+import { Progress } from "antd";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);

@@ -8,7 +8,7 @@ import StudentSchema from "schema/StudentSchema";
 import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
-import { schoolSearch } from "routes/links";
+import { groupSearch, schoolSearch } from "routes/links";
 
 function StudentForm() {
   const [data, setData] = useState([]);
@@ -26,7 +26,6 @@ function StudentForm() {
   }, []);
 
   useEffect(() => {
-    const apiUrl = schoolSearch;
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -40,7 +39,7 @@ function StudentForm() {
     };
 
     axios
-      .post(apiUrl, requestData, { headers })
+      .post(schoolSearch, requestData, { headers })
       .then((response) => {
         setData(response.data.data);
       })
@@ -68,7 +67,7 @@ function StudentForm() {
   }, [selectedUdiseCode]);
 
   useEffect(async () => {
-    const groupapiUrl = "https://alt.uniteframework.io/api/v1/group/search";
+   
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -86,7 +85,7 @@ function StudentForm() {
     };
 
     await axios
-      .post(groupapiUrl, requestData, { headers })
+      .post(groupSearch, requestData, { headers })
       .then((response) => {
         setGroups(response.data.data);
       })

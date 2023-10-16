@@ -94,7 +94,7 @@ function App() {
             // console.log(newAccessToken);
             // console.log(newrefreshToken);
             sessionStorage.setItem('token', newAccessToken);
-            localStorage.setItem("refreshToken", newrefreshToken);
+            sessionStorage.setItem("refreshToken", newrefreshToken);
           } else {
             return;
           }

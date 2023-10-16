@@ -12,24 +12,15 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { H4 } from "@shiksha/common-lib";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import EditIcon from "@mui/icons-material/Edit";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import EditModal from "react-modal";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import axios from "axios";
-import { Button } from "native-base";
-import Modal from "react-modal";
-import StudentResetPassword from "./StudentResetPassword";
 import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
-import CustomLoadingCellRenderer from "./CustomLoadingCellRenderer";
+import useSWR from 'swr';
 import { studentSearch } from "routes/links";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
-  const navigate = useNavigate();
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
 
@@ -233,13 +224,9 @@ function StudentListView() {
     document.body.removeChild(link);
   }, []);
 
-  useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    setToken(token);
-  }, []);
-
-  useEffect(() => {
-    const apiUrl = studentSearch;
+  // Fetching data using useSWR
+  const { data } = useSWR(studentSearch, async () => {
+   
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -252,26 +239,22 @@ function StudentListView() {
       filters: {},
     };
 
-    axios
-      .post(apiUrl, requestData, { headers })
-      .then((response) => {
-        setRowData(response.data.data);
-      })
-      .catch((error) => {
-        // Handle any errors here
-        console.error("Error fetching data:", error);
-      });
-  }, [token]);
+    const response = await axios.post(studentSearch, requestData, { headers });
+    return response.data.data;
+  });
 
-  const loadingCellRenderer = useMemo(() => {
-    return CustomLoadingCellRenderer;
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    setToken(token);
   }, []);
 
-  const loadingCellRendererParams = useMemo(() => {
-    return {
-      loadingMessage: "One moment please...",
-    };
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setRowData(data);
+    }
+  }, [data]);
+
+  
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
@@ -320,8 +303,6 @@ function StudentListView() {
         pagination={true}
         paginationAutoPageSize={true}
         onCellClicked={cellClickedListener}
-        loadingCellRenderer={loadingCellRenderer}
-        loadingCellRendererParams={loadingCellRendererParams}
         overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
       ></AgGridReact>{" "}
     </div>

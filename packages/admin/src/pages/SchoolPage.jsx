@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./TeacherPage.module.css";
-import { useNavigate } from "react-router-dom";
 import { H4, Heading, BodyLarge } from "@shiksha/common-lib";
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Box, Stack, VStack, HStack, Avatar, Image, Button } from "native-base";
@@ -12,14 +11,10 @@ import CSVModal from "react-modal";
 import FORMmodal from "react-modal";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import TeacherListView from "components/TeacherListView";
-import TeacherCSVImport from "components/TeacherCSV";
-import TeacherForm from "components/TeacherForm";
 import SchoolListView from "components/SchoolListView";
 import SchoolCSV from "components/SchoolCSV";
 import SchoolForm from "components/SchoolForm";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 import schoolCSV from "../assets/images/FinalSchool.csv";
 
 function SchoolPage() {

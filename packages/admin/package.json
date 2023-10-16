@@ -13,8 +13,8 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "ag-grid-react": "^30.0.4",
-    "axios": "^0.24.0",
     "antd": "^5.9.3",
+    "axios": "^0.24.0",
     "expo-font": "^10.0.3",
     "i18next": "^21.6.7",
     "moment": "^2.29.1",
@@ -22,13 +22,14 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.15.3",
+    "react-modal": "^3.16.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "^0.17.5",
     "react-router-dom": "^6.1.1",
     "react-scripts": "5.0.0",
     "remixicon-react": "^1.0.0",
-    "react-modal": "^3.16.1",
+    "swr": "^2.2.4",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
@@ -42,7 +43,6 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
-    
   },
   "homepage": "modules/admin",
   "scripts": {

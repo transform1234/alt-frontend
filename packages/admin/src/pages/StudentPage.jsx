@@ -1,9 +1,6 @@
 import React from "react";
 import styles from "./StudentPage.module.css";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import CSVImportForm from "components/StudentCSV";
-import listView from "components/StudentListView";
 import { H4, Heading, BodyLarge } from "@shiksha/common-lib";
 import { Layout, NameTag } from "@shiksha/common-lib";
 import { Box, Stack, VStack, HStack, Avatar, Image, Button } from "native-base";
@@ -13,11 +10,9 @@ import manifest from "../../src/manifest.json";
 import { useState } from "react";
 import CSVModal from "react-modal";
 import FORMmodal from "react-modal";
-import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import StudentListView from "components/StudentListView";
 import StudentForm from "components/StudentForm";
-import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import studentCSV from "../assets/images/FinalStudent.csv";
 
@@ -28,8 +23,8 @@ function StudentPage() {
   const { t } = useTranslation();
 
   const openCSVModal = () => {
-    localStorage.removeItem("bulkErrors");
-    localStorage.removeItem("successCount");
+    
+    localStorage.clear();
     setIsCSVOpen(true);
   };
   const openFORMModal = () => {
@@ -37,6 +32,7 @@ function StudentPage() {
   };
   const closeCSVModal = () => {
     setIsCSVOpen(false);
+    localStorage.clear();
   };
   const closeFORMModal = () => {
     setIsFORMOpen(false);
