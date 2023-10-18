@@ -199,6 +199,10 @@ function CSVImportForm() {
       {showSuccessCount && (
         <div>Success Count: {localStorage.getItem("successCount") || ""}</div>
       )}
+
+{showSuccessCount && (
+        <div>Error Count: {localStorage.getItem("errorCount") || ""}</div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,3 @@
-// export default listView;
-
 import React, {
   useState,
   useCallback,
@@ -18,11 +16,14 @@ import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
 import useSWR from 'swr';
 import { studentSearch } from "routes/links";
+import { Button } from "native-base";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(2);
+
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -224,35 +225,69 @@ function StudentListView() {
     document.body.removeChild(link);
   }, []);
 
-  // Fetching data using useSWR
-  const { data } = useSWR(studentSearch, async () => {
-   
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
 
-    const requestData = {
-      limit: "",
-      page: 0,
-      filters: {},
-    };
 
-    const response = await axios.post(studentSearch, requestData, { headers });
-    return response.data.data;
-  });
-
-  useEffect(() => {
+    useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
+  // Fetching data using useSWR
   useEffect(() => {
-    if (data) {
-      setRowData(data);
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const requestData = {
+          limit: "5",
+          page: 1,
+          filters: {},
+        };
+
+        const response = await axios.post(studentSearch, requestData, { headers });
+        setRowData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+
+  const handlePaginationChanged = () => {
+    // Increment the current page when the "Next Page" button is clicked
+   console.log('clicked');
+
+   const fetchData = async () => {
+    try {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const requestData = {
+        limit: "5",
+        page: currentPage,
+        filters: {},
+      };
+
+      const response = await axios.post(studentSearch, requestData, { headers });
+      setRowData(response.data.data);
+      setCurrentPage(currentPage + 1);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  }, [data]);
+  };
+
+  fetchData();
+    
+  };
 
   
 
@@ -300,11 +335,16 @@ function StudentListView() {
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
-        pagination={true}
-        paginationAutoPageSize={true}
         onCellClicked={cellClickedListener}
         overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
+        
       ></AgGridReact>{" "}
+
+      <div style={{display: "flex", flexDirection: "row",justifyContent: "flex-end",marginBottom:"100px", paddingBottom: "100px", paddingTop: "10px", cursor: "pointer", zIndex: "9999"}}>
+      <Button style={{cursor: "pointer"}}
+      onPress={handlePaginationChanged}>Next Page</Button>
+      </div>
+      
     </div>
   );
 }
