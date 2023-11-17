@@ -142,7 +142,7 @@ export const lessontracking = async (
       } else {
         return {}
       }
-    }, 1500)
+    }, 3000)
   } catch (e) {
     console.log(e)
   }
