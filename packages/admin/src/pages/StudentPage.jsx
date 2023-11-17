@@ -169,7 +169,10 @@ function StudentPage() {
                   </div>
                 </FORMmodal>
               )}
+           
               <StudentListView />
+              
+
             </VStack>
           </Stack>
         </Box>

@@ -480,7 +480,7 @@ export default function LessonList({ footerLinks }) {
           })
         ) : (
           <H1 textAlign={"center"} p="5">
-            {t("LESSON_NOT_FOUND")}
+            {t("LOADING")}
           </H1>
         )}
       </Stack>

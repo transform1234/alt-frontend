@@ -1,5 +1,3 @@
-// export default listView;
-
 import React, {
   useState,
   useCallback,
@@ -18,11 +16,16 @@ import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
 import useSWR from 'swr';
 import { studentSearch } from "routes/links";
+import { Button } from "native-base";
+import { result } from "lodash";
+import studentUsernamePasswordAPI from "api/studentUsernamePasswordAPI";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(2);
+
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -143,9 +146,7 @@ function StudentListView() {
     { field: "noOfSiblings" },
   ]);
 
-  const onBtnExport = useCallback(() => {
-    gridRef.current.api.exportDataAsCsv();
-  }, []);
+ 
 
   //Download username and pass with prompt
 
@@ -192,20 +193,27 @@ function StudentListView() {
     console.log("cellClicked", event);
   }, []);
 
-  const onBtnExportFields = useCallback(() => {
-    // Get the visible (filtered) rows from the grid
-    const filteredData = gridRef.current.api.getModel().rowsToDisplay;
+  const onBtnExportFields = async() => {
 
-    if (filteredData.length === 0) {
-      alert("No data to export. Please apply a filter.");
-      return;
-    }
+    let person = window.prompt(
+      `Enter a School Udise`
+    );
+    if (person == null || person == "") {
+      alert("Please enter a valid password");
+    } else {
+      console.log(person)
+    
+     
+      const result = await studentUsernamePasswordAPI(person);
+      if (result) {
+        
+        const filteredData = result.data.data;
+        console.log(filteredData);
 
-    // Extract the "UserID" and "Password" fields
     const selectedFieldsData = filteredData.map((row) => ({
-      Name: row.data.name,
-      UserName: row.data.username,
-      Password: row.data.password,
+      Name: row.name,
+      UserName: row.username,
+      Password: row.password,
     }));
 
     // Convert the data to CSV format using PapaParse
@@ -222,59 +230,110 @@ function StudentListView() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }, []);
+  }
+      }
+  };
 
-  // Fetching data using useSWR
-  const { data } = useSWR(studentSearch, async () => {
-   
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
 
-    const requestData = {
-      limit: "",
-      page: 0,
-      filters: {},
-    };
 
-    const response = await axios.post(studentSearch, requestData, { headers });
-    return response.data.data;
-  });
-
-  useEffect(() => {
+    useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
+  // Fetching data using useSWR
   useEffect(() => {
-    if (data) {
-      setRowData(data);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
 
+        const requestData = {
+          limit: "5",
+          page: 1,
+          filters: {},
+        };
+
+        const response = await axios.post(studentSearch, requestData, { headers });
+        setRowData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+
+  const handlePaginationChanged = () => {
+    // Increment the current page when the "Next Page" button is clicked
+   console.log('clicked');
+
+   const fetchData = async () => {
+    try {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const requestData = {
+        limit: "5",
+        page: currentPage,
+        filters: {},
+      };
+
+      const response = await axios.post(studentSearch, requestData, { headers });
+      setRowData(response.data.data);
+      setCurrentPage(currentPage + 1);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+    
+  };
+
+
+  const handlePaginationChanged2 = () => {
+    // Increment the current page when the "Next Page" button is clicked
+   console.log('clicked');
+
+   const fetchData = async () => {
+    try {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const requestData = {
+        limit: "5",
+        page: currentPage,
+        filters: {},
+      };
+
+      const response = await axios.post(studentSearch, requestData, { headers });
+      setRowData(response.data.data);
+      setCurrentPage(currentPage - 1);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+    
+  };
   
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <button
-          onClick={onBtnExport}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            display: "flex", // Center align vertically
-
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{ color: "white", fontSize: "largest" }}
-          />
-          <H4 style={{ color: "white" }}> Download Template </H4>
-        </button>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+      
         <button
           onClick={onBtnExportFields}
           style={{
@@ -283,7 +342,7 @@ function StudentListView() {
             borderRadius: "5px",
             marginLeft: "10px", // Add some spacing between the buttons
             display: "flex", // Center align vertically
-
+            cursor: "pointer",
             alignItems: "center",
           }}
         >
@@ -295,16 +354,25 @@ function StudentListView() {
           />
           <H4 style={{ color: "white" }}> Download username & password </H4>
         </button>
+</div>
+      <div style={{display: "flex", flexDirection: "row",justifyContent: "flex-end", paddingBottom: "10px", cursor: "pointer", zIndex: "1"}}>
+      <Button style={{cursor: "pointer"}}
+      onPress={handlePaginationChanged}>Previous Page</Button>
+      <Button style={{cursor: "pointer", marginLeft:"20px"}}
+      onPress={handlePaginationChanged2}>Next Page</Button>
+    
       </div>
+      
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
-        pagination={true}
-        paginationAutoPageSize={true}
         onCellClicked={cellClickedListener}
         overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
+        
       ></AgGridReact>{" "}
+
+     
     </div>
   );
 }

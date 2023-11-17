@@ -19,7 +19,7 @@ const studentBulkAPI = async (student) => {
     headers: headers,
   })
     .then((res) => {
-  
+   
       // Extract student information and store it in localStorage
       const responses = res.data.responses;
 
@@ -38,9 +38,11 @@ const studentBulkAPI = async (student) => {
 
           // studentId to the storage key to avoid overwriting
           localStorage.setItem(`student_${studentId}`, JSON.stringify(studentData));
+          
       });
 
       localStorage.setItem("successCount", res.data.successCount);
+      localStorage.setItem("errorCount", res.data.errors.length);
 
       if (res.status === 201) {
         result = true;

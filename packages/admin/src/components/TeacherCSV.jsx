@@ -10,7 +10,6 @@ function CSVImportForm() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const batchSize = 100; // Number of records per batch
   const [overallProgress, setOverallProgress] = useState(0);
-
   const [showSuccessCount, setShowSuccessCount] = useState(false);
   const [showBulkErrors, setShowBulkErrors] = useState(false);
 
