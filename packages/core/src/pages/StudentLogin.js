@@ -266,8 +266,12 @@ export default function StudentLogin({ swPath }) {
           <VStack overflow={"hidden"} space="" w="300px">
             <Center>
               <Box textAlign="center">
-                <H3 style={{ fontSize: "16px" }}>
+                <H3 style={{ fontSize: "16px"}}>
                   Accelerated Learning via Technology (ALT)
+                </H3>
+                <H3 style={{ fontSize: "16px", color : "red"  }}>
+                Reminder: Pilot ends on November 19, 2023. Complete Endline Assessments before then. Platform closes after this date.
+
                 </H3>
               </Box>
             </Center>

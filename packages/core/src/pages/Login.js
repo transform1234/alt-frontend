@@ -179,6 +179,7 @@ export default function Login({ swPath }) {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
+            
               <Heading>{t("WELCOME")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>
