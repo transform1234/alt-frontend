@@ -14,7 +14,6 @@ import Papa from "papaparse";
 import axios from "axios";
 import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
-import useSWR from 'swr';
 import { studentSearch } from "routes/links";
 import { Button } from "native-base";
 import { result } from "lodash";
