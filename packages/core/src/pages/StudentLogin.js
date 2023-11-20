@@ -270,7 +270,10 @@ export default function StudentLogin({ swPath }) {
                   Accelerated Learning via Technology (ALT)
                 </H3>
                 <H3 style={{ fontSize: "16px", color : "red"  }}>
-                Reminder: Pilot ends on November 19, 2023. Complete Endline Assessments before then. Platform closes after this date.
+               Reminder :
+                Dear Students,
+Thank you for participating in the ALT Version 1 pilot.
+We officially closed the pilot on 19th November, 2023. 
 
                 </H3>
               </Box>
