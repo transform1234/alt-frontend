@@ -196,7 +196,7 @@ export default function StudentLogin({ swPath }) {
         let refreshToken = result.data.refresh_token;
         console.log(refreshToken);
         sessionStorage.setItem("refreshToken", refreshToken);
-        sessionStorage.setItem('token', token);
+        sessionStorage.setItem("token", token);
 
         let resultTeacher = {};
         // try {
@@ -266,16 +266,16 @@ export default function StudentLogin({ swPath }) {
           <VStack overflow={"hidden"} space="" w="300px">
             <Center>
               <Box textAlign="center">
-                <H3 style={{ fontSize: "16px"}}>
+                <H3 style={{ fontSize: "16px" }}>
                   Accelerated Learning via Technology (ALT)
                 </H3>
-                <H3 style={{ fontSize: "16px", color : "red"  }}>
+                {/* <H3 style={{ fontSize: "16px", color : "red"  }}>
                Reminder :
                 Dear Students,
 Thank you for participating in the ALT Version 1 pilot.
 We officially closed the pilot on 19th November, 2023. 
 
-                </H3>
+                </H3> */}
               </Box>
             </Center>
             <Center>
