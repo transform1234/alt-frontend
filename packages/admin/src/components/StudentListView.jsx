@@ -25,7 +25,6 @@ function StudentListView() {
   const [rowData, setRowData] = useState([]);
   const [currentPage, setCurrentPage] = useState(2);
 
-
   const openPrompt = async (data) => {
     let person = window.prompt(
       `Enter a new password for user ${data.username}`
@@ -145,8 +144,6 @@ function StudentListView() {
     { field: "noOfSiblings" },
   ]);
 
- 
-
   //Download username and pass with prompt
 
   // const onBtnExportFields = useCallback(() => {
@@ -192,50 +189,43 @@ function StudentListView() {
     console.log("cellClicked", event);
   }, []);
 
-  const onBtnExportFields = async() => {
-
-    let person = window.prompt(
-      `Enter a School Udise`
-    );
+  const onBtnExportFields = async () => {
+    let person = window.prompt(`Enter a School Udise`);
     if (person == null || person == "") {
       alert("Please enter a valid password");
     } else {
-      console.log(person)
-    
-     
+      console.log(person);
+
       const result = await studentUsernamePasswordAPI(person);
       if (result) {
-        
         const filteredData = result.data.data;
         console.log(filteredData);
 
-    const selectedFieldsData = filteredData.map((row) => ({
-      Name: row.name,
-      UserName: row.username,
-      Password: row.password,
-    }));
+        const selectedFieldsData = filteredData.map((row) => ({
+          Name: row.name,
+          UserName: row.username,
+          Password: row.password,
+        }));
 
-    // Convert the data to CSV format using PapaParse
-    const csvData = Papa.unparse(selectedFieldsData);
+        // Convert the data to CSV format using PapaParse
+        const csvData = Papa.unparse(selectedFieldsData);
 
-    // Create a Blob containing the CSV data
-    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
 
-    // Create a download link and trigger the download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "student_data_filtered_user_password.csv";
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "student_data_filtered_user_password.csv";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
+    }
   };
 
-
-
-    useEffect(() => {
+  useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
@@ -256,7 +246,9 @@ function StudentListView() {
           filters: {},
         };
 
-        const response = await axios.post(studentSearch, requestData, { headers });
+        const response = await axios.post(studentSearch, requestData, {
+          headers,
+        });
         setRowData(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -266,73 +258,71 @@ function StudentListView() {
     fetchData();
   }, [token]);
 
-
   const handlePaginationChanged = () => {
     // Increment the current page when the "Next Page" button is clicked
-   console.log('clicked');
+    console.log("clicked");
 
-   const fetchData = async () => {
-    try {
-      const headers = {
-        Accept: "*/*",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
 
-      const requestData = {
-        limit: "5",
-        page: currentPage,
-        filters: {},
-      };
+        const requestData = {
+          limit: "5",
+          page: currentPage,
+          filters: {},
+        };
 
-      const response = await axios.post(studentSearch, requestData, { headers });
-      setRowData(response.data.data);
-      setCurrentPage(currentPage + 1);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+        const response = await axios.post(studentSearch, requestData, {
+          headers,
+        });
+        setRowData(response.data.data);
+        setCurrentPage(currentPage + 1);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   };
-
-  fetchData();
-    
-  };
-
 
   const handlePaginationChanged2 = () => {
     // Increment the current page when the "Next Page" button is clicked
-   console.log('clicked');
+    console.log("clicked");
 
-   const fetchData = async () => {
-    try {
-      const headers = {
-        Accept: "*/*",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
 
-      const requestData = {
-        limit: "5",
-        page: currentPage,
-        filters: {},
-      };
+        const requestData = {
+          limit: "5",
+          page: currentPage,
+          filters: {},
+        };
 
-      const response = await axios.post(studentSearch, requestData, { headers });
-      setRowData(response.data.data);
-      setCurrentPage(currentPage - 1);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+        const response = await axios.post(studentSearch, requestData, {
+          headers,
+        });
+        setRowData(response.data.data);
+        setCurrentPage(currentPage - 1);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   };
-
-  fetchData();
-    
-  };
-  
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-      
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <button
           onClick={onBtnExportFields}
           style={{
@@ -353,25 +343,37 @@ function StudentListView() {
           />
           <H4 style={{ color: "white" }}> Download username & password </H4>
         </button>
-</div>
-      <div style={{display: "flex", flexDirection: "row",justifyContent: "flex-end", paddingBottom: "10px", cursor: "pointer", zIndex: "1"}}>
-      <Button style={{cursor: "pointer"}}
-      onPress={handlePaginationChanged}>Previous Page</Button>
-      <Button style={{cursor: "pointer", marginLeft:"20px"}}
-      onPress={handlePaginationChanged2}>Next Page</Button>
-    
       </div>
-      
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          paddingBottom: "10px",
+          cursor: "pointer",
+          zIndex: "1",
+        }}
+      >
+        <Button style={{ cursor: "pointer" }} onPress={handlePaginationChanged}>
+          Previous Page
+        </Button>
+        <Button
+          style={{ cursor: "pointer", marginLeft: "20px" }}
+          onPress={handlePaginationChanged2}
+        >
+          Next Page
+        </Button>
+      </div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
+        animateRows={true}
         onCellClicked={cellClickedListener}
-        overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
-        
+        pagination={true}
+        paginationAutoPageSize={true}
+        overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
       ></AgGridReact>{" "}
-
-     
     </div>
   );
 }
