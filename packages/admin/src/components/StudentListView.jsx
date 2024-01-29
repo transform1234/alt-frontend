@@ -191,6 +191,7 @@ function StudentListView() {
 
   const onBtnExportFields = async () => {
     let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
     if (person == null || person == "") {
       alert("Please enter a valid Udise");
     } else {
