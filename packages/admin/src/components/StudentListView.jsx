@@ -191,8 +191,9 @@ function StudentListView() {
 
   const onBtnExportFields = async () => {
     let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
     if (person == null || person == "") {
-      alert("Please enter a valid password");
+      alert("Please enter a valid Udise");
     } else {
       console.log(person);
 
@@ -241,7 +242,7 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: "5",
+          limit: "",
           page: 1,
           filters: {},
         };
@@ -258,67 +259,67 @@ function StudentListView() {
     fetchData();
   }, [token]);
 
-  const handlePaginationChanged = () => {
-    // Increment the current page when the "Next Page" button is clicked
-    console.log("clicked");
+  // const handlePaginationChanged = () => {
+  //   // Increment the current page when the "Next Page" button is clicked
+  //   console.log("clicked");
 
-    const fetchData = async () => {
-      try {
-        const headers = {
-          Accept: "*/*",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
+  //   const fetchData = async () => {
+  //     try {
+  //       const headers = {
+  //         Accept: "*/*",
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       };
 
-        const requestData = {
-          limit: "5",
-          page: currentPage,
-          filters: {},
-        };
+  //       const requestData = {
+  //         limit: "",
+  //         page: currentPage,
+  //         filters: {},
+  //       };
 
-        const response = await axios.post(studentSearch, requestData, {
-          headers,
-        });
-        setRowData(response.data.data);
-        setCurrentPage(currentPage + 1);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       const response = await axios.post(studentSearch, requestData, {
+  //         headers,
+  //       });
+  //       setRowData(response.data.data);
+  //       setCurrentPage(currentPage + 1);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  };
+  //   fetchData();
+  // };
 
-  const handlePaginationChanged2 = () => {
-    // Increment the current page when the "Next Page" button is clicked
-    console.log("clicked");
+  // const handlePaginationChanged2 = () => {
+  //   // Increment the current page when the "Next Page" button is clicked
+  //   console.log("clicked");
 
-    const fetchData = async () => {
-      try {
-        const headers = {
-          Accept: "*/*",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
+  //   const fetchData = async () => {
+  //     try {
+  //       const headers = {
+  //         Accept: "*/*",
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       };
 
-        const requestData = {
-          limit: "5",
-          page: currentPage,
-          filters: {},
-        };
+  //       const requestData = {
+  //         limit: "",
+  //         page: currentPage,
+  //         filters: {},
+  //       };
 
-        const response = await axios.post(studentSearch, requestData, {
-          headers,
-        });
-        setRowData(response.data.data);
-        setCurrentPage(currentPage - 1);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       const response = await axios.post(studentSearch, requestData, {
+  //         headers,
+  //       });
+  //       setRowData(response.data.data);
+  //       setCurrentPage(currentPage - 1);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  };
+  //   fetchData();
+  // };
 
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
@@ -354,7 +355,7 @@ function StudentListView() {
           zIndex: "1",
         }}
       >
-        <Button style={{ cursor: "pointer" }} onPress={handlePaginationChanged}>
+        {/* <Button style={{ cursor: "pointer" }} onPress={handlePaginationChanged}>
           Previous Page
         </Button>
         <Button
@@ -362,7 +363,7 @@ function StudentListView() {
           onPress={handlePaginationChanged2}
         >
           Next Page
-        </Button>
+        </Button> */}
       </div>
       <AgGridReact
         ref={gridRef}
