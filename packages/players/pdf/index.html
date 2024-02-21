@@ -130,6 +130,7 @@
       pdfElement.addEventListener("playerEvent", (event) => {
         console.log("On playerEvent", event);
         window?.parent?.postMessage(event?.detail, "*");
+        window?.parent?.postMessage(event, "*");
       });
     </script>
   </body>

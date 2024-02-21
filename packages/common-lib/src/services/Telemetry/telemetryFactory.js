@@ -17,7 +17,7 @@ const telemetryConfig = {
   did: 'did',
   authtoken: '',
   studentid: 'student-id',
-  uid: 'user-id',
+  uid: localStorage.getItem('id'),
   sid: 'session-id',
   batchsize: 1,
   mode: '',
@@ -41,6 +41,8 @@ export const telemetryFactory = {
 
   interact: (interactEventInput) => {
     const eventData = getEventData(interactEventInput)
+
+    console.log('check interact eventData', eventData)
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseInteractTelemetry({
         options: eventData.options,
@@ -53,7 +55,7 @@ export const telemetryFactory = {
 
   impression: (impressionEventInput) => {
     const eventData = getEventData(impressionEventInput)
-    console.log('check eventData', eventData)
+    console.log('check impression eventData', eventData)
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseImpressionTelemetry({
         options: eventData.options,
@@ -65,7 +67,7 @@ export const telemetryFactory = {
   // This API is used to log telemetry of assessments that have occured when the user is viewing content
   assess: (assessEventInput) => {
     const eventData = getEventData(assessEventInput)
-    
+
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseAssesTelemetry({
         options: eventData.options,
@@ -78,10 +80,9 @@ export const telemetryFactory = {
 
   response: (responseEventInput) => {
     const eventData = getEventData(responseEventInput)
-    
+
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseResponseTelemetry({
-        
         options: eventData.options,
         edata: eventData.edata
       })
@@ -128,13 +129,15 @@ export const telemetryFactory = {
 }
 
 function getEventData(eventInput) {
+  const timestamp = Date.now()
   const event = {
     edata: eventInput.edata,
     options: {
       context: getEventContext(eventInput),
       object: getEventObject(eventInput),
       tags: []
-    }
+    },
+    ets: timestamp
   }
   return event
 }
@@ -159,7 +162,7 @@ function getEventContext(eventInput) {
     pdata: eventInput.context.pdata || telemetryConfig.pdata,
     env: eventInput.context.env || telemetryConfig.env,
     sid: eventInput.sid || telemetryConfig.sid,
-    uid: 'user-id', //user id
+    uid: localStorage.getItem('id'), //user id
     cdata: eventInput.context.cdata || []
   }
   if (telemetryConfig.sid) {

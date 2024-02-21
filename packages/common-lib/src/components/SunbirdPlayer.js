@@ -12,6 +12,15 @@ const SunbirdPlayer = ({
   ...props
 }) => {
   const { mimeType } = props
+  // console.log('🚀 ~ mimeType:', mimeType);
+
+  const typeMatch = mimeType.match(/\/(.+)$/)
+  const fileType = typeMatch ? typeMatch[1] : null
+
+  localStorage.setItem('contentType', fileType)
+
+  console.log(fileType)
+
   let trackData = []
   const [url, setUrl] = React.useState()
   React.useEffect(() => {
@@ -54,6 +63,17 @@ const SunbirdPlayer = ({
 
   const handleEvent = (event) => {
     const data = event?.data
+
+    // console.log(
+    //   '🚀 ~ handleEvent ~ Total Duration:',
+    //   event?.data.edata.duration
+    // )
+    let milliseconds = event?.data.edata.duration
+    let seconds = milliseconds / 1000
+
+    console.log(seconds)
+    localStorage.setItem('totalDuration', seconds)
+
     let telemetry = {}
     if (data && typeof data?.data === 'string') {
       telemetry = JSON.parse(data.data)
@@ -99,7 +119,7 @@ const SunbirdPlayer = ({
           }
         ]
       }
-      // console.log(telemetry, trackData)
+      console.log(telemetry, trackData)
     } else if (
       telemetry?.eid === 'INTERACT' &&
       mimeType === 'video/x-youtube'
