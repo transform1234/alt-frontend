@@ -41,8 +41,6 @@ export const telemetryFactory = {
 
   interact: (interactEventInput) => {
     const eventData = getEventData(interactEventInput)
-
-    console.log('check interact eventData', eventData)
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseInteractTelemetry({
         options: eventData.options,
@@ -55,7 +53,6 @@ export const telemetryFactory = {
 
   impression: (impressionEventInput) => {
     const eventData = getEventData(impressionEventInput)
-    console.log('check impression eventData', eventData)
     if (CsTelemetryModule.instance.isInitialised) {
       CsTelemetryModule.instance.telemetryService.raiseImpressionTelemetry({
         options: eventData.options,

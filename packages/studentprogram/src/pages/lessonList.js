@@ -96,6 +96,7 @@ export default function LessonList({ footerLinks }) {
   }, [lessonId]);
 
   const handleExitButton = () => {
+    // window.location.reload();
     setLesson();
     setLessonId();
     if (

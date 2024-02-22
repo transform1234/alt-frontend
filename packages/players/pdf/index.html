@@ -128,7 +128,6 @@
       const myPlayer = document.getElementById("my-player");
       myPlayer.appendChild(pdfElement);
       pdfElement.addEventListener("playerEvent", (event) => {
-        console.log("On playerEvent", event);
         window?.parent?.postMessage(event?.detail, "*");
         window?.parent?.postMessage(event, "*");
       });
