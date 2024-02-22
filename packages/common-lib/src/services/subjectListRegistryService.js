@@ -21,7 +21,6 @@ export const getProgramId = async (props) => {
     { headers }
   )
   if (programID?.data?.data) {
-    console.log(programID?.data?.data[0]?.programId)
     localStorage.setItem('programID', programID?.data?.data[0]?.programId)
     return programID?.data?.data[0]
   }

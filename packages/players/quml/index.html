@@ -46,14 +46,11 @@
     <script type="text/javascript">
       // Need to pass the API URL to fetch the question set
       window.questionListUrl = "https://vdn.diksha.gov.in/api/question/v1/list";
-      if (localStorage.getItem("console")) {
-        console.log("window?.name", window?.name);
-      }
+
       if (window?.name) {
         const data = JSON.parse(window?.name);
         if (data?.questionListUrl) {
           if (localStorage.getItem("console")) {
-            console.log("asd", data?.questionListUrl);
           }
           window.questionListUrl = data?.questionListUrl;
         }
@@ -65,14 +62,7 @@
         "player-config",
         JSON.stringify(playerConfig)
       );
-      // qumlPlayerElement.addEventListener("playerEvent", (event) => {
-      // console.log("On playerEvent", event);
-      // });
-
       qumlPlayerElement.addEventListener("telemetryEvent", (event) => {
-        if (localStorage.getItem("console")) {
-          console.log("On telemetryEvent", event);
-        }
         window?.parent?.postMessage(event?.detail, "*");
       });
 

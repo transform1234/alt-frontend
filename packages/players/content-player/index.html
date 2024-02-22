@@ -22,7 +22,6 @@
         previewElement.addEventListener("message", (event) => {
           window?.top?.postMessage(event, "*");
           alert("event");
-          console.log("On telemetryEvent", event);
         });
       };
 
@@ -37,7 +36,6 @@
       window.addEventListener(
         "message",
         (event) => {
-          console.log(event);
           passData(event?.data);
         },
         false
