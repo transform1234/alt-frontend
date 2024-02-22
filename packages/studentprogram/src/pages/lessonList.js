@@ -92,9 +92,11 @@ export default function LessonList({ footerLinks }) {
     } catch (e) {
       console.log({ e });
       setLoading(false);
-    }}, [lessonId]);
+    }
+  }, [lessonId]);
 
   const handleExitButton = () => {
+    window.location.reload();
     setLesson();
     setLessonId();
     if (
@@ -147,6 +149,8 @@ export default function LessonList({ footerLinks }) {
         moduleId: lessonId?.parent,
         lessonId: lessonId?.identifier,
         status: "completed",
+        contentType: localStorage.getItem("contentType"),
+        duration: localStorage.getItem("totalDuration"),
         score: score ? score : 0,
         scoreDetails: JSON.stringify(props),
         program: programData?.programId,

@@ -12,6 +12,12 @@ const SunbirdPlayer = ({
   ...props
 }) => {
   const { mimeType } = props
+
+  const typeMatch = mimeType.match(/\/(.+)$/)
+  const fileType = typeMatch ? typeMatch[1] : null
+
+  localStorage.setItem('contentType', fileType)
+
   let trackData = []
   const [url, setUrl] = React.useState()
   React.useEffect(() => {
@@ -54,6 +60,10 @@ const SunbirdPlayer = ({
 
   const handleEvent = (event) => {
     const data = event?.data
+    let milliseconds = event?.data.edata.duration
+    let seconds = milliseconds / 1000
+    localStorage.setItem('totalDuration', seconds)
+
     let telemetry = {}
     if (data && typeof data?.data === 'string') {
       telemetry = JSON.parse(data.data)

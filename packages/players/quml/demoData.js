@@ -246,6 +246,7 @@ const sectionContent = {
   },
   pkgVersion: 1,
 };
+
 let metadata = window.name ? JSON.parse(window.name) : sectionContent;
 const playerConfig = {
   context: {
