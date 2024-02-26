@@ -157,7 +157,7 @@ export default function LessonList({ footerLinks }) {
         subject: lessons?.subject?.join(","),
       };
     }
-    courseRegistryService.lessontracking(data);
+    await courseRegistryService.lessontracking(data);
   };
 
   React.useEffect(async () => {

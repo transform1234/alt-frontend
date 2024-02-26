@@ -124,6 +124,10 @@ const StudentSchema = yup.object().shape({
     .string()
     .required("*status is required")
     .min(3, "*should not be less than 3 characters"),
+  studentEnrollId: yup
+    .string()
+    .required("*status is required")
+    .min(3, "*should not be less than 3 characters"),
   image: yup
     .string()
     .required("*image is required")

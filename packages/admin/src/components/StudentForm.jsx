@@ -21,7 +21,7 @@ function StudentForm() {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
@@ -67,7 +67,6 @@ function StudentForm() {
   }, [selectedUdiseCode]);
 
   useEffect(async () => {
-   
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -563,6 +562,25 @@ function StudentForm() {
               </label> */}
               <div className={styles.errorMessage}>
                 {errors.siblings && <p>{errors.siblings.message}</p>}
+              </div>
+            </div>
+            <br></br>
+            <div className="form-floating">
+              <input
+                className={styles.formControl}
+                type="text"
+                name="studentEnrollId"
+                id="studentEnrollId"
+                placeholder="StudentEnrollId"
+                {...register("studentEnrollId")}
+              ></input>
+              {/* <label className="form-label" htmlFor="studentEnrollId">
+                Number of studentEnrollId
+              </label> */}
+              <div className={styles.errorMessage}>
+                {errors.studentEnrollId && (
+                  <p>{errors.studentEnrollId.message}</p>
+                )}
               </div>
             </div>
             <br></br>
