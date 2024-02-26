@@ -2,7 +2,7 @@ import axios from "axios";
 import { studentRegister } from "../routes/links";
 
 const studentAPI = async (data) => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   const schoolUdise = data.udise.split(",");
 
@@ -37,6 +37,7 @@ const studentAPI = async (data) => {
     motherOccupation: data.motherOccupation,
     fatherOccupation: data.fatherOccupation,
     noOfSiblings: data.siblings,
+    studentEnrollId: data.studentEnrollId,
   };
 
   let result;

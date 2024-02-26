@@ -60,7 +60,7 @@ const SunbirdPlayer = ({
 
   const handleEvent = (event) => {
     const data = event?.data
-    let milliseconds = event?.data.edata.duration
+    let milliseconds = event?.data?.edata?.duration
     let seconds = milliseconds / 1000
     localStorage.setItem('totalDuration', seconds)
 
@@ -124,7 +124,6 @@ const SunbirdPlayer = ({
           setTrackData({ score: score?.score, trackData })
         } else {
           setTrackData(telemetry?.edata)
-          handleExitButton()
         }
       } else {
         setTrackData(telemetry?.edata)
@@ -139,7 +138,6 @@ const SunbirdPlayer = ({
         telemetry?.edata?.id === 'exit' ||
         telemetry?.edata?.type === 'EXIT'
       ) {
-        handleExitButton()
       }
     }
   }
