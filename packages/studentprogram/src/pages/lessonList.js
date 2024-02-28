@@ -156,7 +156,7 @@ export default function LessonList({ footerLinks }) {
         lessonId: lessonId?.identifier,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
-        duration: localStorage.getItem("totalDuration"),
+        timeSpent: localStorage.getItem("totalDuration"),
         score: score ? score : 0,
         scoreDetails: scoreDetails,
         program: programData?.programId,
