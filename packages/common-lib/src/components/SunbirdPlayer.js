@@ -123,6 +123,7 @@ const SunbirdPlayer = ({
       // const edata = telemetry?.edata
       // trackData = [...trackData, edata]
     } else if (telemetry?.eid === 'END') {
+      localStorage.setItem('totalDuration', telemetry?.edata?.duration)
       const summaryData = telemetry?.edata
       if (summaryData?.summary && Array.isArray(summaryData?.summary)) {
         const score = summaryData.summary.find((e) => e['score'])
