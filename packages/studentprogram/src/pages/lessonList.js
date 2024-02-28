@@ -109,11 +109,15 @@ export default function LessonList({ footerLinks }) {
   };
 
   const handleTrackData = async (
-    { score, trackData, attempts, ...props },
+    { score, attempts, ...props },
     playerType = "quml"
   ) => {
     let data = {};
+    let trackDataold = localStorage.getItem("trackDATA");
+    let trackData = JSON.parse(trackDataold);
     const programData = await subjectListRegistryService.getProgramId();
+    let scoreDetails;
+
     if (playerType === "quml") {
       const newFormatData = trackData.reduce((oldData, newObj) => {
         const dataExist = oldData.findIndex(
@@ -133,17 +137,19 @@ export default function LessonList({ footerLinks }) {
         }
         return oldData;
       }, []);
+      scoreDetails = JSON.stringify(newFormatData);
       data = {
         courseId: id,
         moduleId: id,
         lessonId: id,
         status: "completed",
         score: score,
-        scoreDetails: JSON.stringify(newFormatData),
+        scoreDetails: scoreDetails,
         program: programData?.programId,
         subject: lesson?.subject?.join(","),
       };
     } else {
+      scoreDetails = JSON.stringify(props);
       data = {
         courseId: id,
         moduleId: lessonId?.parent,
@@ -152,7 +158,7 @@ export default function LessonList({ footerLinks }) {
         contentType: localStorage.getItem("contentType"),
         duration: localStorage.getItem("totalDuration"),
         score: score ? score : 0,
-        scoreDetails: JSON.stringify(props),
+        scoreDetails: scoreDetails,
         program: programData?.programId,
         subject: lessons?.subject?.join(","),
       };

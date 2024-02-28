@@ -20,6 +20,11 @@ const SunbirdPlayer = ({
 
   let trackData = []
   const [url, setUrl] = React.useState()
+
+  React.useEffect(() => {
+    localStorage.removeItem('trackDATA')
+  }, [])
+
   React.useEffect(() => {
     if (mimeType === 'application/pdf') {
       setUrl(`/pdf`)
@@ -58,7 +63,7 @@ const SunbirdPlayer = ({
     }
   }, [url])
 
-  const handleEvent = (event) => {
+  const handleEvent = async (event) => {
     const data = event?.data
     let milliseconds = event?.data?.edata?.duration
     let seconds = milliseconds / 1000
@@ -110,6 +115,7 @@ const SunbirdPlayer = ({
         ]
       }
       // console.log(telemetry, trackData)
+      localStorage.setItem('trackDATA', JSON.stringify(trackData))
     } else if (
       telemetry?.eid === 'INTERACT' &&
       mimeType === 'video/x-youtube'
@@ -121,7 +127,7 @@ const SunbirdPlayer = ({
       if (summaryData?.summary && Array.isArray(summaryData?.summary)) {
         const score = summaryData.summary.find((e) => e['score'])
         if (score?.score) {
-          setTrackData({ score: score?.score, trackData })
+          await setTrackData({ score: score?.score, trackData })
         } else {
           setTrackData(telemetry?.edata)
         }
