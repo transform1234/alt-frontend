@@ -269,9 +269,13 @@ export default function StudentLogin({ swPath }) {
                 <H3 style={{ fontSize: "16px" }}>
                   Accelerated Learning via Technology (ALT)
                 </H3>
-                <H3 style={{ fontSize: "16px", color: "red" }}>
-                  Reminder : Testing service worker changes.
-                </H3>
+                {/* <H3 style={{ fontSize: "16px", color : "red"  }}>
+               Reminder :
+                Dear Students,
+Thank you for participating in the ALT Version 1 pilot.
+We officially closed the pilot on 19th November, 2023. 
+
+                </H3> */}
               </Box>
             </Center>
             <Center>

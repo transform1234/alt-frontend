@@ -116,10 +116,8 @@ function checkValidServiceWorker(swUrl, config) {
             window.location.reload();
           });
         });
-      } else if (
-        // Exclude HTML files from checking
-        !swUrl.endsWith(".html")
-      ) {
+      } else {
+        // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config);
       }
     })
