@@ -37,7 +37,7 @@
   --gray-300: hsl(var(--gray-hs), 59%);
   --gray-400: hsl(var(--gray-hs), 40%);
   --gray-800: var(--gray);
-  --primary-color: red;
+  --primary-color: #024f9d;
   --secondary-color: #008840;
   --tertiary-color: #e55a28;
   --primary-0: #f3f7fa;
