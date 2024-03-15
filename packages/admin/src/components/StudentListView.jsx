@@ -226,6 +226,38 @@ function StudentListView() {
     }
   };
 
+  const onBtnExportDetails = async () => {
+    let username = window.prompt(`Enter a username for student details`);
+    username = username.trim();
+    if (username == null || username == "") {
+      alert("Please enter a valid username");
+    } else {
+      console.log(username);
+
+      // Find the row corresponding to the entered username in the rowData array
+      const student = rowData.find((student) => student.username === username);
+
+      if (student) {
+        // Convert student details to CSV format
+        const csvData = Papa.unparse([student]);
+
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${username}_details.csv`;
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert("Student not found in the table");
+      }
+    }
+  };
+
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
@@ -242,7 +274,7 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: "",
+          limit: "25",
           page: 1,
           filters: {},
         };
@@ -343,6 +375,26 @@ function StudentListView() {
             }}
           />
           <H4 style={{ color: "white" }}> Download username & password </H4>
+        </button>
+        <button
+          onClick={onBtnExportDetails}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}> Download student details </H4>
         </button>
       </div>
       <div
