@@ -4,7 +4,7 @@ import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import studentBulkAPI from "api/studentBulkAPI";
 import { Progress, Space } from "antd";
-import Papa from 'papaparse';
+import Papa from "papaparse";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
@@ -30,15 +30,19 @@ function CSVImportForm() {
     Papa.parse(file, {
       header: true,
       complete: (result) => {
-        setCSVData(result.data);
-        console.log(result.data);
+        const trimmedData = result.data.map((row) => ({
+          ...row,
+          gender: row.gender ? row.gender.trim() : null,
+        }));
+
+        setCSVData(trimmedData);
+        console.log(trimmedData);
       },
       error: (error) => {
         console.error("CSV Parsing Error:", error);
       },
     });
   };
-  
 
   const sendBatch = async (startIndex, endIndex) => {
     const batchData = csvData.slice(startIndex, endIndex);
@@ -57,21 +61,21 @@ function CSVImportForm() {
       const studentData = csvData[i];
       if (studentData["name"] && studentData["name"].trim() !== "") {
         const studentObject = {
-          name: studentData["name"] || null,
-          username: null,
+          name: studentData["name"] || "",
+          username: studentData["username"] || "",
           email: studentData["email"] || null,
-          mobile: studentData["mobile"] || null,
-          gender: studentData["gender"] || null,
-          dateOfBirth: studentData["dateOfBirth"] || null,
-          board: studentData["board"] || null,
+          mobile: studentData["mobile"] || "",
+          gender: studentData["gender"] || "",
+          dateOfBirth: studentData["dateOfBirth"] || "",
+          board: studentData["board"] || "",
           password: null,
           status: studentData["status"] || null,
           className: studentData["className"] || null,
           groups: [],
           religion: studentData["religion"] || null,
-          schoolUdise: studentData["school_udise"] || null,
+          schoolUdise: studentData["school_udise"] || "",
           caste: studentData["caste"] || null,
-          annualIncome: studentData["annual_income"] || null,
+          annualIncome: studentData["annual_income"] || "",
           motherEducation: studentData["mother_education"] || null,
           fatherEducation: studentData["father_education"] || null,
           motherOccupation: studentData["mother_occupation"] || null,
@@ -83,11 +87,10 @@ function CSVImportForm() {
       }
     }
     try {
-      const result = await studentBulkAPI(requestData.students);
+      const result = await studentBulkAPI(requestData);
 
       if (result === true) {
         setIsLoading(false);
-       
       } else {
         setIsLoading(false);
         alert("Upload failed");
@@ -130,16 +133,14 @@ function CSVImportForm() {
       const endIndex = startIndex + remainingRecords;
       await sendBatch(startIndex, endIndex);
     }
-    
+
     downloadCSVFromLocalStorage();
   };
-
-
 
   function downloadCSVFromLocalStorage() {
     // Retrieve and assemble student data from localStorage
     const studentData = [];
-  
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key.startsWith("student_")) {
@@ -147,14 +148,17 @@ function CSVImportForm() {
         studentData.push(studentInfo);
       }
     }
-  
+
     // Generate CSV data from studentData array
-    const csvRows = studentData.map((student) =>
-      `${student.username || ""},${student.schoolUdise || ""},${student.message || ""}`
+    const csvRows = studentData.map(
+      (student) =>
+        `${student.username || ""},${student.schoolUdise || ""},${
+          student.message || ""
+        }`
     );
-  
+
     const csvData = `Username,SchoolUdise,Error Message\n${csvRows.join("\n")}`;
-  
+
     // Trigger CSV download
     downloadCSV(csvData, "Student_summary_report");
   }
@@ -183,11 +187,10 @@ function CSVImportForm() {
           marginTop: "15px",
         }}
       >
-     <input type="file" accept=".csv" onChange={handleFileChange} />
-<Button onPress={sendBatches} disabled={!csvData.length || isLoading}>
-  {isLoading ? "Uploading..." : "Upload CSV"}
-</Button>
-
+        <input type="file" accept=".csv" onChange={handleFileChange} />
+        <Button onPress={sendBatches} disabled={!csvData.length || isLoading}>
+          {isLoading ? "Uploading..." : "Upload CSV"}
+        </Button>
       </div>
       <div>
         <Progress
@@ -200,7 +203,7 @@ function CSVImportForm() {
         <div>Success Count: {localStorage.getItem("successCount") || ""}</div>
       )}
 
-{showSuccessCount && (
+      {showSuccessCount && (
         <div>Error Count: {localStorage.getItem("errorCount") || ""}</div>
       )}
     </div>
