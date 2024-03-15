@@ -143,7 +143,7 @@ function CSVImportForm() {
     }
 
     try {
-      const result = await schoolBulkAPI(requestData.schools);
+      const result = await schoolBulkAPI(requestData);
       if (result === true) {
         let names = localStorage.getItem("bulkErrorsNames") || "";
         let errorMessage = localStorage.getItem("errorMessage") || "";

@@ -80,18 +80,18 @@ function CSVImportForm() {
       const teacherData = csvData[i];
       const teacherObject = {
         name: teacherData["Name"] || null,
-        username: null,
+        username: studentData["username"] || "",
         email: teacherData["Email Id"] || null,
-        mobile: teacherData["Mobile"] || null,
-        gender: teacherData["Gender"] || null,
-        dateOfBirth: teacherData["DoB"] || null,
-        board: teacherData["board"] || null,
+        mobile: teacherData["Mobile"] || "",
+        gender: teacherData["Gender"] || "",
+        dateOfBirth: teacherData["DoB"] || "",
+        board: teacherData["board"] || "",
         password: null,
         status: teacherData["Status"] || null,
         groups: [],
         educationalQualification:
           teacherData["Educational Qualification"] || null,
-        schoolUdise: teacherData["School Udise"] || null,
+        schoolUdise: teacherData["School Udise"] || "",
         currentRole: teacherData["Current role"] || null,
         natureOfAppointment: teacherData["Nature of appointment"] || null,
         appointedPost: teacherData["Appointed Postname"] || null,
@@ -115,7 +115,7 @@ function CSVImportForm() {
     }
 
     try {
-      const result = await teacherBulkAPI(requestData.teachers);
+      const result = await teacherBulkAPI(requestData);
 
       if (result === true) {
         let names = localStorage.getItem("bulkErrorsNames") || "";
