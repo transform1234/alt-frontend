@@ -18,6 +18,7 @@ import { studentSearch } from "routes/links";
 import { Button } from "native-base";
 import { result } from "lodash";
 import studentUsernamePasswordAPI from "api/studentUsernamePasswordAPI";
+import studentUdiseAPI from "api/studentUdiseAPI";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
@@ -184,6 +185,42 @@ function StudentListView() {
   //   link.click();
   //   document.body.removeChild(link);
   // }, [rowData]);
+
+  const onBtnExportUdise = async () => {
+    let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
+    if (person == null || person == "") {
+      alert("Please enter a valid Udise");
+    } else {
+      console.log(person);
+
+      const result = await studentUdiseAPI(person);
+      if (result) {
+        const filteredData = result.data.data.map((item) => {
+          // Create a copy of the item without the password field
+          const { password, ...rest } = item;
+          return rest;
+        });
+        console.log(filteredData);
+
+        // Convert the data to CSV format using PapaParse
+        const csvData = Papa.unparse(filteredData);
+        // Now, csvData will not contain the password field
+
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "student_data_filtered_UDISE.csv";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  };
 
   const cellClickedListener = useCallback((event) => {
     console.log("cellClicked", event);
@@ -395,6 +432,26 @@ function StudentListView() {
             }}
           />
           <H4 style={{ color: "white" }}> Download student details </H4>
+        </button>
+        <button
+          onClick={onBtnExportUdise}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px", // Add some spacing between the buttons
+            display: "flex", // Center align vertically
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}> Get Students by UDISE Code </H4>
         </button>
       </div>
       <div
