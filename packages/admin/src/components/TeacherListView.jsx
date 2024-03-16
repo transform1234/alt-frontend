@@ -9,6 +9,7 @@ import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import axios from "axios";
 import Papa from "papaparse";
 import { teacherSearch } from "routes/links";
+import teacherUdiseAPI from "api/teacherUdiseAPI";
 
 function TeacherListView() {
   const [token, setToken] = useState([]);
@@ -55,6 +56,42 @@ function TeacherListView() {
     { field: "userId", filter: true },
   ]);
 
+  const onBtnExportUdise = async () => {
+    let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
+    if (person == null || person == "") {
+      alert("Please enter a valid Udise");
+    } else {
+      console.log(person);
+
+      const result = await teacherUdiseAPI(person);
+      if (result) {
+        const filteredData = result.data.data.map((item) => {
+          // Create a copy of the item without the password field
+          const { password, ...rest } = item;
+          return rest;
+        });
+        console.log(filteredData);
+
+        // Convert the data to CSV format using PapaParse
+        const csvData = Papa.unparse(filteredData);
+        // Now, csvData will not contain the password field
+
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "teacher_data_filtered_UDISE.csv";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  };
+
   const cellClickedListener = useCallback((event) => {
     console.log("cellClicked", event);
   }, []);
@@ -96,7 +133,7 @@ function TeacherListView() {
   }, []);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
@@ -165,6 +202,26 @@ function TeacherListView() {
           />
           <H4 style={{ color: "white" }}> Download username & password </H4>
         </button>
+        <button
+          onClick={onBtnExportUdise}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px", // Add some spacing between the buttons
+            display: "flex", // Center align vertically
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}> Get Teachers by UDISE Code </H4>
+        </button>
       </div>
       <AgGridReact
         ref={gridRef}
@@ -174,7 +231,7 @@ function TeacherListView() {
         onCellClicked={cellClickedListener}
         pagination={true}
         paginationAutoPageSize={true}
-        overlayNoRowsTemplate={'<span>Loading Teacher records....</span>'}
+        overlayNoRowsTemplate={"<span>Loading Teacher records....</span>"}
       ></AgGridReact>{" "}
     </div>
   );
