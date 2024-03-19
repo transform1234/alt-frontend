@@ -145,6 +145,8 @@ export default function LessonList({ footerLinks }) {
         moduleId: id,
         lessonId: id,
         status: "completed",
+        contentType: localStorage.getItem("contentType"),
+        timeSpent: timeSpentInt,
         score: score,
         scoreDetails: scoreDetails,
         program: programData?.programId,
