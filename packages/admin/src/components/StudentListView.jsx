@@ -243,6 +243,7 @@ function StudentListView() {
           Name: row.name,
           UserName: row.username,
           Password: row.password,
+          Class: row.className,
         }));
 
         // Convert the data to CSV format using PapaParse
