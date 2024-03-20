@@ -139,14 +139,17 @@ export default function LessonList({ footerLinks }) {
       }, []);
       scoreDetails = JSON.stringify(newFormatData);
       const timeSpentString = localStorage.getItem("totalDuration");
-      const timeSpentInt = parseInt(timeSpentString, 10);
+      const formattedNumber =
+        timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
+      const timeSpentInt = parseFloat(formattedNumber);
+      const inSeconds = Math.ceil(timeSpentInt);
       data = {
         courseId: id,
         moduleId: id,
         lessonId: id,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
-        timeSpent: timeSpentInt,
+        timeSpent: inSeconds,
         score: score,
         scoreDetails: scoreDetails,
         program: programData?.programId,
@@ -155,14 +158,17 @@ export default function LessonList({ footerLinks }) {
     } else {
       scoreDetails = JSON.stringify(props);
       const timeSpentString = localStorage.getItem("totalDuration");
-      const timeSpentInt = parseInt(timeSpentString, 10);
+      const formattedNumber =
+        timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
+      const timeSpentInt = parseFloat(formattedNumber);
+      const inSeconds = Math.ceil(timeSpentInt);
       data = {
         courseId: id,
         moduleId: lessonId?.parent,
         lessonId: lessonId?.identifier,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
-        timeSpent: timeSpentInt,
+        timeSpent: inSeconds,
         score: score ? score : 0,
         scoreDetails: scoreDetails,
         program: programData?.programId,
