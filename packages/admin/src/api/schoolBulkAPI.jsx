@@ -2,7 +2,7 @@ import { schoolBulk } from "routes/links";
 import axios from "axios";
 
 const schoolBulkAPI = async (school) => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   const headers = {
     "Accept-Language": "en-GB,en;q=0.9",
@@ -19,9 +19,12 @@ const schoolBulkAPI = async (school) => {
     headers: headers,
   })
     .then((res) => {
-      const names = res.data.errors.map((error) => error.name).filter(Boolean);
-      if (res.data.errors && res.data.errors.length > 0) {
-        const firstError = res.data.errors[0];
+      console.log(res);
+      const names = res.data.data.errors
+        .map((error) => error.name)
+        .filter(Boolean);
+      if (res.data.data.errors && res.data.data.errors.length > 0) {
+        const firstError = res.data.data.errors[0];
         if (firstError.schoolRes && firstError.schoolRes.errorMessage) {
           const errorMessage = firstError.schoolRes.errorMessage;
           localStorage.setItem("errorMessage", errorMessage);
@@ -32,11 +35,11 @@ const schoolBulkAPI = async (school) => {
         console.log("No errors in the response data.");
       }
 
-      localStorage.setItem("bulkErrors", res.data.errors.length - 1);
+      localStorage.setItem("bulkErrors", res.data.data.errors.length);
       localStorage.setItem("bulkErrorsNames", names);
-      localStorage.setItem("successCount", res.data.successCount);
+      localStorage.setItem("successCount", res.data.data.successCount);
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         result = true;
       } else {
         result = false;

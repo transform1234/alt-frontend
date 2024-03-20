@@ -4,6 +4,7 @@ import { Button } from "native-base";
 import { H2 } from "@shiksha/common-lib";
 import schoolBulkAPI from "api/schoolBulkAPI";
 import { Progress, Space } from "antd";
+import Papa from "papaparse";
 
 function CSVImportForm() {
   const [csvData, setCSVData] = useState([]);
@@ -30,39 +31,21 @@ function CSVImportForm() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
+    Papa.parse(file, {
+      header: true,
+      complete: (result) => {
+        const trimmedData = result.data.map((row) => ({
+          ...row,
+          gender: row.gender ? row.gender.trim() : null,
+        }));
 
-    reader.onload = (event) => {
-      const content = event.target.result;
-      const lines = content.split("\n");
-
-      let headers = [];
-
-      // Find the header row (row with the header names)
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim() !== "") {
-          headers = lines[i].split(",");
-          break;
-        }
-      }
-
-      // Remove the trailing newline character from each line and then split into columns
-      const data = lines.slice(1).map((line) => {
-        const columns = line.replace(/\r$/, "").split(",");
-        const schoolObject = {};
-
-        // Map columns to header names dynamically
-        headers.forEach((header, index) => {
-          schoolObject[header] = columns[index] || "";
-        });
-
-        return schoolObject;
-      });
-
-      setCSVData(data);
-    };
-
-    reader.readAsText(file);
+        setCSVData(trimmedData);
+        console.log(trimmedData);
+      },
+      error: (error) => {
+        console.error("CSV Parsing Error:", error);
+      },
+    });
   };
 
   const sendBatch = async (startIndex, endIndex) => {
@@ -81,67 +64,73 @@ function CSVImportForm() {
 
     for (let i = 0; i < csvData.length; i++) {
       const schoolData = csvData[i];
-      const schoolObject = {
-        udiseCode: schoolData["School UDISE code"] || null,
-        name: schoolData["School Name"] || null,
-        location: schoolData["Location"] || null,
-        management: schoolData["School Management"] || null,
-        composition: schoolData["School Composition"] || null,
-        board: schoolData["Board"] || null,
-        mediumOfInstruction: [schoolData["Medium of Instruction"]] || [],
-        headmaster: schoolData["Head Master"] || null,
-        headmasterType: schoolData["Headmaster Type"] || null,
-        headmasterMobile: schoolData["Headmaster Mobile"] || null,
-        upperPrimaryTeachersSanctioned:
-          parseInt(
-            schoolData["Number of teachers sanctioned -Upper Primary"]
-          ) || 0,
-        secondaryTeachersSanctioned:
-          parseInt(schoolData["Number of teachers sanctioned -Secondary"]) || 0,
-        libraryFunctional: schoolData["Library Functional"] || null,
-        computerLabFunctional: schoolData["Computer Lab functional"] || null,
-        totalFunctionalComputers:
-          parseInt(schoolData["Number of functional computers"]) || 0,
-        noOfBoysToilet: parseInt(schoolData["Number of Boys toilet"]) || 0,
-        noOfGirlsToilet: parseInt(schoolData["Number of Girls toilet"]) || 0,
-        smartBoardFunctionalClass6:
-          schoolData["Smart Board functional in Class 6"] || null,
-        smartBoardFunctionalClass7:
-          schoolData["Smart Board functional in Class 7"] || null,
-        smartBoardFunctionalClass8:
-          schoolData["Smart Board functional in Class 8"] || null,
-        smartBoardFunctionalClass9:
-          schoolData["Smart Board functional in Class 9"] || null,
-        smartBoardFunctionalClass10:
-          schoolData["Smart Board functional in Class 10"] || null,
-        state: schoolData["State"] || null,
-        district: schoolData["District"] || null,
-        block: schoolData["Block"] || null,
-        adequateRoomsForEveryClass:
-          schoolData["Adequate Rooms For EveryClass"] || false,
-        drinkingWaterSupply: schoolData["Drinking Water Supply"] || false,
-        seperateToiletForGirlsAndBoys:
-          schoolData["Separate Toilet For Girls And Boys"] || false,
-        whetherToiletBeingUsed:
-          schoolData["Whether Toilet Being Used"] || false,
-        playgroundAvailable: schoolData["Playground Available"] || false,
-        boundaryWallFence: schoolData["Boundary Wall Fence"] || false,
-        electricFittingsAreInsulated:
-          schoolData["Electric Fittings Are Insulated"] || false,
-        buildingIsResistantToEarthquakeFireFloodOtherCalamity:
-          schoolData[
-            "Building Is Resistant To Earthquake Fire Flood Other Calamity"
-          ] || false,
-        buildingIsFreeFromInflammableAndToxicMaterials:
-          schoolData["Building Is Free From Inflammable And Toxic Materials"] ||
-          false,
-        roofAndWallsAreInGoodCondition:
-          schoolData["Roof And Walls Are In Good Condition"] || false,
-      };
+      if (
+        schoolData["School UDISE code"] &&
+        schoolData["School UDISE code"].trim() !== ""
+      ) {
+        const schoolObject = {
+          udiseCode: schoolData["School UDISE code"] || null,
+          name: schoolData["School Name"] || null,
+          location: schoolData["Location"] || null,
+          management: schoolData["School Management"] || null,
+          composition: schoolData["School Composition"] || null,
+          board: schoolData["Board"] || null,
+          mediumOfInstruction: [schoolData["Medium of Instruction"]] || [],
+          headmaster: schoolData["Head Master"] || null,
+          headmasterType: schoolData["Headmaster Type"] || null,
+          headmasterMobile: schoolData["Headmaster Mobile"] || null,
+          upperPrimaryTeachersSanctioned:
+            parseInt(
+              schoolData["Number of teachers sanctioned -Upper Primary"]
+            ) || 0,
+          secondaryTeachersSanctioned:
+            parseInt(schoolData["Number of teachers sanctioned -Secondary"]) ||
+            0,
+          libraryFunctional: schoolData["Library Functional"] || null,
+          computerLabFunctional: schoolData["Computer Lab functional"] || null,
+          totalFunctionalComputers:
+            parseInt(schoolData["Number of functional computers"]) || 0,
+          noOfBoysToilet: parseInt(schoolData["Number of Boys toilet"]) || 0,
+          noOfGirlsToilet: parseInt(schoolData["Number of Girls toilet"]) || 0,
+          smartBoardFunctionalClass6:
+            schoolData["Smart Board functional in Class 6"] || null,
+          smartBoardFunctionalClass7:
+            schoolData["Smart Board functional in Class 7"] || null,
+          smartBoardFunctionalClass8:
+            schoolData["Smart Board functional in Class 8"] || null,
+          smartBoardFunctionalClass9:
+            schoolData["Smart Board functional in Class 9"] || null,
+          smartBoardFunctionalClass10:
+            schoolData["Smart Board functional in Class 10"] || null,
+          state: schoolData["State"] || null,
+          district: schoolData["District"] || null,
+          block: schoolData["Block"] || null,
+          adequateRoomsForEveryClass:
+            schoolData["Adequate Rooms For EveryClass"] || false,
+          drinkingWaterSupply: schoolData["Drinking Water Supply"] || false,
+          seperateToiletForGirlsAndBoys:
+            schoolData["Separate Toilet For Girls And Boys"] || false,
+          whetherToiletBeingUsed:
+            schoolData["Whether Toilet Being Used"] || false,
+          playgroundAvailable: schoolData["Playground Available"] || false,
+          boundaryWallFence: schoolData["Boundary Wall Fence"] || false,
+          electricFittingsAreInsulated:
+            schoolData["Electric Fittings Are Insulated"] || false,
+          buildingIsResistantToEarthquakeFireFloodOtherCalamity:
+            schoolData[
+              "Building Is Resistant To Earthquake Fire Flood Other Calamity"
+            ] || false,
+          buildingIsFreeFromInflammableAndToxicMaterials:
+            schoolData[
+              "Building Is Free From Inflammable And Toxic Materials"
+            ] || false,
+          roofAndWallsAreInGoodCondition:
+            schoolData["Roof And Walls Are In Good Condition"] || false,
+        };
 
-      requestData.schools.push(schoolObject);
+        requestData.schools.push(schoolObject);
+      }
     }
-
     try {
       const result = await schoolBulkAPI(requestData);
       if (result === true) {
