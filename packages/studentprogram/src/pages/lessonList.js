@@ -43,6 +43,28 @@ export default function LessonList({ footerLinks }) {
   const navigate = useNavigate();
   const [trackData, setTrackData] = React.useState();
   const [loading, setLoading] = React.useState(true);
+
+  const updateAllowSkipProperty = (data) => {
+    const updatedData = JSON.parse(JSON.stringify(data));
+    // Creating a deep copy of JSON data that
+    //we are getting from SUNBIRD API
+
+    // Helper function that will recursively update "allowSkip" property from YES TO NO from all places.
+    const updateAllowSkipRecursive = (obj) => {
+      for (const key in obj) {
+        if (obj[key] && typeof obj[key] === "object") {
+          updateAllowSkipRecursive(obj[key]); // Recursive call for nested objects
+        } else if (key === "allowSkip" && obj[key] === "Yes") {
+          obj[key] = "No"; // Update "allowSkip" to "No"
+        }
+      }
+    };
+
+    updateAllowSkipRecursive(updatedData);
+
+    return updatedData;
+  };
+
   const setLessonData = async (id) => {
     let resultData = await courseRegistryService.getOne({
       id: id,
@@ -60,7 +82,9 @@ export default function LessonList({ footerLinks }) {
         ? instructionData?.instructions
         : {},
     };
-    setLesson(newData);
+
+    const updatedAssessmentData = await updateAllowSkipProperty(newData);
+    setLesson(updatedAssessmentData);
   };
 
   React.useEffect(async () => {
