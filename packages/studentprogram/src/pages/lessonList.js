@@ -66,6 +66,7 @@ export default function LessonList({ footerLinks }) {
   };
 
   const setLessonData = async (id) => {
+    id = id.replace(".img", "");
     let resultData = await courseRegistryService.getOne({
       id: id,
       adapter: "diksha",
