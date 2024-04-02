@@ -36,6 +36,7 @@ export default function CourseList({ footerLinks }) {
         programId: resultData?.programId,
         subject: subjectname,
       });
+      console.log(data);
       setCoursesList(data);
 
       setLoading(false);
@@ -98,9 +99,16 @@ export default function CourseList({ footerLinks }) {
       <Stack space="4" p="4" mb="5">
         {courseList.length > 0 ? (
           courseList?.map((item, key) => {
-            const isComplete = status.find(
-              (subItem) => item.identifier === subItem?.contentId
+            console.log(courseList);
+
+            const identifierWithoutExtension = item.identifier.replace(
+              ".img",
+              ""
             );
+            const isComplete = status.find(
+              (subItem) => identifierWithoutExtension === subItem?.contentId
+            );
+            console.log(isComplete);
             return (
               <CourseCard
                 key={key}
@@ -116,13 +124,13 @@ export default function CourseList({ footerLinks }) {
                   ? {
                       onPress: () =>
                         navigate(
-                          `/studentprogram/lessons/${item?.identifier}/${item?.objectType}`
+                          `/studentprogram/lessons/${identifierWithoutExtension}/${item?.objectType}`
                         ),
                     }
                   : {
                       onPress: () =>
                         navigate(
-                          `/studentprogram/lessons/${item?.identifier}/${item?.contentType}`
+                          `/studentprogram/lessons/${identifierWithoutExtension}/${item?.contentType}`
                         ),
                     })}
               />
