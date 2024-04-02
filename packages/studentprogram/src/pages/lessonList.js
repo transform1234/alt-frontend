@@ -168,10 +168,11 @@ export default function LessonList({ footerLinks }) {
         timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
       const timeSpentInt = parseFloat(formattedNumber);
       const inSeconds = Math.ceil(timeSpentInt);
+      const trimmedid = id.replace(".img", "");
       data = {
-        courseId: id,
-        moduleId: id,
-        lessonId: id,
+        courseId: trimmedid,
+        moduleId: trimmedid,
+        lessonId: trimmedid,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
         timeSpent: inSeconds,
@@ -187,8 +188,9 @@ export default function LessonList({ footerLinks }) {
         timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
       const timeSpentInt = parseFloat(formattedNumber);
       const inSeconds = Math.ceil(timeSpentInt);
+      const trimmedid = id.replace(".img", "");
       data = {
-        courseId: id,
+        courseId: trimmedid,
         moduleId: lessonId?.parent,
         lessonId: lessonId?.identifier,
         status: "completed",
