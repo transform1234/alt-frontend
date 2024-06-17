@@ -170,7 +170,7 @@ const playerConfig = {
     cdata: [],
     timeDiff: 0,
     objectRollup: {},
-    host: "https://alt-shiksha.uniteframework.io",
+    host: "https://alt.uniteframework.io",
     //host: "https://sunbirdsaas.com",
     endpoint: "",
     userData: metadata?.userData ? metadata?.userData : {},
