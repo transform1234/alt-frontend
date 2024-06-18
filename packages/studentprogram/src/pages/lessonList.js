@@ -121,7 +121,7 @@ export default function LessonList({ footerLinks }) {
   }, [lessonId]);
 
   const handleExitButton = () => {
-    window.location.reload();
+    navigate(0);
     setLesson();
     setLessonId();
     if (
@@ -175,7 +175,7 @@ export default function LessonList({ footerLinks }) {
         lessonId: trimmedid,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
-        timeSpent: inSeconds,
+        timeSpent: isNaN(inSeconds) ? 0 : inSeconds,
         score: score,
         scoreDetails: scoreDetails,
         program: programData?.programId,
@@ -195,7 +195,7 @@ export default function LessonList({ footerLinks }) {
         lessonId: lessonId?.identifier,
         status: "completed",
         contentType: localStorage.getItem("contentType"),
-        timeSpent: inSeconds,
+        timeSpent: isNaN(inSeconds) ? 0 : inSeconds,
         score: score ? score : 0,
         scoreDetails: scoreDetails,
         program: programData?.programId,
@@ -478,7 +478,7 @@ export default function LessonList({ footerLinks }) {
                           ) : ["application/vnd.ekstep.h5p-archive"].includes(
                               subItem?.mimeType
                             ) ? (
-                            <IconByName name="PlayFillIcon" isDisabled />
+                            <H3>H5P</H3>
                           ) : ["video/x-youtube"].includes(
                               subItem?.mimeType
                             ) ? (
