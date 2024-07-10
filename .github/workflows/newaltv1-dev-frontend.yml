@@ -41,12 +41,6 @@ jobs:
            echo "Contents of the current directory (in reverse order):"
             ls -lr
 
-      - name: List Contents
-        run: |
-           echo "Contents of the dist directory (in reverse order):"
-            cd /home/runner/work/alt-frontend/alt-frontend/build
-            ls -lr
-
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
