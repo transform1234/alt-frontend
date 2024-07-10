@@ -44,7 +44,7 @@ jobs:
       - name: List Contents
         run: |
            echo "Contents of the dist directory (in reverse order):"
-            cd /home/runner/work/alt-frontend/alt-frontend/dist
+            cd /home/runner/work/alt-frontend/alt-frontend/build
             ls -lr
 
       - name: Deploy to Server 1
