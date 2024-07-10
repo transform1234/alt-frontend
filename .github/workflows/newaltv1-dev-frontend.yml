@@ -57,10 +57,25 @@ jobs:
          # Add the SSH key to the known_hosts file (replace hostname with your actual hostname)
          ssh-keyscan -H ${{ secrets.HOST_DNS_NEWALTV1_DEV }} >> ~/.ssh/known_hosts
 
-
-      - name: Deploy with rsync
+      - name: Copy Package
         run: |
-           rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/public
+          sh ./scripts/pack-prod-build.sh
+          rsync shiksha-ui.tar ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/shiksha-ui.tar
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS_NEWALTV1_DEV }}
+          username: ${{ secrets.USERNAME_NEWALTV1_DEV }}
+          key: ${{ secrets.EC2_SSH_KEY_NEWALTV1_DEV }}
+          script: |
+            cd /var/www/uat-alt-api.uniteframework.io/public
+            rm -rf *
+            cp ../shiksha-ui.tar ./
+            tar -xvf shiksha-ui.tar .
+
+#      - name: Deploy with rsync
+ #       run: |
+  #         rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/public
              
  #     - name: Notify on Slack channel
  #       uses: iRoachie/slack-github-actions@v2.3.2
@@ -69,6 +84,8 @@ jobs:
  #       with:
  #         status: ${{ job.status }}
  #       if: ${{ always() }}
+
+
 
 
 
