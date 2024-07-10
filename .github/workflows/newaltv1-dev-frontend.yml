@@ -44,7 +44,7 @@ jobs:
       - name: List Contents
         run: |
            echo "Contents of the dist directory (in reverse order):"
-            cd /home/runner/work/scholarship-app-ui/scholarship-app-ui/dist
+            cd /home/runner/work/alt-frontend/alt-frontend/dist
             ls -lr
 
       - name: Deploy to Server 1
@@ -66,15 +66,15 @@ jobs:
 
       - name: Deploy with rsync
         run: |
-           rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/scholarship-dev.tekdinext.com/public
+           rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/public
              
-      - name: Notify on Slack channel
-        uses: iRoachie/slack-github-actions@v2.3.2
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NEWALTV1_URL }}
-        with:
-          status: ${{ job.status }}
-        if: ${{ always() }}
+ #     - name: Notify on Slack channel
+ #       uses: iRoachie/slack-github-actions@v2.3.2
+ #       env:
+ #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NEWALTV1_URL }}
+ #       with:
+ #         status: ${{ job.status }}
+ #       if: ${{ always() }}
 
 
 
