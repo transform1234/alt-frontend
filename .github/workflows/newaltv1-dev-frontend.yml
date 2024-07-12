@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.USERNAME_NEWALTV1_DEV }}
           key: ${{ secrets.EC2_SSH_KEY_NEWALTV1_DEV }}
           script: |
-            cd /var/www/uat-alt-api.uniteframework.io/public
+            cd /var/www/alt-dev.uniteframework.io/public
             rm -rf *
             cp ../shiksha-ui.tar ./
             tar -xvf shiksha-ui.tar .
