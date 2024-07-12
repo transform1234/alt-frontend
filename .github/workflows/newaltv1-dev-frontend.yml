@@ -60,7 +60,7 @@ jobs:
       - name: Copy Package
         run: |
           sh ./scripts/pack-prod-build.sh
-          rsync shiksha-ui.tar ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/shiksha-ui.tar
+          rsync shiksha-ui.tar ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/alt-dev.uniteframework.io/shiksha-ui.tar
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -73,9 +73,7 @@ jobs:
             cp ../shiksha-ui.tar ./
             tar -xvf shiksha-ui.tar .
 
-#      - name: Deploy with rsync
- #       run: |
-  #         rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.USERNAME_NEWALTV1_DEV }}@${{ secrets.HOST_DNS_NEWALTV1_DEV }}:/var/www/uat-alt-api.uniteframework.io/public
+
              
  #     - name: Notify on Slack channel
  #       uses: iRoachie/slack-github-actions@v2.3.2
