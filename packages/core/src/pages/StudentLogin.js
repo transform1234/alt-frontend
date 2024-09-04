@@ -184,7 +184,7 @@ export default function StudentLogin({ swPath }) {
     telemetryFactory.interact(telemetryInteract);
     if (validate()) {
       const result = await fetchToken(
-        manifest.auth_url,
+        process.env.REACT_APP_AUTH_URL,
         credentials?.username,
         credentials?.password
       );

@@ -73,7 +73,7 @@ export default function Login({ swPath }) {
       const fcmToken = await getUserToken(swPath);
 
       const result = await fetchToken(
-        manifest.auth_url,
+        process.env.REACT_APP_AUTH_URL,
         credentials?.username,
         credentials?.password
       );
