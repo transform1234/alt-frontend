@@ -19,7 +19,7 @@ jobs:
           
       - name: Copy .env file
         env:
-        ENV_FILE_CONTENT: ${{ secrets.env }}
+         ENV_FILE_CONTENT: ${{ secrets.env }}
         run: echo "$ENV_FILE_CONTENT" > .env
           
       - name: Generate React Build
