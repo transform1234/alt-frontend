@@ -170,7 +170,7 @@ const playerConfig = {
     cdata: [],
     timeDiff: 0,
     objectRollup: {},
-    host: "https://alt.uniteframework.io",
+    host: process.env.REACT_APP_BASE_URL,
     //host: "https://sunbirdsaas.com",
     endpoint: "",
     userData: metadata?.userData ? metadata?.userData : {},

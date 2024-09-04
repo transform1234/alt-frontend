@@ -327,7 +327,7 @@ export default function LessonList({ footerLinks }) {
                   }
                 }}
                 // public_url="http://localhost:5000"
-                public_url="https://alt.uniteframework.io"
+                public_url={`${process.env.REACT_APP_BASE_URL}`}
               />
             </VStack>
           )
