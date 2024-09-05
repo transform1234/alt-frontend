@@ -79,7 +79,7 @@ function App() {
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
-              body: `client_id=hasura-app&token=${refreshToken}&client_secret=ixoAI89JICldF5xF9Y8cgDGJrbOu6SGw`,
+              body: `client_id=hasura-app&token=${refreshToken}&client_secret=f79aa432-f3b7-48dd-97dc-471799c8e225`,
             }
           );
           console.log("REFRESH check");
