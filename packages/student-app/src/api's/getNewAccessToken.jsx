@@ -6,7 +6,7 @@ const getNewAccessToken = async () => {
   console.log("INSIDE TOKEN API");
   try {
     const response = await axios.post(
-      "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token",
+      `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura-app/protocol/openid-connect/token`,
       new URLSearchParams({
         client_id: "hasura-app",
         refresh_token: token,

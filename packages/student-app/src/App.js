@@ -73,7 +73,7 @@ function App() {
         console.log("INSIDE tokenCheckInterval");
         try {
           const response = await fetch(
-            "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token/introspect",
+            `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura-app/protocol/openid-connect/token/introspect`,
             {
               method: "POST",
               headers: {
