@@ -11,7 +11,7 @@ const getNewAccessToken = async () => {
         client_id: "hasura-app",
         refresh_token: token,
         grant_type: "refresh_token",
-        client_secret: "ixoAI89JICldF5xF9Y8cgDGJrbOu6SGw",
+        client_secret: "9ca6e96d-f72e-4208-91f4-a2d8e681f767",
       })
     );
     
