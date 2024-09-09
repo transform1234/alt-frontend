@@ -75,7 +75,8 @@ export default function Login({ swPath }) {
       const result = await fetchToken(
         process.env.REACT_APP_AUTH_URL,
         credentials?.username,
-        credentials?.password
+        credentials?.password,
+        process.env.REACT_APP_SECRET_KEY
       );
       if (result?.data) {
         let token = result.data.access_token;
