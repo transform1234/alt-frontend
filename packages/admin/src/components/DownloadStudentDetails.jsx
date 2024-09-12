@@ -130,12 +130,18 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: {
+            xs: "90%", 
+            sm: "70%", 
+            md: "400px"
+          },
           bgcolor: "background.paper",
           border: "1px solid #cad0d8",
           borderRadius: "12px",
           boxShadow: 24,
           p: 4,
+          overflowY: "auto", 
+          maxHeight: "90vh" 
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
