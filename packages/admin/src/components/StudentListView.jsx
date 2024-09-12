@@ -20,11 +20,18 @@ import { result } from "lodash";
 import studentUsernamePasswordAPI from "api/studentUsernamePasswordAPI";
 import studentUdiseAPI from "api/studentUdiseAPI";
 
+import DownloadCsv from "./DownloadCsv";
+import DownloadStudentDetails from "./DownloadStudentDetails";
+
 function StudentListView() {
   const [token, setToken] = useState([]);
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
   const [currentPage, setCurrentPage] = useState(2);
+
+  const [isDownloadCsv, setDownloadCsv] = useState(false);
+  const [isDownloadStudentDetails, setisDownloadStudentDetails] =
+    useState(false);
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -391,17 +398,32 @@ function StudentListView() {
   //   fetchData();
   // };
 
+  const openDownloadCsvModal = () => {
+    setDownloadCsv(true);
+  };
+
+  const closeDownloadCsvModal = () => {
+    setDownloadCsv(false);
+  };
+  const openDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(true);
+  };
+
+  const closeDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(false);
+  };
+console.log("row data", rowData);
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <button
+        {/* <button
           onClick={onBtnExportFields}
           style={{
             background: "#41C88E",
             border: "none",
             borderRadius: "5px",
-            marginLeft: "10px", // Add some spacing between the buttons
-            display: "flex", // Center align vertically
+            marginLeft: "10px",
+            display: "flex", 
             cursor: "pointer",
             alignItems: "center",
           }}
@@ -440,8 +462,8 @@ function StudentListView() {
             background: "#41C88E",
             border: "none",
             borderRadius: "5px",
-            marginLeft: "10px", // Add some spacing between the buttons
-            display: "flex", // Center align vertically
+            marginLeft: "10px", 
+            display: "flex", 
             cursor: "pointer",
             alignItems: "center",
           }}
@@ -453,7 +475,57 @@ function StudentListView() {
             }}
           />
           <H4 style={{ color: "white" }}> Get Students by UDISE Code </H4>
+        </button> */}
+        <button
+          onClick={openDownloadCsvModal}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}>Download CSV</H4>
         </button>
+        <DownloadCsv
+          open={isDownloadCsv}
+          handleClose={closeDownloadCsvModal}
+          rowData={rowData}
+        />
+        <button
+          onClick={openDownloadStudentDetailsModal}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}>Download Student Details</H4>
+        </button>
+        <DownloadStudentDetails
+          open={isDownloadStudentDetails}
+          handleClose={closeDownloadStudentDetailsModal}
+          rowData={rowData}
+        />
       </div>
       <div
         style={{
@@ -464,17 +536,7 @@ function StudentListView() {
           cursor: "pointer",
           zIndex: "1",
         }}
-      >
-        {/* <Button style={{ cursor: "pointer" }} onPress={handlePaginationChanged}>
-          Previous Page
-        </Button>
-        <Button
-          style={{ cursor: "pointer", marginLeft: "20px" }}
-          onPress={handlePaginationChanged2}
-        >
-          Next Page
-        </Button> */}
-      </div>
+      ></div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
