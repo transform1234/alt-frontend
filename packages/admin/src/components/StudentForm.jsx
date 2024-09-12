@@ -349,9 +349,9 @@ function StudentForm({ studentData }) {
                   {...register("group")}
                   value={selectedgroup}
                   onChange={(e) => setSelectedgroup(e.target.value)}
+                  disabled={studentData} // Disable the field in edit mode
                 >
-                  <option value="">Select Group</option>{" "}
-                  {/* Placeholder option */}
+                  <option value="">Select Group</option>
                   {groups.map((school) => (
                     <option key={school.name} value={school.name}>
                       {school.name}
@@ -359,9 +359,6 @@ function StudentForm({ studentData }) {
                   ))}
                 </select>
 
-                {/* <label className="form-label" htmlFor="udise">
-                  Group
-                </label> */}
                 <div className={styles.errorMessage}>
                   {errors.group && <p>{errors.group.message}</p>}
                 </div>
