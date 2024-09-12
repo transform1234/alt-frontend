@@ -15,21 +15,32 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
-import { CSVLink } from "react-csv"; // Import CSV link for CSV download
-import { fetchStates } from "../api/getState";
-import { fetchDistricts } from "../api/getDistrict";
-import { fetchBlocks } from "../api/getBlock";
+import { CSVLink } from "react-csv";
+import { 
+  fetchStates, 
+  fetchDistricts, 
+  fetchBlocks, 
+  fetchSchools, 
+  fetchClasses 
+} from '../api/filterStudentDetails';
+
 
 const DownloadCsv = ({ open, handleClose, rowData }) => {
   const [dropdownValues, setDropdownValues] = useState({
-    dropdown1: null,
-    dropdown2: null,
-    dropdown3: null,
+    dropdown1: null, 
+    dropdown2: null, 
+    dropdown3: null, 
+    dropdown4: null, 
+    dropdown5: null, 
   });
+
   const [downloadType, setDownloadType] = useState("Student Details");
   const [stateOptions, setStateOptions] = useState([]);
   const [districtOptions, setDistrictOptions] = useState([]);
   const [blockOptions, setBlockOptions] = useState([]);
+  const [schoolOptions, setSchoolOptions] = useState([]);
+  const [classOptions, setClassOptions] = useState([]);
+
   const [csvData, setCsvData] = useState([]);
   const [csvFilename, setCsvFilename] = useState("student_details.csv");
 
@@ -37,7 +48,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   useEffect(() => {
     const loadStates = async () => {
       try {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem("token");
         const states = await fetchStates(token);
         setStateOptions(states);
       } catch (error) {
@@ -47,7 +58,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
     const loadAllDistricts = async () => {
       try {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(token);
         setDistrictOptions(districts);
       } catch (error) {
@@ -57,9 +68,19 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
     const loadAllBlocks = async () => {
       try {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem("token");
         const blocks = await fetchBlocks(token);
         setBlockOptions(blocks);
+      } catch (error) {
+        console.error("Error loading blocks:", error);
+      }
+    };
+
+    const loadAllSchool = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const schools = await fetchSchools(token);
+        setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading blocks:", error);
       }
@@ -68,6 +89,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     loadStates();
     loadAllDistricts();
     loadAllBlocks();
+    loadAllSchool();
   }, []);
 
   // Update districts based on selected state
@@ -75,7 +97,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     const loadDistricts = async () => {
       if (!dropdownValues.dropdown1) return; // Check for selected state
       try {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(token, dropdownValues.dropdown1);
         setDistrictOptions(districts);
       } catch (error) {
@@ -90,7 +112,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     const loadBlocks = async () => {
       if (!dropdownValues.dropdown2) return; // Check for selected district
       try {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem("token");
         const blocks = await fetchBlocks(token, dropdownValues.dropdown2);
         setBlockOptions(blocks);
       } catch (error) {
@@ -100,8 +122,40 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     loadBlocks();
   }, [dropdownValues.dropdown2]);
 
+  // Update schools based on selected block or fetch all if none is selected
+  useEffect(() => {
+    const loadSchools = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const schools = await fetchSchools(token, dropdownValues.dropdown3);
+        console.log("School", schools);
+        setSchoolOptions(schools);
+      } catch (error) {
+        console.error("Error loading schools:", error);
+      }
+    };
+    loadSchools();
+  }, [dropdownValues.dropdown3]); 
+
+  // Fetching classes based on selected school
+  useEffect(() => {
+    const loadClasses = async () => {
+      if (!dropdownValues.dropdown4) return; // Only fetch if a dropdown4 is selected
+      try {
+        const token = sessionStorage.getItem("token");
+        const classes = await fetchClasses(token, dropdownValues.dropdown4);
+        console.log("classes", classes);
+        setClassOptions(classes);
+      } catch (error) {
+        console.error("Error loading classes:", error);
+      }
+    };
+    loadClasses();
+  }, [dropdownValues.dropdown4]); 
+
   const handleDownload = () => {
     let filteredData = rowData;
+    console.log('filteredData',filteredData);
 
     // Filter data based on selected dropdowns
     if (dropdownValues.dropdown1) {
@@ -119,10 +173,20 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
         (item) => item.block === dropdownValues.dropdown3
       );
     }
+    if (dropdownValues.dropdown4) {
+      filteredData = filteredData.filter(
+        (item) => item.schoolName === dropdownValues.dropdown4
+      );
+    }
+    if (dropdownValues.dropdown5) {
+      filteredData = filteredData.filter(
+        (item) => item.className === dropdownValues.dropdown5
+      );
+    }
 
     if (!filteredData || filteredData.length === 0) {
       alert("No data available for the selected filters.");
-      return;
+      return false;
     }
 
     let dataToDownload = [];
@@ -132,35 +196,35 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       // Download all student details
       dataToDownload = filteredData.map((student) => ({
         "User ID": student.userId,
-          Name: student.name,
-          Username: student.username,
-          Email: student.email,
-          Mobile: student.mobile,
-          Gender: student.gender,
-          "Date of Birth": student.dateOfBirth,
-          Role: student.role,
-          Board: student.board,
-          Password: student.password,
-          "Created By": student.createdBy,
-          "Updated By": student.updatedBy,
-          "Student Id": student.studentId,
-          "Class Name": student.className,
-          Groups: student.groups.join(", "),
-          Religion: student.religion,
-          "School UDISE": student.schoolUdise,
-          Caste: student.caste,
-          "Annual Income": student.annualIncome,
-          "Mother's Education": student.motherEducation,
-          "Father's Education": student.fatherEducation,
-          "Mother's Occupation": student.motherOccupation,
-          "Father's Occupation": student.fatherOccupation,
-          "Number of Siblings": student.noOfSiblings,
-          "Student Enroll ID": student.studentEnrollId,
-          Promotion: student.promotion,
-          School: student.schoolName,
-          State: student.state,
-          District: student.district,
-          Block: student.block,
+        Name: student.name,
+        Username: student.username,
+        Email: student.email,
+        Mobile: student.mobile,
+        Gender: student.gender,
+        "Date of Birth": student.dateOfBirth,
+        Role: student.role,
+        Board: student.board,
+        Password: student.password,
+        "Created By": student.createdBy,
+        "Updated By": student.updatedBy,
+        "Student Id": student.studentId,
+        "Class Name": student.className,
+        Groups: student.groups.join(", "),
+        Religion: student.religion,
+        "School UDISE": student.schoolUdise,
+        Caste: student.caste,
+        "Annual Income": student.annualIncome,
+        "Mother's Education": student.motherEducation,
+        "Father's Education": student.fatherEducation,
+        "Mother's Occupation": student.motherOccupation,
+        "Father's Occupation": student.fatherOccupation,
+        "Number of Siblings": student.noOfSiblings,
+        "Student Enroll ID": student.studentEnrollId,
+        Promotion: student.promotion,
+        School: student.schoolName,
+        State: student.state,
+        District: student.district,
+        Block: student.block,
       }));
       filename = "filtered_student_details.csv";
     } else if (downloadType === "Username and Password") {
@@ -191,6 +255,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       dropdown1: null,
       dropdown2: null,
       dropdown3: null,
+      dropdown4: null,
+      dropdown5: null,
     });
     setDownloadType("Student Details");
     handleClose();
@@ -288,6 +354,34 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select Block" />
+            )}
+          />
+        </Box>
+
+        {/* Dropdown for Schools */}
+        <Box sx={{ mb: 2 }}>
+          <Autocomplete
+            disablePortal
+            options={schoolOptions}
+            value={dropdownValues.dropdown4} // Manage this state accordingly
+            onChange={(event, value) => handleChange(event, value, "dropdown4")}
+            sx={{ width: "100%" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Select School" />
+            )}
+          />
+        </Box>
+
+        {/* Dropdown for Class */}
+        <Box sx={{ mb: 2 }}>
+          <Autocomplete
+            disablePortal
+            options={classOptions}
+            value={dropdownValues.dropdown5} 
+            onChange={(event, value) => handleChange(event, value, "dropdown5")}
+            sx={{ width: "100%" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Select Class" />
             )}
           />
         </Box>

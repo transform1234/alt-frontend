@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
-import { CSVLink } from "react-csv"; // Import CSV link for CSV download
+import { CSVLink } from "react-csv"; 
 
 const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
   const [dropdownValues, setDropdownValues] = useState({
@@ -30,7 +30,7 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
   useEffect(() => {
     if (rowData && rowData.length) {
       const usernames = rowData.map((item) => item.username);
-      setDropdownOptions(usernames); // Set usernames as options
+      setDropdownOptions(usernames); 
     }
   }, [rowData]);
 
