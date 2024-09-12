@@ -1,16 +1,16 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { H2 } from "@shiksha/common-lib";
 import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import studentAPI from "api/studentAPI";
 import StudentSchema from "schema/StudentSchema";
-import { useState, useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
 import { groupSearch, schoolSearch } from "routes/links";
+import studentUpdateAPI from "api/studentUpdateAPI";
 
-function StudentForm() {
+function StudentForm({ studentData }) {
   const [data, setData] = useState([]);
   const [token, setToken] = useState([]);
   const [selectedUdiseCode, setSelectedUdiseCode] = useState([]);
@@ -20,12 +20,47 @@ function StudentForm() {
 
   const [groups, setGroups] = useState([]);
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(StudentSchema) });
+
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
   useEffect(() => {
+    if (studentData && data.length > 0) {
+      const udiseCodeOnly = studentData?.schoolUdise;
+  
+      // Find the school in data by matching UDISE code
+      const selectedSchool = data.find(school => school?.udiseCode === udiseCodeOnly);
+  
+      if (selectedSchool) {
+        setSelectedUdiseCode(selectedSchool?.udiseCode); // Set the UDISE code only (not the combined string)
+      }
+  
+      const selectedGroup = groups.find(group => group?.name === studentData?.className);
+      if (selectedGroup) {
+        setSelectedgroup(selectedGroup?.name);
+      }
+
+      
+      // Set the other form data, like dateOfBirth
+      const formattedDateOfBirth = studentData?.dateOfBirth?.split("T")[0];
+      reset({
+        ...studentData,
+        dateOfBirth: formattedDateOfBirth,
+      });
+    }
+  }, [studentData, data, groups, reset]);
+  
+
+  useEffect(() => {
+    if (token) {
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -33,7 +68,6 @@ function StudentForm() {
     };
 
     const requestData = {
-      limit: "20",
       page: 0,
       filters: {},
     };
@@ -47,9 +81,11 @@ function StudentForm() {
         // Handle any errors here
         console.error("Error fetching data:", error);
       });
+    }
   }, [token]);
 
   useEffect(() => {
+    if(selectedUdiseCode.length > 0){
     if (Object.keys(selectedUdiseCode).length) {
       // Splitting string into an array using the comma
       const valuesArray = selectedUdiseCode.split(",");
@@ -63,10 +99,11 @@ function StudentForm() {
       // Values in separate variables
     } else {
       console.error("selectedUdiseCode is not a string.");
-    }
+    }}
   }, [selectedUdiseCode]);
 
   useEffect(async () => {
+    if (extractedUdise && token) {
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -92,20 +129,33 @@ function StudentForm() {
         // Handle any errors here
         console.error("Error fetching data:", error);
       });
-  }, [extractedUdise]);
+    }
+  }, [extractedUdise, token]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(StudentSchema) });
   const onSubmit = async (data) => {
-    const result = await studentAPI(data);
-    if (result == true) {
-      alert("Registration Successful.");
-      window.location.reload();
-    } else {
-      alert("Registeration failed");
+    try {
+      if (studentData?.studentId) {
+         // Update old student
+         const result = await studentUpdateAPI(data);
+         if (result === true) {
+           alert("Updated Data Successful.");
+           window.location.reload();
+         } else {
+           alert("Update failed");
+         }
+      } else {
+        // Create new student
+        const result = await studentAPI(data);
+        if (result === true) {
+          alert("Registration Successful.");
+          window.location.reload();
+        } else {
+          alert("Registration failed");
+        }
+      }
+    } catch (error) {
+      console.error("Error saving student data:", error);
+      alert("An error occurred while saving the data.");
     }
   };
 
@@ -120,24 +170,23 @@ function StudentForm() {
           <div className="container mb-3">
             <div className={styles.formLabel} style={{ marginBottom: "10px" }}>
               <H2>
-                Interact with the requisite fields and execute a "Submit" action
-                to preserve your alterations.
+                {studentData ? "Edit Student Information" : "Interact with the requisite fields and execute a 'Submit' action  to preserve your alterations."}
               </H2>
             </div>
             <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
-                name="userName"
-                id="firstName"
-                placeholder="Student Name"
-                {...register("firstName")}
+                name="name"
+                id="name"
+                placeholder="Student Name *"
+                {...register("name")}
               ></input>
               {/* <label className="form-label" htmlFor="firstName">
                 Name
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.firstName && <p>{errors.firstName.message}</p>}
+                {errors.name && <p>{errors.name.message}</p>}
               </div>
             </div>
             <br></br>
@@ -145,16 +194,16 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="text"
-                name="userName"
-                id="userName"
+                name="username"
+                id="username"
                 placeholder="User Name"
-                {...register("userName")}
+                {...register("username")}
               ></input>
               {/* <label className="form-label" htmlFor="userName">
                 Username
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.userName && <p>{errors.userName.message}</p>}
+                {errors.username && <p>{errors.username.message}</p>}
               </div>
             </div>
             <br></br>
@@ -166,10 +215,10 @@ function StudentForm() {
                   name="gender"
                   id="gender"
                   value="Male"
-                  checked
+                  defaultChecked={!studentData || studentData.gender === "Male"}  // default to male if no studentData
                   {...register("gender")}
                 />
-                <label className="form-check-label" htmlFor="exampleRadios1">
+               <label className="form-check-label" htmlFor="male">
                   Male
                 </label>
               </div>
@@ -180,9 +229,10 @@ function StudentForm() {
                   name="gender"
                   id="gender"
                   value="Female"
+                  defaultChecked={studentData?.gender === "Female"}  // default to female if studentData says so
                   {...register("gender")}
                 />
-                <label className="form-check-label" htmlFor="gender">
+                <label className="form-check-label" htmlFor="female">
                   Female
                 </label>
               </div>
@@ -207,10 +257,10 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="date"
-                name="dob"
-                id="dob"
+                name="dateOfBirth"
+                id="dateOfBirth"
                 placeholder="Date of Birth"
-                {...register("dob")}
+                {...register("dateOfBirth")}
               ></input>
               {/* <label className="form-label" htmlFor="dob">
                 Date of Birth
@@ -263,17 +313,18 @@ function StudentForm() {
                   name="udise"
                   id="udise"
                   {...register("udise")}
-                  value={selectedUdiseCode}
-                  onChange={(e) => setSelectedUdiseCode(e.target.value)}
+                  value={selectedUdiseCode || ""} 
+                  onChange={(e) => {
+                    const selectedValue = e.target.value; 
+                    setSelectedUdiseCode(selectedValue);
+                  }}
                 >
                   <option value="">Select School Udise</option>{" "}
-                  {/* Placeholder option */}
                   {data.map((school) => (
                     <option
-                      key={school.udiseCode}
-                      value={[school.udiseCode, school.name]}
-                    >
-                      {school.name}
+                     key={school.udiseCode}
+                     value={school.udiseCode}>
+                     {school.name} ({school.udiseCode})
                     </option>
                   ))}
                 </select>
@@ -319,7 +370,7 @@ function StudentForm() {
             </div>
 
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -328,14 +379,11 @@ function StudentForm() {
                 placeholder="Role"
                 {...register("role")}
               ></input>
-              {/* <label className="form-label" htmlFor="role">
-                Role
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.role && <p>{errors.role.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -370,7 +418,7 @@ function StudentForm() {
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -379,14 +427,11 @@ function StudentForm() {
                 placeholder="Grade"
                 {...register("grade")}
               ></input>
-              {/* <label className="form-label" htmlFor="grade">
-                Grade
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.grade && <p>{errors.grade.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -552,20 +597,20 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="text"
-                name="siblings"
-                id="siblings"
+                name="noOfSiblings"
+                id="noOfSiblings"
                 placeholder="Number of Siblings"
-                {...register("siblings")}
+                {...register("noOfSiblings")}
               ></input>
               {/* <label className="form-label" htmlFor="siblings">
                 Number of Siblings
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.siblings && <p>{errors.siblings.message}</p>}
+                {errors.noOfSiblings && <p>{errors.noOfSiblings.message}</p>}
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -574,17 +619,14 @@ function StudentForm() {
                 placeholder="StudentEnrollId"
                 {...register("studentEnrollId")}
               ></input>
-              {/* <label className="form-label" htmlFor="studentEnrollId">
-                Number of studentEnrollId
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.studentEnrollId && (
                   <p>{errors.studentEnrollId.message}</p>
                 )}
               </div>
             </div>
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -593,14 +635,11 @@ function StudentForm() {
                 placeholder="Unique ID"
                 {...register("uniqueId")}
               ></input>
-              {/* <label className="form-label" htmlFor="uniqueId">
-                Unique ID
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -635,7 +674,7 @@ function StudentForm() {
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -644,14 +683,11 @@ function StudentForm() {
                 placeholder="Serial No"
                 {...register("serialNo")}
               ></input>
-              {/* <label className="form-label" htmlFor="serialNo">
-                Serial No
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.serialNo && <p>{errors.serialNo.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -669,7 +705,7 @@ function StudentForm() {
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -678,14 +714,11 @@ function StudentForm() {
                 placeholder="Section"
                 {...register("section")}
               ></input>
-              {/* <label className="form-label" htmlFor="section">
-                Section
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.section && <p>{errors.section.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -703,7 +736,7 @@ function StudentForm() {
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -712,16 +745,13 @@ function StudentForm() {
                 placeholder="BloodGroup"
                 {...register("bloodGroup")}
               ></input>
-              {/* <label className="form-label" htmlFor="bloodGroup">
-                Blood Group
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
               </div>
             </div>
 
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -730,15 +760,12 @@ function StudentForm() {
                 placeholder="Status"
                 {...register("status")}
               ></input>
-              {/* <label className="form-label" htmlFor="status">
-                Status
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.status && <p>{errors.status.message}</p>}
               </div>
             </div>
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -747,13 +774,10 @@ function StudentForm() {
                 placeholder="Image"
                 {...register("image")}
               ></input>
-              {/* <label className="form-label" htmlFor="image">
-                Image
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.image && <p>{errors.image.message}</p>}
               </div>
-            </div>
+            </div> */}
           </div>
           <br />
           <Button type="button" onPress={handleSubmit(onSubmit)}>
