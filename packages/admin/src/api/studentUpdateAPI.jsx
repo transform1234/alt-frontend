@@ -1,7 +1,7 @@
 import axios from "axios";
 import { studentRegister } from "../routes/links";
 
-const studentAPI = async (data) => {
+const studentUpdateAPI = async (data) => {
   const token = sessionStorage.getItem("token");
 
   const schoolUdise = data.udise.split(",");
@@ -24,7 +24,6 @@ const studentAPI = async (data) => {
     gender: data.gender,
     dateOfBirth: data.dateOfBirth,
     board: data.board,
-    password: data.password,
     // status: "true",
     className: data.group,
     groups: [],
@@ -45,16 +44,16 @@ const studentAPI = async (data) => {
 
   let result;
   await axios({
-    method: "POST",
-    url: studentRegister,
+    method: "PUT",
+    url: studentRegister +"/"+ data.userId,
     data: jsonData,
     headers: headers,
   })
     .then((res) => {
-      if (res.status === 201) {
-        result = true;
-      } else {
+      if (res.data && res.data.errorCode) {
         result = false;
+      } else {
+        result = true;
       }
     })
     .catch(function (error) {
@@ -65,4 +64,4 @@ const studentAPI = async (data) => {
   return result;
 };
 
-export default studentAPI;
+export default studentUpdateAPI;

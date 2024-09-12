@@ -19,6 +19,9 @@ import { Button } from "native-base";
 import { result } from "lodash";
 import studentUsernamePasswordAPI from "api/studentUsernamePasswordAPI";
 import studentUdiseAPI from "api/studentUdiseAPI";
+import FORMmodal from "react-modal";
+import styles from "../pages/StudentPage.module.css";
+import StudentForm from "../components/StudentForm";
 
 import DownloadCsv from "./DownloadCsv";
 import DownloadStudentDetails from "./DownloadStudentDetails";
@@ -28,6 +31,8 @@ function StudentListView() {
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
   const [currentPage, setCurrentPage] = useState(2);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   const [isDownloadCsv, setDownloadCsv] = useState(false);
   const [isDownloadStudentDetails, setisDownloadStudentDetails] =
@@ -48,6 +53,15 @@ function StudentListView() {
         alert("Password reset failed");
       }
     }
+  };
+
+  const handleEditClick = (data) => {
+    setSelectedStudent(data);
+    setIsEditModalOpen(true);
+  };
+    // Function to handle closing the modal
+    const handleClose = () => {
+      setIsEditModalOpen(false);  // This should close the modal
   };
 
   const [columnDefs] = useState([
@@ -98,27 +112,25 @@ function StudentListView() {
     //     return <div onClick={handleClick}>{label}</div>;
     //   },
     // },
-    // {
-    //   headerName: "",
-    //   field: "actions",
-    //   width: 80,
-    //   cellRenderer: function (params) {
-    //     const label = "Edit"; // Replace with your desired label
-
-    //     return (
-    //       <div
-    //         style={{
-    //           color: "blue",
-    //           cursor: "pointer",
-    //           fontWeight: "medium",
-    //         }}
-    //       >
-    //         {label}
-    //       </div>
-    //     );
-    //   },
-    // },
-
+    {
+      headerName: "",
+      field: "actions",
+      width: 80,
+      cellRenderer: function (params) {
+        return (
+          <div
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              fontWeight: "medium",
+            }}
+            onClick={() => handleEditClick(params.data)}
+          >
+            Edit
+          </div>
+        );
+      },
+    },
     { field: "name" },
     { field: "dateOfBirth", width: 150 },
     { field: "board", width: 150 },
@@ -547,6 +559,25 @@ console.log("row data", rowData);
         paginationAutoPageSize={true}
         overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
       ></AgGridReact>{" "}
+
+      {isEditModalOpen && (
+        <FORMmodal
+          isOpen={isEditModalOpen}
+          onRequestClose={handleClose}
+          contentLabel="Edit Modal"
+          ariaHideApp={false}
+        >
+          <button
+            onClick={handleClose}
+            className={styles.closeButton}
+          >
+            ❌
+          </button>
+          <div className={styles.bodyDiv}>
+            <StudentForm studentData={selectedStudent} />
+          </div>
+        </FORMmodal>
+      )}
     </div>
   );
 }
