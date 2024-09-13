@@ -39,6 +39,8 @@ function StudentListView() {
   const [isDownloadStudentDetails, setisDownloadStudentDetails] =
     useState(false);
 
+  const [filters, setFilters] = useState({});
+
   const openPrompt = async (data) => {
     let person = window.prompt(
       `Enter a new password for user ${data.username}`
@@ -62,7 +64,7 @@ function StudentListView() {
   };
 
   const handleClose = () => {
-    setIsEditModalOpen(false); 
+    setIsEditModalOpen(false);
   };
 
   const [columnDefs] = useState([
@@ -164,7 +166,6 @@ function StudentListView() {
     { field: "fatherOccupation" },
     { field: "noOfSiblings" },
   ]);
-
 
   const onBtnExportUdise = async () => {
     let person = window.prompt(`Enter a School Udise`);
@@ -281,9 +282,32 @@ function StudentListView() {
     setToken(token);
   }, []);
 
-  // Fetching data using useSWR
+  // Function to handle filter changes from StudentFilters
+  const handleFiltersChange = (dropdownValues) => {
+    const {
+      dropdown1: state,
+      dropdown2: district,
+      dropdown3: block,
+      dropdown4: school,
+      dropdown5: classVal,
+    } = dropdownValues;
+
+    // Construct filters object based on selected values
+    const newFilters = {};
+    if (state) newFilters.state = { eq: state };
+    if (district) newFilters.district = { eq: district };
+    if (block) newFilters.block = { eq: block };
+    if (school) newFilters.school = { eq: school };
+    if (classVal) newFilters.class = { eq: classVal };
+
+    setFilters(newFilters);
+  };
+
+  // Fetch data whenever filters change
   useEffect(() => {
     const fetchData = async () => {
+      if (!token) return;
+
       try {
         const headers = {
           Accept: "*/*",
@@ -292,9 +316,9 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: "25",
+          limit: 25,
           page: 1,
-          filters: {},
+          filters: filters,
         };
 
         const response = await axios.post(studentSearch, requestData, {
@@ -302,12 +326,12 @@ function StudentListView() {
         });
         setRowData(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching filtered data:", error);
       }
     };
 
     fetchData();
-  }, [token]);
+  }, [filters, token]);
 
   const openDownloadCsvModal = () => {
     setDownloadCsv(true);
@@ -379,7 +403,7 @@ function StudentListView() {
         />
       </div>
       <div style={{ display: "flex", flexDirection: "row", marginTop: "2rem" }}>
-        <StudentFilters />
+        <StudentFilters handleFiltersChange={handleFiltersChange} />
       </div>
       <div
         style={{
