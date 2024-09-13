@@ -74,103 +74,67 @@ function StudentForm({ studentData }) {
       });
     }
   }, [studentData, data, groups, reset]);
+
+  const MAX_RETRIES = 1;
   
-
-  useEffect(() => {
-    if (token) {
-    setLoading(true)
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-
-    const requestData = {
-      page: 0,
-      filters: {},
-    };
-    axios
-      .post(schoolSearch, requestData, { headers })
-      .then((response) => {
-        setData(response.data.data);
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-
-      });
+  const retryApiCall = async (apiCall, retries = MAX_RETRIES) => {
+    let attempt = 0;
+    while (attempt < retries) {
+      try {
+        const response = await apiCall();
+        return response;
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          attempt += 1;
+          console.error(`Retrying API call... Attempt ${attempt}`);
+          if (attempt >= retries) throw error; // Throw error after max retries
+        } else {
+          throw error;
+        }
+      }
     }
-  }, [token]);
-
+  };
+  
   useEffect(() => {
-    if (token) {
-    setLoading(true) 
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-
-    const requestData = {};
-    
-    axios
-      .post(stateSearch, requestData, { headers })
-      .then((response) => {
-        setStateData(response.data.data);
-        setLoading(false);
-
-      })
-      .catch((error) => {
-        // Handle any errors here
-        console.error("Error fetching data:", error);
-      });
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (token) {
-      setLoading(true)
+    if (token && studentData) {
+      setLoading(true);
+  
       const headers = {
         Accept: "*/*",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       };
-     const requestData = { state: selectedState };
-      axios
-        .post(districtSearch, requestData, { headers })
-        .then((response) => {
-          setDistrictData(response.data.data); 
-          setLoading(false);
+  
+      const requestDataSchool = { page: 0, filters: {} };
+      const requestDataDistrict = { state: studentData.state };
+      const requestDataBlock = { district: studentData.district };
+  
+      const apiCalls = [
+        () => axios.post(schoolSearch, requestDataSchool, { headers }),
+        () => axios.post(stateSearch, {}, { headers }),
+        studentData.state
+          ? () => axios.post(districtSearch, requestDataDistrict, { headers })
+          : null,
+          studentData.district
+          ? () => axios.post(blockSearch, requestDataBlock, { headers })
+          : null,
+      ].filter(Boolean);
+  
+      Promise.all(apiCalls.map((call) => retryApiCall(call)))
+        .then(([schoolResponse, stateResponse, districtResponse, blockResponse]) => {
+          if (schoolResponse) setData(schoolResponse.data.data);
+          if (stateResponse) setStateData(stateResponse.data.data);
+          if (districtResponse) setDistrictData(districtResponse.data.data);
+          if (blockResponse) setBlockData(blockResponse.data.data);
         })
         .catch((error) => {
-          console.error("Error fetching district data:", error);
-
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
-  }, [token]); 
-
-  useEffect(() => {
-    if (token) {
-    setLoading(true);
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-
-    const requestData = { district : selectedDistrict};
-    axios
-      .post(blockSearch, requestData, { headers })
-      .then((response) => {
-        setBlockData(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-
-      });
-    }
-  }, [token]);
+  }, [token,studentData]);
 
   //when change in state
   const handleStateChangeApi = (selectedState) => {
