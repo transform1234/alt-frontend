@@ -39,6 +39,14 @@ function StudentListView() {
   const [isDownloadStudentDetails, setisDownloadStudentDetails] =
     useState(false);
 
+  // const [filters, setFilters] = useState({
+  //   state: null,
+  //   district: null,
+  //   block: null,
+  //   school: null,
+  //   class: null,
+  // });
+
   const [filters, setFilters] = useState({});
 
   const openPrompt = async (data) => {
@@ -282,28 +290,25 @@ function StudentListView() {
     setToken(token);
   }, []);
 
-  // Function to handle filter changes from StudentFilters
   const handleFiltersChange = (dropdownValues) => {
     const {
       dropdown1: state,
       dropdown2: district,
       dropdown3: block,
-      dropdown4: school,
-      dropdown5: classVal,
+      dropdown4: schoolName, 
+      dropdown5: className, 
     } = dropdownValues;
 
-    // Construct filters object based on selected values
     const newFilters = {};
     if (state) newFilters.state = { eq: state };
     if (district) newFilters.district = { eq: district };
     if (block) newFilters.block = { eq: block };
-    if (school) newFilters.school = { eq: school };
-    if (classVal) newFilters.class = { eq: classVal };
+    if (schoolName) newFilters.schoolName = { eq: schoolName }; 
+    if (className) newFilters.className = { eq: className }; 
 
-    setFilters(newFilters);
+    setFilters(newFilters); 
   };
 
-  // Fetch data whenever filters change
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return;
@@ -318,20 +323,22 @@ function StudentListView() {
         const requestData = {
           limit: 25,
           page: 1,
-          filters: filters,
+          filters: filters || {}, // Pass filters object, empty if no filters selected
         };
+
+        console.log("API Request Data:", requestData); // For debugging
 
         const response = await axios.post(studentSearch, requestData, {
           headers,
         });
         setRowData(response.data.data);
       } catch (error) {
-        console.error("Error fetching filtered data:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchData();
-  }, [filters, token]);
+    fetchData(); // Call the fetch function whenever filters or token change
+  }, [filters, token]); // The API call is triggered on `filters` or `token` change
 
   const openDownloadCsvModal = () => {
     setDownloadCsv(true);
