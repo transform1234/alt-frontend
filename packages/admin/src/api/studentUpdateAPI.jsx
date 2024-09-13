@@ -38,7 +38,10 @@ const studentUpdateAPI = async (data) => {
     noOfSiblings: data.noOfSiblings,
     motherName : data.motherName,
     fatherName : data.fatherName,
-    medium : data.medium
+    medium : data.medium,
+    state : data.state,
+    block : data.block,
+    district : data.district,
     // studentEnrollId: data.studentEnrollId,
   };
 

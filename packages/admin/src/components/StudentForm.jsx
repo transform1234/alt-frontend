@@ -7,7 +7,7 @@ import StudentSchema from "schema/StudentSchema";
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
-import { groupSearch, schoolSearch } from "routes/links";
+import { groupSearch, schoolSearch,stateSearch,blockSearch, districtSearch } from "routes/links";
 import studentUpdateAPI from "api/studentUpdateAPI";
 
 function StudentForm({ studentData }) {
@@ -19,7 +19,13 @@ function StudentForm({ studentData }) {
   const [selectedgroup, setSelectedgroup] = useState(""); // Initialize with an empty string
 
   const [groups, setGroups] = useState([]);
-
+  const [stateData,setStateData] = useState([])
+  const [districtData, setDistrictData] = useState([])
+  const [blockData,setBlockData] = useState([])
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState(""); 
+  const [selectedBlock, setSelectedBlock] = useState(""); 
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -48,6 +54,17 @@ function StudentForm({ studentData }) {
         setSelectedgroup(selectedGroup?.name);
       }
 
+      if(studentData.state){
+        setSelectedState(studentData?.state);
+      }
+
+      if(studentData.block){
+        setSelectedBlock(studentData?.block)
+      }
+
+      if(studentData.district){
+        setSelectedDistrict(studentData?.district)
+      }
       
       // Set the other form data, like dateOfBirth
       const formattedDateOfBirth = studentData?.dateOfBirth?.split("T")[0];
@@ -61,6 +78,7 @@ function StudentForm({ studentData }) {
 
   useEffect(() => {
     if (token) {
+    setLoading(true)
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -71,11 +89,36 @@ function StudentForm({ studentData }) {
       page: 0,
       filters: {},
     };
-
     axios
       .post(schoolSearch, requestData, { headers })
       .then((response) => {
         setData(response.data.data);
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+
+      });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+    setLoading(true) 
+    const headers = {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestData = {};
+    
+    axios
+      .post(stateSearch, requestData, { headers })
+      .then((response) => {
+        setStateData(response.data.data);
+        setLoading(false);
+
       })
       .catch((error) => {
         // Handle any errors here
@@ -84,6 +127,102 @@ function StudentForm({ studentData }) {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (token) {
+      setLoading(true)
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+     const requestData = { state: selectedState };
+      axios
+        .post(districtSearch, requestData, { headers })
+        .then((response) => {
+          setDistrictData(response.data.data); 
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching district data:", error);
+
+        });
+    }
+  }, [token]); 
+
+  useEffect(() => {
+    if (token) {
+    setLoading(true);
+    const headers = {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestData = { district : selectedDistrict};
+    axios
+      .post(blockSearch, requestData, { headers })
+      .then((response) => {
+        setBlockData(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+
+      });
+    }
+  }, [token]);
+
+  //when change in state
+  const handleStateChangeApi = (selectedState) => {
+    if (token && selectedState) {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const requestData = { state: selectedState };
+  
+      axios.post(districtSearch, requestData, { headers })
+        .then((response) => {
+          setDistrictData(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching district data:", error);
+        });
+    }
+  };
+
+  const handleDistrictChangeApi = (selectedDistrict) => {
+    if (token && selectedDistrict) {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const requestData = { district: selectedDistrict };
+      axios.post(blockSearch, requestData, { headers })
+        .then((response) => {
+          setBlockData(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching block data:", error);
+        });
+    }
+  }
+  const handleStateChange = (e) => {
+    const newState = e.target.value;
+    setSelectedState(newState);
+    handleStateChangeApi(newState);
+  };
+
+  const handleDistrictChange = (e) => {
+    const newDistrict = e.target.value;
+    setSelectedDistrict(newDistrict);
+    handleDistrictChangeApi(newDistrict);
+  };
+  
   useEffect(() => {
     if(selectedUdiseCode.length > 0){
     if (Object.keys(selectedUdiseCode).length) {
@@ -161,6 +300,9 @@ function StudentForm({ studentData }) {
 
   return (
     <div>
+      {loading ? (
+      <div className={styles.loader}>Loading...</div>
+    ) : (
       <form
         className=" card-body form-floating mt-3 mx-1"
         autoComplete="off"
@@ -484,40 +626,6 @@ function StudentForm({ studentData }) {
               <input
                 className={styles.formControl}
                 type="text"
-                name="motherName"
-                id="motherName"
-                placeholder="Mother Name"
-                {...register("motherName")}
-              ></input>
-              {/* <label className="form-label" htmlFor="motherName">
-                Mother Name
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.motherName && <p>{errors.motherName.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="fatherName"
-                id="fatherName"
-                placeholder="Father Name"
-                {...register("fatherName")}
-              ></input>
-              {/* <label className="form-label" htmlFor="fatherName">
-                Father Name
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.fatherName && <p>{errors.fatherName.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
                 name="motherEducation"
                 id="motherEducation"
                 placeholder="Mother Education"
@@ -638,67 +746,73 @@ function StudentForm({ studentData }) {
             </div>
             <br></br> */}
             <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
+              <select
+                className={styles.selectWrapper}
                 name="state"
                 id="state"
-                placeholder="State"
+                value={selectedState || ""}  
                 {...register("state")}
-              ></input>
-              {/* <label className="form-label" htmlFor="state">
-                State
-              </label> */}
+                onChange={handleStateChange}
+              >
+                <option value="">Select State</option>
+                {stateData.map((state, index) => (
+                  <option key={index} value={state.state}>
+                    {state.state}
+                  </option>
+                ))}
+              </select>
               <div className={styles.errorMessage}>
                 {errors.state && <p>{errors.state.message}</p>}
               </div>
             </div>
             <br></br>
             <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="block"
-                id="block"
-                placeholder="Block"
-                {...register("block")}
-              ></input>
-              {/* <label className="form-label" htmlFor="block">
-                Block
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.block && <p>{errors.block.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            {/* <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="serialNo"
-                id="serialNo"
-                placeholder="Serial No"
-                {...register("serialNo")}
-              ></input>
-              <div className={styles.errorMessage}>
-                {errors.serialNo && <p>{errors.serialNo.message}</p>}
-              </div>
-            </div>
-            <br></br> */}
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
+              <select
+                className={styles.selectWrapper}
                 name="district"
                 id="district"
-                placeholder="District"
                 {...register("district")}
-              ></input>
-              {/* <label className="form-label" htmlFor="district">
-                District
-              </label> */}
+                value={selectedDistrict || ""}
+                onChange={handleDistrictChange}
+                disabled={!selectedState} 
+              >
+                <option value="">Select District</option>
+                 {districtData.map((district, index) => (
+                    <option key={index} value={district.district}>
+                      {district.district}
+                    </option>
+                  ))}
+              </select>
+
               <div className={styles.errorMessage}>
                 {errors.district && <p>{errors.district.message}</p>}
+              </div>
+            </div>
+
+            <br></br>
+            <div className="form-floating">
+              <select
+                className={styles.selectWrapper}
+                name="block"
+                id="block"
+                value={selectedBlock || ""}
+                {...register("block")}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setSelectedBlock(selectedValue); 
+                  }}
+                disabled={!selectedDistrict} 
+              >
+               <option value="">Select Block</option>
+                 {blockData.map((block, index) => (
+                    <option key={index} value={block.block}>
+                      {block.block}
+                    </option>
+                  ))}
+              </select>
+
+              <div className={styles.errorMessage}>
+                {errors.block && <p>{errors.block.message}</p>}
               </div>
             </div>
             <br></br>
@@ -716,7 +830,7 @@ function StudentForm({ studentData }) {
               </div>
             </div>
             <br></br> */}
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -725,14 +839,11 @@ function StudentForm({ studentData }) {
                 placeholder="Medium"
                 {...register("medium")}
               ></input>
-              {/* <label className="form-label" htmlFor="medium">
-                Medium
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.medium && <p>{errors.medium.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             {/* <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -782,6 +893,7 @@ function StudentForm({ studentData }) {
           </Button>
         </div>
       </form>
+       )}
     </div>
   );
 }
