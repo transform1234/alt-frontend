@@ -60,9 +60,9 @@ function StudentListView() {
     setSelectedStudent(data);
     setIsEditModalOpen(true);
   };
-  // Function to handle closing the modal
+
   const handleClose = () => {
-    setIsEditModalOpen(false); // This should close the modal
+    setIsEditModalOpen(false); 
   };
 
   const [columnDefs] = useState([
@@ -165,46 +165,6 @@ function StudentListView() {
     { field: "noOfSiblings" },
   ]);
 
-  //Download username and pass with prompt
-
-  // const onBtnExportFields = useCallback(() => {
-  //   // Get the selected user ID for filtering
-  //   const selectedUserId = prompt("Enter the User ID to filter:");
-
-  //   if (!selectedUserId) {
-  //     alert("User ID is required.");
-  //     return;
-  //   }
-
-  //   // Filter the data to include only the selected user's information
-  //   const filteredData = rowData.filter((row) => row.userId === selectedUserId);
-
-  //   if (filteredData.length === 0) {
-  //     alert(`No data found for User ID: ${selectedUserId}`);
-  //     return;
-  //   }
-
-  //   // Extract the "UserID" and "Password" fields
-  //   const selectedFieldsData = filteredData.map((row) => ({
-  //     UserID: row.userId,
-  //     Password: row.password,
-  //   }));
-
-  //   // Convert the data to CSV format using PapaParse
-  //   const csvData = Papa.unparse(selectedFieldsData);
-
-  //   // Create a Blob containing the CSV data
-  //   const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-
-  //   // Create a download link and trigger the download
-  //   const link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = `student_data_${selectedUserId}_user_password.csv`;
-  //   link.style.display = "none";
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }, [rowData]);
 
   const onBtnExportUdise = async () => {
     let person = window.prompt(`Enter a School Udise`);
@@ -349,68 +309,6 @@ function StudentListView() {
     fetchData();
   }, [token]);
 
-  // const handlePaginationChanged = () => {
-  //   // Increment the current page when the "Next Page" button is clicked
-  //   console.log("clicked");
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const headers = {
-  //         Accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       };
-
-  //       const requestData = {
-  //         limit: "",
-  //         page: currentPage,
-  //         filters: {},
-  //       };
-
-  //       const response = await axios.post(studentSearch, requestData, {
-  //         headers,
-  //       });
-  //       setRowData(response.data.data);
-  //       setCurrentPage(currentPage + 1);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
-
-  // const handlePaginationChanged2 = () => {
-  //   // Increment the current page when the "Next Page" button is clicked
-  //   console.log("clicked");
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const headers = {
-  //         Accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       };
-
-  //       const requestData = {
-  //         limit: "",
-  //         page: currentPage,
-  //         filters: {},
-  //       };
-
-  //       const response = await axios.post(studentSearch, requestData, {
-  //         headers,
-  //       });
-  //       setRowData(response.data.data);
-  //       setCurrentPage(currentPage - 1);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
-
   const openDownloadCsvModal = () => {
     setDownloadCsv(true);
   };
@@ -429,66 +327,6 @@ function StudentListView() {
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        {/* <button
-          onClick={onBtnExportFields}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px",
-            display: "flex", 
-            cursor: "pointer",
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{
-              color: "white",
-              fontSize: "largest",
-            }}
-          />
-          <H4 style={{ color: "white" }}> Download username & password </H4>
-        </button>
-        <button
-          onClick={onBtnExportDetails}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px",
-            display: "flex",
-            cursor: "pointer",
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{
-              color: "white",
-              fontSize: "largest",
-            }}
-          />
-          <H4 style={{ color: "white" }}> Download student details </H4>
-        </button>
-        <button
-          onClick={onBtnExportUdise}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px", 
-            display: "flex", 
-            cursor: "pointer",
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{
-              color: "white",
-              fontSize: "largest",
-            }}
-          />
-          <H4 style={{ color: "white" }}> Get Students by UDISE Code </H4>
-        </button> */}
         <button
           onClick={openDownloadCsvModal}
           style={{
@@ -540,11 +378,8 @@ function StudentListView() {
           rowData={rowData}
         />
       </div>
-      <div
-        style={{ display: "flex", flexDirection: "row", marginTop: "1.5rem" }}
-      >
-        {/* <StudentFilters  /> */}
-
+      <div style={{ display: "flex", flexDirection: "row", marginTop: "2rem" }}>
+        <StudentFilters />
       </div>
       <div
         style={{

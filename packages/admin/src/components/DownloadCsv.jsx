@@ -94,11 +94,18 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   // Update districts based on selected state
   useEffect(() => {
     const loadDistricts = async () => {
-      if (!dropdownValues.dropdown1) return; // Check if a state is selected
+      if (!dropdownValues.dropdown1) return; // Check for selected state
       try {
         const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(token, dropdownValues.dropdown1);
         setDistrictOptions(districts);
+
+        const blocks = await fetchBlocks(token, dropdownValues.dropdown1);
+        setBlockOptions(blocks);
+
+        const schools = await fetchSchools(token, dropdownValues.dropdown1);
+        setSchoolOptions(schools);
+
       } catch (error) {
         console.error("Error loading districts:", error);
       }
@@ -109,50 +116,33 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   // Update blocks based on selected district
   useEffect(() => {
     const loadBlocks = async () => {
-      if (!dropdownValues.dropdown1 || !dropdownValues.dropdown2) return; // Check if both state and district are selected
+      if (!dropdownValues.dropdown2) return; // Check for selected district
       try {
         const token = sessionStorage.getItem("token");
-        const blocks = await fetchBlocks(
-          token,
-          dropdownValues.dropdown1,
-          dropdownValues.dropdown2
-        );
+
+        const blocks = await fetchBlocks(token,dropdownValues.dropdown1, dropdownValues.dropdown2);
         setBlockOptions(blocks);
+        
       } catch (error) {
         console.error("Error loading blocks:", error);
       }
     };
     loadBlocks();
-  }, [dropdownValues.dropdown1, dropdownValues.dropdown2]);
+  }, [dropdownValues.dropdown2]);
 
   // Update schools based on selected block or fetch all if none is selected
   useEffect(() => {
     const loadSchools = async () => {
-      if (
-        !dropdownValues.dropdown1 ||
-        !dropdownValues.dropdown2 ||
-        !dropdownValues.dropdown3
-      )
-        return;
       try {
         const token = sessionStorage.getItem("token");
-        const schools = await fetchSchools(
-          token,
-          dropdownValues.dropdown1,
-          dropdownValues.dropdown2,
-          dropdownValues.dropdown3
-        );
+        const schools = await fetchSchools(token, dropdownValues.dropdown1, dropdownValues.dropdown2, dropdownValues.dropdown3);
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading schools:", error);
       }
     };
     loadSchools();
-  }, [
-    dropdownValues.dropdown1,
-    dropdownValues.dropdown2,
-    dropdownValues.dropdown3,
-  ]);
+  }, [dropdownValues.dropdown3]);
 
   // Fetching classes based on selected school
   useEffect(() => {
@@ -259,31 +249,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     setCsvFilename(filename);
   };
 
-const handleChange = (event, value, name) => {
-  // Update the current dropdown value
-  const newDropdownValues = { ...dropdownValues, [name]: value };
-
-  // Reset the values of dependent dropdowns
-  if (name === "dropdown1") { 
-    newDropdownValues.dropdown2 = null; 
-    newDropdownValues.dropdown3 = null; 
-    newDropdownValues.dropdown4 = null; // Reset School
-    newDropdownValues.dropdown5 = null; // Reset Class
-  } else if (name === "dropdown2") { // District changed
-    newDropdownValues.dropdown3 = null; // Reset Block
-    newDropdownValues.dropdown4 = null; // Reset School
-    newDropdownValues.dropdown5 = null; // Reset Class
-  } else if (name === "dropdown3") { // Block changed
-    newDropdownValues.dropdown4 = null; // Reset School
-    newDropdownValues.dropdown5 = null; // Reset Class
-  } else if (name === "dropdown4") { // School changed
-    newDropdownValues.dropdown5 = null; // Reset Class
-  }
-
-  // Update the state with the new dropdown values
-  setDropdownValues(newDropdownValues);
-};
-
+  const handleChange = (event, value, name) => {
+    setDropdownValues({ ...dropdownValues, [name]: value });
+  };
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
