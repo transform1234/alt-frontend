@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { getStateList, getDistrictList, getBlockList, getSchoolList, getClassList } from '../routes/links';
 
+// Fetch states (no change needed here)
 export const fetchStates = async (token) => {
   try {
     const response = await axios.post(
       getStateList,
-      { state: "" },
+      { state: "" }, // Fetch all states
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
     return response.data.data.map(item => item.state);
@@ -15,11 +16,12 @@ export const fetchStates = async (token) => {
   }
 };
 
+// Fetch districts based on state
 export const fetchDistricts = async (token, state = "") => {
   try {
     const response = await axios.post(
       getDistrictList,
-      { state },
+      { state }, // Send selected state as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
     return response.data.data.map(item => item.district);
@@ -29,11 +31,12 @@ export const fetchDistricts = async (token, state = "") => {
   }
 };
 
-export const fetchBlocks = async (token, district = "") => {
+// Fetch blocks based on district
+export const fetchBlocks = async (token, state = "", district = "") => {
   try {
     const response = await axios.post(
       getBlockList,
-      { district },
+      { state, district }, // Send both state and district as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
     return response.data.data.map(item => item.block);
@@ -43,11 +46,12 @@ export const fetchBlocks = async (token, district = "") => {
   }
 };
 
-export const fetchSchools = async (token, block = "") => {
+// Fetch schools based on state, district, and block
+export const fetchSchools = async (token, state = "", district = "", block = "") => {
   try {
     const response = await axios.post(
       getSchoolList,
-      { block },
+      { state, district, block }, // Send state, district, and block as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
     return response.data.data.map(item => item.name);
@@ -57,11 +61,12 @@ export const fetchSchools = async (token, block = "") => {
   }
 };
 
+// Fetch classes based on school name
 export const fetchClasses = async (token, schoolName = "") => {
   try {
     const response = await axios.post(
       getClassList,
-      { schoolName },
+      { schoolName }, // Send selected schoolName as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
     return response.data.data.map(item => item.name);

@@ -25,8 +25,7 @@ import StudentForm from "../components/StudentForm";
 
 import DownloadCsv from "./DownloadCsv";
 import DownloadStudentDetails from "./DownloadStudentDetails";
-import FilterTableData from "./FilterTableData";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import StudentFilters from "./StudentFilters";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
@@ -39,8 +38,6 @@ function StudentListView() {
   const [isDownloadCsv, setDownloadCsv] = useState(false);
   const [isDownloadStudentDetails, setisDownloadStudentDetails] =
     useState(false);
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [filterParams, setFilterParams] = useState({});
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -65,7 +62,7 @@ function StudentListView() {
   };
   // Function to handle closing the modal
   const handleClose = () => {
-    setIsEditModalOpen(false);
+    setIsEditModalOpen(false); // This should close the modal
   };
 
   const [columnDefs] = useState([
@@ -335,9 +332,9 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: 25, // Adjusted from 0 to 25 for practical usage
+          limit: "25",
           page: 1,
-          filters: filterParams, // Now using dynamic filter parameters
+          filters: {},
         };
 
         const response = await axios.post(studentSearch, requestData, {
@@ -349,11 +346,8 @@ function StudentListView() {
       }
     };
 
-    if (token) {
-      // Ensure the token is available
-      fetchData();
-    }
-  }, [token, filterParams]); // Include filterParams as a dependency
+    fetchData();
+  }, [token]);
 
   // const handlePaginationChanged = () => {
   //   // Increment the current page when the "Next Page" button is clicked
@@ -430,16 +424,6 @@ function StudentListView() {
 
   const closeDownloadStudentDetailsModal = () => {
     setisDownloadStudentDetails(false);
-  };
-  const handleOpenFilterModal = () => {
-    setIsFilterModalOpen(true);
-  };
-
-  const handleCloseFilterModal = () => {
-    setIsFilterModalOpen(false);
-  };
-  const handleApplyFilter = (filters) => {
-    setFilterParams(filters);
   };
   console.log("row data", rowData);
   return (
@@ -523,7 +507,7 @@ function StudentListView() {
               fontSize: "largest",
             }}
           />
-          <H4 style={{ color: "white" }}>Download CSV</H4>
+          <H4 style={{ color: "white" }}>Download Students Details</H4>
         </button>
         <DownloadCsv
           open={isDownloadCsv}
@@ -556,33 +540,11 @@ function StudentListView() {
           rowData={rowData}
         />
       </div>
-      <div style={{ display: "flex", flexDirection: "row", marginTop: "1.5rem" }}>
-        <button
-          onClick={handleOpenFilterModal}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px",
-            display: "flex",
-            cursor: "pointer",
-            alignItems: "center",
-          }}
-        >
-          <FilterListIcon
-            style={{
-              color: "white",
-              marginRight: "8px", // Add space between icon and text
-            }}
-          />
-          <H4 style={{ color: "white" }}>Filter Table Data</H4>
-        </button>
-        <FilterTableData
-          open={isFilterModalOpen}
-          handleClose={handleCloseFilterModal}
-          rowData={rowData}
-          onApplyFilter={handleApplyFilter}
-        />
+      <div
+        style={{ display: "flex", flexDirection: "row", marginTop: "1.5rem" }}
+      >
+        {/* <StudentFilters  /> */}
+
       </div>
       <div
         style={{
