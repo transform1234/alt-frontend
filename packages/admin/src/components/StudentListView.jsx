@@ -25,6 +25,8 @@ import StudentForm from "../components/StudentForm";
 
 import DownloadCsv from "./DownloadCsv";
 import DownloadStudentDetails from "./DownloadStudentDetails";
+import FilterTableData from "./FilterTableData";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
@@ -37,6 +39,8 @@ function StudentListView() {
   const [isDownloadCsv, setDownloadCsv] = useState(false);
   const [isDownloadStudentDetails, setisDownloadStudentDetails] =
     useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [filterParams, setFilterParams] = useState({});
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -59,9 +63,9 @@ function StudentListView() {
     setSelectedStudent(data);
     setIsEditModalOpen(true);
   };
-    // Function to handle closing the modal
-    const handleClose = () => {
-      setIsEditModalOpen(false);  // This should close the modal
+  // Function to handle closing the modal
+  const handleClose = () => {
+    setIsEditModalOpen(false);
   };
 
   const [columnDefs] = useState([
@@ -331,9 +335,9 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: "25",
+          limit: 25, // Adjusted from 0 to 25 for practical usage
           page: 1,
-          filters: {},
+          filters: filterParams, // Now using dynamic filter parameters
         };
 
         const response = await axios.post(studentSearch, requestData, {
@@ -345,8 +349,11 @@ function StudentListView() {
       }
     };
 
-    fetchData();
-  }, [token]);
+    if (token) {
+      // Ensure the token is available
+      fetchData();
+    }
+  }, [token, filterParams]); // Include filterParams as a dependency
 
   // const handlePaginationChanged = () => {
   //   // Increment the current page when the "Next Page" button is clicked
@@ -424,7 +431,17 @@ function StudentListView() {
   const closeDownloadStudentDetailsModal = () => {
     setisDownloadStudentDetails(false);
   };
-console.log("row data", rowData);
+  const handleOpenFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  const handleCloseFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
+  const handleApplyFilter = (filters) => {
+    setFilterParams(filters);
+  };
+  console.log("row data", rowData);
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -539,6 +556,34 @@ console.log("row data", rowData);
           rowData={rowData}
         />
       </div>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: "1.5rem" }}>
+        <button
+          onClick={handleOpenFilterModal}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FilterListIcon
+            style={{
+              color: "white",
+              marginRight: "8px", // Add space between icon and text
+            }}
+          />
+          <H4 style={{ color: "white" }}>Filter Table Data</H4>
+        </button>
+        <FilterTableData
+          open={isFilterModalOpen}
+          handleClose={handleCloseFilterModal}
+          rowData={rowData}
+          onApplyFilter={handleApplyFilter}
+        />
+      </div>
       <div
         style={{
           display: "flex",
@@ -559,7 +604,6 @@ console.log("row data", rowData);
         paginationAutoPageSize={true}
         overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
       ></AgGridReact>{" "}
-
       {isEditModalOpen && (
         <FORMmodal
           isOpen={isEditModalOpen}
@@ -567,10 +611,7 @@ console.log("row data", rowData);
           contentLabel="Edit Modal"
           ariaHideApp={false}
         >
-          <button
-            onClick={handleClose}
-            className={styles.closeButton}
-          >
+          <button onClick={handleClose} className={styles.closeButton}>
             ❌
           </button>
           <div className={styles.bodyDiv}>
