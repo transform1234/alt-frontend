@@ -26,11 +26,11 @@ import {
 
 const DownloadCsv = ({ open, handleClose, rowData }) => {
   const [dropdownValues, setDropdownValues] = useState({
-    dropdown1: null, // State
-    dropdown2: null, // District
-    dropdown3: null, // Block
-    dropdown4: null, // School
-    dropdown5: null, // Class
+    dropdown1: null,
+    dropdown2: null,
+    dropdown3: null,
+    dropdown4: null,
+    dropdown5: null,
   });
 
   const [downloadType, setDownloadType] = useState("Student Details");
@@ -39,10 +39,11 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   const [blockOptions, setBlockOptions] = useState([]);
   const [schoolOptions, setSchoolOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
+
   const [csvData, setCsvData] = useState([]);
   const [csvFilename, setCsvFilename] = useState("student_details.csv");
 
-  // Fetch states initially
+  // Fetch states, districts, and blocks initially
   useEffect(() => {
     const loadStates = async () => {
       try {
@@ -53,80 +54,125 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
         console.error("Error loading states:", error);
       }
     };
+
+    const loadAllDistricts = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const districts = await fetchDistricts(token);
+        setDistrictOptions(districts);
+      } catch (error) {
+        console.error("Error loading districts:", error);
+      }
+    };
+
+    const loadAllBlocks = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const blocks = await fetchBlocks(token);
+        setBlockOptions(blocks);
+      } catch (error) {
+        console.error("Error loading blocks:", error);
+      }
+    };
+
+    const loadAllSchool = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const schools = await fetchSchools(token);
+        setSchoolOptions(schools);
+      } catch (error) {
+        console.error("Error loading blocks:", error);
+      }
+    };
+
     loadStates();
+    loadAllDistricts();
+    loadAllBlocks();
+    loadAllSchool();
   }, []);
 
-  // Load all options (districts, blocks, schools, classes) when a state is selected
+  // Update districts based on selected state
   useEffect(() => {
-    const loadDataForState = async () => {
-      if (!dropdownValues.dropdown1) return; // Check if state is selected
+    const loadDistricts = async () => {
+      if (!dropdownValues.dropdown1) return; // Check if a state is selected
       try {
         const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(token, dropdownValues.dropdown1);
         setDistrictOptions(districts);
-        
-        const blocks = await fetchBlocks(token, dropdownValues.dropdown1);
-        setBlockOptions(blocks);
-        
-        const schools = await fetchSchools(token, dropdownValues.dropdown1);
-        setSchoolOptions(schools);
-        
-        const classes = await fetchClasses(token, dropdownValues.dropdown1);
-        setClassOptions(classes);
-        
-        // No need to reset lower dropdowns, we will just load all options
       } catch (error) {
-        console.error("Error loading data for state:", error);
+        console.error("Error loading districts:", error);
       }
     };
-    loadDataForState();
+    loadDistricts();
   }, [dropdownValues.dropdown1]);
 
-  // Filter the data based on lower selections (district, block, etc.)
+  // Update blocks based on selected district
   useEffect(() => {
-    const loadFilteredBlocks = async () => {
-      if (!dropdownValues.dropdown2) return; // Check if district is selected
+    const loadBlocks = async () => {
+      if (!dropdownValues.dropdown1 || !dropdownValues.dropdown2) return; // Check if both state and district are selected
       try {
         const token = sessionStorage.getItem("token");
-        const blocks = await fetchBlocks(token, dropdownValues.dropdown2);
-        setBlockOptions(blocks); // Filter blocks based on the selected district
+        const blocks = await fetchBlocks(
+          token,
+          dropdownValues.dropdown1,
+          dropdownValues.dropdown2
+        );
+        setBlockOptions(blocks);
       } catch (error) {
-        console.error("Error loading filtered blocks:", error);
+        console.error("Error loading blocks:", error);
       }
     };
-    loadFilteredBlocks();
-  }, [dropdownValues.dropdown2]);
+    loadBlocks();
+  }, [dropdownValues.dropdown1, dropdownValues.dropdown2]);
 
+  // Update schools based on selected block or fetch all if none is selected
   useEffect(() => {
-    const loadFilteredSchools = async () => {
-      if (!dropdownValues.dropdown3) return; // Check if block is selected
+    const loadSchools = async () => {
+      if (
+        !dropdownValues.dropdown1 ||
+        !dropdownValues.dropdown2 ||
+        !dropdownValues.dropdown3
+      )
+        return;
       try {
         const token = sessionStorage.getItem("token");
-        const schools = await fetchSchools(token, dropdownValues.dropdown3);
-        setSchoolOptions(schools); // Filter schools based on the selected block
+        const schools = await fetchSchools(
+          token,
+          dropdownValues.dropdown1,
+          dropdownValues.dropdown2,
+          dropdownValues.dropdown3
+        );
+        setSchoolOptions(schools);
       } catch (error) {
-        console.error("Error loading filtered schools:", error);
+        console.error("Error loading schools:", error);
       }
     };
-    loadFilteredSchools();
-  }, [dropdownValues.dropdown3]);
+    loadSchools();
+  }, [
+    dropdownValues.dropdown1,
+    dropdownValues.dropdown2,
+    dropdownValues.dropdown3,
+  ]);
 
+  // Fetching classes based on selected school
   useEffect(() => {
-    const loadFilteredClasses = async () => {
-      if (!dropdownValues.dropdown4) return; // Check if school is selected
+    const loadClasses = async () => {
+      if (!dropdownValues.dropdown4) return; // Only fetch if a dropdown4 is selected
       try {
         const token = sessionStorage.getItem("token");
         const classes = await fetchClasses(token, dropdownValues.dropdown4);
-        setClassOptions(classes); // Filter classes based on the selected school
+        console.log("classes", classes);
+        setClassOptions(classes);
       } catch (error) {
-        console.error("Error loading filtered classes:", error);
+        console.error("Error loading classes:", error);
       }
     };
-    loadFilteredClasses();
+    loadClasses();
   }, [dropdownValues.dropdown4]);
 
   const handleDownload = () => {
     let filteredData = rowData;
+    console.log("filteredData", filteredData);
 
     // Filter data based on selected dropdowns
     if (dropdownValues.dropdown1) {
@@ -164,6 +210,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     let filename = "student_details.csv";
 
     if (downloadType === "Student Details") {
+      // Download all student details
       dataToDownload = filteredData.map((student) => ({
         "User ID": student.userId,
         Name: student.name,
@@ -198,6 +245,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       }));
       filename = "filtered_student_details.csv";
     } else if (downloadType === "Username and Password") {
+      // Download only username, name, and password
       dataToDownload = filteredData.map((student) => ({
         Name: student.name,
         Username: student.username,
@@ -206,13 +254,36 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       filename = "filtered_credentials.csv";
     }
 
+    // Set CSV data and filename
     setCsvData(dataToDownload);
     setCsvFilename(filename);
   };
 
-  const handleChange = (event, value, name) => {
-    setDropdownValues((prevValues) => ({ ...prevValues, [name]: value }));
-  };
+const handleChange = (event, value, name) => {
+  // Update the current dropdown value
+  const newDropdownValues = { ...dropdownValues, [name]: value };
+
+  // Reset the values of dependent dropdowns
+  if (name === "dropdown1") { 
+    newDropdownValues.dropdown2 = null; 
+    newDropdownValues.dropdown3 = null; 
+    newDropdownValues.dropdown4 = null; // Reset School
+    newDropdownValues.dropdown5 = null; // Reset Class
+  } else if (name === "dropdown2") { // District changed
+    newDropdownValues.dropdown3 = null; // Reset Block
+    newDropdownValues.dropdown4 = null; // Reset School
+    newDropdownValues.dropdown5 = null; // Reset Class
+  } else if (name === "dropdown3") { // Block changed
+    newDropdownValues.dropdown4 = null; // Reset School
+    newDropdownValues.dropdown5 = null; // Reset Class
+  } else if (name === "dropdown4") { // School changed
+    newDropdownValues.dropdown5 = null; // Reset Class
+  }
+
+  // Update the state with the new dropdown values
+  setDropdownValues(newDropdownValues);
+};
+
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
@@ -252,17 +323,15 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           maxHeight: "90vh",
         }}
       >
-        {/* Modal Header */}
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
           <Typography variant="h6" component="h2">
-            Download Students Details
+            Download CSV
           </Typography>
           <IconButton onClick={handleModalClose}>
             <CloseIcon />
           </IconButton>
         </Box>
 
-        {/* Radio Buttons for Download Type */}
         <FormControl component="fieldset" sx={{ mb: 2 }}>
           <FormLabel component="legend">Select Download Type</FormLabel>
           <RadioGroup
@@ -281,16 +350,18 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
               value="Student Details"
               control={<Radio />}
               label="Student Details"
+              sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.875rem" } }}
             />
             <FormControlLabel
               value="Username and Password"
               control={<Radio />}
               label="Username and Password"
+              sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.875rem" } }}
             />
           </RadioGroup>
         </FormControl>
 
-        {/* State Dropdown */}
+        {/* Dropdown for States */}
         <Box sx={{ mb: 2 }}>
           <Autocomplete
             disablePortal
@@ -304,7 +375,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           />
         </Box>
 
-        {/* District Dropdown */}
+        {/* Dropdown for Districts */}
         <Box sx={{ mb: 2 }}>
           <Autocomplete
             disablePortal
@@ -318,7 +389,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           />
         </Box>
 
-        {/* Block Dropdown */}
+        {/* Dropdown for Blocks */}
         <Box sx={{ mb: 2 }}>
           <Autocomplete
             disablePortal
@@ -332,12 +403,12 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           />
         </Box>
 
-        {/* School Dropdown */}
+        {/* Dropdown for Schools */}
         <Box sx={{ mb: 2 }}>
           <Autocomplete
             disablePortal
             options={schoolOptions}
-            value={dropdownValues.dropdown4}
+            value={dropdownValues.dropdown4} // Manage this state accordingly
             onChange={(event, value) => handleChange(event, value, "dropdown4")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
@@ -346,7 +417,7 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           />
         </Box>
 
-        {/* Class Dropdown */}
+        {/* Dropdown for Class */}
         <Box sx={{ mb: 2 }}>
           <Autocomplete
             disablePortal
