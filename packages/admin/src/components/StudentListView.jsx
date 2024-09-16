@@ -292,11 +292,11 @@ function StudentListView() {
 
   const handleFiltersChange = (dropdownValues) => {
     const {
-      dropdown1: state,
-      dropdown2: district,
-      dropdown3: block,
-      dropdown4: schoolName, 
-      dropdown5: className, 
+      stateDropdown: state,
+      districtDropdown: district,
+      blockDropdown: block,
+      schoolNameDropdown: schoolName, 
+      classNameDropdown: className, 
     } = dropdownValues;
 
     const newFilters = {};
@@ -304,7 +304,7 @@ function StudentListView() {
     if (district) newFilters.district = { eq: district };
     if (block) newFilters.block = { eq: block };
     if (schoolName) newFilters.schoolName = { eq: schoolName }; 
-    if (className) newFilters.className = { eq: className }; 
+    if (className) newFilters.class = { eq: className }; 
 
     setFilters(newFilters); 
   };

@@ -26,11 +26,11 @@ import {
 
 const DownloadCsv = ({ open, handleClose, rowData }) => {
   const [dropdownValues, setDropdownValues] = useState({
-    dropdown1: null,
-    dropdown2: null,
-    dropdown3: null,
-    dropdown4: null,
-    dropdown5: null,
+    stateDropdown: null,
+    districtDropdown: null,
+    blockDropdown: null,
+    schoolNameDropdown: null,
+    classNameDropdown: null,
   });
 
   const [downloadType, setDownloadType] = useState("Student Details");
@@ -94,16 +94,16 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   // Update districts based on selected state
   useEffect(() => {
     const loadDistricts = async () => {
-      if (!dropdownValues.dropdown1) return; // Check for selected state
+      if (!dropdownValues.stateDropdown) return; // Check for selected state
       try {
         const token = sessionStorage.getItem("token");
-        const districts = await fetchDistricts(token, dropdownValues.dropdown1);
+        const districts = await fetchDistricts(token, dropdownValues.stateDropdown);
         setDistrictOptions(districts);
 
-        const blocks = await fetchBlocks(token, dropdownValues.dropdown1);
+        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
         setBlockOptions(blocks);
 
-        const schools = await fetchSchools(token, dropdownValues.dropdown1);
+        const schools = await fetchSchools(token, dropdownValues.stateDropdown);
         setSchoolOptions(schools);
 
       } catch (error) {
@@ -111,16 +111,16 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       }
     };
     loadDistricts();
-  }, [dropdownValues.dropdown1]);
+  }, [dropdownValues.stateDropdown]);
 
   // Update blocks based on selected district
   useEffect(() => {
     const loadBlocks = async () => {
-      if (!dropdownValues.dropdown2) return; // Check for selected district
+      if (!dropdownValues.districtDropdown) return; // Check for selected district
       try {
         const token = sessionStorage.getItem("token");
 
-        const blocks = await fetchBlocks(token,dropdownValues.dropdown1, dropdownValues.dropdown2);
+        const blocks = await fetchBlocks(token,dropdownValues.stateDropdown, dropdownValues.districtDropdown);
         setBlockOptions(blocks);
         
       } catch (error) {
@@ -128,29 +128,29 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       }
     };
     loadBlocks();
-  }, [dropdownValues.dropdown2]);
+  }, [dropdownValues.districtDropdown]);
 
   // Update schools based on selected block or fetch all if none is selected
   useEffect(() => {
     const loadSchools = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const schools = await fetchSchools(token, dropdownValues.dropdown1, dropdownValues.dropdown2, dropdownValues.dropdown3);
+        const schools = await fetchSchools(token, dropdownValues.stateDropdown, dropdownValues.districtDropdown, dropdownValues.blockDropdown);
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading schools:", error);
       }
     };
     loadSchools();
-  }, [dropdownValues.dropdown3]);
+  }, [dropdownValues.blockDropdown]);
 
   // Fetching classes based on selected school
   useEffect(() => {
     const loadClasses = async () => {
-      if (!dropdownValues.dropdown4) return; // Only fetch if a dropdown4 is selected
+      if (!dropdownValues.schoolNameDropdown) return; // Only fetch if a schoolNameDropdown is selected
       try {
         const token = sessionStorage.getItem("token");
-        const classes = await fetchClasses(token, dropdownValues.dropdown4);
+        const classes = await fetchClasses(token, dropdownValues.schoolNameDropdown);
         console.log("classes", classes);
         setClassOptions(classes);
       } catch (error) {
@@ -158,36 +158,36 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       }
     };
     loadClasses();
-  }, [dropdownValues.dropdown4]);
+  }, [dropdownValues.schoolNameDropdown]);
 
   const handleDownload = () => {
     let filteredData = rowData;
     console.log("filteredData", filteredData);
 
     // Filter data based on selected dropdowns
-    if (dropdownValues.dropdown1) {
+    if (dropdownValues.stateDropdown) {
       filteredData = filteredData.filter(
-        (item) => item.state === dropdownValues.dropdown1
+        (item) => item.state === dropdownValues.stateDropdown
       );
     }
-    if (dropdownValues.dropdown2) {
+    if (dropdownValues.districtDropdown) {
       filteredData = filteredData.filter(
-        (item) => item.district === dropdownValues.dropdown2
+        (item) => item.district === dropdownValues.districtDropdown
       );
     }
-    if (dropdownValues.dropdown3) {
+    if (dropdownValues.blockDropdown) {
       filteredData = filteredData.filter(
-        (item) => item.block === dropdownValues.dropdown3
+        (item) => item.block === dropdownValues.blockDropdown
       );
     }
-    if (dropdownValues.dropdown4) {
+    if (dropdownValues.schoolNameDropdown) {
       filteredData = filteredData.filter(
-        (item) => item.schoolName === dropdownValues.dropdown4
+        (item) => item.schoolName === dropdownValues.schoolNameDropdown
       );
     }
-    if (dropdownValues.dropdown5) {
+    if (dropdownValues.classNameDropdown) {
       filteredData = filteredData.filter(
-        (item) => item.className === dropdownValues.dropdown5
+        (item) => item.className === dropdownValues.classNameDropdown
       );
     }
 
@@ -259,11 +259,11 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
   const handleModalClose = () => {
     setDropdownValues({
-      dropdown1: null,
-      dropdown2: null,
-      dropdown3: null,
-      dropdown4: null,
-      dropdown5: null,
+      stateDropdown: null,
+      districtDropdown: null,
+      blockDropdown: null,
+      schoolNameDropdown: null,
+      classNameDropdown: null,
     });
     setDownloadType("Student Details");
     handleClose();
@@ -334,8 +334,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           <Autocomplete
             disablePortal
             options={stateOptions}
-            value={dropdownValues.dropdown1}
-            onChange={(event, value) => handleChange(event, value, "dropdown1")}
+            value={dropdownValues.stateDropdown}
+            onChange={(event, value) => handleChange(event, value, "stateDropdown")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select State" />
@@ -348,8 +348,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           <Autocomplete
             disablePortal
             options={districtOptions}
-            value={dropdownValues.dropdown2}
-            onChange={(event, value) => handleChange(event, value, "dropdown2")}
+            value={dropdownValues.districtDropdown}
+            onChange={(event, value) => handleChange(event, value, "districtDropdown")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select District" />
@@ -362,8 +362,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           <Autocomplete
             disablePortal
             options={blockOptions}
-            value={dropdownValues.dropdown3}
-            onChange={(event, value) => handleChange(event, value, "dropdown3")}
+            value={dropdownValues.blockDropdown}
+            onChange={(event, value) => handleChange(event, value, "blockDropdown")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select Block" />
@@ -376,8 +376,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           <Autocomplete
             disablePortal
             options={schoolOptions}
-            value={dropdownValues.dropdown4} // Manage this state accordingly
-            onChange={(event, value) => handleChange(event, value, "dropdown4")}
+            value={dropdownValues.schoolNameDropdown} // Manage this state accordingly
+            onChange={(event, value) => handleChange(event, value, "schoolNameDropdown")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select School" />
@@ -390,8 +390,8 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
           <Autocomplete
             disablePortal
             options={classOptions}
-            value={dropdownValues.dropdown5}
-            onChange={(event, value) => handleChange(event, value, "dropdown5")}
+            value={dropdownValues.classNameDropdown}
+            onChange={(event, value) => handleChange(event, value, "classNameDropdown")}
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select Class" />

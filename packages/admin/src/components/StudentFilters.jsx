@@ -12,11 +12,11 @@ import {
 
 const StudentFilters = ({ handleFiltersChange }) => {
   const [dropdownValues, setDropdownValues] = useState({
-    dropdown1: null,
-    dropdown2: null,
-    dropdown3: null,
-    dropdown4: null,
-    dropdown5: null,
+    stateDropdown: null,
+    districtDropdown: null,
+    blockDropdown: null,
+    schoolNameDropdown: null,
+    classNameDropdown: null,
   });
 
   const [stateOptions, setStateOptions] = useState([]);
@@ -74,35 +74,35 @@ const StudentFilters = ({ handleFiltersChange }) => {
 
   useEffect(() => {
     const loadDistricts = async () => {
-      if (!dropdownValues.dropdown1) return;
+      if (!dropdownValues.stateDropdown) return;
       try {
         const token = sessionStorage.getItem("token");
-        const districts = await fetchDistricts(token, dropdownValues.dropdown1);
+        const districts = await fetchDistricts(token, dropdownValues.stateDropdown);
         setDistrictOptions(districts);
 
-        const blocks = await fetchBlocks(token, dropdownValues.dropdown1);
+        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
         setBlockOptions(blocks);
 
-        const schools = await fetchSchools(token, dropdownValues.dropdown1);
+        const schools = await fetchSchools(token, dropdownValues.stateDropdown);
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading districts:", error);
       }
     };
     loadDistricts();
-  }, [dropdownValues.dropdown1]);
+  }, [dropdownValues.stateDropdown]);
 
   // Update blocks based on selected district
   useEffect(() => {
     const loadBlocks = async () => {
-      if (!dropdownValues.dropdown2) return;
+      if (!dropdownValues.districtDropdown) return;
       try {
         const token = sessionStorage.getItem("token");
 
         const blocks = await fetchBlocks(
           token,
-          dropdownValues.dropdown1,
-          dropdownValues.dropdown2
+          dropdownValues.stateDropdown,
+          dropdownValues.districtDropdown
         );
         setBlockOptions(blocks);
       } catch (error) {
@@ -110,7 +110,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
       }
     };
     loadBlocks();
-  }, [dropdownValues.dropdown2]);
+  }, [dropdownValues.districtDropdown]);
 
   // Update schools based on selected block or fetch all if none is selected
   useEffect(() => {
@@ -119,9 +119,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
         const token = sessionStorage.getItem("token");
         const schools = await fetchSchools(
           token,
-          dropdownValues.dropdown1,
-          dropdownValues.dropdown2,
-          dropdownValues.dropdown3
+          dropdownValues.stateDropdown,
+          dropdownValues.districtDropdown,
+          dropdownValues.blockDropdown
         );
         setSchoolOptions(schools);
       } catch (error) {
@@ -129,22 +129,22 @@ const StudentFilters = ({ handleFiltersChange }) => {
       }
     };
     loadSchools();
-  }, [dropdownValues.dropdown3]);
+  }, [dropdownValues.blockDropdown]);
 
   // Fetch classes based on selected school
   useEffect(() => {
     const loadClasses = async () => {
-      if (!dropdownValues.dropdown4) return;
+      if (!dropdownValues.schoolNameDropdown) return;
       try {
         const token = sessionStorage.getItem("token");
-        const classes = await fetchClasses(token, dropdownValues.dropdown4);
+        const classes = await fetchClasses(token, dropdownValues.schoolNameDropdown);
         setClassOptions(classes);
       } catch (error) {
         console.error("Error loading classes:", error);
       }
     };
     loadClasses();
-  }, [dropdownValues.dropdown4]);
+  }, [dropdownValues.schoolNameDropdown]);
 
   const handleChange = (event, value, name) => {
     const updatedDropdownValues = { ...dropdownValues, [name]: value };
@@ -161,8 +161,8 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={stateOptions}
-          value={dropdownValues.dropdown1}
-          onChange={(event, value) => handleChange(event, value, "dropdown1")}
+          value={dropdownValues.stateDropdown}
+          onChange={(event, value) => handleChange(event, value, "stateDropdown")}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -180,8 +180,8 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={districtOptions}
-          value={dropdownValues.dropdown2}
-          onChange={(event, value) => handleChange(event, value, "dropdown2")}
+          value={dropdownValues.districtDropdown}
+          onChange={(event, value) => handleChange(event, value, "districtDropdown")}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -199,8 +199,8 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={blockOptions}
-          value={dropdownValues.dropdown3}
-          onChange={(event, value) => handleChange(event, value, "dropdown3")}
+          value={dropdownValues.blockDropdown}
+          onChange={(event, value) => handleChange(event, value, "blockDropdown")}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -218,8 +218,8 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={schoolOptions}
-          value={dropdownValues.dropdown4}
-          onChange={(event, value) => handleChange(event, value, "dropdown4")}
+          value={dropdownValues.schoolNameDropdown}
+          onChange={(event, value) => handleChange(event, value, "schoolNameDropdown")}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -237,8 +237,8 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={classOptions}
-          value={dropdownValues.dropdown5}
-          onChange={(event, value) => handleChange(event, value, "dropdown5")}
+          value={dropdownValues.classNameDropdown}
+          onChange={(event, value) => handleChange(event, value, "classNameDropdown")}
           renderInput={(params) => (
             <TextField
               {...params}
