@@ -7,7 +7,7 @@ import StudentSchema from "schema/StudentSchema";
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
-import { groupSearch, schoolSearch,getStateList,getBlockList, getBlockList } from "routes/links";
+import { groupSearch, schoolSearch,getStateList,getBlockList } from "routes/links";
 import studentUpdateAPI from "api/studentUpdateAPI";
 
 function StudentForm({ studentData }) {
