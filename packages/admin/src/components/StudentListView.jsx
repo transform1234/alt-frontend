@@ -23,6 +23,10 @@ import FORMmodal from "react-modal";
 import styles from "../pages/StudentPage.module.css";
 import StudentForm from "../components/StudentForm";
 
+import DownloadCsv from "./DownloadCsv";
+import DownloadStudentDetails from "./DownloadStudentDetails";
+import StudentFilters from "./StudentFilters";
+
 function StudentListView() {
   const [token, setToken] = useState([]);
   const gridRef = useRef();
@@ -30,6 +34,20 @@ function StudentListView() {
   const [currentPage, setCurrentPage] = useState(2);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const [isDownloadCsv, setDownloadCsv] = useState(false);
+  const [isDownloadStudentDetails, setisDownloadStudentDetails] =
+    useState(false);
+
+  // const [filters, setFilters] = useState({
+  //   state: null,
+  //   district: null,
+  //   block: null,
+  //   school: null,
+  //   class: null,
+  // });
+
+  const [filters, setFilters] = useState({});
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -52,9 +70,9 @@ function StudentListView() {
     setSelectedStudent(data);
     setIsEditModalOpen(true);
   };
-    // Function to handle closing the modal
-    const handleClose = () => {
-      setIsEditModalOpen(false);  // This should close the modal
+
+  const handleClose = () => {
+    setIsEditModalOpen(false);
   };
 
   const [columnDefs] = useState([
@@ -156,47 +174,6 @@ function StudentListView() {
     { field: "fatherOccupation" },
     { field: "noOfSiblings" },
   ]);
-
-  //Download username and pass with prompt
-
-  // const onBtnExportFields = useCallback(() => {
-  //   // Get the selected user ID for filtering
-  //   const selectedUserId = prompt("Enter the User ID to filter:");
-
-  //   if (!selectedUserId) {
-  //     alert("User ID is required.");
-  //     return;
-  //   }
-
-  //   // Filter the data to include only the selected user's information
-  //   const filteredData = rowData.filter((row) => row.userId === selectedUserId);
-
-  //   if (filteredData.length === 0) {
-  //     alert(`No data found for User ID: ${selectedUserId}`);
-  //     return;
-  //   }
-
-  //   // Extract the "UserID" and "Password" fields
-  //   const selectedFieldsData = filteredData.map((row) => ({
-  //     UserID: row.userId,
-  //     Password: row.password,
-  //   }));
-
-  //   // Convert the data to CSV format using PapaParse
-  //   const csvData = Papa.unparse(selectedFieldsData);
-
-  //   // Create a Blob containing the CSV data
-  //   const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-
-  //   // Create a download link and trigger the download
-  //   const link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = `student_data_${selectedUserId}_user_password.csv`;
-  //   link.style.display = "none";
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }, [rowData]);
 
   const onBtnExportUdise = async () => {
     let person = window.prompt(`Enter a School Udise`);
@@ -313,9 +290,29 @@ function StudentListView() {
     setToken(token);
   }, []);
 
-  // Fetching data using useSWR
+  const handleFiltersChange = (dropdownValues) => {
+    const {
+      stateDropdown: state,
+      districtDropdown: district,
+      blockDropdown: block,
+      schoolNameDropdown: schoolName, 
+      classNameDropdown: className, 
+    } = dropdownValues;
+
+    const newFilters = {};
+    if (state) newFilters.state = { eq: state };
+    if (district) newFilters.district = { eq: district };
+    if (block) newFilters.block = { eq: block };
+    if (schoolName) newFilters.schoolName = { eq: schoolName }; 
+    if (className) newFilters.class = { eq: className }; 
+
+    setFilters(newFilters); 
+  };
+
   useEffect(() => {
     const fetchData = async () => {
+      if (!token) return;
+
       try {
         const headers = {
           Accept: "*/*",
@@ -324,10 +321,12 @@ function StudentListView() {
         };
 
         const requestData = {
-          limit: "25",
+          limit: 25,
           page: 1,
-          filters: {},
+          filters: filters || {}, // Pass filters object, empty if no filters selected
         };
+
+        console.log("API Request Data:", requestData); // For debugging
 
         const response = await axios.post(studentSearch, requestData, {
           headers,
@@ -338,96 +337,29 @@ function StudentListView() {
       }
     };
 
-    fetchData();
-  }, [token]);
+    fetchData(); // Call the fetch function whenever filters or token change
+  }, [filters, token]); // The API call is triggered on `filters` or `token` change
 
-  // const handlePaginationChanged = () => {
-  //   // Increment the current page when the "Next Page" button is clicked
-  //   console.log("clicked");
+  const openDownloadCsvModal = () => {
+    setDownloadCsv(true);
+  };
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const headers = {
-  //         Accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       };
+  const closeDownloadCsvModal = () => {
+    setDownloadCsv(false);
+  };
+  const openDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(true);
+  };
 
-  //       const requestData = {
-  //         limit: "",
-  //         page: currentPage,
-  //         filters: {},
-  //       };
-
-  //       const response = await axios.post(studentSearch, requestData, {
-  //         headers,
-  //       });
-  //       setRowData(response.data.data);
-  //       setCurrentPage(currentPage + 1);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
-
-  // const handlePaginationChanged2 = () => {
-  //   // Increment the current page when the "Next Page" button is clicked
-  //   console.log("clicked");
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const headers = {
-  //         Accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       };
-
-  //       const requestData = {
-  //         limit: "",
-  //         page: currentPage,
-  //         filters: {},
-  //       };
-
-  //       const response = await axios.post(studentSearch, requestData, {
-  //         headers,
-  //       });
-  //       setRowData(response.data.data);
-  //       setCurrentPage(currentPage - 1);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
-
+  const closeDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(false);
+  };
+  console.log("row data", rowData);
   return (
     <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <button
-          onClick={onBtnExportFields}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px", // Add some spacing between the buttons
-            display: "flex", // Center align vertically
-            cursor: "pointer",
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{
-              color: "white",
-              fontSize: "largest",
-            }}
-          />
-          <H4 style={{ color: "white" }}> Download username & password </H4>
-        </button>
-        <button
-          onClick={onBtnExportDetails}
+          onClick={openDownloadCsvModal}
           style={{
             background: "#41C88E",
             border: "none",
@@ -444,16 +376,21 @@ function StudentListView() {
               fontSize: "largest",
             }}
           />
-          <H4 style={{ color: "white" }}> Download student details </H4>
+          <H4 style={{ color: "white" }}>Download Students Details</H4>
         </button>
+        <DownloadCsv
+          open={isDownloadCsv}
+          handleClose={closeDownloadCsvModal}
+          rowData={rowData}
+        />
         <button
-          onClick={onBtnExportUdise}
+          onClick={openDownloadStudentDetailsModal}
           style={{
             background: "#41C88E",
             border: "none",
             borderRadius: "5px",
-            marginLeft: "10px", // Add some spacing between the buttons
-            display: "flex", // Center align vertically
+            marginLeft: "10px",
+            display: "flex",
             cursor: "pointer",
             alignItems: "center",
           }}
@@ -464,8 +401,16 @@ function StudentListView() {
               fontSize: "largest",
             }}
           />
-          <H4 style={{ color: "white" }}> Get Students by UDISE Code </H4>
+          <H4 style={{ color: "white" }}>Download Student Details</H4>
         </button>
+        <DownloadStudentDetails
+          open={isDownloadStudentDetails}
+          handleClose={closeDownloadStudentDetailsModal}
+          rowData={rowData}
+        />
+      </div>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: "2rem" }}>
+        <StudentFilters handleFiltersChange={handleFiltersChange} />
       </div>
       <div
         style={{
@@ -476,17 +421,7 @@ function StudentListView() {
           cursor: "pointer",
           zIndex: "1",
         }}
-      >
-        {/* <Button style={{ cursor: "pointer" }} onPress={handlePaginationChanged}>
-          Previous Page
-        </Button>
-        <Button
-          style={{ cursor: "pointer", marginLeft: "20px" }}
-          onPress={handlePaginationChanged2}
-        >
-          Next Page
-        </Button> */}
-      </div>
+      ></div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
@@ -497,7 +432,6 @@ function StudentListView() {
         paginationAutoPageSize={true}
         overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
       ></AgGridReact>{" "}
-
       {isEditModalOpen && (
         <FORMmodal
           isOpen={isEditModalOpen}
@@ -505,10 +439,7 @@ function StudentListView() {
           contentLabel="Edit Modal"
           ariaHideApp={false}
         >
-          <button
-            onClick={handleClose}
-            className={styles.closeButton}
-          >
+          <button onClick={handleClose} className={styles.closeButton}>
             ❌
           </button>
           <div className={styles.bodyDiv}>

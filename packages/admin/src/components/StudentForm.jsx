@@ -7,7 +7,7 @@ import StudentSchema from "schema/StudentSchema";
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
-import { groupSearch, schoolSearch,stateSearch,blockSearch, districtSearch } from "routes/links";
+import { groupSearch, schoolSearch,getStateList,getBlockList, getBlockList } from "routes/links";
 import studentUpdateAPI from "api/studentUpdateAPI";
 
 function StudentForm({ studentData }) {
@@ -111,12 +111,12 @@ function StudentForm({ studentData }) {
   
       const apiCalls = [
         () => axios.post(schoolSearch, requestDataSchool, { headers }),
-        () => axios.post(stateSearch, {}, { headers }),
+        () => axios.post(getStateList, {}, { headers }),
         studentData.state
-          ? () => axios.post(districtSearch, requestDataDistrict, { headers })
+          ? () => axios.post(getDistrictList, requestDataDistrict, { headers })
           : null,
           studentData.district
-          ? () => axios.post(blockSearch, requestDataBlock, { headers })
+          ? () => axios.post(getBlockList, requestDataBlock, { headers })
           : null,
       ].filter(Boolean);
   
@@ -146,7 +146,7 @@ function StudentForm({ studentData }) {
       };
       const requestData = { state: selectedState };
   
-      axios.post(districtSearch, requestData, { headers })
+      axios.post(getDistrictList, requestData, { headers })
         .then((response) => {
           setDistrictData(response.data.data);
           setLoading(false);
@@ -165,7 +165,7 @@ function StudentForm({ studentData }) {
         "Content-Type": "application/json",
       };
       const requestData = { district: selectedDistrict };
-      axios.post(blockSearch, requestData, { headers })
+      axios.post(getBlockList, requestData, { headers })
         .then((response) => {
           setBlockData(response.data.data);
           setLoading(false);
