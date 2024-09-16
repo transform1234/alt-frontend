@@ -162,7 +162,6 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
   const handleDownload = () => {
     let filteredData = rowData;
-    console.log("filteredData", filteredData);
 
     // Filter data based on selected dropdowns
     if (dropdownValues.stateDropdown) {
@@ -250,8 +249,17 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   };
 
   const handleChange = (event, value, name) => {
-    setDropdownValues({ ...dropdownValues, [name]: value });
-  };
+    const dropdownOrder = ['stateDropdown', 'districtDropdown', 'blockDropdown', 'schoolNameDropdown', 'classNameDropdown'];
+    const changeIndex = dropdownOrder.indexOf(name);
+    const newDropdownValues = { ...dropdownValues, [name]: value };
+    dropdownOrder.forEach((key, index) => {
+        if (index > changeIndex) {
+            newDropdownValues[key] = null;
+        }
+    });
+    setDropdownValues(newDropdownValues);
+};
+
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
