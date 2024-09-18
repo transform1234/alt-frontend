@@ -44,7 +44,7 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
 
     if (!selectedStudent) {
       alert("No student found for the selected username.");
-      return;
+      return false;
     }
 
     // Prepare CSV data based on the selected download type
@@ -111,6 +111,9 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
+    setDropdownValues({
+      dropdown1: null,
+    });
   };
 
   // Reset the state when modal is closed
@@ -197,20 +200,13 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
         </Box>
 
         {/* Action buttons */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
-          <Button
-            variant="outlined"
-            onClick={handleModalClose}
-            startIcon={<CloseIcon />}
-          >
-            Close
-          </Button>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
           <CSVLink
             data={csvData}
             filename={csvFilename}
             onClick={handleDownload}
           >
-            <Button variant="outlined" startIcon={<DownloadIcon />}>
+            <Button variant="outlined"  disabled={!dropdownValues.dropdown1} startIcon={<DownloadIcon />}>
               Download
             </Button>
           </CSVLink>

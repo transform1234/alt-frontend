@@ -295,18 +295,18 @@ function StudentListView() {
       stateDropdown: state,
       districtDropdown: district,
       blockDropdown: block,
-      schoolNameDropdown: schoolName, 
-      classNameDropdown: className, 
+      schoolNameDropdown: schoolName,
+      classNameDropdown: className,
     } = dropdownValues;
 
     const newFilters = {};
     if (state) newFilters.state = { eq: state };
     if (district) newFilters.district = { eq: district };
     if (block) newFilters.block = { eq: block };
-    if (schoolName) newFilters.schoolName = { eq: schoolName }; 
-    if (className) newFilters.class = { eq: className }; 
+    if (schoolName) newFilters.schoolName = { eq: schoolName };
+    if (className) newFilters.class = { eq: className };
 
-    setFilters(newFilters); 
+    setFilters(newFilters);
   };
 
   useEffect(() => {
@@ -356,7 +356,10 @@ function StudentListView() {
   };
   console.log("row data", rowData);
   return (
-    <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
+    <div
+      className="ag-theme-material"
+      // style={{ height: "calc(100vh - 200px)", width: "100%" }}
+    >
       <div style={{ display: "flex", flexDirection: "row" }}>
         <button
           onClick={openDownloadCsvModal}
@@ -431,6 +434,7 @@ function StudentListView() {
         pagination={true}
         paginationAutoPageSize={true}
         overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
+        domLayout="autoHeight"
       ></AgGridReact>{" "}
       {isEditModalOpen && (
         <FORMmodal
