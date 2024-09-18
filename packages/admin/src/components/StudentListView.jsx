@@ -358,7 +358,6 @@ function StudentListView() {
   return (
     <div
       className="ag-theme-material"
-      // style={{ height: "calc(100vh - 200px)", width: "100%" }}
     >
       <div style={{ display: "flex", flexDirection: "row" }}>
         <button
@@ -432,7 +431,7 @@ function StudentListView() {
         animateRows={true}
         onCellClicked={cellClickedListener}
         pagination={true}
-        paginationAutoPageSize={true}
+        paginationPageSize={5}
         overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
         domLayout="autoHeight"
       ></AgGridReact>{" "}
