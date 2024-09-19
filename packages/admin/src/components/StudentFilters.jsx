@@ -77,7 +77,10 @@ const StudentFilters = ({ handleFiltersChange }) => {
       if (!dropdownValues.stateDropdown) return;
       try {
         const token = sessionStorage.getItem("token");
-        const districts = await fetchDistricts(token, dropdownValues.stateDropdown);
+        const districts = await fetchDistricts(
+          token,
+          dropdownValues.stateDropdown
+        );
         setDistrictOptions(districts);
 
         const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
@@ -137,7 +140,10 @@ const StudentFilters = ({ handleFiltersChange }) => {
       if (!dropdownValues.schoolNameDropdown) return;
       try {
         const token = sessionStorage.getItem("token");
-        const classes = await fetchClasses(token, dropdownValues.schoolNameDropdown);
+        const classes = await fetchClasses(
+          token,
+          dropdownValues.schoolNameDropdown
+        );
         setClassOptions(classes);
       } catch (error) {
         console.error("Error loading classes:", error);
@@ -147,10 +153,29 @@ const StudentFilters = ({ handleFiltersChange }) => {
   }, [dropdownValues.schoolNameDropdown]);
 
   const handleChange = (event, value, name) => {
-    const updatedDropdownValues = { ...dropdownValues, [name]: value };
-    setDropdownValues(updatedDropdownValues);
+    const dropdownOrder = [
+      "stateDropdown",
+      "districtDropdown",
+      "blockDropdown",
+      "schoolNameDropdown",
+      "classNameDropdown",
+    ];
 
-    // Call the callback function to notify parent component about the change
+    const changedDropdownIndex = dropdownOrder.indexOf(name);
+    const updatedDropdownValues = dropdownOrder.reduce(
+      (acc, dropdown, index) => {
+        if (index <= changedDropdownIndex) {
+          acc[dropdown] =
+            index === changedDropdownIndex ? value : acc[dropdown];
+        } else {
+          acc[dropdown] = null;
+        }
+        return acc;
+      },
+      { ...dropdownValues }
+    );
+
+    setDropdownValues(updatedDropdownValues);
     handleFiltersChange(updatedDropdownValues);
   };
 
@@ -162,7 +187,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
           disablePortal
           options={stateOptions}
           value={dropdownValues.stateDropdown}
-          onChange={(event, value) => handleChange(event, value, "stateDropdown")}
+          onChange={(event, value) =>
+            handleChange(event, value, "stateDropdown")
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -181,7 +208,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
           disablePortal
           options={districtOptions}
           value={dropdownValues.districtDropdown}
-          onChange={(event, value) => handleChange(event, value, "districtDropdown")}
+          onChange={(event, value) =>
+            handleChange(event, value, "districtDropdown")
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -200,7 +229,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
           disablePortal
           options={blockOptions}
           value={dropdownValues.blockDropdown}
-          onChange={(event, value) => handleChange(event, value, "blockDropdown")}
+          onChange={(event, value) =>
+            handleChange(event, value, "blockDropdown")
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -219,7 +250,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
           disablePortal
           options={schoolOptions}
           value={dropdownValues.schoolNameDropdown}
-          onChange={(event, value) => handleChange(event, value, "schoolNameDropdown")}
+          onChange={(event, value) =>
+            handleChange(event, value, "schoolNameDropdown")
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -238,7 +271,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
           disablePortal
           options={classOptions}
           value={dropdownValues.classNameDropdown}
-          onChange={(event, value) => handleChange(event, value, "classNameDropdown")}
+          onChange={(event, value) =>
+            handleChange(event, value, "classNameDropdown")
+          }
           renderInput={(params) => (
             <TextField
               {...params}

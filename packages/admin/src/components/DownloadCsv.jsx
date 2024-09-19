@@ -97,7 +97,10 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       if (!dropdownValues.stateDropdown) return; // Check for selected state
       try {
         const token = sessionStorage.getItem("token");
-        const districts = await fetchDistricts(token, dropdownValues.stateDropdown);
+        const districts = await fetchDistricts(
+          token,
+          dropdownValues.stateDropdown
+        );
         setDistrictOptions(districts);
 
         const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
@@ -105,7 +108,6 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
         const schools = await fetchSchools(token, dropdownValues.stateDropdown);
         setSchoolOptions(schools);
-
       } catch (error) {
         console.error("Error loading districts:", error);
       }
@@ -120,9 +122,12 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       try {
         const token = sessionStorage.getItem("token");
 
-        const blocks = await fetchBlocks(token,dropdownValues.stateDropdown, dropdownValues.districtDropdown);
+        const blocks = await fetchBlocks(
+          token,
+          dropdownValues.stateDropdown,
+          dropdownValues.districtDropdown
+        );
         setBlockOptions(blocks);
-        
       } catch (error) {
         console.error("Error loading blocks:", error);
       }
@@ -135,7 +140,12 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     const loadSchools = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const schools = await fetchSchools(token, dropdownValues.stateDropdown, dropdownValues.districtDropdown, dropdownValues.blockDropdown);
+        const schools = await fetchSchools(
+          token,
+          dropdownValues.stateDropdown,
+          dropdownValues.districtDropdown,
+          dropdownValues.blockDropdown
+        );
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading schools:", error);
@@ -150,7 +160,10 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       if (!dropdownValues.schoolNameDropdown) return; // Only fetch if a schoolNameDropdown is selected
       try {
         const token = sessionStorage.getItem("token");
-        const classes = await fetchClasses(token, dropdownValues.schoolNameDropdown);
+        const classes = await fetchClasses(
+          token,
+          dropdownValues.schoolNameDropdown
+        );
         console.log("classes", classes);
         setClassOptions(classes);
       } catch (error) {
@@ -161,8 +174,19 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   }, [dropdownValues.schoolNameDropdown]);
 
   const handleDownload = () => {
+    // Ensure at least one dropdown value is selected before allowing download
+    if (
+      !dropdownValues.stateDropdown &&
+      !dropdownValues.districtDropdown &&
+      !dropdownValues.blockDropdown &&
+      !dropdownValues.schoolNameDropdown &&
+      !dropdownValues.classNameDropdown
+    ) {
+      alert("Please select at least one filter before downloading.");
+      return false; // Prevent download if no filters are selected
+    }
+
     let filteredData = rowData;
-    console.log("filteredData", filteredData);
 
     // Filter data based on selected dropdowns
     if (dropdownValues.stateDropdown) {
@@ -249,12 +273,41 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     setCsvFilename(filename);
   };
 
+  // Disable download button if no selections are made
+  const isDownloadDisabled =
+    !dropdownValues.stateDropdown &&
+    !dropdownValues.districtDropdown &&
+    !dropdownValues.blockDropdown &&
+    !dropdownValues.schoolNameDropdown &&
+    !dropdownValues.classNameDropdown;
+
   const handleChange = (event, value, name) => {
-    setDropdownValues({ ...dropdownValues, [name]: value });
+    const dropdownOrder = [
+      "stateDropdown",
+      "districtDropdown",
+      "blockDropdown",
+      "schoolNameDropdown",
+      "classNameDropdown",
+    ];
+    const changeIndex = dropdownOrder.indexOf(name);
+    const newDropdownValues = { ...dropdownValues, [name]: value };
+    dropdownOrder.forEach((key, index) => {
+      if (index > changeIndex) {
+        newDropdownValues[key] = null;
+      }
+    });
+    setDropdownValues(newDropdownValues);
   };
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
+    setDropdownValues({
+      stateDropdown: null,
+      districtDropdown: null,
+      blockDropdown: null,
+      schoolNameDropdown: null,
+      classNameDropdown: null,
+    });
   };
 
   const handleModalClose = () => {
@@ -335,7 +388,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             disablePortal
             options={stateOptions}
             value={dropdownValues.stateDropdown}
-            onChange={(event, value) => handleChange(event, value, "stateDropdown")}
+            onChange={(event, value) =>
+              handleChange(event, value, "stateDropdown")
+            }
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select State" />
@@ -349,7 +404,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             disablePortal
             options={districtOptions}
             value={dropdownValues.districtDropdown}
-            onChange={(event, value) => handleChange(event, value, "districtDropdown")}
+            onChange={(event, value) =>
+              handleChange(event, value, "districtDropdown")
+            }
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select District" />
@@ -363,7 +420,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             disablePortal
             options={blockOptions}
             value={dropdownValues.blockDropdown}
-            onChange={(event, value) => handleChange(event, value, "blockDropdown")}
+            onChange={(event, value) =>
+              handleChange(event, value, "blockDropdown")
+            }
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select Block" />
@@ -377,7 +436,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             disablePortal
             options={schoolOptions}
             value={dropdownValues.schoolNameDropdown} // Manage this state accordingly
-            onChange={(event, value) => handleChange(event, value, "schoolNameDropdown")}
+            onChange={(event, value) =>
+              handleChange(event, value, "schoolNameDropdown")
+            }
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select School" />
@@ -391,7 +452,9 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
             disablePortal
             options={classOptions}
             value={dropdownValues.classNameDropdown}
-            onChange={(event, value) => handleChange(event, value, "classNameDropdown")}
+            onChange={(event, value) =>
+              handleChange(event, value, "classNameDropdown")
+            }
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField {...params} label="Select Class" />
@@ -400,20 +463,17 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
         </Box>
 
         {/* Action buttons */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
-          <Button
-            variant="outlined"
-            onClick={handleModalClose}
-            startIcon={<CloseIcon />}
-          >
-            Close
-          </Button>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
           <CSVLink
             data={csvData}
             filename={csvFilename}
             onClick={handleDownload}
           >
-            <Button variant="outlined" startIcon={<DownloadIcon />}>
+            <Button
+              variant="outlined"
+              disabled={isDownloadDisabled}
+              startIcon={<DownloadIcon />}
+            >
               Download
             </Button>
           </CSVLink>
