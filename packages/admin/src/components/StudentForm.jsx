@@ -96,6 +96,37 @@ function StudentForm({ studentData }) {
   };
   
   useEffect(() => {
+    if (token && !studentData) {
+      setLoading(true);
+  
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+  
+      const requestDataSchool = { page: 0, filters: {} };
+  
+      const apiCalls = [
+        () => axios.post(schoolSearch, requestDataSchool, { headers }),
+        () => axios.post(getStateList, {}, { headers }),
+      ];
+  
+      Promise.all(apiCalls.map(call => call()))
+      .then(([schoolResponse, stateResponse]) => {
+        if (schoolResponse) setData(schoolResponse.data.data);
+        if (stateResponse) setStateData(stateResponse.data.data);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    }
+  }, [token]);
+
+  useEffect(() => {
     if (token && studentData) {
       setLoading(true);
   
