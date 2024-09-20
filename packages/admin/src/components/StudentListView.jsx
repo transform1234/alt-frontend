@@ -441,11 +441,12 @@ function StudentListView() {
           onRequestClose={handleClose}
           contentLabel="Edit Modal"
           ariaHideApp={false}
+          className={styles.formModal}
         >
           <button onClick={handleClose} className={styles.closeButton}>
             ❌
           </button>
-          <div className={styles.bodyDiv}>
+          <div className={styles.mainDiv}>
             <StudentForm studentData={selectedStudent} />
           </div>
         </FORMmodal>

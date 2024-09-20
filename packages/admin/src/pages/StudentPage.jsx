@@ -157,6 +157,7 @@ function StudentPage() {
                   onRequestClose={closeFORMModal}
                   contentLabel="Edit Modal"
                   ariaHideApp={false}
+                  className={styles.formModal}
                 >
                   <button
                     onClick={closeFORMModal}
@@ -164,7 +165,7 @@ function StudentPage() {
                   >
                     ❌
                   </button>
-                  <div className={styles.bodyDiv}>
+                  <div className={styles.mainDiv}>
                     <StudentForm />
                   </div>
                 </FORMmodal>
