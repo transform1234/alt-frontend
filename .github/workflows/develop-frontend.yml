@@ -1,4 +1,4 @@
-name: Deploy to DEV
+name: Deploy to DEV Prod
 on: 
   push: 
     branches:
