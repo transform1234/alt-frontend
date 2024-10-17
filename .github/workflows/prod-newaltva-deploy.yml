@@ -1,8 +1,8 @@
-name: Deploy to DEV
+name: Deploy to PROD
 on: 
   push: 
     branches:
-      - develop 
+      - newaltv1 
 jobs:
   build:
     name: Generate Build and Deploy to DEV
