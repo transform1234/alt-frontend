@@ -109,4 +109,3 @@ const AppShell = React.lazy(() => import("core/AppShell"));
 # Developer Documents
 
 https://shiksha-platform.github.io/docs/Developer/Frontend/
-
