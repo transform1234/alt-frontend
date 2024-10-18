@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   Modal,
   Box,
   Typography,
   Button,
   TextField,
-  Autocomplete,
   IconButton,
   Radio,
   RadioGroup,
@@ -15,112 +14,120 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
-import { CSVLink } from "react-csv"; 
+import { CSVLink } from "react-csv";
+import axios from "axios";
+import { studentSearch } from "routes/links";
 
-const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
-  const [dropdownValues, setDropdownValues] = useState({
-    dropdown1: null,
-  });
+const DownloadStudentDetails = ({ open, handleClose }) => {
+  const [inputValue, setInputValue] = useState(""); 
   const [downloadType, setDownloadType] = useState("Student Details");
-  const [dropdownOptions, setDropdownOptions] = useState([]);
   const [csvData, setCsvData] = useState([]);
   const [csvFilename, setCsvFilename] = useState("student_details.csv");
-
-  // Extract usernames from rowData
-  useEffect(() => {
-    if (rowData && rowData.length) {
-      const usernames = rowData.map((item) => item.username);
-      setDropdownOptions(usernames); 
-    }
-  }, [rowData]);
-
-  const handleDownload = () => {
-    const selectedUsername = dropdownValues.dropdown1;
-
-    // Find the student record based on the selected username
-    const selectedStudent = rowData.find(
-      (student) => student.username === selectedUsername
-    );
-
-    if (!selectedStudent) {
-      alert("No student found for the selected username.");
-      return false;
+  const csvLinkRef = useRef();
+  const handleDownload = async () => {
+    if (!inputValue) {
+      alert("Please enter a username.");
+      return;
     }
 
-    // Prepare CSV data based on the selected download type
-    let dataToDownload = [];
-    let filename = "student_details.csv";
-
-    if (downloadType === "Student Details") {
-      // Download all student details
-      dataToDownload = [
-        {
-          "User ID": selectedStudent.userId,
-          Name: selectedStudent.name,
-          Username: selectedStudent.username,
-          Email: selectedStudent.email,
-          Mobile: selectedStudent.mobile,
-          Gender: selectedStudent.gender,
-          "Date of Birth": selectedStudent.dateOfBirth,
-          Role: selectedStudent.role,
-          Board: selectedStudent.board,
-          Password: selectedStudent.password,
-          "Created By": selectedStudent.createdBy,
-          "Updated By": selectedStudent.updatedBy,
-          "Student Id": selectedStudent.studentId,
-          "Class Name": selectedStudent.className,
-          Groups: selectedStudent.groups.join(", "),
-          Religion: selectedStudent.religion,
-          "School UDISE": selectedStudent.schoolUdise,
-          Caste: selectedStudent.caste,
-          "Annual Income": selectedStudent.annualIncome,
-          "Mother's Education": selectedStudent.motherEducation,
-          "Father's Education": selectedStudent.fatherEducation,
-          "Mother's Occupation": selectedStudent.motherOccupation,
-          "Father's Occupation": selectedStudent.fatherOccupation,
-          "Number of Siblings": selectedStudent.noOfSiblings,
-          "Student Enroll ID": selectedStudent.studentEnrollId,
-          Promotion: selectedStudent.promotion,
-          School: selectedStudent.schoolName,
-          State: selectedStudent.state,
-          District: selectedStudent.district,
-          Block: selectedStudent.block,
+    const payload = {
+      page: 1,
+      filters: {
+        username: {
+          eq: inputValue,
         },
-      ];
-      filename = `${selectedStudent.username}_details.csv`;
-    } else if (downloadType === "Username and Password") {
-      // Download only username, name, and password
-      dataToDownload = [
-        {
-          Name: selectedStudent.name,
-          Username: selectedStudent.username,
-          Password: selectedStudent.password,
-        },
-      ];
-      filename = `${selectedStudent.username}_credentials.csv`;
-    }
+      },
+    };
 
-    // Set the CSV data and filename
-    setCsvData(dataToDownload);
-    setCsvFilename(filename);
+    try {
+      const response = await axios.post(
+        studentSearch,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`, 
+          },
+        }
+      );
+
+      const studentData = response.data.data[0]; 
+      if (!studentData) {
+        alert("No student data found.");
+        return;
+      }
+
+      // Prepare CSV data
+      let dataToDownload = [];
+      let filename = "student_details.csv";
+
+      if (downloadType === "Student Details") {
+        dataToDownload = [
+          {
+            "User ID": studentData.userId,
+            Name: studentData.name,
+            Username: studentData.username,
+            Email: studentData.email,
+            Mobile: studentData.mobile,
+            Gender: studentData.gender,
+            "Date of Birth": studentData.dateOfBirth,
+            Role: studentData.role,
+            Board: studentData.board,
+            Password: studentData.password,
+            "Created By": studentData.createdBy,
+            "Updated By": studentData.updatedBy,
+            "Student Id": studentData.studentId,
+            "Class Name": studentData.className,
+            Groups: studentData.groups.join(", "),
+            Religion: studentData.religion,
+            "School UDISE": studentData.schoolUdise,
+            Caste: studentData.caste,
+            "Annual Income": studentData.annualIncome,
+            "Mother's Education": studentData.motherEducation,
+            "Father's Education": studentData.fatherEducation,
+            "Mother's Occupation": studentData.motherOccupation,
+            "Father's Occupation": studentData.fatherOccupation,
+            "Number of Siblings": studentData.noOfSiblings,
+            "Student Enroll ID": studentData.studentEnrollId,
+            Promotion: studentData.promotion,
+            School: studentData.schoolName,
+            State: studentData.state,
+            District: studentData.district,
+            Block: studentData.block,
+          },
+        ];
+        filename = `${studentData.username}_details.csv`;
+      } else if (downloadType === "Username and Password") {
+        dataToDownload = [
+          {
+            Name: studentData.name,
+            Username: studentData.username,
+            Password: studentData.password,
+          },
+        ];
+        filename = `${studentData.username}_credentials.csv`;
+      }
+
+      setCsvData(dataToDownload);
+      setCsvFilename(filename);
+      setTimeout(() => {
+        csvLinkRef.current.link.click();
+      });
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+    }
   };
 
-  const handleChange = (event, value, name) => {
-    setDropdownValues({ ...dropdownValues, [name]: value });
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value); 
   };
 
   const handleRadioChange = (event) => {
     setDownloadType(event.target.value);
-    setDropdownValues({
-      dropdown1: null,
-    });
+    setInputValue(""); 
   };
 
-  // Reset the state when modal is closed
   const handleModalClose = () => {
-    setDropdownValues({
-      dropdown1: null,
-    });
+    setInputValue("");
     setDownloadType("Student Details");
     handleClose();
   };
@@ -134,17 +141,17 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: {
-            xs: "90%", 
-            sm: "70%", 
-            md: "400px"
+            xs: "90%",
+            sm: "70%",
+            md: "400px",
           },
           bgcolor: "background.paper",
           border: "1px solid #cad0d8",
           borderRadius: "12px",
           boxShadow: 24,
           p: 4,
-          overflowY: "auto", 
-          maxHeight: "90vh" 
+          overflowY: "auto",
+          maxHeight: "90vh",
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
@@ -185,31 +192,30 @@ const DownloadStudentDetails = ({ open, handleClose, rowData }) => {
           </RadioGroup>
         </FormControl>
 
-        {/* Dropdown */}
         <Box sx={{ mb: 2 }}>
-          <Autocomplete
-            disablePortal
-            options={dropdownOptions}
-            value={dropdownValues.dropdown1}
-            onChange={(event, value) => handleChange(event, value, "dropdown1")}
-            sx={{ width: "100%" }}
-            renderInput={(params) => (
-              <TextField {...params} label="Enter Username" />
-            )}
+          <TextField
+            fullWidth
+            label="Enter Username"
+            value={inputValue}
+            onChange={handleInputChange}
           />
         </Box>
 
-        {/* Action buttons */}
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+          <Button
+            variant="outlined"
+            disabled={!inputValue}
+            startIcon={<DownloadIcon />}
+            onClick={handleDownload}
+          >
+            Download
+          </Button>
           <CSVLink
             data={csvData}
             filename={csvFilename}
-            onClick={handleDownload}
-          >
-            <Button variant="outlined"  disabled={!dropdownValues.dropdown1} startIcon={<DownloadIcon />}>
-              Download
-            </Button>
-          </CSVLink>
+            className="hidden"
+            ref={csvLinkRef}
+          />
         </Box>
       </Box>
     </Modal>
