@@ -383,7 +383,7 @@ function StudentListView() {
         <DownloadCsv
           open={isDownloadCsv}
           handleClose={closeDownloadCsvModal}
-          rowData={rowData}
+          // rowData={rowData}
         />
         <button
           onClick={openDownloadStudentDetailsModal}
