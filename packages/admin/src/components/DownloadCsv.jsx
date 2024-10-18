@@ -16,15 +16,19 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
 import { CSVLink } from "react-csv";
+import axios from "axios";
+import { studentSearch } from "routes/links";
+
 import {
   fetchStates,
   fetchDistricts,
   fetchBlocks,
   fetchSchools,
   fetchClasses,
-} from "../api/filterStudentDetails";
+} from "../api/filterStudentDetails"; // Keep your API fetch functions as they are
+import Papa from "papaparse";
 
-const DownloadCsv = ({ open, handleClose, rowData }) => {
+const DownloadCsv = ({ open, handleClose }) => {
   const [dropdownValues, setDropdownValues] = useState({
     stateDropdown: null,
     districtDropdown: null,
@@ -39,7 +43,6 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
   const [blockOptions, setBlockOptions] = useState([]);
   const [schoolOptions, setSchoolOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
-
   const [csvData, setCsvData] = useState([]);
   const [csvFilename, setCsvFilename] = useState("student_details.csv");
 
@@ -173,7 +176,13 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
     loadClasses();
   }, [dropdownValues.schoolNameDropdown]);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("Token not found. Please login.");
+      return;
+    }
+
     // Ensure at least one dropdown value is selected before allowing download
     if (
       !dropdownValues.stateDropdown &&
@@ -183,94 +192,107 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
       !dropdownValues.classNameDropdown
     ) {
       alert("Please select at least one filter before downloading.");
-      return false; // Prevent download if no filters are selected
-    }
-
-    let filteredData = rowData;
-
-    // Filter data based on selected dropdowns
-    if (dropdownValues.stateDropdown) {
-      filteredData = filteredData.filter(
-        (item) => item.state === dropdownValues.stateDropdown
-      );
-    }
-    if (dropdownValues.districtDropdown) {
-      filteredData = filteredData.filter(
-        (item) => item.district === dropdownValues.districtDropdown
-      );
-    }
-    if (dropdownValues.blockDropdown) {
-      filteredData = filteredData.filter(
-        (item) => item.block === dropdownValues.blockDropdown
-      );
-    }
-    if (dropdownValues.schoolNameDropdown) {
-      filteredData = filteredData.filter(
-        (item) => item.schoolName === dropdownValues.schoolNameDropdown
-      );
-    }
-    if (dropdownValues.classNameDropdown) {
-      filteredData = filteredData.filter(
-        (item) => item.className === dropdownValues.classNameDropdown
-      );
-    }
-
-    if (!filteredData || filteredData.length === 0) {
-      alert("No data available for the selected filters.");
       return false;
     }
 
-    let dataToDownload = [];
-    let filename = "student_details.csv";
+    // Build the API payload based on selected dropdown values
+    const payload = {
+      page: 1, // You can adjust this if needed
+      filters: {},
+    };
 
-    if (downloadType === "Student Details") {
-      // Download all student details
-      dataToDownload = filteredData.map((student) => ({
-        "User ID": student.userId,
-        Name: student.name,
-        Username: student.username,
-        Email: student.email,
-        Mobile: student.mobile,
-        Gender: student.gender,
-        "Date of Birth": student.dateOfBirth,
-        Role: student.role,
-        Board: student.board,
-        Password: student.password,
-        "Created By": student.createdBy,
-        "Updated By": student.updatedBy,
-        "Student Id": student.studentId,
-        "Class Name": student.className,
-        Groups: student.groups.join(", "),
-        Religion: student.religion,
-        "School UDISE": student.schoolUdise,
-        Caste: student.caste,
-        "Annual Income": student.annualIncome,
-        "Mother's Education": student.motherEducation,
-        "Father's Education": student.fatherEducation,
-        "Mother's Occupation": student.motherOccupation,
-        "Father's Occupation": student.fatherOccupation,
-        "Number of Siblings": student.noOfSiblings,
-        "Student Enroll ID": student.studentEnrollId,
-        Promotion: student.promotion,
-        School: student.schoolName,
-        State: student.state,
-        District: student.district,
-        Block: student.block,
-      }));
-      filename = "filtered_student_details.csv";
-    } else if (downloadType === "Username and Password") {
-      // Download only username, name, and password
-      dataToDownload = filteredData.map((student) => ({
-        Name: student.name,
-        Username: student.username,
-        Password: student.password,
-      }));
-      filename = "filtered_credentials.csv";
+    if (dropdownValues.stateDropdown) {
+      payload.filters.state = { eq: dropdownValues.stateDropdown };
+    }
+    if (dropdownValues.districtDropdown) {
+      payload.filters.district = { eq: dropdownValues.districtDropdown };
+    }
+    if (dropdownValues.blockDropdown) {
+      payload.filters.block = { eq: dropdownValues.blockDropdown };
+    }
+    if (dropdownValues.schoolNameDropdown) {
+      payload.filters.schoolName = { eq: dropdownValues.schoolNameDropdown };
+    }
+    if (dropdownValues.classNameDropdown) {
+      payload.filters.class = { eq: dropdownValues.classNameDropdown };
     }
 
-    // Set CSV data and filename
-    setCsvData(dataToDownload);
-    setCsvFilename(filename);
+    try {
+      // Make the API call to fetch filtered data
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.post(studentSearch, payload, { headers });
+      const filteredData = response.data.data;
+
+      if (!filteredData || filteredData.length === 0) {
+        alert("No data available for the selected filters.");
+        return;
+      }
+
+      let csvData;
+      if (downloadType === "Username and Password") {
+        csvData = Papa.unparse(
+          filteredData.map((student) => ({
+            Name: student.name,
+            Username: student.username,
+            Password: student.password,
+          }))
+        );
+      } else if (downloadType === "Student Details") {
+        csvData = Papa.unparse(
+          filteredData.map((student) => ({
+            "User ID": student.userId,
+            Name: student.name,
+            Username: student.username,
+            Email: student.email,
+            Mobile: student.mobile,
+            Gender: student.gender,
+            "Date of Birth": student.dateOfBirth,
+            Role: student.role,
+            Board: student.board,
+            Password: student.password,
+            "Created By": student.createdBy,
+            "Updated By": student.updatedBy,
+            "Student Id": student.studentId,
+            "Class Name": student.className,
+            Groups: student.groups.join(", "),
+            Religion: student.religion,
+            "School UDISE": student.schoolUdise,
+            Caste: student.caste,
+            "Annual Income": student.annualIncome,
+            "Mother's Education": student.motherEducation,
+            "Father's Education": student.fatherEducation,
+            "Mother's Occupation": student.motherOccupation,
+            "Father's Occupation": student.fatherOccupation,
+            "Number of Siblings": student.noOfSiblings,
+            "Student Enroll ID": student.studentEnrollId,
+            Promotion: student.promotion,
+            School: student.schoolName,
+            State: student.state,
+            District: student.district,
+            Block: student.block,
+          }))
+        );
+      }
+
+      // Update the csvData state
+      setCsvData(csvData);
+
+      // Create a Blob and trigger the download manually
+      const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "filtered_student_details.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error fetching filtered data:", error);
+    }
   };
 
   // Disable download button if no selections are made
@@ -464,19 +486,16 @@ const DownloadCsv = ({ open, handleClose, rowData }) => {
 
         {/* Action buttons */}
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
-          <CSVLink
-            data={csvData}
-            filename={csvFilename}
-            onClick={handleDownload}
+          <Button
+            variant="outlined"
+            disabled={isDownloadDisabled}
+            startIcon={<DownloadIcon />}
+            onClick={async () => {
+              await handleDownload(); // This will download the CSV after data is ready
+            }}
           >
-            <Button
-              variant="outlined"
-              disabled={isDownloadDisabled}
-              startIcon={<DownloadIcon />}
-            >
-              Download
-            </Button>
-          </CSVLink>
+            Download CSV
+          </Button>
         </Box>
       </Box>
     </Modal>
