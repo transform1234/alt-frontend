@@ -157,10 +157,9 @@ const DownloadCsv = ({ open, handleClose }) => {
     loadSchools();
   }, [dropdownValues.blockDropdown]);
 
-  // Fetching classes based on selected school
   useEffect(() => {
     const loadClasses = async () => {
-      if (!dropdownValues.schoolNameDropdown) return; // Only fetch if a schoolNameDropdown is selected
+      if (!dropdownValues.schoolNameDropdown) return; 
       try {
         const token = sessionStorage.getItem("token");
         const classes = await fetchClasses(
@@ -195,9 +194,8 @@ const DownloadCsv = ({ open, handleClose }) => {
       return false;
     }
 
-    // Build the API payload based on selected dropdown values
     const payload = {
-      page: 1, // You can adjust this if needed
+      page: 1, 
       filters: {},
     };
 
@@ -279,10 +277,8 @@ const DownloadCsv = ({ open, handleClose }) => {
         );
       }
 
-      // Update the csvData state
       setCsvData(csvData);
 
-      // Create a Blob and trigger the download manually
       const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
@@ -295,7 +291,6 @@ const DownloadCsv = ({ open, handleClose }) => {
     }
   };
 
-  // Disable download button if no selections are made
   const isDownloadDisabled =
     !dropdownValues.stateDropdown &&
     !dropdownValues.districtDropdown &&
@@ -491,7 +486,7 @@ const DownloadCsv = ({ open, handleClose }) => {
             disabled={isDownloadDisabled}
             startIcon={<DownloadIcon />}
             onClick={async () => {
-              await handleDownload(); // This will download the CSV after data is ready
+              await handleDownload(); 
             }}
           >
             Download CSV
