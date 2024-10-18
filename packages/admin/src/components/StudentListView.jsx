@@ -408,7 +408,7 @@ function StudentListView() {
         <DownloadStudentDetails
           open={isDownloadStudentDetails}
           handleClose={closeDownloadStudentDetailsModal}
-          rowData={rowData}
+          // rowData={rowData}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "row", marginTop: "2rem" }}>
