@@ -19,7 +19,7 @@ import axios from "axios";
 import { studentSearch } from "routes/links";
 
 const DownloadStudentDetails = ({ open, handleClose }) => {
-  const [inputValue, setInputValue] = useState(""); 
+  const [inputValue, setInputValue] = useState(""); // Store input value
   const [downloadType, setDownloadType] = useState("Student Details");
   const [csvData, setCsvData] = useState([]);
   const [csvFilename, setCsvFilename] = useState("student_details.csv");

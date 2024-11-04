@@ -268,7 +268,7 @@ export default function StudentLogin({ swPath }) {
             <Center>
               <Box textAlign="center">
                 <H3 style={{ fontSize: "16px" }}>
-                  Accelerated Learning via Technology (ALT)
+                  Accelerated Learning via Technology (ALT) hello bye
                 </H3>
                 {/* <H3 style={{ fontSize: "16px", color : "red"  }}>
                Reminder :
