@@ -74,19 +74,19 @@ const StudentFilters = ({ handleFiltersChange }) => {
 
   useEffect(() => {
     const loadDistricts = async () => {
-      if (!dropdownValues.stateDropdown) return;
+      if (!dropdownValues.stateDropdown.label) return;
       try {
         const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(
           token,
-          dropdownValues.stateDropdown
+          dropdownValues.stateDropdown.label
         );
         setDistrictOptions(districts);
 
-        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
+        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown.label);
         setBlockOptions(blocks);
 
-        const schools = await fetchSchools(token, dropdownValues.stateDropdown);
+        const schools = await fetchSchools(token, dropdownValues.stateDropdown.label);
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading districts:", error);
@@ -98,14 +98,14 @@ const StudentFilters = ({ handleFiltersChange }) => {
   // Update blocks based on selected district
   useEffect(() => {
     const loadBlocks = async () => {
-      if (!dropdownValues.districtDropdown) return;
+      if (!dropdownValues.districtDropdown.label) return;
       try {
         const token = sessionStorage.getItem("token");
 
         const blocks = await fetchBlocks(
           token,
-          dropdownValues.stateDropdown,
-          dropdownValues.districtDropdown
+          dropdownValues.stateDropdown.label,
+          dropdownValues.districtDropdown.label
         );
         setBlockOptions(blocks);
       } catch (error) {
@@ -122,9 +122,9 @@ const StudentFilters = ({ handleFiltersChange }) => {
         const token = sessionStorage.getItem("token");
         const schools = await fetchSchools(
           token,
-          dropdownValues.stateDropdown,
-          dropdownValues.districtDropdown,
-          dropdownValues.blockDropdown
+          dropdownValues.stateDropdown.label,
+          dropdownValues.districtDropdown.label,
+          dropdownValues.blockDropdown.label
         );
         setSchoolOptions(schools);
       } catch (error) {
@@ -137,12 +137,12 @@ const StudentFilters = ({ handleFiltersChange }) => {
   // Fetch classes based on selected school
   useEffect(() => {
     const loadClasses = async () => {
-      if (!dropdownValues.schoolNameDropdown) return;
+      if (!dropdownValues.schoolNameDropdown.label) return;
       try {
         const token = sessionStorage.getItem("token");
         const classes = await fetchClasses(
           token,
-          dropdownValues.schoolNameDropdown
+          dropdownValues.schoolNameDropdown.label
         );
         setClassOptions(classes);
       } catch (error) {
@@ -186,6 +186,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={stateOptions}
+          getOptionLabel={(option) => option.label || ""}
           value={dropdownValues.stateDropdown}
           onChange={(event, value) =>
             handleChange(event, value, "stateDropdown")
@@ -207,6 +208,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={districtOptions}
+          getOptionLabel={(option) => option.label || ""}
           value={dropdownValues.districtDropdown}
           onChange={(event, value) =>
             handleChange(event, value, "districtDropdown")
@@ -228,6 +230,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={blockOptions}
+          getOptionLabel={(option) => option.label || ""}
           value={dropdownValues.blockDropdown}
           onChange={(event, value) =>
             handleChange(event, value, "blockDropdown")
@@ -249,6 +252,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={schoolOptions}
+          getOptionLabel={(option) => `${option.label} (${option.udiseCode})`}
           value={dropdownValues.schoolNameDropdown}
           onChange={(event, value) =>
             handleChange(event, value, "schoolNameDropdown")
@@ -270,6 +274,7 @@ const StudentFilters = ({ handleFiltersChange }) => {
         <Autocomplete
           disablePortal
           options={classOptions}
+          getOptionLabel={(option) => option.label || ""}
           value={dropdownValues.classNameDropdown}
           onChange={(event, value) =>
             handleChange(event, value, "classNameDropdown")

@@ -117,7 +117,6 @@ function StudentListView() {
     //       />
     //     ); // Replace with your desired label
     //     const handleClick = async () => {
-    //       console.log("Record has been removed");
     //     };
 
     //     return <div onClick={handleClick}>{label}</div>;
@@ -142,10 +141,13 @@ function StudentListView() {
         );
       },
     },
-    { field: "name" },
+    { field: "name" , editable: true, },
     { field: "dateOfBirth", width: 150 },
     { field: "board", width: 150 },
-    { field: "schoolName", width: 250 },
+    { field: "schoolName", 
+      width: 250 ,
+      editable: true
+    },
     {
       field: "schoolUdise",
       filter: true,
@@ -155,7 +157,7 @@ function StudentListView() {
       },
     },
     { field: "email" },
-    { field: "username" },
+    { field: "username", editable: true, },
 
     { field: "mobile" },
     { field: "gender" },
@@ -181,7 +183,6 @@ function StudentListView() {
     if (person == null || person == "") {
       alert("Please enter a valid Udise");
     } else {
-      console.log(person);
 
       const result = await studentUdiseAPI(person);
       if (result) {
@@ -190,7 +191,6 @@ function StudentListView() {
           const { password, ...rest } = item;
           return rest;
         });
-        console.log(filteredData);
 
         // Convert the data to CSV format using PapaParse
         const csvData = Papa.unparse(filteredData);
@@ -212,7 +212,6 @@ function StudentListView() {
   };
 
   const cellClickedListener = useCallback((event) => {
-    console.log("cellClicked", event);
   }, []);
 
   const onBtnExportFields = async () => {
@@ -221,13 +220,10 @@ function StudentListView() {
     if (person == null || person == "") {
       alert("Please enter a valid Udise");
     } else {
-      console.log(person);
 
       const result = await studentUsernamePasswordAPI(person);
       if (result) {
         const filteredData = result.data.data;
-        console.log(filteredData);
-
         const selectedFieldsData = filteredData.map((row) => ({
           Name: row.name,
           UserName: row.username,
@@ -259,8 +255,6 @@ function StudentListView() {
     if (username == null || username == "") {
       alert("Please enter a valid username");
     } else {
-      console.log(username);
-
       // Find the row corresponding to the entered username in the rowData array
       const student = rowData.find((student) => student.username === username);
 
@@ -300,11 +294,11 @@ function StudentListView() {
     } = dropdownValues;
 
     const newFilters = {};
-    if (state) newFilters.state = { eq: state };
-    if (district) newFilters.district = { eq: district };
-    if (block) newFilters.block = { eq: block };
-    if (schoolName) newFilters.schoolName = { eq: schoolName };
-    if (className) newFilters.class = { eq: className };
+    if (state) newFilters.state = { eq: state.label };
+    if (district) newFilters.district = { eq: district.label };
+    if (block) newFilters.block = { eq: block.label };
+    if (schoolName) newFilters.schoolName = { eq: schoolName.udiseCode };
+    if (className) newFilters.class = { eq: className.label };
 
     setFilters(newFilters);
   };
@@ -325,8 +319,6 @@ function StudentListView() {
           page: 1,
           filters: filters || {}, // Pass filters object, empty if no filters selected
         };
-
-        console.log("API Request Data:", requestData); // For debugging
 
         const response = await axios.post(studentSearch, requestData, {
           headers,
@@ -354,7 +346,6 @@ function StudentListView() {
   const closeDownloadStudentDetailsModal = () => {
     setisDownloadStudentDetails(false);
   };
-  console.log("row data", rowData);
   return (
     <div
       className="ag-theme-material"
