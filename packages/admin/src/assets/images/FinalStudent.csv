@@ -1,2 +1,2 @@
-name,username,email,mobile,gender,dateOfBirth,board,password,status,className,religion,school_udise,caste,annual_income,mother_education,father_education,mother_occupation,father_occupation,No_of_siblings,promotion
-Test,retesttekdiwb600112121884,,9999999999,Female ,1990-01-03,West Bengal,NA ,TRUE,Class 7,Hindu,12345678,General,668,,,,,,,
+name,username,email,mobile,gender,dateOfBirth,board,password,status,className,religion,school_udise,caste,annual_income,mother_education,father_education,mother_occupation,father_occupation,No_of_siblings,promotion,state,district,block
+Test,retesttekdiwb600112121884,,9999999999,Female ,1990-01-03,West Bengal,NA ,TRUE,Class 7,Hindu,12345678,General,668,,,,,,,maharastra,pune,kothrud

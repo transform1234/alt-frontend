@@ -9,7 +9,9 @@ export const fetchStates = async (token) => {
       { state: "" }, // Fetch all states
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
-    return response.data.data.map(item => item.state);
+    return response.data.data.map(item => ({
+      label: `${item.state}`
+    }));
   } catch (error) {
     console.error("Error fetching states:", error);
     throw error;
@@ -24,7 +26,9 @@ export const fetchDistricts = async (token, state = "") => {
       { state }, // Send selected state as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
-    return response.data.data.map(item => item.district);
+    return response.data.data.map(item => ({
+      label: `${item.district}`
+    }));
   } catch (error) {
     console.error("Error fetching districts:", error);
     throw error;
@@ -39,7 +43,9 @@ export const fetchBlocks = async (token, state = "", district = "") => {
       { state, district }, // Send both state and district as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
-    return response.data.data.map(item => item.block);
+    return response.data.data.map(item => ({
+      label: `${item.block}`
+    }));
   } catch (error) {
     console.error("Error fetching blocks:", error);
     throw error;
@@ -54,7 +60,10 @@ export const fetchSchools = async (token, state = "", district = "", block = "")
       { state, district, block }, // Send state, district, and block as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
-    return response.data.data.map(item => item.name);
+    return response.data.data.map(item => ({
+      label:  `${item.name}`,
+      udiseCode: `${item.udiseCode}`
+    }));
   } catch (error) {
     console.error("Error fetching schools:", error);
     throw error;
@@ -69,7 +78,9 @@ export const fetchClasses = async (token, schoolName = "") => {
       { schoolName }, // Send selected schoolName as payload
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }}
     );
-    return response.data.data.map(item => item.name);
+    return response.data.data.map(item => ({
+      label: `${item.name}`
+    }));
   } catch (error) {
     console.error("Error fetching classes:", error);
     throw error;

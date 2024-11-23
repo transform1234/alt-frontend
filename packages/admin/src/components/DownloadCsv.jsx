@@ -97,19 +97,19 @@ const DownloadCsv = ({ open, handleClose }) => {
   // Update districts based on selected state
   useEffect(() => {
     const loadDistricts = async () => {
-      if (!dropdownValues.stateDropdown) return; // Check for selected state
+      if (!dropdownValues.stateDropdown?.label) return; // Check for selected state
       try {
         const token = sessionStorage.getItem("token");
         const districts = await fetchDistricts(
           token,
-          dropdownValues.stateDropdown
+          dropdownValues.stateDropdown?.label
         );
         setDistrictOptions(districts);
 
-        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown);
+        const blocks = await fetchBlocks(token, dropdownValues.stateDropdown?.label);
         setBlockOptions(blocks);
 
-        const schools = await fetchSchools(token, dropdownValues.stateDropdown);
+        const schools = await fetchSchools(token, dropdownValues.stateDropdown?.label);
         setSchoolOptions(schools);
       } catch (error) {
         console.error("Error loading districts:", error);
@@ -121,14 +121,14 @@ const DownloadCsv = ({ open, handleClose }) => {
   // Update blocks based on selected district
   useEffect(() => {
     const loadBlocks = async () => {
-      if (!dropdownValues.districtDropdown) return; // Check for selected district
+      if (!dropdownValues.districtDropdown?.label) return; // Check for selected district
       try {
         const token = sessionStorage.getItem("token");
 
         const blocks = await fetchBlocks(
           token,
-          dropdownValues.stateDropdown,
-          dropdownValues.districtDropdown
+          dropdownValues.stateDropdown?.label,
+          dropdownValues.districtDropdown?.label
         );
         setBlockOptions(blocks);
       } catch (error) {
@@ -145,9 +145,9 @@ const DownloadCsv = ({ open, handleClose }) => {
         const token = sessionStorage.getItem("token");
         const schools = await fetchSchools(
           token,
-          dropdownValues.stateDropdown,
-          dropdownValues.districtDropdown,
-          dropdownValues.blockDropdown
+          dropdownValues.stateDropdown?.label,
+          dropdownValues.districtDropdown?.label,
+          dropdownValues.blockDropdown?.label
         );
         setSchoolOptions(schools);
       } catch (error) {
@@ -184,11 +184,11 @@ const DownloadCsv = ({ open, handleClose }) => {
 
     // Ensure at least one dropdown value is selected before allowing download
     if (
-      !dropdownValues.stateDropdown &&
-      !dropdownValues.districtDropdown &&
-      !dropdownValues.blockDropdown &&
-      !dropdownValues.schoolNameDropdown &&
-      !dropdownValues.classNameDropdown
+      !dropdownValues.stateDropdown?.label &&
+      !dropdownValues.districtDropdown?.label &&
+      !dropdownValues.blockDropdown?.label &&
+      !dropdownValues.schoolNameDropdown?.label &&
+      !dropdownValues.classNameDropdown?.label
     ) {
       alert("Please select at least one filter before downloading.");
       return false;
@@ -199,20 +199,20 @@ const DownloadCsv = ({ open, handleClose }) => {
       filters: {},
     };
 
-    if (dropdownValues.stateDropdown) {
-      payload.filters.state = { eq: dropdownValues.stateDropdown };
+    if (dropdownValues.stateDropdown?.label) {
+      payload.filters.state = { eq: dropdownValues.stateDropdown?.label };
     }
-    if (dropdownValues.districtDropdown) {
-      payload.filters.district = { eq: dropdownValues.districtDropdown };
+    if (dropdownValues.districtDropdown?.label) {
+      payload.filters.district = { eq: dropdownValues.districtDropdown?.label };
     }
-    if (dropdownValues.blockDropdown) {
-      payload.filters.block = { eq: dropdownValues.blockDropdown };
+    if (dropdownValues.blockDropdown?.label) {
+      payload.filters.block = { eq: dropdownValues.blockDropdown?.label };
     }
-    if (dropdownValues.schoolNameDropdown) {
-      payload.filters.schoolName = { eq: dropdownValues.schoolNameDropdown };
+    if (dropdownValues.schoolNameDropdown?.label) {
+      payload.filters.schoolName = { eq: dropdownValues.schoolNameDropdown?.label };
     }
-    if (dropdownValues.classNameDropdown) {
-      payload.filters.class = { eq: dropdownValues.classNameDropdown };
+    if (dropdownValues.classNameDropdown?.label) {
+      payload.filters.class = { eq: dropdownValues.classNameDropdown?.label };
     }
 
     try {
@@ -292,11 +292,11 @@ const DownloadCsv = ({ open, handleClose }) => {
   };
 
   const isDownloadDisabled =
-    !dropdownValues.stateDropdown &&
-    !dropdownValues.districtDropdown &&
-    !dropdownValues.blockDropdown &&
-    !dropdownValues.schoolNameDropdown &&
-    !dropdownValues.classNameDropdown;
+    !dropdownValues.stateDropdown?.label &&
+    !dropdownValues.districtDropdown?.label &&
+    !dropdownValues.blockDropdown?.label &&
+    !dropdownValues.schoolNameDropdown?.label &&
+    !dropdownValues.classNameDropdown?.label;
 
   const handleChange = (event, value, name) => {
     const dropdownOrder = [
