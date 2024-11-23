@@ -21,13 +21,13 @@ const studentBulkAPI = async (student) => {
     .then((res) => {
    
       // Extract student information and store it in localStorage
-      const responses = res.data.responses;
+      const responses = res?.data?.data?.responses;
 
       responses.forEach(response => {
-          const studentId = response.studentId;
-          const message = response.message;
-          const username = response.username;
-          const schoolUdise = response.schoolUdise;
+          const studentId = response?.studentId;
+          const message = response?.message;
+          const username = response?.username;
+          const schoolUdise = response?.schoolUdise;
 
           const studentData = {
               studentId,
@@ -41,17 +41,17 @@ const studentBulkAPI = async (student) => {
           
       });
 
-      localStorage.setItem("successCount", res.data.successCount);
-      localStorage.setItem("errorCount", res.data.errors.length);
+      localStorage.setItem("successCount", res?.data?.data?.successCount);
+      localStorage.setItem("errorCount", res?.data?.data?.errors?.length);
 
-      if (res.status === 201) {
+      if (res?.status === 201) {
         result = true;
       } else {
         result = false;
       }
     })
     .catch(function (error) {
-      console.log(error.response.data.error);
+      console.log(error?.response?.data?.error);
       let err = 0;
       return err;
     });

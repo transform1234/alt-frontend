@@ -297,7 +297,7 @@ function StudentListView() {
     if (state) newFilters.state = { eq: state.label };
     if (district) newFilters.district = { eq: district.label };
     if (block) newFilters.block = { eq: block.label };
-    if (schoolName) newFilters.schoolName = { eq: schoolName.udiseCode };
+    if (schoolName) newFilters.udiseCode = { eq: schoolName?.udiseCode };
     if (className) newFilters.class = { eq: className.label };
 
     setFilters(newFilters);

@@ -164,7 +164,7 @@ const DownloadCsv = ({ open, handleClose }) => {
         const token = sessionStorage.getItem("token");
         const classes = await fetchClasses(
           token,
-          dropdownValues.schoolNameDropdown
+          dropdownValues?.schoolNameDropdown?.label
         );
         console.log("classes", classes);
         setClassOptions(classes);
@@ -209,7 +209,7 @@ const DownloadCsv = ({ open, handleClose }) => {
       payload.filters.block = { eq: dropdownValues.blockDropdown?.label };
     }
     if (dropdownValues.schoolNameDropdown?.label) {
-      payload.filters.schoolName = { eq: dropdownValues.schoolNameDropdown?.label };
+      payload.filters.udiseCode = { eq: dropdownValues?.schoolNameDropdown?.udiseCode };
     }
     if (dropdownValues.classNameDropdown?.label) {
       payload.filters.class = { eq: dropdownValues.classNameDropdown?.label };
@@ -452,6 +452,7 @@ const DownloadCsv = ({ open, handleClose }) => {
           <Autocomplete
             disablePortal
             options={schoolOptions}
+            getOptionLabel={(option) => `${option?.label} (${option?.udiseCode})`}
             value={dropdownValues.schoolNameDropdown} // Manage this state accordingly
             onChange={(event, value) =>
               handleChange(event, value, "schoolNameDropdown")
