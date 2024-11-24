@@ -64,7 +64,7 @@ export const getState = async (header = {}) => {
 
   try {
     const result = await get(
-      'https://alt.uniteframework.io/api/v1/student/getStatesList',
+      'https://alt-palooza.uniteframework.io/api/v1/student/getStatesList',
       { headers }
     );
     

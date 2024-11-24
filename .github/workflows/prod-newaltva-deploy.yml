@@ -60,7 +60,7 @@ jobs:
       - name: Copy Package
         run: |
           sh ./scripts/pack-prod-build.sh
-          rsync shiksha-ui.tar ${{ secrets.USERNAME_PROD }}@${{ secrets.HOST_DNS_PROD }}:/var/www/alt.uniteframework.io/shiksha-ui.tar
+          rsync shiksha-ui.tar ${{ secrets.USERNAME_PROD }}@${{ secrets.HOST_DNS_PROD }}:/var/www/alt-palooza.uniteframework.io/shiksha-ui.tar
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.USERNAME_PROD }}
           key: ${{ secrets.EC2_SSH_KEY_PROD }}
           script: |
-            cd /var/www/alt.uniteframework.io/public
+            cd /var/www/alt-palooza.uniteframework.io/public
             rm -rf *
             cp ../shiksha-ui.tar ./
             tar -xvf shiksha-ui.tar .
