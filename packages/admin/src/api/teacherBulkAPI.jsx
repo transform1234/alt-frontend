@@ -19,9 +19,9 @@ const teacherBulkAPI = async (teacher) => {
     headers: headers,
   })
     .then((res) => {
-      const names = res.data.errors.map((error) => error.name).filter(Boolean);
-      if (res.data.errors && res.data.errors.length > 0) {
-        const firstError = res.data.errors[0];
+      const names = res?.data?.data?.errors.map((error) => error.name).filter(Boolean);
+      if (res?.data?.data?.errors && res?.data?.data?.errors.length > 0) {
+        const firstError = res?.data?.data?.errors[0];
         if (firstError.teacherRes && firstError.teacherRes.errorMessage) {
           const errorMessage = firstError.teacherRes.errorMessage;
           localStorage.setItem("errorMessage", errorMessage);
@@ -32,9 +32,10 @@ const teacherBulkAPI = async (teacher) => {
         console.log("No errors in the response data.");
       }
 
-      localStorage.setItem("bulkErrors", res.data.errors.length - 1);
+      const errorCount = res?.data?.data?.errors?.length ?? 0;
+      localStorage.setItem("bulkErrors", errorCount > 0 ? errorCount - 1 : 0);
       localStorage.setItem("bulkErrorsNames", names);
-      localStorage.setItem("successCount", res.data.successCount);
+      localStorage.setItem("successCount", res?.data?.data?.successCount);
       if (res.status === 201) {
         result = true;
       } else {

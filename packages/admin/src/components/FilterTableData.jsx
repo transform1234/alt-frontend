@@ -75,7 +75,7 @@ const FilterTableData = ({ open, handleClose, rowData, onApplyFilter }) => {
         <Autocomplete
           disablePortal
           options={filterOptions}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(option) => option.label || ""}
           value={filterOption}
           onChange={(event, value) => setFilterOption(value)}
           sx={{ width: "100%", marginBottom: 2 }}
@@ -88,6 +88,7 @@ const FilterTableData = ({ open, handleClose, rowData, onApplyFilter }) => {
         <Autocomplete
           disablePortal
           options={filterValues}
+          getOptionLabel={(option) => option.label || ""}
           value={selectedFilterValue}
           onChange={(event, value) => setSelectedFilterValue(value)}
           disabled={!filterOption} // Disable until a filter option is selected
