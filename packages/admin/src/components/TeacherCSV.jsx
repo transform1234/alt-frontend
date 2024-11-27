@@ -78,9 +78,10 @@ function CSVImportForm() {
 
     for (let i = startIndex; i < endIndex; i++) {
       const teacherData = csvData[i];
+      if (teacherData["Name"] && teacherData["Name"].trim() !== "") {
       const teacherObject = {
         name: teacherData["Name"] || null,
-        username: studentData["username"] || "",
+        username: teacherData["username"] || "",
         email: teacherData["Email Id"] || null,
         mobile: teacherData["Mobile"] || "",
         gender: teacherData["Gender"] || "",
@@ -112,6 +113,7 @@ function CSVImportForm() {
       };
 
       requestData.teachers.push(teacherObject);
+    }
     }
 
     try {
