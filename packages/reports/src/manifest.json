@@ -102,7 +102,5 @@
       "code": "bn"
     }
   ],
-  "api_url": "https://dev.shikshaplatform.io",
-  "auth_url": "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token",
   "maxWidth": "1080"
 }

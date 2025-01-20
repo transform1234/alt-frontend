@@ -126,7 +126,7 @@ const SpotAssessmentResult = ({ appName }) => {
                         // uri: "https://via.placeholder.com/80x80.png",
                         uri:
                           studentDetails.image && studentDetails.image !== ""
-                            ? `${manifest.api_url}/files/${encodeURIComponent(
+                            ? `${process.env.REACT_APP_SHIKSHA_URL}/files/${encodeURIComponent(
                                 studentDetails.image
                               )}`
                             : `https://via.placeholder.com/80x80.png`,
@@ -239,7 +239,7 @@ const SpotAssessmentResult = ({ appName }) => {
                         // uri: "https://via.placeholder.com/80x80.png",
                         uri:
                           studentDetails.image && studentDetails.image !== ""
-                            ? `${manifest.api_url}/files/${encodeURIComponent(
+                            ? `${process.env.REACT_APP_SHIKSHA_URL}/files/${encodeURIComponent(
                                 studentDetails.image
                               )}`
                             : `https://via.placeholder.com/80x80.png`,
@@ -331,7 +331,7 @@ const SpotAssessmentResult = ({ appName }) => {
                         // uri: "https://via.placeholder.com/80x80.png",
                         uri:
                           studentDetails.image && studentDetails.image !== ""
-                            ? `${manifest.api_url}/files/${encodeURIComponent(
+                            ? `${process.env.REACT_APP_SHIKSHA_URL}/files/${encodeURIComponent(
                                 studentDetails.image
                               )}`
                             : `https://via.placeholder.com/80x80.png`,

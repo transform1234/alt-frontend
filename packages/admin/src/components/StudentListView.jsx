@@ -1,5 +1,3 @@
-// export default listView;
-
 import React, {
   useState,
   useCallback,
@@ -16,13 +14,40 @@ import Papa from "papaparse";
 import axios from "axios";
 import studentResetPasswordAPI from "api/StudentResetPasswordAPI";
 import SyncLockIcon from "@mui/icons-material/SyncLock";
-import useSWR from 'swr';
 import { studentSearch } from "routes/links";
+import { Button } from "native-base";
+import { result } from "lodash";
+import studentUsernamePasswordAPI from "api/studentUsernamePasswordAPI";
+import studentUdiseAPI from "api/studentUdiseAPI";
+import FORMmodal from "react-modal";
+import styles from "../pages/StudentPage.module.css";
+import StudentForm from "../components/StudentForm";
+
+import DownloadCsv from "./DownloadCsv";
+import DownloadStudentDetails from "./DownloadStudentDetails";
+import StudentFilters from "./StudentFilters";
 
 function StudentListView() {
   const [token, setToken] = useState([]);
   const gridRef = useRef();
   const [rowData, setRowData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(2);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const [isDownloadCsv, setDownloadCsv] = useState(false);
+  const [isDownloadStudentDetails, setisDownloadStudentDetails] =
+    useState(false);
+
+  // const [filters, setFilters] = useState({
+  //   state: null,
+  //   district: null,
+  //   block: null,
+  //   school: null,
+  //   class: null,
+  // });
+
+  const [filters, setFilters] = useState({});
 
   const openPrompt = async (data) => {
     let person = window.prompt(
@@ -39,6 +64,15 @@ function StudentListView() {
         alert("Password reset failed");
       }
     }
+  };
+
+  const handleEditClick = (data) => {
+    setSelectedStudent(data);
+    setIsEditModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsEditModalOpen(false);
   };
 
   const [columnDefs] = useState([
@@ -83,37 +117,37 @@ function StudentListView() {
     //       />
     //     ); // Replace with your desired label
     //     const handleClick = async () => {
-    //       console.log("Record has been removed");
     //     };
 
     //     return <div onClick={handleClick}>{label}</div>;
     //   },
     // },
-    // {
-    //   headerName: "",
-    //   field: "actions",
-    //   width: 80,
-    //   cellRenderer: function (params) {
-    //     const label = "Edit"; // Replace with your desired label
-
-    //     return (
-    //       <div
-    //         style={{
-    //           color: "blue",
-    //           cursor: "pointer",
-    //           fontWeight: "medium",
-    //         }}
-    //       >
-    //         {label}
-    //       </div>
-    //     );
-    //   },
-    // },
-
-    { field: "name" },
+    {
+      headerName: "",
+      field: "actions",
+      width: 80,
+      cellRenderer: function (params) {
+        return (
+          <div
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              fontWeight: "medium",
+            }}
+            onClick={() => handleEditClick(params.data)}
+          >
+            Edit
+          </div>
+        );
+      },
+    },
+    { field: "name" , editable: true, },
     { field: "dateOfBirth", width: 150 },
     { field: "board", width: 150 },
-    { field: "schoolName", width: 250 },
+    { field: "schoolName", 
+      width: 250 ,
+      editable: true
+    },
     {
       field: "schoolUdise",
       filter: true,
@@ -123,7 +157,7 @@ function StudentListView() {
       },
     },
     { field: "email" },
-    { field: "username" },
+    { field: "username", editable: true, },
 
     { field: "mobile" },
     { field: "gender" },
@@ -143,147 +177,189 @@ function StudentListView() {
     { field: "noOfSiblings" },
   ]);
 
-  const onBtnExport = useCallback(() => {
-    gridRef.current.api.exportDataAsCsv();
-  }, []);
+  const onBtnExportUdise = async () => {
+    let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
+    if (person == null || person == "") {
+      alert("Please enter a valid Udise");
+    } else {
 
-  //Download username and pass with prompt
+      const result = await studentUdiseAPI(person);
+      if (result) {
+        const filteredData = result.data.data.map((item) => {
+          // Create a copy of the item without the password field
+          const { password, ...rest } = item;
+          return rest;
+        });
 
-  // const onBtnExportFields = useCallback(() => {
-  //   // Get the selected user ID for filtering
-  //   const selectedUserId = prompt("Enter the User ID to filter:");
+        // Convert the data to CSV format using PapaParse
+        const csvData = Papa.unparse(filteredData);
+        // Now, csvData will not contain the password field
 
-  //   if (!selectedUserId) {
-  //     alert("User ID is required.");
-  //     return;
-  //   }
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
 
-  //   // Filter the data to include only the selected user's information
-  //   const filteredData = rowData.filter((row) => row.userId === selectedUserId);
-
-  //   if (filteredData.length === 0) {
-  //     alert(`No data found for User ID: ${selectedUserId}`);
-  //     return;
-  //   }
-
-  //   // Extract the "UserID" and "Password" fields
-  //   const selectedFieldsData = filteredData.map((row) => ({
-  //     UserID: row.userId,
-  //     Password: row.password,
-  //   }));
-
-  //   // Convert the data to CSV format using PapaParse
-  //   const csvData = Papa.unparse(selectedFieldsData);
-
-  //   // Create a Blob containing the CSV data
-  //   const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-
-  //   // Create a download link and trigger the download
-  //   const link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = `student_data_${selectedUserId}_user_password.csv`;
-  //   link.style.display = "none";
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }, [rowData]);
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "student_data_filtered_UDISE.csv";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  };
 
   const cellClickedListener = useCallback((event) => {
-    console.log("cellClicked", event);
   }, []);
 
-  const onBtnExportFields = useCallback(() => {
-    // Get the visible (filtered) rows from the grid
-    const filteredData = gridRef.current.api.getModel().rowsToDisplay;
+  const onBtnExportFields = async () => {
+    let person = window.prompt(`Enter a School Udise`);
+    person = person.trim();
+    if (person == null || person == "") {
+      alert("Please enter a valid Udise");
+    } else {
 
-    if (filteredData.length === 0) {
-      alert("No data to export. Please apply a filter.");
-      return;
+      const result = await studentUsernamePasswordAPI(person);
+      if (result) {
+        const filteredData = result.data.data;
+        const selectedFieldsData = filteredData.map((row) => ({
+          Name: row.name,
+          UserName: row.username,
+          Password: row.password,
+          Class: row.className,
+        }));
+
+        // Convert the data to CSV format using PapaParse
+        const csvData = Papa.unparse(selectedFieldsData);
+
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "student_data_filtered_user_password.csv";
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     }
+  };
 
-    // Extract the "UserID" and "Password" fields
-    const selectedFieldsData = filteredData.map((row) => ({
-      Name: row.data.name,
-      UserName: row.data.username,
-      Password: row.data.password,
-    }));
+  const onBtnExportDetails = async () => {
+    let username = window.prompt(`Enter a username for student details`);
+    username = username.trim();
+    if (username == null || username == "") {
+      alert("Please enter a valid username");
+    } else {
+      // Find the row corresponding to the entered username in the rowData array
+      const student = rowData.find((student) => student.username === username);
 
-    // Convert the data to CSV format using PapaParse
-    const csvData = Papa.unparse(selectedFieldsData);
+      if (student) {
+        // Convert student details to CSV format
+        const csvData = Papa.unparse([student]);
 
-    // Create a Blob containing the CSV data
-    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
 
-    // Create a download link and trigger the download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "student_data_filtered_user_password.csv";
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, []);
-
-  // Fetching data using useSWR
-  const { data } = useSWR(studentSearch, async () => {
-   
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-
-    const requestData = {
-      limit: "",
-      page: 0,
-      filters: {},
-    };
-
-    const response = await axios.post(studentSearch, requestData, { headers });
-    return response.data.data;
-  });
+        // Create a download link and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${username}_details.csv`;
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert("Student not found in the table");
+      }
+    }
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
+  const handleFiltersChange = (dropdownValues) => {
+    const {
+      stateDropdown: state,
+      districtDropdown: district,
+      blockDropdown: block,
+      schoolNameDropdown: schoolName,
+      classNameDropdown: className,
+    } = dropdownValues;
+
+    const newFilters = {};
+    if (state) newFilters.state = { eq: state.label };
+    if (district) newFilters.district = { eq: district.label };
+    if (block) newFilters.block = { eq: block.label };
+    if (schoolName) newFilters.udiseCode = { eq: schoolName?.udiseCode };
+    if (className) newFilters.class = { eq: className.label };
+
+    setFilters(newFilters);
+  };
+
   useEffect(() => {
-    if (data) {
-      setRowData(data);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      if (!token) return;
 
-  
+      try {
+        const headers = {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
 
+        const requestData = {
+          limit: 25,
+          page: 1,
+          filters: filters || {}, // Pass filters object, empty if no filters selected
+        };
+
+        const response = await axios.post(studentSearch, requestData, {
+          headers,
+        });
+        setRowData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the fetch function whenever filters or token change
+  }, [filters, token]); // The API call is triggered on `filters` or `token` change
+
+  const openDownloadCsvModal = () => {
+    setDownloadCsv(true);
+  };
+
+  const closeDownloadCsvModal = () => {
+    setDownloadCsv(false);
+  };
+  const openDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(true);
+  };
+
+  const closeDownloadStudentDetailsModal = () => {
+    setisDownloadStudentDetails(false);
+  };
   return (
-    <div className="ag-theme-material" style={{ height: 400, width: "100%" }}>
+    <div
+      className="ag-theme-material"
+    >
       <div style={{ display: "flex", flexDirection: "row" }}>
         <button
-          onClick={onBtnExport}
+          onClick={openDownloadCsvModal}
           style={{
             background: "#41C88E",
             border: "none",
             borderRadius: "5px",
-            display: "flex", // Center align vertically
-
-            alignItems: "center",
-          }}
-        >
-          <FileDownloadOutlinedIcon
-            style={{ color: "white", fontSize: "largest" }}
-          />
-          <H4 style={{ color: "white" }}> Download Template </H4>
-        </button>
-        <button
-          onClick={onBtnExportFields}
-          style={{
-            background: "#41C88E",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "10px", // Add some spacing between the buttons
-            display: "flex", // Center align vertically
-
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
             alignItems: "center",
           }}
         >
@@ -293,18 +369,79 @@ function StudentListView() {
               fontSize: "largest",
             }}
           />
-          <H4 style={{ color: "white" }}> Download username & password </H4>
+          <H4 style={{ color: "white" }}>Download Students Details</H4>
         </button>
+        <DownloadCsv
+          open={isDownloadCsv}
+          handleClose={closeDownloadCsvModal}
+          // rowData={rowData}
+        />
+        <button
+          onClick={openDownloadStudentDetailsModal}
+          style={{
+            background: "#41C88E",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+        >
+          <FileDownloadOutlinedIcon
+            style={{
+              color: "white",
+              fontSize: "largest",
+            }}
+          />
+          <H4 style={{ color: "white" }}>Download Student Details</H4>
+        </button>
+        <DownloadStudentDetails
+          open={isDownloadStudentDetails}
+          handleClose={closeDownloadStudentDetailsModal}
+          // rowData={rowData}
+        />
       </div>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: "2rem" }}>
+        <StudentFilters handleFiltersChange={handleFiltersChange} />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          paddingBottom: "10px",
+          cursor: "pointer",
+          zIndex: "1",
+        }}
+      ></div>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
-        pagination={true}
-        paginationAutoPageSize={true}
+        animateRows={true}
         onCellClicked={cellClickedListener}
-        overlayNoRowsTemplate={'<span>Loading Student records....</span>'}
+        pagination={true}
+        paginationPageSize={5}
+        overlayNoRowsTemplate={"<span>Loading Student records....</span>"}
+        domLayout="autoHeight"
       ></AgGridReact>{" "}
+      {isEditModalOpen && (
+        <FORMmodal
+          isOpen={isEditModalOpen}
+          onRequestClose={handleClose}
+          contentLabel="Edit Modal"
+          ariaHideApp={false}
+          className={styles.formModal}
+        >
+          <button onClick={handleClose} className={styles.closeButton}>
+            ❌
+          </button>
+          <div className={styles.mainDiv}>
+            <StudentForm studentData={selectedStudent} />
+          </div>
+        </FORMmodal>
+      )}
     </div>
   );
 }

@@ -73,9 +73,10 @@ export default function Login({ swPath }) {
       const fcmToken = await getUserToken(swPath);
 
       const result = await fetchToken(
-        manifest.auth_url,
+        process.env.REACT_APP_AUTH_URL,
         credentials?.username,
-        credentials?.password
+        credentials?.password,
+        process.env.REACT_APP_SECRET_KEY
       );
       if (result?.data) {
         let token = result.data.access_token;
@@ -179,6 +180,7 @@ export default function Login({ swPath }) {
         <Center width={width}>
           <VStack space="" w="300px">
             <Box style={{ marginLeft: "25px" }}>
+            
               <Heading>{t("WELCOME")}</Heading>
             </Box>
             <VStack space={2} pt={"25px"} pb={"25px"}>

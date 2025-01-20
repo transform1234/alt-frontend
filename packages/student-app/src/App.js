@@ -73,13 +73,13 @@ function App() {
         console.log("INSIDE tokenCheckInterval");
         try {
           const response = await fetch(
-            "https://alt.uniteframework.io/auth/realms/hasura-app/protocol/openid-connect/token/introspect",
+            `${process.env.REACT_APP_BASE_URL}/auth/realms/hasura-app/protocol/openid-connect/token/introspect`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
-              body: `client_id=hasura-app&token=${refreshToken}&client_secret=ixoAI89JICldF5xF9Y8cgDGJrbOu6SGw`,
+              body: `client_id=hasura-app&token=${refreshToken}&client_secret=${process.env.REACT_APP_SECRET_KEY}`,
             }
           );
           console.log("REFRESH check");

@@ -52,3 +52,29 @@ export async function distory(url: string, body: any, headers: any = {}) {
     data: body
   })
 }
+
+// get State data
+export const getState = async (header = {}) => {
+  let headers = {
+    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+    ContentType: 'application/json',
+    Accept: 'application/json',
+    ...header,
+  };
+
+  try {
+    const result = await get(
+      'https://alt.uniteframework.io/api/v1/student/getStatesList',
+      { headers }
+    );
+    
+    if (result?.data) {
+      return result.data; 
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching states:', error);
+    return [];
+  }
+};

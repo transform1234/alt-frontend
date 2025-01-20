@@ -184,9 +184,10 @@ export default function StudentLogin({ swPath }) {
     telemetryFactory.interact(telemetryInteract);
     if (validate()) {
       const result = await fetchToken(
-        manifest.auth_url,
+        process.env.REACT_APP_AUTH_URL,
         credentials?.username,
-        credentials?.password
+        credentials?.password,
+        process.env.REACT_APP_SECRET_KEY
       );
 
       if (result?.data) {
@@ -196,7 +197,7 @@ export default function StudentLogin({ swPath }) {
         let refreshToken = result.data.refresh_token;
         console.log(refreshToken);
         sessionStorage.setItem("refreshToken", refreshToken);
-        sessionStorage.setItem('token', token);
+        sessionStorage.setItem("token", token);
 
         let resultTeacher = {};
         // try {
@@ -267,8 +268,15 @@ export default function StudentLogin({ swPath }) {
             <Center>
               <Box textAlign="center">
                 <H3 style={{ fontSize: "16px" }}>
-                  Accelerated Learning via Technology (ALT)
+                  Accelerated Learning via Technology (ALT) hello bye
                 </H3>
+                {/* <H3 style={{ fontSize: "16px", color : "red"  }}>
+               Reminder :
+                Dear Students,
+Thank you for participating in the ALT Version 1 pilot.
+We officially closed the pilot on 19th November, 2023. 
+
+                </H3> */}
               </Box>
             </Center>
             <Center>

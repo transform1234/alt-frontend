@@ -12,8 +12,19 @@ const SunbirdPlayer = ({
   ...props
 }) => {
   const { mimeType } = props
+
+  const typeMatch = mimeType.match(/\/(.+)$/)
+  const fileType = typeMatch ? typeMatch[1] : null
+
+  localStorage.setItem('contentType', fileType)
+
   let trackData = []
   const [url, setUrl] = React.useState()
+
+  React.useEffect(() => {
+    localStorage.removeItem('trackDATA')
+  }, [])
+
   React.useEffect(() => {
     if (mimeType === 'application/pdf') {
       setUrl(`/pdf`)
@@ -52,8 +63,12 @@ const SunbirdPlayer = ({
     }
   }, [url])
 
-  const handleEvent = (event) => {
+  const handleEvent = async (event) => {
     const data = event?.data
+    let milliseconds = event?.data?.edata?.duration
+    let seconds = milliseconds / 1000
+    localStorage.setItem('totalDuration', seconds)
+
     let telemetry = {}
     if (data && typeof data?.data === 'string') {
       telemetry = JSON.parse(data.data)
@@ -100,6 +115,7 @@ const SunbirdPlayer = ({
         ]
       }
       // console.log(telemetry, trackData)
+      localStorage.setItem('trackDATA', JSON.stringify(trackData))
     } else if (
       telemetry?.eid === 'INTERACT' &&
       mimeType === 'video/x-youtube'
@@ -107,14 +123,14 @@ const SunbirdPlayer = ({
       // const edata = telemetry?.edata
       // trackData = [...trackData, edata]
     } else if (telemetry?.eid === 'END') {
+      localStorage.setItem('totalDuration', telemetry?.edata?.duration)
       const summaryData = telemetry?.edata
       if (summaryData?.summary && Array.isArray(summaryData?.summary)) {
         const score = summaryData.summary.find((e) => e['score'])
         if (score?.score) {
-          setTrackData({ score: score?.score, trackData })
+          await setTrackData({ score: score?.score, trackData })
         } else {
           setTrackData(telemetry?.edata)
-          handleExitButton()
         }
       } else {
         setTrackData(telemetry?.edata)
@@ -129,7 +145,6 @@ const SunbirdPlayer = ({
         telemetry?.edata?.id === 'exit' ||
         telemetry?.edata?.type === 'EXIT'
       ) {
-        handleExitButton()
       }
     }
   }

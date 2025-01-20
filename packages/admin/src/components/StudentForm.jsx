@@ -1,16 +1,16 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { H2 } from "@shiksha/common-lib";
 import { Button } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import studentAPI from "api/studentAPI";
 import StudentSchema from "schema/StudentSchema";
-import { useState, useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import styles from "./StudentForm.module.css";
-import { groupSearch, schoolSearch } from "routes/links";
+import { groupSearch, schoolSearch,getStateList,getBlockList,getDistrictList } from "routes/links";
+import studentUpdateAPI from "api/studentUpdateAPI";
 
-function StudentForm() {
+function StudentForm({ studentData }) {
   const [data, setData] = useState([]);
   const [token, setToken] = useState([]);
   const [selectedUdiseCode, setSelectedUdiseCode] = useState([]);
@@ -19,37 +19,207 @@ function StudentForm() {
   const [selectedgroup, setSelectedgroup] = useState(""); // Initialize with an empty string
 
   const [groups, setGroups] = useState([]);
+  const [stateData,setStateData] = useState([])
+  const [districtData, setDistrictData] = useState([])
+  const [blockData,setBlockData] = useState([])
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState(""); 
+  const [selectedBlock, setSelectedBlock] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(StudentSchema) });
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     setToken(token);
   }, []);
 
   useEffect(() => {
-    const headers = {
-      Accept: "*/*",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
+    if (studentData && data.length > 0) {
+      const udiseCodeOnly = studentData?.schoolUdise;
+  
+      // Find the school in data by matching UDISE code
+      const selectedSchool = data.find(school => school?.udiseCode === udiseCodeOnly);
+  
+      if (selectedSchool) {
+        setSelectedUdiseCode(selectedSchool?.udiseCode); // Set the UDISE code only (not the combined string)
+      }
+  
+      const selectedGroup = groups.find(group => group?.name === studentData?.className);
+      if (selectedGroup) {
+        setSelectedgroup(selectedGroup?.name);
+      }
 
-    const requestData = {
-      limit: "20",
-      page: 0,
-      filters: {},
-    };
+      if(studentData.state){
+        setSelectedState(studentData?.state);
+      }
 
-    axios
-      .post(schoolSearch, requestData, { headers })
-      .then((response) => {
-        setData(response.data.data);
-      })
-      .catch((error) => {
-        // Handle any errors here
-        console.error("Error fetching data:", error);
+      if(studentData.block){
+        setSelectedBlock(studentData?.block)
+      }
+
+      if(studentData.district){
+        setSelectedDistrict(studentData?.district)
+      }
+      
+      // Set the other form data, like dateOfBirth
+      const formattedDateOfBirth = studentData?.dateOfBirth?.split("T")[0];
+      reset({
+        ...studentData,
+        dateOfBirth: formattedDateOfBirth,
       });
+    }
+  }, [studentData, data, groups, reset]);
+
+  const MAX_RETRIES = 1;
+  
+  const retryApiCall = async (apiCall, retries = MAX_RETRIES) => {
+    let attempt = 0;
+    while (attempt < retries) {
+      try {
+        const response = await apiCall();
+        return response;
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          attempt += 1;
+          console.error(`Retrying API call... Attempt ${attempt}`);
+          if (attempt >= retries) throw error; // Throw error after max retries
+        } else {
+          throw error;
+        }
+      }
+    }
+  };
+  
+  useEffect(() => {
+    if (token && !studentData) {
+      setLoading(true);
+  
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+  
+      const requestDataSchool = { page: 0, filters: {} };
+  
+      const apiCalls = [
+        () => axios.post(schoolSearch, requestDataSchool, { headers }),
+        () => axios.post(getStateList, {}, { headers }),
+      ];
+  
+      Promise.all(apiCalls.map(call => call()))
+      .then(([schoolResponse, stateResponse]) => {
+        if (schoolResponse) setData(schoolResponse.data.data);
+        if (stateResponse) setStateData(stateResponse.data.data);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    }
   }, [token]);
 
   useEffect(() => {
+    if (token && studentData) {
+      setLoading(true);
+  
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+  
+      const requestDataSchool = { page: 0, filters: {} };
+      const requestDataDistrict = { state: studentData.state };
+      const requestDataBlock = { district: studentData.district };
+  
+      const apiCalls = [
+        () => axios.post(schoolSearch, requestDataSchool, { headers }),
+        () => axios.post(getStateList, {}, { headers }),
+        studentData.state
+          ? () => axios.post(getDistrictList, requestDataDistrict, { headers })
+          : null,
+          studentData.district
+          ? () => axios.post(getBlockList, requestDataBlock, { headers })
+          : null,
+      ].filter(Boolean);
+  
+      Promise.all(apiCalls.map((call) => retryApiCall(call)))
+        .then(([schoolResponse, stateResponse, districtResponse, blockResponse]) => {
+          if (schoolResponse) setData(schoolResponse.data.data);
+          if (stateResponse) setStateData(stateResponse.data.data);
+          if (districtResponse) setDistrictData(districtResponse.data.data);
+          if (blockResponse) setBlockData(blockResponse.data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [token,studentData]);
+
+  //when change in state
+  const handleStateChangeApi = (selectedState) => {
+    if (token && selectedState) {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const requestData = { state: selectedState };
+  
+      axios.post(getDistrictList, requestData, { headers })
+        .then((response) => {
+          setDistrictData(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching district data:", error);
+        });
+    }
+  };
+
+  const handleDistrictChangeApi = (selectedDistrict) => {
+    if (token && selectedDistrict) {
+      const headers = {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const requestData = { district: selectedDistrict };
+      axios.post(getBlockList, requestData, { headers })
+        .then((response) => {
+          setBlockData(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching block data:", error);
+        });
+    }
+  }
+  const handleStateChange = (e) => {
+    const newState = e.target.value;
+    setSelectedState(newState);
+    handleStateChangeApi(newState);
+  };
+
+  const handleDistrictChange = (e) => {
+    const newDistrict = e.target.value;
+    setSelectedDistrict(newDistrict);
+    handleDistrictChangeApi(newDistrict);
+  };
+  
+  useEffect(() => {
+    if(selectedUdiseCode.length > 0){
     if (Object.keys(selectedUdiseCode).length) {
       // Splitting string into an array using the comma
       const valuesArray = selectedUdiseCode.split(",");
@@ -63,11 +233,11 @@ function StudentForm() {
       // Values in separate variables
     } else {
       console.error("selectedUdiseCode is not a string.");
-    }
+    }}
   }, [selectedUdiseCode]);
 
   useEffect(async () => {
-   
+    if (extractedUdise && token) {
     const headers = {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
@@ -93,25 +263,41 @@ function StudentForm() {
         // Handle any errors here
         console.error("Error fetching data:", error);
       });
-  }, [extractedUdise]);
+    }
+  }, [extractedUdise, token]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(StudentSchema) });
   const onSubmit = async (data) => {
-    const result = await studentAPI(data);
-    if (result == true) {
-      alert("Registration Successful.");
-      window.location.reload();
-    } else {
-      alert("Registeration failed");
+    try {
+      if (studentData?.studentId) {
+         // Update old student
+         const result = await studentUpdateAPI(data);
+         if (result === true) {
+           alert("Updated Data Successful.");
+           window.location.reload();
+         } else {
+           alert("Update failed");
+         }
+      } else {
+        // Create new student
+        const result = await studentAPI(data);
+        if (result === true) {
+          alert("Registration Successful.");
+          window.location.reload();
+        } else {
+          alert("Registration failed");
+        }
+      }
+    } catch (error) {
+      console.error("Error saving student data:", error);
+      alert("An error occurred while saving the data.");
     }
   };
 
   return (
     <div>
+      {loading ? (
+      <div className={styles.loader}>Loading...</div>
+    ) : (
       <form
         className=" card-body form-floating mt-3 mx-1"
         autoComplete="off"
@@ -121,24 +307,23 @@ function StudentForm() {
           <div className="container mb-3">
             <div className={styles.formLabel} style={{ marginBottom: "10px" }}>
               <H2>
-                Interact with the requisite fields and execute a "Submit" action
-                to preserve your alterations.
+                {studentData ? "Edit Student Information" : "Interact with the requisite fields and execute a 'Submit' action  to preserve your alterations."}
               </H2>
             </div>
             <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
-                name="userName"
-                id="firstName"
-                placeholder="Student Name"
-                {...register("firstName")}
+                name="name"
+                id="name"
+                placeholder="Student Name *"
+                {...register("name")}
               ></input>
               {/* <label className="form-label" htmlFor="firstName">
                 Name
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.firstName && <p>{errors.firstName.message}</p>}
+                {errors.name && <p>{errors.name.message}</p>}
               </div>
             </div>
             <br></br>
@@ -146,16 +331,16 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="text"
-                name="userName"
-                id="userName"
+                name="username"
+                id="username"
                 placeholder="User Name"
-                {...register("userName")}
+                {...register("username")}
               ></input>
               {/* <label className="form-label" htmlFor="userName">
                 Username
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.userName && <p>{errors.userName.message}</p>}
+                {errors.username && <p>{errors.username.message}</p>}
               </div>
             </div>
             <br></br>
@@ -167,10 +352,10 @@ function StudentForm() {
                   name="gender"
                   id="gender"
                   value="Male"
-                  checked
+                  defaultChecked={!studentData || studentData.gender === "Male"}  // default to male if no studentData
                   {...register("gender")}
                 />
-                <label className="form-check-label" htmlFor="exampleRadios1">
+               <label className="form-check-label" htmlFor="male">
                   Male
                 </label>
               </div>
@@ -181,9 +366,10 @@ function StudentForm() {
                   name="gender"
                   id="gender"
                   value="Female"
+                  defaultChecked={studentData?.gender === "Female"}  // default to female if studentData says so
                   {...register("gender")}
                 />
-                <label className="form-check-label" htmlFor="gender">
+                <label className="form-check-label" htmlFor="female">
                   Female
                 </label>
               </div>
@@ -208,10 +394,10 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="date"
-                name="dob"
-                id="dob"
+                name="dateOfBirth"
+                id="dateOfBirth"
                 placeholder="Date of Birth"
-                {...register("dob")}
+                {...register("dateOfBirth")}
               ></input>
               {/* <label className="form-label" htmlFor="dob">
                 Date of Birth
@@ -264,17 +450,18 @@ function StudentForm() {
                   name="udise"
                   id="udise"
                   {...register("udise")}
-                  value={selectedUdiseCode}
-                  onChange={(e) => setSelectedUdiseCode(e.target.value)}
+                  value={selectedUdiseCode || ""} 
+                  onChange={(e) => {
+                    const selectedValue = e.target.value; 
+                    setSelectedUdiseCode(selectedValue);
+                  }}
                 >
                   <option value="">Select School Udise</option>{" "}
-                  {/* Placeholder option */}
                   {data.map((school) => (
                     <option
-                      key={school.udiseCode}
-                      value={[school.udiseCode, school.name]}
-                    >
-                      {school.name}
+                     key={school.udiseCode}
+                     value={school.udiseCode}>
+                     {school.name} ({school.udiseCode})
                     </option>
                   ))}
                 </select>
@@ -299,9 +486,9 @@ function StudentForm() {
                   {...register("group")}
                   value={selectedgroup}
                   onChange={(e) => setSelectedgroup(e.target.value)}
+                  disabled={studentData} // Disable the field in edit mode
                 >
-                  <option value="">Select Group</option>{" "}
-                  {/* Placeholder option */}
+                  <option value="">Select Group</option>
                   {groups.map((school) => (
                     <option key={school.name} value={school.name}>
                       {school.name}
@@ -309,9 +496,6 @@ function StudentForm() {
                   ))}
                 </select>
 
-                {/* <label className="form-label" htmlFor="udise">
-                  Group
-                </label> */}
                 <div className={styles.errorMessage}>
                   {errors.group && <p>{errors.group.message}</p>}
                 </div>
@@ -320,7 +504,7 @@ function StudentForm() {
             </div>
 
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -329,14 +513,11 @@ function StudentForm() {
                 placeholder="Role"
                 {...register("role")}
               ></input>
-              {/* <label className="form-label" htmlFor="role">
-                Role
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.role && <p>{errors.role.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -371,7 +552,7 @@ function StudentForm() {
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -380,14 +561,11 @@ function StudentForm() {
                 placeholder="Grade"
                 {...register("grade")}
               ></input>
-              {/* <label className="form-label" htmlFor="grade">
-                Grade
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.grade && <p>{errors.grade.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
               <input
                 className={styles.formControl}
@@ -436,40 +614,6 @@ function StudentForm() {
               </label> */}
               <div className={styles.errorMessage}>
                 {errors.annual && <p>{errors.annual.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="motherName"
-                id="motherName"
-                placeholder="Mother Name"
-                {...register("motherName")}
-              ></input>
-              {/* <label className="form-label" htmlFor="motherName">
-                Mother Name
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.motherName && <p>{errors.motherName.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="fatherName"
-                id="fatherName"
-                placeholder="Father Name"
-                {...register("fatherName")}
-              ></input>
-              {/* <label className="form-label" htmlFor="fatherName">
-                Father Name
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.fatherName && <p>{errors.fatherName.message}</p>}
               </div>
             </div>
             <br></br>
@@ -553,20 +697,36 @@ function StudentForm() {
               <input
                 className={styles.formControl}
                 type="text"
-                name="siblings"
-                id="siblings"
+                name="noOfSiblings"
+                id="noOfSiblings"
                 placeholder="Number of Siblings"
-                {...register("siblings")}
+                {...register("noOfSiblings")}
               ></input>
               {/* <label className="form-label" htmlFor="siblings">
                 Number of Siblings
               </label> */}
               <div className={styles.errorMessage}>
-                {errors.siblings && <p>{errors.siblings.message}</p>}
+                {errors.noOfSiblings && <p>{errors.noOfSiblings.message}</p>}
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
+              <input
+                className={styles.formControl}
+                type="text"
+                name="studentEnrollId"
+                id="studentEnrollId"
+                placeholder="StudentEnrollId"
+                {...register("studentEnrollId")}
+              ></input>
+              <div className={styles.errorMessage}>
+                {errors.studentEnrollId && (
+                  <p>{errors.studentEnrollId.message}</p>
+                )}
+              </div>
+            </div>
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -575,83 +735,83 @@ function StudentForm() {
                 placeholder="Unique ID"
                 {...register("uniqueId")}
               ></input>
-              {/* <label className="form-label" htmlFor="uniqueId">
-                Unique ID
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.uniqueId && <p>{errors.uniqueId.message}</p>}
               </div>
             </div>
-            <br></br>
+            <br></br> */}
             <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
+              <select
+                className={styles.selectWrapper}
                 name="state"
                 id="state"
-                placeholder="State"
+                value={selectedState || ""}  
                 {...register("state")}
-              ></input>
-              {/* <label className="form-label" htmlFor="state">
-                State
-              </label> */}
+                onChange={handleStateChange}
+              >
+                <option value="">Select State</option>
+                {stateData.map((state, index) => (
+                  <option key={index} value={state.state}>
+                    {state.state}
+                  </option>
+                ))}
+              </select>
               <div className={styles.errorMessage}>
                 {errors.state && <p>{errors.state.message}</p>}
               </div>
             </div>
             <br></br>
             <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
+              <select
+                className={styles.selectWrapper}
+                name="district"
+                id="district"
+                {...register("district")}
+                value={selectedDistrict || ""}
+                onChange={handleDistrictChange}
+                disabled={!selectedState} 
+              >
+                <option value="">Select District</option>
+                 {districtData.map((district, index) => (
+                    <option key={index} value={district.district}>
+                      {district.district}
+                    </option>
+                  ))}
+              </select>
+
+              <div className={styles.errorMessage}>
+                {errors.district && <p>{errors.district.message}</p>}
+              </div>
+            </div>
+
+            <br></br>
+            <div className="form-floating">
+              <select
+                className={styles.selectWrapper}
                 name="block"
                 id="block"
-                placeholder="Block"
+                value={selectedBlock || ""}
                 {...register("block")}
-              ></input>
-              {/* <label className="form-label" htmlFor="block">
-                Block
-              </label> */}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setSelectedBlock(selectedValue); 
+                  }}
+                disabled={!selectedDistrict} 
+              >
+               <option value="">Select Block</option>
+                 {blockData.map((block, index) => (
+                    <option key={index} value={block.block}>
+                      {block.block}
+                    </option>
+                  ))}
+              </select>
+
               <div className={styles.errorMessage}>
                 {errors.block && <p>{errors.block.message}</p>}
               </div>
             </div>
             <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="serialNo"
-                id="serialNo"
-                placeholder="Serial No"
-                {...register("serialNo")}
-              ></input>
-              {/* <label className="form-label" htmlFor="serialNo">
-                Serial No
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.serialNo && <p>{errors.serialNo.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
-              <input
-                className={styles.formControl}
-                type="text"
-                name="district"
-                id="district"
-                placeholder="District"
-                {...register("district")}
-              ></input>
-              {/* <label className="form-label" htmlFor="district">
-                District
-              </label> */}
-              <div className={styles.errorMessage}>
-                {errors.district && <p>{errors.district.message}</p>}
-              </div>
-            </div>
-            <br></br>
-            <div className="form-floating">
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -660,15 +820,12 @@ function StudentForm() {
                 placeholder="Section"
                 {...register("section")}
               ></input>
-              {/* <label className="form-label" htmlFor="section">
-                Section
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.section && <p>{errors.section.message}</p>}
               </div>
             </div>
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -677,15 +834,12 @@ function StudentForm() {
                 placeholder="Medium"
                 {...register("medium")}
               ></input>
-              {/* <label className="form-label" htmlFor="medium">
-                Medium
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.medium && <p>{errors.medium.message}</p>}
               </div>
             </div>
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -694,16 +848,13 @@ function StudentForm() {
                 placeholder="BloodGroup"
                 {...register("bloodGroup")}
               ></input>
-              {/* <label className="form-label" htmlFor="bloodGroup">
-                Blood Group
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.bloodGroup && <p>{errors.bloodGroup.message}</p>}
               </div>
             </div>
 
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -712,15 +863,12 @@ function StudentForm() {
                 placeholder="Status"
                 {...register("status")}
               ></input>
-              {/* <label className="form-label" htmlFor="status">
-                Status
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.status && <p>{errors.status.message}</p>}
               </div>
             </div>
-            <br></br>
-            <div className="form-floating">
+            <br></br> */}
+            {/* <div className="form-floating">
               <input
                 className={styles.formControl}
                 type="text"
@@ -729,13 +877,10 @@ function StudentForm() {
                 placeholder="Image"
                 {...register("image")}
               ></input>
-              {/* <label className="form-label" htmlFor="image">
-                Image
-              </label> */}
               <div className={styles.errorMessage}>
                 {errors.image && <p>{errors.image.message}</p>}
               </div>
-            </div>
+            </div> */}
           </div>
           <br />
           <Button type="button" onPress={handleSubmit(onSubmit)}>
@@ -743,6 +888,7 @@ function StudentForm() {
           </Button>
         </div>
       </form>
+       )}
     </div>
   );
 }

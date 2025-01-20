@@ -119,7 +119,7 @@ const StudentListCard = ({
                           borderRadius="md"
                           source={{
                             uri: `${
-                              manifest.api_url
+                             process.env.REACT_APP_SHIKSHA_URL
                             }/files/${encodeURIComponent(student.image)}`,
                           }}
                         />

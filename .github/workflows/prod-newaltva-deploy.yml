@@ -1,0 +1,90 @@
+name: Deploy to PROD
+on: 
+  push: 
+    branches:
+      - newaltv1 
+jobs:
+  build:
+    name: Generate Build and Deploy to DEV
+   # environment: PROD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node Env
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21.1.0
+          
+      - name: Copy .env file
+        env:
+         ENV_FILE_CONTENT: ${{ secrets.ENV_PROD }}
+        run: echo "$ENV_FILE_CONTENT_PROD" > .env
+          
+      - name: Generate React Build
+        run: |
+         yarn install
+         yarn build
+
+
+      - name: Show PWD
+        run: |
+           echo "Current Working Directory:" 
+           pwd
+           
+      - name: Create Directory
+        run: mkdir my_directory
+
+      - name: List Contents
+        run: |
+           echo "Contents of the current directory (in reverse order):"
+            ls -lr
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_PROD }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS_PROD }}
+          REMOTE_USER: ${{ secrets.USERNAME_PROD }}
+      
+
+      - name: Set up SSH key
+        run: |
+         mkdir -p ~/.ssh
+         echo "${{ secrets.EC2_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
+         chmod 600 ~/.ssh/id_rsa
+         # Add the SSH key to the known_hosts file (replace hostname with your actual hostname)
+         ssh-keyscan -H ${{ secrets.HOST_DNS_PROD }} >> ~/.ssh/known_hosts
+
+      - name: Copy Package
+        run: |
+          sh ./scripts/pack-prod-build.sh
+          rsync shiksha-ui.tar ${{ secrets.USERNAME_PROD }}@${{ secrets.HOST_DNS_PROD }}:/var/www/alt.uniteframework.io/shiksha-ui.tar
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS_PROD }}
+          username: ${{ secrets.USERNAME_PROD }}
+          key: ${{ secrets.EC2_SSH_KEY_PROD }}
+          script: |
+            cd /var/www/alt.uniteframework.io/public
+            rm -rf *
+            cp ../shiksha-ui.tar ./
+            tar -xvf shiksha-ui.tar .
+
+
+             
+ #     - name: Notify on Slack channel
+ #       uses: iRoachie/slack-github-actions@v2.3.2
+ #       env:
+ #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NEWALTV1_URL }}
+ #       with:
+ #         status: ${{ job.status }}
+ #       if: ${{ always() }}
+
+
+
+
+
+   

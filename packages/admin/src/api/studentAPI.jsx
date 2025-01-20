@@ -2,7 +2,7 @@ import axios from "axios";
 import { studentRegister } from "../routes/links";
 
 const studentAPI = async (data) => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   const schoolUdise = data.udise.split(",");
 
@@ -17,15 +17,15 @@ const studentAPI = async (data) => {
   };
 
   const jsonData = {
-    name: data.firstName,
-    username: "",
+    name: data.name,
+    username:data.username ? data.username:  "",
     email: data.email,
     mobile: data.mobile,
     gender: data.gender,
-    dateOfBirth: data.dob,
+    dateOfBirth: data.dateOfBirth,
     board: data.board,
     password: data.password,
-    status: "true",
+    // status: "true",
     className: data.group,
     groups: [],
     religion: data.religion,
@@ -36,7 +36,14 @@ const studentAPI = async (data) => {
     fatherEducation: data.fatherEducation,
     motherOccupation: data.motherOccupation,
     fatherOccupation: data.fatherOccupation,
-    noOfSiblings: data.siblings,
+    noOfSiblings: data.noOfSiblings,
+    motherName : data.motherName,
+    fatherName : data.fatherName,
+    medium : data.medium,
+    state : data.state,
+    block : data.block,
+    district : data.district,
+    // studentEnrollId: data.studentEnrollId,
   };
 
   let result;

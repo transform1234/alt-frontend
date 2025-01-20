@@ -10,7 +10,6 @@ function CSVImportForm() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const batchSize = 100; // Number of records per batch
   const [overallProgress, setOverallProgress] = useState(0);
-
   const [showSuccessCount, setShowSuccessCount] = useState(false);
   const [showBulkErrors, setShowBulkErrors] = useState(false);
 
@@ -79,20 +78,21 @@ function CSVImportForm() {
 
     for (let i = startIndex; i < endIndex; i++) {
       const teacherData = csvData[i];
+      if (teacherData["Name"] && teacherData["Name"].trim() !== "") {
       const teacherObject = {
         name: teacherData["Name"] || null,
-        username: null,
+        username: teacherData["username"] || "",
         email: teacherData["Email Id"] || null,
-        mobile: teacherData["Mobile"] || null,
-        gender: teacherData["Gender"] || null,
-        dateOfBirth: teacherData["DoB"] || null,
-        board: teacherData["board"] || null,
+        mobile: teacherData["Mobile"] || "",
+        gender: teacherData["Gender"] || "",
+        dateOfBirth: teacherData["DoB"] || "",
+        board: teacherData["board"] || "",
         password: null,
         status: teacherData["Status"] || null,
         groups: [],
         educationalQualification:
           teacherData["Educational Qualification"] || null,
-        schoolUdise: teacherData["School Udise"] || null,
+        schoolUdise: teacherData["School Udise"] || "",
         currentRole: teacherData["Current role"] || null,
         natureOfAppointment: teacherData["Nature of appointment"] || null,
         appointedPost: teacherData["Appointed Postname"] || null,
@@ -114,9 +114,10 @@ function CSVImportForm() {
 
       requestData.teachers.push(teacherObject);
     }
+    }
 
     try {
-      const result = await teacherBulkAPI(requestData.teachers);
+      const result = await teacherBulkAPI(requestData);
 
       if (result === true) {
         let names = localStorage.getItem("bulkErrorsNames") || "";

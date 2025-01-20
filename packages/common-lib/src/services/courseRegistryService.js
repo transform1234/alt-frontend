@@ -125,24 +125,30 @@ export const lessontracking = async (
   { program, subject, ...params },
   header = {}
 ) => {
+  const callApi = async () => {
+    const result = await post(
+      baseUrl + '/altlessontracking/altcheckandaddlessontracking',
+      params,
+      { params: { program, subject }, headers }
+    )
+    if (result?.data?.data) {
+      return result.data?.data
+    }
+    return {}
+  }
   let headers = {
     ...header,
     Authorization: 'Bearer ' + sessionStorage.getItem('token')
   }
 
   try {
-    setTimeout(async () => {
-      const result = await post(
-        baseUrl + '/altlessontracking/altcheckandaddlessontracking',
-        params,
-        { params: { program, subject }, headers }
-      )
-      if (result?.data?.data) {
-        return result.data?.data
-      } else {
-        return {}
-      }
-    }, 1500)
+    if (params?.contentType === 'vnd.ekstep.h5p-archive') {
+      return await callApi()
+    } else {
+      setTimeout(async () => {
+        return await callApi()
+      }, 3000)
+    }
   } catch (e) {
     console.log(e)
   }

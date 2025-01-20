@@ -10,6 +10,7 @@ import {
 import manifest from "../../src/manifest.json";
 import { useTranslation } from "react-i18next";
 import ScoreCard from "components/ScoreCard";
+import { NetworkFirst } from "workbox-strategies";
 
 function Report({ footerLinks }) {
   const { t } = useTranslation();
@@ -61,3 +62,4 @@ function Report({ footerLinks }) {
   );
 }
 export default Report;
+

@@ -319,7 +319,7 @@ const ResultOnPersantage = ({
                   {...(studentDetails?.image && studentDetails?.image !== ""
                     ? {
                         source: {
-                          uri: `${manifest.api_url}/files/${encodeURIComponent(
+                          uri: `${process.env.REACT_APP_SHIKSHA_URL}/files/${encodeURIComponent(
                             studentDetails?.image
                           )}`,
                         },

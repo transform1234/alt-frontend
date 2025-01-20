@@ -43,7 +43,30 @@ export default function LessonList({ footerLinks }) {
   const navigate = useNavigate();
   const [trackData, setTrackData] = React.useState();
   const [loading, setLoading] = React.useState(true);
+
+  const updateAllowSkipProperty = (data) => {
+    const updatedData = JSON.parse(JSON.stringify(data));
+    // Creating a deep copy of JSON data that
+    //we are getting from SUNBIRD API
+
+    // Helper function that will recursively update "allowSkip" property from YES TO NO from all places.
+    const updateAllowSkipRecursive = (obj) => {
+      for (const key in obj) {
+        if (obj[key] && typeof obj[key] === "object") {
+          updateAllowSkipRecursive(obj[key]); // Recursive call for nested objects
+        } else if (key === "allowSkip" && obj[key] === "Yes") {
+          obj[key] = "No"; // Update "allowSkip" to "No"
+        }
+      }
+    };
+
+    updateAllowSkipRecursive(updatedData);
+
+    return updatedData;
+  };
+
   const setLessonData = async (id) => {
+    id = id.replace(".img", "");
     let resultData = await courseRegistryService.getOne({
       id: id,
       adapter: "diksha",
@@ -60,7 +83,9 @@ export default function LessonList({ footerLinks }) {
         ? instructionData?.instructions
         : {},
     };
-    setLesson(newData);
+
+    const updatedAssessmentData = await updateAllowSkipProperty(newData);
+    setLesson(updatedAssessmentData);
   };
 
   React.useEffect(async () => {
@@ -92,9 +117,11 @@ export default function LessonList({ footerLinks }) {
     } catch (e) {
       console.log({ e });
       setLoading(false);
-    }}, [lessonId]);
+    }
+  }, [lessonId]);
 
   const handleExitButton = () => {
+    navigate(0);
     setLesson();
     setLessonId();
     if (
@@ -107,11 +134,15 @@ export default function LessonList({ footerLinks }) {
   };
 
   const handleTrackData = async (
-    { score, trackData, attempts, ...props },
+    { score, attempts, ...props },
     playerType = "quml"
   ) => {
     let data = {};
+    let trackDataold = localStorage.getItem("trackDATA");
+    let trackData = JSON.parse(trackDataold);
     const programData = await subjectListRegistryService.getProgramId();
+    let scoreDetails;
+
     if (playerType === "quml") {
       const newFormatData = trackData.reduce((oldData, newObj) => {
         const dataExist = oldData.findIndex(
@@ -131,29 +162,47 @@ export default function LessonList({ footerLinks }) {
         }
         return oldData;
       }, []);
+      scoreDetails = JSON.stringify(newFormatData);
+      const timeSpentString = localStorage.getItem("totalDuration");
+      const formattedNumber =
+        timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
+      const timeSpentInt = parseFloat(formattedNumber);
+      const inSeconds = Math.ceil(timeSpentInt);
+      const trimmedid = id.replace(".img", "");
       data = {
-        courseId: id,
-        moduleId: id,
-        lessonId: id,
+        courseId: trimmedid,
+        moduleId: trimmedid,
+        lessonId: trimmedid,
         status: "completed",
+        contentType: localStorage.getItem("contentType"),
+        timeSpent: isNaN(inSeconds) ? 0 : inSeconds,
         score: score,
-        scoreDetails: JSON.stringify(newFormatData),
+        scoreDetails: scoreDetails,
         program: programData?.programId,
         subject: lesson?.subject?.join(","),
       };
     } else {
+      scoreDetails = JSON.stringify(props);
+      const timeSpentString = localStorage.getItem("totalDuration");
+      const formattedNumber =
+        timeSpentString.slice(0, -3) + "." + timeSpentString.slice(-3);
+      const timeSpentInt = parseFloat(formattedNumber);
+      const inSeconds = Math.ceil(timeSpentInt);
+      const trimmedid = id.replace(".img", "");
       data = {
-        courseId: id,
+        courseId: trimmedid,
         moduleId: lessonId?.parent,
         lessonId: lessonId?.identifier,
         status: "completed",
+        contentType: localStorage.getItem("contentType"),
+        timeSpent: isNaN(inSeconds) ? 0 : inSeconds,
         score: score ? score : 0,
-        scoreDetails: JSON.stringify(props),
+        scoreDetails: scoreDetails,
         program: programData?.programId,
         subject: lessons?.subject?.join(","),
       };
     }
-    courseRegistryService.lessontracking(data);
+    await courseRegistryService.lessontracking(data);
   };
 
   React.useEffect(async () => {
@@ -278,7 +327,7 @@ export default function LessonList({ footerLinks }) {
                   }
                 }}
                 // public_url="http://localhost:5000"
-                public_url="https://alt.uniteframework.io"
+                public_url={`${process.env.REACT_APP_BASE_URL}`}
               />
             </VStack>
           )
@@ -429,7 +478,7 @@ export default function LessonList({ footerLinks }) {
                           ) : ["application/vnd.ekstep.h5p-archive"].includes(
                               subItem?.mimeType
                             ) ? (
-                            <IconByName name="PlayFillIcon" isDisabled />
+                            <H3>H5P</H3>
                           ) : ["video/x-youtube"].includes(
                               subItem?.mimeType
                             ) ? (
@@ -480,7 +529,7 @@ export default function LessonList({ footerLinks }) {
           })
         ) : (
           <H1 textAlign={"center"} p="5">
-            {t("LESSON_NOT_FOUND")}
+            {t("LOADING")}
           </H1>
         )}
       </Stack>
