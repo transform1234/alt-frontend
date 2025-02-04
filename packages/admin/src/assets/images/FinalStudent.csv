@@ -1,2 +1,2 @@
-name,username,email,mobile,gender,dateOfBirth,board,password,status,className,religion,school_udise,caste,annual_income,mother_education,father_education,mother_occupation,father_occupation,No_of_siblings,promotion,state,district,block,promotion
-Ankushkumar Maherwal,696969696969,,9999999999,Male,1991-11-02,West Bengal,696969696969 ,True,Class 7,Hindu,12345678,General,668,,,,,,,Maharashtra,Pune,Pune,,
+name,username,email,mobile,gender,dateOfBirth,board,password,status,className,religion,school_udise,caste,annual_income,mother_education,father_education,mother_occupation,father_occupation,No_of_siblings,promotion,state,district,block,promotion,academicYear
+Ankushkumar Maherwal,696969696969,,9999999999,Male,1991-11-02,West Bengal,696969696969 ,True,Class 7,Hindu,12345678,General,668,,,,,,,Maharashtra,Pune,Pune,,,
