@@ -79,41 +79,44 @@ function CSVImportForm() {
     for (let i = startIndex; i < endIndex; i++) {
       const teacherData = csvData[i];
       if (teacherData["Name"] && teacherData["Name"].trim() !== "") {
-      const teacherObject = {
-        name: teacherData["Name"] || null,
-        username: teacherData["username"] || "",
-        email: teacherData["Email Id"] || null,
-        mobile: teacherData["Mobile"] || "",
-        gender: teacherData["Gender"] || "",
-        dateOfBirth: teacherData["DoB"] || "",
-        board: teacherData["board"] || "",
-        password: null,
-        status: teacherData["Status"] || null,
-        groups: [],
-        educationalQualification:
-          teacherData["Educational Qualification"] || null,
-        schoolUdise: teacherData["School Udise"] || "",
-        currentRole: teacherData["Current role"] || null,
-        natureOfAppointment: teacherData["Nature of appointment"] || null,
-        appointedPost: teacherData["Appointed Postname"] || null,
-        totalTeachingExperience:
-          teacherData["Total Experience in teaching"] || null,
-        totalHeadteacherExperience:
-          teacherData["Total experience as Head Teacher"] || null,
-        classesTaught: teacherData["Classes taught"] || null,
-        coreSubjectTaught: teacherData["Core subject taught"].replace("|", ",") || null,
-        attendedInserviceTraining:
-          teacherData["Attended In service teacher training"] || null,
-        lastTrainingAttendedTopic:
-          teacherData["Last training attended (Topic)"] || null,
-        lastTrainingAttendedYear:
-          teacherData["Last training attended (Year)"] || null,
-        trainedInComputerDigitalteaching:
-          teacherData["Trained in use of computer & digital teaching"] || null,
-      };
+        const teacherObject = {
+          name: teacherData["Name"] || null,
+          username: teacherData["username"] || "",
+          email: teacherData["Email Id"] || null,
+          mobile: teacherData["Mobile"] || "",
+          gender: teacherData["Gender"] || "",
+          dateOfBirth: teacherData["DoB"] || "",
+          board: teacherData["board"] || "",
+          password: null,
+          status: teacherData["Status"] || null,
+          groups: [],
+          educationalQualification:
+            teacherData["Educational Qualification"] || null,
+          schoolUdise: teacherData["School Udise"] || "",
+          currentRole: teacherData["Current role"] || null,
+          natureOfAppointment: teacherData["Nature of appointment"] || null,
+          appointedPost: teacherData["Appointed Postname"] || null,
+          totalTeachingExperience:
+            teacherData["Total Experience in teaching"] || null,
+          totalHeadteacherExperience:
+            teacherData["Total experience as Head Teacher"] || null,
+          classesTaught: teacherData["Classes taught"] || null,
+          coreSubjectTaught:
+            teacherData["Core subject taught"].replace("|", ",") || null,
+          attendedInserviceTraining:
+            teacherData["Attended In service teacher training"] || null,
+          lastTrainingAttendedTopic:
+            teacherData["Last training attended (Topic)"] || null,
+          lastTrainingAttendedYear:
+            teacherData["Last training attended (Year)"] || null,
+          trainedInComputerDigitalteaching:
+            teacherData["Trained in use of computer & digital teaching"] ||
+            null,
+          academicYear: teacherData["academicYear"] || null,
+        };
 
-      requestData.teachers.push(teacherObject);
-    }
+        requestData.teachers.push(teacherObject);
+      }
     }
 
     try {

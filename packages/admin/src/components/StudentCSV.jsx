@@ -82,6 +82,7 @@ function CSVImportForm() {
           fatherOccupation: studentData["father_occupation"] || null,
           noOfSiblings: studentData["No_of_siblings"] || 0,
           promotion: studentData["promotion"] || "",
+          academicYear: studentData["academicYear"] || null,
         };
 
         requestData.students.push(studentObject);
